@@ -2,6 +2,9 @@ import { useCallback, useState } from 'react';
 
 import { connect } from 'react-redux';
 
+import Icon from '@bodynarf/react.components/components/icon';
+import { useComponentOutsideClick } from '@bodynarf/react.components/hooks/useComponentOutsideClick';
+
 import './bell.scss';
 
 import { NotificationHistoryItem } from '@app/models/notification';
@@ -9,10 +12,6 @@ import { NotificationHistoryItem } from '@app/models/notification';
 import { CompositeAppState } from '@app/redux/rootReducer';
 
 import { setNotificationsBadgeToZero } from '@app/redux/notificator/actions/setNotificationsBadgeToZero';
-
-import Icon from '@app/sharedComponents/icon';
-
-import { useComponentOutsideClick } from '@app/hooks/useComponentOutsideClick';
 
 import BellList from '../components/bellList/bellList';
 

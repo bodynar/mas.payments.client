@@ -1,16 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import './modalBox.scss';
-import './modalBox.dark.scss';
-
 import { isNullOrUndefined } from "@bodynarf/utils/common";
+import Button from "@bodynarf/react.components/components/button";
+
+import './modalBox.scss';
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { closeModal } from "@app/redux/modal/utils";
 import { ModalCallback, ModalCloseData, ModalParams } from "@app/redux/modal/types";
 
-import Button from "@app/sharedComponents/button";
 
 import { getButtonCaptions, getInitIsSaveButtonDisabled, validateModalParams } from "../utils";
 

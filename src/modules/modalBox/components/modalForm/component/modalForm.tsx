@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 
-import './common.style.scss';
-
 import { isNullOrUndefined } from '@bodynarf/utils/common';
+
+import './common.style.scss';
 
 import { ModalFormConfiguration } from '../types';
 

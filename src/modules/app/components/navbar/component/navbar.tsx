@@ -23,7 +23,7 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
     }
 
     const { pathname } = useLocation();
-    const activeItem = menuItems.find(({ link }) => pathname === link)?.name || menuItems[0].name;
+    const activeItem = menuItems.find(({ link }) => pathname === link)?.name || menuItems[0]?.name || '';
 
     return (
         <nav

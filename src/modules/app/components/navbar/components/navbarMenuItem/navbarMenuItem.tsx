@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 
+import { getClassName } from "@bodynarf/utils/component";
+
 import './navbarMenuItem.scss';
 
 import { MenuItem } from "../../menu";
-import { getClassName } from "@bodynarf/utils/component";
 
 type NavbarMenuItemProps = {
     /** Menu item configuration */
