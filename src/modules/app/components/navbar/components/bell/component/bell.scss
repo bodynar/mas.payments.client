@@ -1,0 +1,106 @@
+.app-bell {
+    margin: 0.25rem 0;
+
+    &__icon {
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        padding: 0.5rem;
+
+        border-radius: 4px;
+        transition: 0.2s ease-in-out background-color;
+        cursor: pointer;
+        user-select: none;
+
+        &:hover,
+        &--opened {
+            background-color: rgba(0, 0, 0, 0.125);
+        }
+
+        &::after {
+            content: "";
+
+            position: absolute;
+            top: 3rem;
+            right: 2.5rem;
+            width: 0;
+            height: 0;
+
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid rgba(0, 0, 0, 0.275);
+
+            visibility: collapse;
+            opacity: 0;
+
+            transition: 0.15s ease-in;
+            transition-property: opacity, visibility;
+        }
+
+        &--opened::after {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+
+    &__list {
+        opacity: 0;
+        visibility: collapse;
+
+        position: absolute;
+        right: 1.5rem;
+        
+        width: 20rem;
+        min-height: 10vh;
+        max-height: 35vh;
+
+        margin-top: 0.5rem;
+
+        background: white;
+        color: black;
+        border: 1px solid rgba(0, 0, 0, 0.275);
+        border-radius: 4px;
+
+        transition: 0.15s ease-in;
+        transition-property: opacity, visibility;
+
+        z-index: 100;
+
+        &-wrapper {
+            min-height: 10vh;
+            max-height: 35vh;
+            overflow-x: auto;
+        }
+
+        &--empty,
+        &--empty .app-bell__list-wrapper {
+            min-height: initial;
+        }
+
+        &[aria-hidden="false"] {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    
+    &__empty-list {
+        color: gray;
+        padding: 0.5rem;
+        display: block;
+    }
+
+    &__badge {
+        position: absolute;
+        top: 0.85em;
+        right: 2.5em;
+
+        min-width: 1.25rem;
+        min-height: 1.125rem;
+
+        background: #f24667;
+        border-radius: 50%;
+        font-size: 0.75em;
+        text-align: center;
+    }
+}

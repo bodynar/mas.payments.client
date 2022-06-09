@@ -1,0 +1,44 @@
+.app-notificator {
+    width: 15.5%;
+    margin: 0.5rem;
+    position: absolute;
+    z-index: 100;
+    right: 1.5rem;
+    top: 3.5rem;
+
+    &__cleaner {
+        display: flex;
+        justify-content: center;
+
+        padding: 0.25rem 0.5rem;
+        margin-bottom: 0.75rem;
+
+        transition: 0.15s ease-in-out;
+        transition-property: color, border-color, background-color, box-shadow;
+
+        border: 1px solid #000;
+        border-radius: 4px;
+        background-color: #fff;
+
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: inset rgba(255, 0, 0, 0.75) 0px 0px 2px 1px;
+        }
+
+        &-enter {
+            opacity: 0;
+        }
+        &-enter-active {
+            opacity: 1;
+            transition: right 0.2s ease-in;
+        }
+        &-exit {
+            opacity: 1;
+        }
+        &-exit-active {
+            opacity: 0;
+            transition: right 0.3s ease-in-out;
+        }
+    }
+}

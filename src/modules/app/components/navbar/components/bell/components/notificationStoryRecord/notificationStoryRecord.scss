@@ -1,0 +1,39 @@
+.notification-story-item {
+    margin-bottom: 0.25rem;
+    padding: 0.25rem;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.275);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.275);
+
+    transition: 0.15s ease-out background-color;
+
+    &:last-of-type {
+        margin-bottom: 0;
+        border-bottom-width: 0;
+    }
+    &:first-of-type {
+        border-top-width: 0;
+    }
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.075);
+    }
+
+    &__description {
+        padding-left: 0.25rem;
+
+        border-left-style: solid;
+        border-left-width: 5px;
+        border-radius: 5px 0 0 2px;
+
+        span {
+            font-size: 0.9rem;
+            color: gray;
+            font-style: italic;
+        }
+
+        p {
+
+        }
+    }
+}

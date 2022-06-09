@@ -1,0 +1,30 @@
+.app-loading-cover {
+    position: relative;
+
+    &__image {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        user-select: none;
+
+        &--center {
+            align-items: center;
+        }
+
+        img {
+            min-height: 10em;
+        }
+    }
+
+    &__content[data-disabled="true"] {
+        opacity: 0.25;
+        pointer-events: none;
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+}
