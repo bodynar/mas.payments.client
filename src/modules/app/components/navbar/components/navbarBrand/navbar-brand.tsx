@@ -1,10 +1,8 @@
-import './navbar-brand.scss';
-
 /** Navbar app brand */
 export default function NavbarBrand(): JSX.Element {
     return (
-        <div className="navbar-brand app-navbar__brand">
-            <span className="app-navbar__name is-unselectable">
+        <div className="navbar-brand px-1 py-2">
+            <span className="navbar-item is-unselectable is-size-5">
                 Payments
             </span>
         </div>
