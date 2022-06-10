@@ -3,6 +3,7 @@ import { isStringEmpty } from "@bodynarf/utils/common";
 import Payments from "@app/modules/payments";
 import Measurements from "@app/modules/measurements";
 import Stats from "@app/modules/stats";
+import User from "@app/modules/user";
 
 /** Model for navbar menu items */
 export interface MenuItem {
@@ -20,6 +21,9 @@ export interface MenuItem {
 
     /** Which component should be rendered as module */
     component: JSX.Element;
+
+    /** Should be item be presented in top navbar */
+    showOnNavbar?: boolean;
 }
 
 /** Static navbar menu */
@@ -38,9 +42,16 @@ export const menuItems: Array<MenuItem> = [
     },
     {
         name: 'Stats',
-        caption: 'Stats',
+        caption: 'Statistics',
         link: '/stats',
         component: <Stats />,
     },
+    {
+        name: 'User',
+        caption: 'User',
+        link: '/user',
+        component: <User />,
+        showOnNavbar: false,
+    },
 ]
-    .filter((x: MenuItem) => !isStringEmpty(x.name) && !isStringEmpty(x.link));
+    .filter(x => !isStringEmpty(x.name) && !isStringEmpty(x.link));

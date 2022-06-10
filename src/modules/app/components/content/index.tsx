@@ -4,7 +4,7 @@ import './content.scss';
 
 import loading from '@app/assets/loading01.svg';
 
-import { menuItems } from "../navbar/menu";
+import { menuItems } from "@app/static/menu";
 
 type AppContentProps = {
     /** 

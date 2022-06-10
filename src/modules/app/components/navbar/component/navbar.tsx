@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 import { isStringEmpty } from "@bodynarf/utils/common";
@@ -5,7 +6,7 @@ import { isStringEmpty } from "@bodynarf/utils/common";
 import './navbar.scss';
 
 import { NavbarBrand, Bell, NavbarMenuItem } from '../components';
-import { menuItems } from '../menu';
+import { menuItems as staticMenu } from '@app/static/menu';
 
 type NavbarProps = {
     /** Class for navbar */
@@ -20,7 +21,7 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
     if (isStringEmpty(className)) {
         throw new Error("className is empty");
     }
-
+    const menuItems = useMemo(() => staticMenu.filter(({ showOnNavbar }) => showOnNavbar !== false), []);
     const { pathname } = useLocation();
     const activeItem = menuItems.find(({ link }) => pathname === link)?.name || menuItems[0]?.name || '';
 
@@ -47,4 +48,5 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
             </div>
         </nav>
     );
+
 }
