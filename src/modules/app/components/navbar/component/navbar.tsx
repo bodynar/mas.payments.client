@@ -1,11 +1,10 @@
 import { useLocation } from "react-router-dom";
 
-import './navbar.scss';
-
 import { isStringEmpty } from "@bodynarf/utils/common";
 
-import { NavbarBrand, Bell, NavbarMenuItem } from '../components';
+import './navbar.scss';
 
+import { NavbarBrand, Bell, NavbarMenuItem } from '../components';
 import { menuItems } from '../menu';
 
 type NavbarProps = {
@@ -27,7 +26,7 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
 
     return (
         <nav
-            className={`${className} app-navbar navbar is-link`}
+            className={`${className} app-navbar navbar is-dark`}
             role="navigation"
             aria-label="main navigation"
         >
