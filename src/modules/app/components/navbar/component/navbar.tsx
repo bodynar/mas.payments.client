@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
-import { isStringEmpty } from "@bodynarf/utils/common";
+import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils/common";
 
 import './navbar.scss';
 
-import { NavbarBrand, Bell, NavbarMenuItem } from '../components';
+import { NavbarBrand, Bell, NavbarMenuItem, User } from '../components';
 import { menuItems as staticMenu } from '@app/static/menu';
 
 type NavbarProps = {
@@ -23,7 +23,7 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
     }
     const menuItems = useMemo(() => staticMenu.filter(({ showOnNavbar }) => showOnNavbar !== false), []);
     const { pathname } = useLocation();
-    const activeItem = menuItems.find(({ link }) => pathname === link)?.name || menuItems[0]?.name || '';
+    const activeItem = menuItems.find(({ link }) => pathname === link)?.name;
 
     return (
         <nav
@@ -38,11 +38,12 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
                         <NavbarMenuItem
                             key={menuItem.name}
                             item={menuItem}
-                            isActive={menuItem.name === activeItem}
+                            isActive={!isNullOrUndefined(activeItem) && menuItem.name === activeItem}
                         />
                     )}
                 </div>
                 <div className="navbar-end">
+                    <User />
                     <Bell />
                 </div>
             </div>
