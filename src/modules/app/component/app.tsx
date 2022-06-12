@@ -46,10 +46,8 @@ function App({ isLoading, setTabIsFocused }: AppProps): JSX.Element {
             <Navbar className="app__navbar" />
             <ModalBox />
             <Notificator />
-            <section className="app__content container">
-                <AppContent
-                    isLoading={isLoading}
-                />
+            <section className="app__content container mt-4">
+                <AppContent isLoading={isLoading} />
             </section>
         </main>
     );

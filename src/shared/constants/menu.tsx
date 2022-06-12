@@ -1,30 +1,13 @@
 import { isStringEmpty } from "@bodynarf/utils/common";
 
+import { MenuItem } from "@app/models/routeItem";
+
 import Payments from "@app/modules/payments";
 import Measurements from "@app/modules/measurements";
 import Stats from "@app/modules/stats";
 import User from "@app/modules/user";
 
-/** Model for navbar menu items */
-export interface MenuItem {
-    /** Unique name */
-    name: string;
-
-    /** Caption */
-    caption: string;
-
-    /** Target route link */
-    link: string;
-
-    /** Should item be readonly */
-    disabled?: boolean;
-
-    /** Which component should be rendered as module */
-    component: JSX.Element;
-
-    /** Should be item be presented in top navbar */
-    showOnNavbar?: boolean;
-}
+import { routes as userRoutes } from "@app/modules/user/components";
 
 /** Static navbar menu */
 export const menuItems: Array<MenuItem> = [
@@ -49,9 +32,10 @@ export const menuItems: Array<MenuItem> = [
     {
         name: 'User',
         caption: 'User',
-        link: '/user',
+        link: '/user/',
         component: <User />,
-        showOnNavbar: false,
+        display: false,
+        children: [...userRoutes]
     },
 ]
     .filter(x => !isStringEmpty(x.name) && !isStringEmpty(x.link));

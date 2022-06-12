@@ -21,13 +21,13 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
     if (isStringEmpty(className)) {
         throw new Error("className is empty");
     }
-    const menuItems = useMemo(() => staticMenu.filter(({ showOnNavbar }) => showOnNavbar !== false), []);
+    const menuItems = useMemo(() => staticMenu.filter(({ display }) => display !== false), []);
     const { pathname } = useLocation();
     const activeItem = menuItems.find(({ link }) => pathname === link)?.name;
 
     return (
         <nav
-            className={`${className} app-navbar navbar is-dark`}
+            className={`${className} app-navbar navbar is-fixed-top has-shadow is-dark`}
             role="navigation"
             aria-label="main navigation"
         >

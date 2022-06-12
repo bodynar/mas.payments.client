@@ -20,7 +20,7 @@ const UserIcon = (): JSX.Element => {
                 className="app-user-icon is-flex is-align-items-center"
                 data-is-active={true}
             >
-                <Link to="/user">
+                <Link to="/user/appInfo">
                     <span className="icon">
                         <Icon className={icon} />
                     </span>
