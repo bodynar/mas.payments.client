@@ -1,4 +1,4 @@
-import { defineConfig, splitVendorChunkPlugin  } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -14,5 +14,14 @@ export default defineConfig({
 	],
 	build: {
 		sourcemap: true,
+	},
+	server: {
+		proxy: {
+			'/api': {
+				target: 'http://192.168.0.104:5050/api/',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, '')
+			},
+		}
 	}
 });
