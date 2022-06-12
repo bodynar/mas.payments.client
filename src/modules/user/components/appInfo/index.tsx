@@ -1,13 +1,58 @@
-type ApplicationInfoProps = {
+import { useEffect } from "react";
 
+import { connect } from "react-redux";
+
+import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
+
+import Text from "@bodynarf/react.components/components/primitives/text";
+
+import { ApplicationInfo as AppInfo } from "@app/models/user";
+
+import { CompositeAppState } from "@app/redux/rootReducer";
+import { getAppInfo } from "@app/redux/user/thunks/loadAppInfo";
+
+type ApplicationInfoProps = {
+    /** Application information */
+    appInfo?: AppInfo;
+
+    /** Load application information */
+    getAppInfo: () => void;
 };
 
-const ApplicationInfo = (props: ApplicationInfoProps): JSX.Element => {
+const ApplicationInfo = ({ appInfo, getAppInfo }: ApplicationInfoProps): JSX.Element => {
+
+    useEffect(() => {
+        if (isNullOrUndefined(appInfo)) {
+            getAppInfo();
+        }
+    }, [appInfo, getAppInfo]);
+
     return (
-        <>
-            ApplicationInfo
-        </>
+        <div className="box">
+            <Text
+                onValueChange={emptyFn}
+                defaultValue={appInfo?.dataBaseName || ''}
+                readonly={true}
+                label={{ caption: 'Database name', horizontal: true }}
+            />
+            <Text
+                onValueChange={emptyFn}
+                defaultValue={appInfo?.serverAppVersion || ''}
+                readonly={true}
+                label={{ caption: 'Server app version', horizontal: true }}
+            />
+            <Text
+                onValueChange={emptyFn}
+                defaultValue={appInfo?.clientAppVersion || ''}
+                readonly={true}
+                label={{ caption: 'Client app version', horizontal: true }}
+            />
+        </div>
     );
 };
 
-export default ApplicationInfo;
+/** Application info displaying component */
+export default connect(
+    ({ user }: CompositeAppState) => ({ appInfo: user.appInfo, }),
+    { getAppInfo }
+)(ApplicationInfo);
