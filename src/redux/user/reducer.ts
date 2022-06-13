@@ -34,7 +34,7 @@ export default function (state: UserModuleState = defaultState, action: ActionWi
 
             return {
                 ...state,
-                notificationHistory: [...state.notificationHistory, ...notifications],
+                notificationHistory: notifications,
             };
         }
         case SetSettings: {
