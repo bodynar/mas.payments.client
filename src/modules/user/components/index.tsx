@@ -4,7 +4,6 @@ import ApplicationInfo from "./appInfo";
 import Notifications from "./notifications";
 import Settings from "./settings";
 import EmailTest from "./emailTest";
-import UserModuleHome from "./content";
 
 /** User module sub-routes */
 export const routes: Array<MenuItem> = [
@@ -12,7 +11,7 @@ export const routes: Array<MenuItem> = [
         caption: 'home',
         link: '',
         name: 'home',
-        component: <UserModuleHome/>,
+        component: <></>,
         display: false,
     },
     {
