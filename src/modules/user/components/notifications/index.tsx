@@ -1,8 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 
 import { connect } from "react-redux";
 
 import Button from "@bodynarf/react.components/components/button";
+import Paginator from "@bodynarf/react.components/components/paginator";
+import { usePagination } from "@bodynarf/react.components";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { loadNotifications } from "@app/redux/user/thunks/loadNotifications";
@@ -28,6 +30,9 @@ const Notifications = ({ notifications, loadNotifications }: NotificationsProps)
     }, [notifications, loadNotifications, loaded]);
 
     const onReloadClick = useCallback(() => loadNotifications().then(() => setIsLoaded(true)), [loadNotifications]);
+
+    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(notifications.length, 15);
+    const pageItems = useMemo(() => paginate(notifications), [paginate, notifications]);
 
     return (
         <div className="box">
@@ -64,7 +69,7 @@ const Notifications = ({ notifications, loadNotifications }: NotificationsProps)
                         </div>
                     </div>
                     <div className="block">
-                        {notifications.map(x =>
+                        {pageItems.map(x =>
                             <div key={x.id}
                                 className={`message my-2 is-${x.type.toLocaleLowerCase()}`}
                             >
@@ -78,6 +83,14 @@ const Notifications = ({ notifications, loadNotifications }: NotificationsProps)
                                 </div>
                             </div>
                         )}
+                        <Paginator
+                            position='right'
+                            showNextButtons={true}
+                            nearPagesCount={2}
+                            count={pagesCount}
+                            currentPage={currentPage}
+                            onPageChange={onPageChange}
+                        />
                     </div>
                 </>
             }
