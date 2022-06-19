@@ -8,6 +8,9 @@ export type UserModuleState = {
     /** User notifications */
     notificationHistory: Array<UserNotification>;
 
+    /** Is notifications sorted ascendely by CreatedAt field */
+    isNotificationSortOrderAsc: boolean;
+
     /** Custom settings */
     settings: Array<Setting>;
 };

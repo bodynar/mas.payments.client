@@ -8,20 +8,26 @@ import { usePagination } from "@bodynarf/react.components";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { loadNotifications } from "@app/redux/user/thunks/loadNotifications";
+import { getToggleNotificationsSortOrderAction } from "@app/redux/user/actions/toggleNotificationsSortOrder";
 
 import { UserNotification } from "@app/models/user";
 
 type NotificationsProps = {
-    /**  Loaded user notification history */
+    /** Loaded user notification history */
     notifications: Array<UserNotification>;
+
+    /** Is notifications sorted ascendely by CreatedAt field */
+    ascSort: boolean;
 
     /** Loadd all user notification history */
     loadNotifications: () => Promise<void>;
+
+    /** Toggle sort order for notifications */
+    toggleSort: () => void;
 };
 
-const Notifications = ({ notifications, loadNotifications }: NotificationsProps): JSX.Element => {
+const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }: NotificationsProps): JSX.Element => {
     const [loaded, setIsLoaded] = useState(false);
-    const [ascSort, setAscSort] = useState(false);
 
     useEffect(() => {
         if (!loaded && notifications.length === 0) {
@@ -32,7 +38,14 @@ const Notifications = ({ notifications, loadNotifications }: NotificationsProps)
     const onReloadClick = useCallback(() => loadNotifications().then(() => setIsLoaded(true)), [loadNotifications]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(notifications.length, 15);
-    const pageItems = useMemo(() => paginate(notifications), [paginate, notifications]);
+    const pageItems = useMemo(
+        () => paginate(
+            notifications.sort(({ createdAt }, y) =>
+                (createdAt.getTime() - y.createdAt.getTime()) * (ascSort ? -1 : 1)
+            )
+        ),
+        [ascSort, paginate, notifications]
+    );
 
     return (
         <div className="box">
@@ -49,7 +62,7 @@ const Notifications = ({ notifications, loadNotifications }: NotificationsProps)
                                 size="small"
                                 rounded={true}
                                 outlined={true}
-                                icon={{ className: "arrow-clockwise", position: "left" }}
+                                icon={{ name: "arrow-clockwise", position: "left" }}
                                 onClick={onReloadClick}
                             />
                         </div>
@@ -62,9 +75,9 @@ const Notifications = ({ notifications, loadNotifications }: NotificationsProps)
                                 size="small"
                                 icon={{
                                     position: "left",
-                                    className: ascSort ? "sort-down" : "sort-up",
+                                    name: ascSort ? "sort-down" : "sort-up",
                                 }}
-                                onClick={() => setAscSort(x => !x)}
+                                onClick={toggleSort}
                             />
                         </div>
                     </div>
@@ -99,6 +112,12 @@ const Notifications = ({ notifications, loadNotifications }: NotificationsProps)
 };
 
 export default connect(
-    ({ user }: CompositeAppState) => ({ notifications: user.notificationHistory }),
-    { loadNotifications }
+    ({ user }: CompositeAppState) => ({
+        notifications: user.notificationHistory,
+        ascSort: user.isNotificationSortOrderAsc
+    }),
+    {
+        loadNotifications,
+        toggleSort: getToggleNotificationsSortOrderAction
+    }
 )(Notifications);

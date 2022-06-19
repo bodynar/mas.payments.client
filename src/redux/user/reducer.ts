@@ -2,7 +2,7 @@ import { ApplicationInfo, Setting, UserNotification } from "@app/models/user";
 import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
 
 import { ActionWithPayload } from "../types";
-import { SetAppInfo, SetNotifications, SetSettings } from "./actions";
+import { SetAppInfo, SetNotifications, ToggleNotificationsSortOrder, SetSettings } from "./actions";
 
 import { UserModuleState } from "./types";
 
@@ -11,6 +11,7 @@ const defaultState: UserModuleState = {
     appInfo: undefined,
     notificationHistory: [],
     settings: [],
+    isNotificationSortOrderAsc: false,
 };
 
 /**
@@ -43,6 +44,12 @@ export default function (state: UserModuleState = defaultState, action: ActionWi
             return {
                 ...state,
                 settings: [...state.settings, ...settings],
+            };
+        }
+        case ToggleNotificationsSortOrder: {
+            return {
+                ...state,
+                isNotificationSortOrderAsc: !state.isNotificationSortOrderAsc
             };
         }
         default: {

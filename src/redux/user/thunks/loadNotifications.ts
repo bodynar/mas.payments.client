@@ -11,6 +11,7 @@ import { setError } from "@app/redux/utils";
 import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
 
 import { getSetNotificationsAction } from "../actions/setNotifications";
+import { isNullOrUndefined } from "@bodynarf/utils";
 
 /**
  * Get user notificationts
@@ -24,7 +25,15 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
 
         return get<Array<UserNotification>>(`api/user/getUserNotifications`)
             .then((notifications: Array<UserNotification>) => {
-                dispatch(getSetNotificationsAction(notifications));
+                dispatch(
+                    getSetNotificationsAction(
+                        notifications.map(x => ({
+                            ...x,
+                            createdAt: new Date(x.createdAt),
+                            hiddenAt: isNullOrUndefined(x.hiddenAt) ? undefined : new Date(x.hiddenAt!)
+                        }))
+                    )
+                );
 
                 dispatch(getSetAppIsLoadingAction(false));
             })
