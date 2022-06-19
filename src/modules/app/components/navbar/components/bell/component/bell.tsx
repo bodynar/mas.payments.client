@@ -61,7 +61,7 @@ function Bell(props: BellProps): JSX.Element {
                 onClick={onBellClick}
                 title={title}
             >
-                <Icon className="bell" />
+                <Icon name="bell" />
                 {shouldBadgeBeVisible &&
                     <span className="app-bell__badge">{badgeNumber}</span>
                 }

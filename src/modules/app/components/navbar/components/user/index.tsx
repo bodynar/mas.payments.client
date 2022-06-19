@@ -22,7 +22,7 @@ const UserIcon = (): JSX.Element => {
             >
                 <Link to="/user/appInfo">
                     <span className="icon">
-                        <Icon className={icon} />
+                        <Icon name={icon} />
                     </span>
                 </Link>
             </div>
@@ -34,7 +34,7 @@ const UserIcon = (): JSX.Element => {
             data-is-active={false}
         >
             <span className="icon">
-                <Icon className={icon} />
+                <Icon name={icon} />
             </span>
         </div>
     );
