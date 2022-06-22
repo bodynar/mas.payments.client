@@ -8,6 +8,7 @@ import store from "./redux/store";
 import "./style.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bulma/bulma.sass";
+import "bulma-checkradio/dist/css/bulma-checkradio.sass";
 
 import App from "@app/modules/app";
 
