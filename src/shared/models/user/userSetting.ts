@@ -1,5 +1,5 @@
 /** User setting */
-export type Setting = {
+export type UserSetting = {
     /** Unique positionnumber */
     id: number;
 

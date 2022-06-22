@@ -1,4 +1,4 @@
-import { Setting } from "@app/models/user";
+import { UserSetting } from "@app/models/user";
 import { ActionWithPayload } from "@app/redux/types";
 
 import { SetSettings } from "../actions";
@@ -8,7 +8,7 @@ import { SetSettings } from "../actions";
  * @param settings User settings
  * @returns Redux action to update state
  */
-export const getSetSettingsAction = (settings: Array<Setting>): ActionWithPayload => ({
+export const getSetSettingsAction = (settings: Array<UserSetting>): ActionWithPayload => ({
     type: SetSettings,
     payload: { settings },
 });

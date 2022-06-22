@@ -1,4 +1,4 @@
-import { ApplicationInfo, Setting, UserNotification } from "@app/models/user";
+import { ApplicationInfo, UserSetting, UserNotification } from "@app/models/user";
 
 /** User module state */
 export type UserModuleState = {
@@ -12,5 +12,5 @@ export type UserModuleState = {
     isNotificationSortOrderAsc: boolean;
 
     /** Custom settings */
-    settings: Array<Setting>;
+    settings: Array<UserSetting>;
 };
