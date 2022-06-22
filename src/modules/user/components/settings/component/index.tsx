@@ -40,7 +40,10 @@ const Settings = ({ settings, loadSettings, updateUserSettings }: SettingsProps)
                     id,
                     rawValue: updatedSettings.get(name)!
                 }))
-        ).then(loadSettings);
+        ).then(() => {
+            loadSettings();
+            setUpdatedSettings(new Map([]));
+        });
     }, [updateUserSettings, settings, loadSettings, updatedSettings]);
 
     const onSettingUpdate = useCallback(
