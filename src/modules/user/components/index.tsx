@@ -2,7 +2,7 @@ import { MenuItem } from "@app/models/routeItem";
 
 import ApplicationInfo from "./appInfo";
 import Notifications from "./notifications";
-import Settings from "./settings";
+import Settings from "./settings/component";
 import EmailTest from "./emailTest";
 
 /** User module sub-routes */
