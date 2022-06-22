@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import { isNullOrUndefined } from "@bodynarf/utils/common";
+import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils/common";
 import { delayResolve, delayReject } from "@bodynarf/utils/function";
 import { RequestData, safeFetch } from "@bodynarf/utils/api";
 
@@ -10,9 +10,9 @@ import { LoadingStateHideDelay } from "@app/constants";
  * Send data to api to process
  * @param uri Api endpoint address
  * @param requestData Request data
- * @returns {Promise<TResult>} Promise with api processing result
+ * @returns Promise with api processing result
  */
-export const post = async <TResult>(uri: string, requestData: RequestData): Promise<TResult> => {
+export const post = async <TResult>(uri: string, requestData: RequestData): Promise<TResult | undefined> => {
     const requestParams: RequestInit = {
         method: 'POST',
         headers: {
@@ -54,9 +54,13 @@ export const get = async <TResult>(uri: string, requestData?: RequestData): Prom
 const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
     const start = moment();
 
-    return safeFetch<TResult>(uri, requestParams)
-        .then((result: TResult) => {
+    return safeFetch(uri, requestParams)
+        .then((textResponse: string) => {
             const end = moment();
+
+            const result: TResult = isStringEmpty(textResponse)
+                ? undefined
+                : JSON.parse(textResponse);
 
             const duration = moment.duration(end.diff(start)).asSeconds();
 
