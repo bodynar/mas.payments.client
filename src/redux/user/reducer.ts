@@ -1,4 +1,4 @@
-import { ApplicationInfo, Setting, UserNotification } from "@app/models/user";
+import { ApplicationInfo, UserSetting, UserNotification } from "@app/models/user";
 import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
 
 import { ActionWithPayload } from "../types";
@@ -39,11 +39,11 @@ export default function (state: UserModuleState = defaultState, action: ActionWi
             };
         }
         case SetSettings: {
-            const settings: Array<Setting> = getPropertyValueWithCheck(action.payload, 'settings') || [];
+            const settings: Array<UserSetting> = getPropertyValueWithCheck(action.payload, 'settings') || [];
 
             return {
                 ...state,
-                settings: [...state.settings, ...settings],
+                settings,
             };
         }
         case ToggleNotificationsSortOrder: {
