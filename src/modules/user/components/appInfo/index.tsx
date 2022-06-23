@@ -32,19 +32,19 @@ const ApplicationInfo = ({ appInfo, getAppInfo }: ApplicationInfoProps): JSX.Ele
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.dataBaseName || ''}
-                readonly={true}
+                disabled={true}
                 label={{ caption: 'Database name', horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.serverAppVersion || ''}
-                readonly={true}
+                disabled={true}
                 label={{ caption: 'Server app version', horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.clientAppVersion || ''}
-                readonly={true}
+                disabled={true}
                 label={{ caption: 'Client app version', horizontal: true }}
             />
         </div>
