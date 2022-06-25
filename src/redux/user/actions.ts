@@ -9,3 +9,6 @@ export const SetNotifications = "user/setNotifications";
 
 /** Toggle sort order for notifications */
 export const ToggleNotificationsSortOrder = "user/toggleNotificationsSort";
+
+/** Save loaded data about measurements */
+export const SetMeasurementsWithoutDiff = "user/setMeasurementsWithoutDiff";

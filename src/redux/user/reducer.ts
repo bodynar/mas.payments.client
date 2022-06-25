@@ -2,7 +2,7 @@ import { ApplicationInfo, UserSetting, UserNotification } from "@app/models/user
 import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
 
 import { ActionWithPayload } from "../types";
-import { SetAppInfo, SetNotifications, ToggleNotificationsSortOrder, SetSettings } from "./actions";
+import { SetAppInfo, SetNotifications, ToggleNotificationsSortOrder, SetSettings, SetMeasurementsWithoutDiff } from "./actions";
 
 import { UserModuleState } from "./types";
 
@@ -50,6 +50,17 @@ export default function (state: UserModuleState = defaultState, action: ActionWi
             return {
                 ...state,
                 isNotificationSortOrderAsc: !state.isNotificationSortOrderAsc
+            };
+        }
+        case SetMeasurementsWithoutDiff: {
+            const count: number = getPropertyValueWithCheck(action.payload, 'measurementsCount') || 0;
+
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    measurementsWithoutDiff: count
+                }
             };
         }
         default: {

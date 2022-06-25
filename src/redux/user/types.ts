@@ -13,4 +13,10 @@ export type UserModuleState = {
 
     /** Custom settings */
     settings: Array<UserSetting>;
+
+    /** Incorrect data */
+    options?: {
+        /** Amount of measurements without diff */
+        measurementsWithoutDiff: number;
+    };
 };
