@@ -11,7 +11,7 @@ const defaultState: UserModuleState = {
     appInfo: undefined,
     notificationHistory: [],
     settings: [],
-    isNotificationSortOrderAsc: false,
+    isNotificationSortOrderAsc: true,
 };
 
 /**

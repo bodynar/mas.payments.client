@@ -12,6 +12,7 @@ import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading
 
 import { getSetNotificationsAction } from "../actions/setNotifications";
 import { isNullOrUndefined } from "@bodynarf/utils";
+import moment from "moment";
 
 /**
  * Get user notificationts
@@ -31,6 +32,10 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
                             ...x,
                             createdAt: new Date(x.createdAt),
                             hiddenAt: isNullOrUndefined(x.hiddenAt) ? undefined : new Date(x.hiddenAt!)
+                        })).map(x => ({
+                            ...x,
+                            createdAtMoment: moment(x.createdAt),
+                            hiddenAtMoment: isNullOrUndefined(x.hiddenAt) ? undefined : moment(x.hiddenAt!)
                         }))
                     )
                 );

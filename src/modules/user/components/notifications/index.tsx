@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 
 import { connect } from "react-redux";
 
+import { isNullOrUndefined } from "@bodynarf/utils";
+
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
 import { usePagination } from "@bodynarf/react.components";
@@ -38,7 +40,7 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
     const onReloadClick = useCallback(() => loadNotifications().then(() => setIsLoaded(true)), [loadNotifications]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(notifications.length, 15);
-    const pageItems = useMemo(
+    const pageItems: Array<UserNotification> = useMemo(
         () => paginate(
             notifications.sort(({ createdAt }, y) =>
                 (createdAt.getTime() - y.createdAt.getTime()) * (ascSort ? -1 : 1)
@@ -87,9 +89,31 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                                 className={`message my-2 is-${x.type.toLocaleLowerCase()}`}
                             >
                                 <div className="message-body">
-                                    <h4 className="has-text-weight-bold mb-2">
-                                        {x.title}
-                                    </h4>
+                                    <div className="columns">
+                                        <div className="column is-four-fifths">
+                                            <h4 className="has-text-weight-bold">
+                                                {x.title}
+                                            </h4>
+                                        </div>
+                                        {isNullOrUndefined(x.hiddenAt)
+                                            ?
+                                            <>
+                                                <div className="column ">
+                                                    <span className="is-italic">
+                                                        Created on {x.createdAtMoment.format("DD.MM.YYYY")}
+                                                    </span>
+                                                </div>
+                                            </>
+                                            :
+                                            <>
+                                                <div className="column">
+                                                    <span className="is-italic has-title" title={`Mark as read on ${x.hiddenAtMoment!.format("DD.MM.YYYY")}`}>
+                                                        Created on {x.createdAtMoment.format("DD.MM.YYYY")}
+                                                    </span>
+                                                </div>
+                                            </>
+                                        }
+                                    </div>
                                     <p>
                                         {x.text}
                                     </p>
