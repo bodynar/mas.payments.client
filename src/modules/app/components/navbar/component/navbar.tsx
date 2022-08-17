@@ -23,7 +23,7 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
     }
     const menuItems = useMemo(() => staticMenu.filter(({ display }) => display !== false), []);
     const { pathname } = useLocation();
-    const activeItem = menuItems.find(({ link }) => pathname === link)?.name;
+    const activeItem = menuItems.find(({ link }) => pathname.startsWith(link))?.name;
 
     return (
         <nav
