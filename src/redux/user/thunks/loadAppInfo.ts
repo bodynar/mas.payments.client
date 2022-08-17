@@ -8,7 +8,7 @@ import { ApplicationInfo } from "@app/models/user";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { ActionWithPayload } from "@app/redux/types";
-import { setError } from "@app/redux/utils";
+import { getDisplayErrorMessageAction } from "@app/redux/utils";
 
 import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
 
@@ -34,7 +34,7 @@ export const getAppInfo = (): ThunkAction<void, CompositeAppState, unknown, Acti
 
                 dispatch(getSetAppIsLoadingAction(false));
             })
-            .catch(setError(dispatch, getState));
+            .catch(getDisplayErrorMessageAction(dispatch, getState));
     };
 
 type AppInfoResponse = Pick<ApplicationInfo, 'dataBaseName' | 'serverAppVersion'>;

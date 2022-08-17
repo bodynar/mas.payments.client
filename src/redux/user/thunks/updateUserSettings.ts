@@ -4,7 +4,7 @@ import { post } from "@app/utils/delayedApi";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { ActionWithPayload } from "@app/redux/types";
-import { setError } from "@app/redux/utils";
+import { getDisplayErrorMessageAction } from "@app/redux/utils";
 
 import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
 
@@ -17,10 +17,10 @@ export const updateUserSettings = (updatedSettings: Array<UpdatedUserSetting>): 
         getState: () => CompositeAppState
     ): Promise<void> => {
         dispatch(getSetAppIsLoadingAction(true));
-
+// TODO: Add success notification
         return post(`api/user/updateUserSettings`, updatedSettings)
             .then(_ => undefined)
-            .catch(setError(dispatch, getState));
+            .catch(getDisplayErrorMessageAction(dispatch, getState));
     };
 
 /** Updated user setting */

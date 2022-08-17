@@ -6,7 +6,7 @@ import { UserNotification } from "@app/models/user";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { ActionWithPayload } from "@app/redux/types";
-import { setError } from "@app/redux/utils";
+import { getDisplayErrorMessageAction } from "@app/redux/utils";
 
 import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
 
@@ -42,5 +42,5 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
 
                 dispatch(getSetAppIsLoadingAction(false));
             })
-            .catch(setError(dispatch, getState));
+            .catch(getDisplayErrorMessageAction(dispatch, getState));
     };

@@ -4,7 +4,7 @@ import { get } from "@app/utils/delayedApi";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { ActionWithPayload } from "@app/redux/types";
-import { setError } from "@app/redux/utils";
+import { getDisplayErrorMessageAction } from "@app/redux/utils";
 
 import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
 
@@ -26,6 +26,6 @@ export const getMeasurementsWithoutDiff = (): ThunkAction<void, CompositeAppStat
 
                 dispatch(getSetAppIsLoadingAction(false));
             })
-            .catch(setError(dispatch, getState));
+            .catch(getDisplayErrorMessageAction(dispatch, getState));
     };
 

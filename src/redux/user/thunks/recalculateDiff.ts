@@ -6,7 +6,7 @@ import { post } from "@app/utils/delayedApi";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { ActionWithPayload } from "@app/redux/types";
-import { setError } from "@app/redux/utils";
+import { getDisplayErrorMessageAction } from "@app/redux/utils";
 
 import { getOpenModalAction } from "@app/redux/modal/actions/open";
 import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
@@ -22,11 +22,12 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
     ): Promise<boolean> => {
         dispatch(getSetAppIsLoadingAction(true));
 
-        return post<Array<string>>(`api/measurement/updateDiff`, {})
+        return post<Array<string>>(`api/measurement/updateDiff1`, {})
             .then((result: Array<string> | undefined) => {
                 dispatch(getSetAppIsLoadingAction(false));
 
                 if (isNullOrUndefined(result)) {
+                    // TODO: Add success notification
                     return true;
                 }
 
@@ -38,8 +39,8 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
 
                 return false;
             })
-            .catch(() => {
-                setError(dispatch, getState);
+            .catch((e) => {
+                getDisplayErrorMessageAction(dispatch, getState)(e);
                 return false;
             });
     };
