@@ -99,38 +99,36 @@ const Settings = ({
 
     return (
         <div className="box">
-            <div className="block">
-                <div className="block columns is-align-items-center">
-                    <div className="column is-2">
-                        <span className="has-text-weight-bold">Options</span>:
+            {options &&
+                <div className="block">
+                    <div className="block columns is-align-items-center">
+                        <div className="column is-2">
+                            <span className="has-text-weight-bold">Options</span>:
+                        </div>
+                    </div>
+                    <div className="block columns">
+                        <div className="column is-10">
+                            <Text
+                                disabled={true}
+                                onValueChange={emptyFn}
+                                defaultValue={options.measurementsWithoutDiff.toString()}
+                                label={{
+                                    horizontal: true,
+                                    caption: "Without diff"
+                                }}
+                                title="Measurements without diff"
+                            />
+                        </div>
+                        <div className="column">
+                            <Button
+                                caption="Recalculate"
+                                type="success"
+                                onClick={onRecalcClick}
+                            />
+                        </div>
                     </div>
                 </div>
-                <div className="block columns">
-                    {options &&
-                        <>
-                            <div className="column is-10">
-                                <Text
-                                    disabled={true}
-                                    onValueChange={emptyFn}
-                                    defaultValue={options.measurementsWithoutDiff.toString()}
-                                    label={{
-                                        horizontal: true,
-                                        caption: "Without diff"
-                                    }}
-                                    title="Measurements without diff"
-                                />
-                            </div>
-                            <div className="column">
-                                <Button
-                                    caption="Recalculate"
-                                    type="success"
-                                    onClick={onRecalcClick}
-                                />
-                            </div>
-                        </>
-                    }
-                </div>
-            </div>
+            }
             {(loaded || settings.length > 0) &&
                 <div className="block">
                     <hr />
