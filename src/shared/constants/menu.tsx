@@ -8,6 +8,7 @@ import Stats from "@app/modules/stats";
 import User from "@app/modules/user";
 
 import { routes as userRoutes } from "@app/modules/user/components";
+import { routes as paymentRoutes } from "@app/modules/payments/components";
 
 /** Static navbar menu */
 export const menuItems: Array<MenuItem> = [
@@ -16,6 +17,7 @@ export const menuItems: Array<MenuItem> = [
         caption: 'Payments',
         link: '/payment',
         component: <Payments />,
+        children: paymentRoutes
     },
     {
         name: 'Measurements',
@@ -35,7 +37,7 @@ export const menuItems: Array<MenuItem> = [
         link: '/user/',
         component: <User />,
         display: false,
-        children: [...userRoutes]
+        children: userRoutes
     },
 ]
     .filter(x => !isStringEmpty(x.name) && !isStringEmpty(x.link));
