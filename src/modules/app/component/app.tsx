@@ -3,7 +3,6 @@ import { useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 
 import './app.scss';
-import '../../../shared/globalStyles.scss';
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 

@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 
 import "./style.scss";
+import "./shared/globalStyles.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bulma/bulma.sass";
 import "bulma-checkradio/dist/css/bulma-checkradio.sass";
