@@ -45,10 +45,10 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
         case setPaymentTypes: {
             const types = getPropertyValueWithCheck<Array<PaymentType>>(action.payload, 'types', true);
 
-            const mappedToDropdownItems = types.map(({ id, caption, name }) => ({
+            const mappedToDropdownItems = types.map(({ id, caption }) => ({
                 id: id.toString(),
                 displayValue: caption,
-                value: name,
+                value: id.toString(),
             }) as SelectableItem);
 
             return {
