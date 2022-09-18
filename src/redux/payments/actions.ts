@@ -9,3 +9,6 @@ export const setPaymentTypes = "payment/setTypes";
 
 /** Save payment module initialized state */
 export const setModuleInitializedState = "payment/setInitValue";
+
+/** Filter payments according to current filter */
+export const filterPayments = "payment/filterItems";

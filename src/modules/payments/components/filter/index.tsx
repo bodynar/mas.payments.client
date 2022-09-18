@@ -15,8 +15,10 @@ import Accordion from "@app/sharedComponents/accordion";
 import { monthsAsDropdownItems } from "@app/static/months";
 import { yearsAsDropdownItems } from "@app/static/years";
 
-import { getSetFilterValueAction } from "@app/redux/payments/actions/setFilterValue";
 import { PaymentFilter } from "@app/models/payments";
+
+import { getSetFilterValueAction } from "@app/redux/payments/actions/setFilterValue";
+import { getFilterPaymentsAction } from "@app/redux/payments/actions/filterPayments";
 
 /** Payment filter props types */
 type PaymentFiltersProps = {
@@ -28,6 +30,9 @@ type PaymentFiltersProps = {
 
     /** Store filter value */
     setFilterValue: (filterValue?: PaymentFilter) => void;
+
+    /** Apply current filter */
+    filter: () => void;
 };
 
 /**
@@ -50,7 +55,7 @@ const getDropdownItem = (dropdownItems: Array<SelectableItem>, item?: number): S
 /** Payments module filter */
 const PaymentFilters = ({
     filterValue,
-    setFilterValue,
+    setFilterValue, filter,
     availableTypesAsDropdownItems,
 }: PaymentFiltersProps): JSX.Element => {
     const selectableMonths = useMemo(() => monthsAsDropdownItems(), []);
@@ -147,7 +152,7 @@ const PaymentFilters = ({
                     <Button
                         type="success"
                         caption="Filter"
-                        onClick={() => { }}
+                        onClick={filter}
                     />
                 </p>
                 <p className="control">
@@ -172,5 +177,6 @@ export default connect(
     }),
     ({
         setFilterValue: getSetFilterValueAction,
+        filter: getFilterPaymentsAction
     })
 )(PaymentFilters);

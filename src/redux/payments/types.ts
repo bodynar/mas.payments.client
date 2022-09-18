@@ -10,6 +10,9 @@ export type PaymentModuleState = {
     /** All payments */
     payments: Array<Payment>;
 
+    /** Payments thats satisfy last filter */
+    filteredItems: Array<Payment>;
+
     /** All payment types */
     availableTypes: Array<PaymentType>;
 

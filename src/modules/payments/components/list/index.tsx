@@ -1,12 +1,21 @@
 import { useCallback } from "react";
 
+import { connect } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 
 import Button from "@bodynarf/react.components/components/button";
 
-import PaymentFilter from "../filter";
+import { CompositeAppState } from "@app/redux/rootReducer";
 
-const PaymentList = (): JSX.Element => {
+import PaymentFilter from "../filter";
+import { Payment } from "@app/models/payments";
+
+type PaymentListProps = {
+    filteredItems: Array<Payment>;
+};
+
+const PaymentList = ({ filteredItems }: PaymentListProps): JSX.Element => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate('/payment/create', { replace: true }), [navigate]);
@@ -33,10 +42,19 @@ const PaymentList = (): JSX.Element => {
             </nav>
             <PaymentFilter />
             <section>
-                List
+                ({filteredItems.length})
+                {filteredItems.map(x =>
+                    <p key={x.id}>
+                        {x.price}
+                    </p>
+                )}
             </section>
         </section>
     );
 };
 
-export default PaymentList;
+/** Payments list */
+export default connect(
+    ({ payments }: CompositeAppState) => ({ filteredItems: payments.filteredItems }),
+    ({})
+)(PaymentList);

@@ -1,3 +1,4 @@
+import { isUndefined } from "@bodynarf/utils";
 import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
 
 import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
@@ -5,15 +6,16 @@ import { SelectableItem } from "@bodynarf/react.components/components/dropdown/t
 import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
 
 import { ActionWithPayload } from "../types";
-import { setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes } from "./actions";
 
+import { filterPayments, setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes } from "./actions";
 import { PaymentModuleState } from "./types";
-import { isUndefined } from "@bodynarf/utils";
+import { filter } from "./utils/filter";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
     initialized: false,
     payments: [],
+    filteredItems: [],
     availableTypes: [],
     availableTypesAsDropdownItems: [],
 };
@@ -31,16 +33,23 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
 
             return {
                 ...state,
-                payments
+                payments,
+                filteredItems: payments,
             };
         }
         case setFilterValue: {
-            const filter = getPropertyValueWithCheck<PaymentFilter>(action.payload, 'filter', false);
+            const filterValue = getPropertyValueWithCheck<PaymentFilter>(action.payload, 'filter', false);
 
-            return {
-                ...state,
-                lastFilter: filter,
-            };
+            return isUndefined(filterValue)
+                ? {
+                    ...state,
+                    lastFilter: filterValue,
+                    filteredItems: state.payments
+                }
+                : {
+                    ...state,
+                    lastFilter: filterValue,
+                };
         }
         case setPaymentTypes: {
             const types = getPropertyValueWithCheck<Array<PaymentType>>(action.payload, 'types', true);
@@ -62,10 +71,18 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
 
             return isUndefined(isInitialized)
                 ? state
-                : ({
+                : {
                     ...state,
                     initialized: isInitialized!,
-                });
+                };
+        }
+        case filterPayments: {
+            const displayedItems = filter(state.payments, state.lastFilter);
+
+            return {
+                ...state,
+                filteredItems: displayedItems,
+            };
         }
         default: {
             return state;
