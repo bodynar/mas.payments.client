@@ -2,32 +2,45 @@ import { isNullOrUndefined } from "@bodynarf/utils";
 
 import { Payment, PaymentFilter } from "@app/models/payments";
 
+import { filter, FilterValue } from "@app/utils/array";
+
 /**
  * Filter payments by specified filter values
  * @param payments All payments
  * @param filterValue Applied filter
  * @returns Filtered payments
  */
-export const filter = (payments: Array<Payment>, filterValue?: PaymentFilter): Array<Payment> => {
-    let result = [...payments];
-
+const filterPayments = (payments: Array<Payment>, filterValue?: PaymentFilter): Array<Payment> => {
     if (isNullOrUndefined(filterValue)) {
-        return result;
+        return payments;
     }
 
     const { month, year, typeId } = filterValue!;
 
+    const filters: Array<FilterValue<Payment>> = [];
+
     if (!isNullOrUndefined(month) && !isNaN(month!)) {
-        result = result.filter(p => p.month === month!);
+        filters.push({
+            key: 'month',
+            value: month!
+        });
     }
 
     if (!isNullOrUndefined(year) && !isNaN(year!)) {
-        result = result.filter(p => p.year === year!);
+        filters.push({
+            key: 'year',
+            value: year!
+        });
     }
 
     if (!isNullOrUndefined(typeId) && !isNaN(typeId!)) {
-        result = result.filter(p => p.typeId === typeId!);
+        filters.push({
+            key: 'typeId',
+            value: typeId!
+        });
     }
 
-    return result;
+    return filter([...payments], filters);
 };
+
+export default filterPayments;
