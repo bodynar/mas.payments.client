@@ -35,7 +35,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
             };
         }
         case setFilterValue: {
-            const filter = getPropertyValueWithCheck<PaymentFilter>(action.payload, 'filter', true);
+            const filter = getPropertyValueWithCheck<PaymentFilter>(action.payload, 'filter', false);
 
             return {
                 ...state,
