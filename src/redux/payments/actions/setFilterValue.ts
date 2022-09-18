@@ -8,7 +8,7 @@ import { setFilterValue } from "../actions";
  * @param filter Filter value
  * @returns Redux action to update state
  */
-export const getSetFilterValueAction = (filter: PaymentFilter): ActionWithPayload => ({
+export const getSetFilterValueAction = (filter?: PaymentFilter): ActionWithPayload => ({
     type: setFilterValue,
     payload: { filter },
 });
