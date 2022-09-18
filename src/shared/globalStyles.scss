@@ -13,3 +13,21 @@
     text-underline-offset: 0.275rem;
     cursor: help;
 }
+
+.height-is-100 {
+    height: 100%;
+}
+
+.is-flex-grow- {
+    @media screen and (min-width: 769px) {
+        &025 {
+            flex-grow: 0.25 !important;
+        }
+        &035 {
+            flex-grow: 0.35 !important;
+        }
+        &05 {
+            flex-grow: 0.5 !important;
+        }
+    }
+}
