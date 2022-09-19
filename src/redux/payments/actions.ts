@@ -12,3 +12,7 @@ export const setModuleInitializedState = "payment/setInitValue";
 
 /** Filter payments according to current filter */
 export const filterPayments = "payment/filterItems";
+
+/** Save current sort column */
+export const setSortColumn = "payment/setSortColumn";
+

@@ -4,12 +4,15 @@ import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
 import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
 
 import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
+import SortColumn from "@app/models/sortColumn";
+
+import { sort } from "@app/utils/array";
 
 import { ActionWithPayload } from "../types";
 
-import { filterPayments, setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes } from "./actions";
+import { filterPayments, setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setSortColumn } from "./actions";
 import { PaymentModuleState } from "./types";
-import { filter } from "./utils/filter";
+import filter from "./utils/filter";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
@@ -82,6 +85,17 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
             return {
                 ...state,
                 filteredItems: displayedItems,
+            };
+        }
+        case setSortColumn: {
+            const sortColumn = getPropertyValueWithCheck<SortColumn<Payment>>(action.payload, 'sortColumn', true);
+
+            const sortedPayments = sort(state.filteredItems, sortColumn);
+
+            return {
+                ...state,
+                sortColumn,
+                filteredItems: sortedPayments,
             };
         }
         default: {

@@ -1,6 +1,7 @@
 import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
 
 import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
+import SortColumn from "@app/models/sortColumn";
 
 /** Payment module state */
 export type PaymentModuleState = {
@@ -21,4 +22,7 @@ export type PaymentModuleState = {
 
     /** Last payments applied filter */
     lastFilter?: PaymentFilter;
+
+    /** Current sort column config */
+    sortColumn?: SortColumn<Payment>;
 };
