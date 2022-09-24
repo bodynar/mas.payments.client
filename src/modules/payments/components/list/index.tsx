@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 
+import { isNullOrUndefined } from "@bodynarf/utils";
+
 import { usePagination } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
@@ -12,13 +14,11 @@ import Icon from "@bodynarf/react.components/components/icon";
 import { Payment } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
-import { getMonthName } from "@app/static/months";
-
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { getSetSortColumnAction } from "@app/redux/payments/actions/setSortColumn";
 
 import PaymentFilter from "../filter";
-import { isNullOrUndefined } from "@bodynarf/utils";
+import PaymentListItem from "../listItem";
 
 /** Payment list props type */
 type PaymentListProps = {
@@ -38,7 +38,7 @@ const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListPr
     const onCreateClick = useCallback(() => navigate('/payment/create', { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate('/payment/types', { replace: true }), [navigate]);
 
-    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 30);
+    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20);
     const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
 
     const onHeaderCellClick = useCallback(
@@ -90,14 +90,10 @@ const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListPr
                         </thead>
                         <tbody>
                             {pageItems.map(x =>
-                                <tr key={x.id}>
-                                    <td className="has-text-centered">{getMonthName(x.month)}</td>
-                                    <td className="has-text-centered">{x.year}</td>
-                                    <td className="has-text-centered">{x.typeCaption}</td>
-                                    <td className="has-text-centered">{x.price}</td>
-                                    <td>{x.description}</td>
-                                    <td className="has-text-centered">ACTIONS</td>
-                                </tr>
+                                <PaymentListItem
+                                    key={x.id}
+                                    item={x}
+                                />
                             )}
                         </tbody>
                     </table>

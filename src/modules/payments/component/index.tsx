@@ -2,13 +2,15 @@ import { useEffect, useMemo } from "react";
 
 import { Outlet, useLocation } from "react-router-dom";
 
+import { connect } from "react-redux";
+
 import BreadCrumbs from "@app/sharedComponents/breadcrumbs";
 import { BreadCrumb } from "@app/sharedComponents/breadcrumbs/types";
 
-import { routes } from '../components';
-import { connect } from "react-redux";
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { initModuleState } from "@app/redux/payments/thunks/init";
+
+import { routes } from '../components';
 
 type PaymentModuleProps = {
     /** Is module state initialized */
@@ -21,17 +23,35 @@ type PaymentModuleProps = {
 const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JSX.Element => {
     const { pathname } = useLocation();
 
-    const activeItem = routes.find(({ link }) => link.startsWith(pathname));
     const breadcrumbs: Array<BreadCrumb> = useMemo(
         () =>
             routes
-                .filter(({ link }) => pathname.startsWith(link))
-                .map(x => ({
+                .filter(({ link }) => {
+                    if (pathname.startsWith(link)) {
+                        return true;
+                    }
+
+                    const hasParams = link.includes(":");
+
+                    if (!hasParams) {
+                        return false;
+                    }
+
+                    const withoutParams = link.substring(0, link.indexOf(":"));
+
+                    if (!pathname.startsWith(withoutParams)) {
+                        return false;
+                    }
+
+                    const pathNameWithouParams = pathname.substring(0, withoutParams.length);
+
+                    return pathNameWithouParams === withoutParams;
+                })
+                .map((x, i, a) => ({
                     path: x.link,
                     title: x.name,
-                    active: activeItem === x,
+                    active: a.length - 1 === i,
                 })
-                    // eslint-disable-next-line react-hooks/exhaustive-deps
                 ), [pathname]);
 
     useEffect(() => {
