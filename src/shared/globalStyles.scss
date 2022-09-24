@@ -54,6 +54,7 @@ table.table {
     &.has-sticky-header thead th {
         position: sticky;
         top: 0.125rem;
+        z-index: 1;
 
         &.th-color--light-blue {
             background-color: #eff5fb;
