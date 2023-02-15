@@ -1,6 +1,7 @@
 import { RouteItem } from "@app/models/routeItem";
 
 import PaymentList from "./list";
+import EditForm from './edit';
 
 /** Payments module sub-routes */
 export const routes: Array<RouteItem> = [
@@ -15,9 +16,9 @@ export const routes: Array<RouteItem> = [
         component: <>Create</>,
     },
     {
-        link: '/payment/edit',
+        link: '/payment/edit/:id',
         name: 'Edit',
-        component: <>Edit</>,
+        component: <EditForm/>,
     },
     {
         link: '/payment/types',

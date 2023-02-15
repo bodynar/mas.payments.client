@@ -31,7 +31,7 @@ const SettingComponent = ({ setting, onUpdate }: SettingProps): JSX.Element => {
             <Text
                 onValueChange={onValueChange}
                 defaultValue={value}
-                label={{ caption: setting.displayName }}
+                label={{ caption: setting.displayName, horizontal: true }}
             />
         );
     }
@@ -41,7 +41,8 @@ const SettingComponent = ({ setting, onUpdate }: SettingProps): JSX.Element => {
             <CheckBox
                 onValueChange={onValueChange}
                 defaultValue={value.toLocaleLowerCase() === 'true'}
-                label={{ caption: setting.displayName }}
+                label={{ caption: setting.displayName, horizontal: true }}
+                isFormLabel={true}
             />
         );
     }

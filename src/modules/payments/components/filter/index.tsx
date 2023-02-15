@@ -98,7 +98,7 @@ const PaymentFilters = ({
                 <div className="field-body">
                     <div className="control">
                         <Dropdown
-                            caption="Year"
+                            placeholder="Year"
                             hideOnOuterClick={true}
                             deselectable={true}
                             items={selectableYears}
@@ -117,7 +117,7 @@ const PaymentFilters = ({
                 <div className="field-body">
                     <div className="control">
                         <Dropdown
-                            caption="Month"
+                            placeholder="Month"
                             hideOnOuterClick={true}
                             deselectable={true}
                             items={selectableMonths}
@@ -136,7 +136,7 @@ const PaymentFilters = ({
                 <div className="field-body">
                     <div className="control">
                         <Dropdown
-                            caption="Type"
+                            placeholder="Type"
                             hideOnOuterClick={true}
                             deselectable={true}
                             items={availableTypesAsDropdownItems}

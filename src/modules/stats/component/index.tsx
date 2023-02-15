@@ -4,7 +4,7 @@ type StatsModuleProps = {
 
 };
 
-const StatsModule = (props: StatsModuleProps): JSX.Element => {
+const StatsModule = (_: StatsModuleProps): JSX.Element => {
     return (
         <>
             Stats

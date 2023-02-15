@@ -22,15 +22,16 @@ type EmailTestProps = {
 
 /** Component providing small form to test email integration */
 const EmailTest = ({ sendTestEmail }: EmailTestProps): JSX.Element => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState("");
     const [isValid, setIsValid] = useState(false);
 
     const onValueChange = useCallback(
-        (value: string) => {
-            setValue(value);
+        (value?: string) => {
+            const newValue = value ?? "";
+            setValue(newValue);
             setIsValid(true);
 
-            if (isStringEmpty(value)) {
+            if (isStringEmpty(newValue)) {
                 return;
             }
         }, []);
@@ -57,7 +58,7 @@ const EmailTest = ({ sendTestEmail }: EmailTestProps): JSX.Element => {
                 <Text
                     onValueChange={onValueChange}
                     defaultValue={value}
-                    label={{ caption: 'Recipient' }}
+                    label={{ caption: 'Recipient', horizontal: true }}
                     placeholder="Enter valid email of recipient"
                 />
                 {!isValid && value.length > 0 &&

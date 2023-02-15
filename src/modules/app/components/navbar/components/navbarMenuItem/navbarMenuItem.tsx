@@ -4,7 +4,7 @@ import { getClassName } from "@bodynarf/utils/component";
 
 import './navbarMenuItem.scss';
 
-import { MenuItem } from "../../menu";
+import { MenuItem } from "@app/models/routeItem";
 
 type NavbarMenuItemProps = {
     /** Menu item configuration */

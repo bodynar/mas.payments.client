@@ -4,7 +4,7 @@ type MeasurementModuleProps = {
 
 };
 
-const MeasurementModule = (props: MeasurementModuleProps): JSX.Element => {
+const MeasurementModule = (_: MeasurementModuleProps): JSX.Element => {
     return (
         <>
             Measurements
