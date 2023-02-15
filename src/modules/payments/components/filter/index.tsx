@@ -78,9 +78,9 @@ const PaymentFilters = ({
             });
         }, [filterValue, setFilterValue]);
 
-    const onMonthSelect = useCallback((item?: SelectableItem) => onItemSelect('month', setMonth, item), [onItemSelect]);
-    const onYearSelect = useCallback((item?: SelectableItem) => onItemSelect('year', setYear, item), [onItemSelect]);
-    const onTypeSelect = useCallback((item?: SelectableItem) => onItemSelect('typeId', setType, item), [onItemSelect]);
+    const onMonthSelect = useCallback((item?: SelectableItem) => onItemSelect("month", setMonth, item), [onItemSelect]);
+    const onYearSelect = useCallback((item?: SelectableItem) => onItemSelect("year", setYear, item), [onItemSelect]);
+    const onTypeSelect = useCallback((item?: SelectableItem) => onItemSelect("typeId", setType, item), [onItemSelect]);
 
     const onClearClick = useCallback(() => [setFilterValue, setMonth, setYear, setType].forEach(x => x(undefined)), [setFilterValue]);
 

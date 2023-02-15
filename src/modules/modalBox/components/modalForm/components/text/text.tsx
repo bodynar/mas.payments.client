@@ -1,10 +1,10 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from "react";
 
-import { isNullOrUndefined } from '@bodynarf/utils/common';
+import { isNullOrUndefined } from "@bodynarf/utils/common";
 
-import { getFieldValueValidationError } from '../../utils';
+import { getFieldValueValidationError } from "../../utils";
 
-import { BaseFieldProps } from '../basePropsType';
+import { BaseFieldProps } from "../basePropsType";
 
 type TextProps = BaseFieldProps;
 
@@ -12,7 +12,7 @@ type TextProps = BaseFieldProps;
 
 /** Single line text editor component */
 export default function Text({ fieldConfig, setFieldValidState }: TextProps): JSX.Element {
-	const [value, setValue] = useState<string>(fieldConfig.value || '');
+	const [value, setValue] = useState<string>(fieldConfig.value || "");
 	const [isDirty, setIsDirty] = useState<boolean>(false);
 	const [validationError, setValidationError] = useState<string | undefined>();
 
@@ -41,26 +41,26 @@ export default function Text({ fieldConfig, setFieldValidState }: TextProps): JS
 			validate(newValue, isFieldDirty);
 		}, [fieldConfig, isDirty, validate, value]);
 
-	const controlClassName: string = 'input' +
+	const controlClassName: string = "input" +
 		(isNullOrUndefined(validationError)
-			? '' : ' is-danger');
+			? "" : " is-danger");
 
-	const labelClassName: string = 'label' +
+	const labelClassName: string = "label" +
 		(fieldConfig.isRequired === true
-			? ' is-required'
-			: '');
+			? " is-required"
+			: "");
 
 	return (
-		<div className='field'>
+		<div className="field">
 			<label
 				htmlFor={fieldConfig.name}
 				className={labelClassName}
 			>
 				{fieldConfig.caption || fieldConfig.name}
 			</label>
-			<div className='control'>
+			<div className="control">
 				<input
-					type='text'
+					type="text"
 					id={fieldConfig.name}
 					name={fieldConfig.name}
 					disabled={fieldConfig.disabled}
@@ -71,7 +71,7 @@ export default function Text({ fieldConfig, setFieldValidState }: TextProps): JS
 				/>
 			</div>
 			{!isNullOrUndefined(validationError)
-				&& <p className='help is-danger'>
+				&& <p className="help is-danger">
 					{validationError}
 				</p>
 			}

@@ -10,7 +10,7 @@ import { BreadCrumb } from "@app/sharedComponents/breadcrumbs/types";
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { initModuleState } from "@app/redux/payments/thunks/init";
 
-import { routes } from '../components';
+import { routes } from "../components";
 
 type PaymentModuleProps = {
     /** Is module state initialized */

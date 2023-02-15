@@ -9,10 +9,10 @@ interface ModalFormConfiguration {
 
 /** Types of available form fields */
 type ModalFormItemType =
-    | 'text'
-    | 'multiline'
-    | 'date'
-    | 'number'
+    | "text"
+    | "multiline"
+    | "date"
+    | "number"
     ;
 
 
@@ -49,7 +49,7 @@ interface ModalFormItemValidation {
 
     /** 
      * Custom validation.
-     * Function that validates current value. Should return error if value isn't valid; otherwise - undefined
+     * Function that validates current value. Should return error if value isn"t valid; otherwise - undefined
     */
     customValidation?: (value: string) => string | undefined;
 }

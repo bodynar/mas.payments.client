@@ -17,7 +17,7 @@ export const getButtonCaptions = (modalParams: ModalParams | undefined): {
         cancelBtnCaption: string;
     } = {
         saveBtnCaption: "Save",
-        cancelBtnCaption: modalParams?.modalType === 'confirm' ? "Cancel" : "Close"
+        cancelBtnCaption: modalParams?.modalType === "confirm" ? "Cancel" : "Close"
     };
 
     if (!isNullOrUndefined(modalParams) && !isNullOrUndefined(modalParams?.buttonCaption)) {
@@ -39,15 +39,15 @@ export const getButtonCaptions = (modalParams: ModalParams | undefined): {
  */
 export const validateModalParams = (modalParams: ModalParams): string | undefined => {
     if (isStringEmpty(modalParams.title)) {
-        return 'Modal title is empty.';
+        return "Modal title is empty.";
     }
 
-    if (modalParams.modalType === 'form') {
+    if (modalParams.modalType === "form") {
         if (isNullOrUndefined(modalParams.formData)) {
-            return 'Form data is not defined.';
+            return "Form data is not defined.";
         }
         if (modalParams.formData?.fields.length === 0) {
-            return 'Form data fields array is empty.';
+            return "Form data fields array is empty.";
         }
 
         const invalidItems: Array<ModalFormItem> | undefined =
@@ -63,29 +63,29 @@ export const validateModalParams = (modalParams: ModalParams): string | undefine
         if (isNullOrUndefined(modalParams.callback)
             || isNullOrUndefined(modalParams.callback?.saveCallback)
         ) {
-            return 'Callback is not defined.';
+            return "Callback is not defined.";
         }
-    } else if (modalParams.modalType === 'confirm') {
+    } else if (modalParams.modalType === "confirm") {
         if (isNullOrUndefined(modalParams.message)) {
-            return 'Confirm message is not defined.';
+            return "Confirm message is not defined.";
         }
 
         if (isStringEmpty(modalParams.message as string)) {
-            return 'Confirm message is empty';
+            return "Confirm message is empty";
         }
 
         if (isNullOrUndefined(modalParams.callback)
             || isNullOrUndefined(modalParams.callback?.saveCallback)
             || isNullOrUndefined(modalParams.callback?.cancelCallback)
         ) {
-            return 'Callback is not defined.';
+            return "Callback is not defined.";
         }
     } else {
         if (isNullOrUndefined(modalParams.message)) {
-            return 'Modal message is not defined.';
+            return "Modal message is not defined.";
         }
         if (isStringEmpty(modalParams.message as string)) {
-            return 'Modal message is empty.';
+            return "Modal message is empty.";
         }
     }
 
@@ -98,7 +98,7 @@ export const validateModalParams = (modalParams: ModalParams): string | undefine
  * @returns Initial disabled flag value for save button
  */
 export const getInitIsSaveButtonDisabled = (params: ModalParams): boolean => {
-    if (params.modalType === 'form'
+    if (params.modalType === "form"
         && !isNullOrUndefined(params.formData)
     ) {
         return (params.formData as ModalFormConfiguration)

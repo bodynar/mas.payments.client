@@ -21,21 +21,21 @@ const filterPayments = (payments: Array<Payment>, filterValue?: PaymentFilter): 
 
     if (!isNullOrUndefined(month) && !isNaN(month!)) {
         filters.push({
-            key: 'month',
+            key: "month",
             value: month!
         });
     }
 
     if (!isNullOrUndefined(year) && !isNaN(year!)) {
         filters.push({
-            key: 'year',
+            key: "year",
             value: year!
         });
     }
 
     if (!isNullOrUndefined(typeId) && !isNaN(typeId!)) {
         filters.push({
-            key: 'typeId',
+            key: "typeId",
             value: typeId!
         });
     }

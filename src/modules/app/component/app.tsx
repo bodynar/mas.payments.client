@@ -2,15 +2,15 @@ import { useCallback, useEffect } from "react";
 
 import { connect } from "react-redux";
 
-import './app.scss';
+import "./app.scss";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 
 import { getSetTabIsFocusedAction } from "@app/redux/app/actions/setTabIsFocused";
 
-import ModalBox from '@app/modules/modalBox';
+import ModalBox from "@app/modules/modalBox";
 
-import Notificator from '../components/notificator/component/notificator';
+import Notificator from "../components/notificator/component/notificator";
 import Navbar from "../components/navbar/component/navbar";
 import AppContent from "../components/content";
 
@@ -31,12 +31,12 @@ function App({ isLoading, setTabIsFocused }: AppProps): JSX.Element {
     const onBlur = useCallback(() => setTabIsFocused(false), [setTabIsFocused]);
 
     useEffect(() => {
-        window.addEventListener('focus', onFocus);
-        window.addEventListener('blur', onBlur);
+        window.addEventListener("focus", onFocus);
+        window.addEventListener("blur", onBlur);
 
         return (): void => {
-            window.removeEventListener('focus', onFocus);
-            window.removeEventListener('blur', onBlur);
+            window.removeEventListener("focus", onFocus);
+            window.removeEventListener("blur", onBlur);
         };
     }, [onBlur, onFocus]);
 

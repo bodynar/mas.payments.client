@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
-import './content.scss';
+import "./content.scss";
 
-import loading from '@app/assets/loading01.svg';
+import loading from "@app/assets/loading01.svg";
 
 import { menuItems } from "@app/static/menu";
 import { RouteItem } from "@app/models/routeItem";

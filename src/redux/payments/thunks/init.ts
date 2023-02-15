@@ -49,15 +49,15 @@ const loadPaymentTypes = (
                 getSetPaymentTypesAction(
                     types.map(x => ({
                         ...x,
-                        // id: x['id'],
-                        name: x['systemName'],
-                        caption: x['name'],
-                        // hasRelatedMeasurementTypes: x['hasRelatedMeasurementTypes'],
-                        // hasRelatedPayments: x['hasRelatedPayments'],
+                        // id: x["id"],
+                        name: x["systemName"],
+                        caption: x["name"],
+                        // hasRelatedMeasurementTypes: x["hasRelatedMeasurementTypes"],
+                        // hasRelatedPayments: x["hasRelatedPayments"],
 
-                        // color: x['color'],
-                        // company: x['company'],
-                        // description: x['description'],
+                        // color: x["color"],
+                        // company: x["company"],
+                        // description: x["description"],
                     }) as PaymentType)
                 )
             );
@@ -81,13 +81,13 @@ const loadPayments = (
                     payments.map(x => ({
                         ...x,
 
-                        price: x['amount'],
-                        month: x['dateMonth'],
-                        year: x['dateYear'],
+                        price: x["amount"],
+                        month: x["dateMonth"],
+                        year: x["dateYear"],
 
-                        typeId: x['paymentTypeId'],
-                        typeCaption: x['paymentTypeName'],
-                        typeColor: x['paymentTypeColor'],
+                        typeId: x["paymentTypeId"],
+                        typeCaption: x["paymentTypeName"],
+                        typeColor: x["paymentTypeColor"],
                     }) as Payment)
                 )
             );

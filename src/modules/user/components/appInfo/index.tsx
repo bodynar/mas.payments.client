@@ -31,21 +31,21 @@ const ApplicationInfo = ({ appInfo, getAppInfo }: ApplicationInfoProps): JSX.Ele
         <div className="box">
             <Text
                 onValueChange={emptyFn}
-                defaultValue={appInfo?.dataBaseName || ''}
+                defaultValue={appInfo?.dataBaseName || ""}
                 disabled={true}
-                label={{ caption: 'Database name', horizontal: true }}
+                label={{ caption: "Database name", horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
-                defaultValue={appInfo?.serverAppVersion || ''}
+                defaultValue={appInfo?.serverAppVersion || ""}
                 disabled={true}
-                label={{ caption: 'Server app version', horizontal: true }}
+                label={{ caption: "Server app version", horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
-                defaultValue={appInfo?.clientAppVersion || ''}
+                defaultValue={appInfo?.clientAppVersion || ""}
                 disabled={true}
-                label={{ caption: 'Client app version', horizontal: true }}
+                label={{ caption: "Client app version", horizontal: true }}
             />
         </div>
     );

@@ -1,4 +1,4 @@
-export { ModalForm } from './component/modalForm';
+export { ModalForm } from "./component/modalForm";
 export type {
     ModalFormConfiguration,
     ModalFormItem,

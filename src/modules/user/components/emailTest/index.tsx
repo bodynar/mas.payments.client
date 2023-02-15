@@ -13,7 +13,7 @@ import { sendTestEmail } from "@app/redux/user/thunks/sendTestEmail";
  * Email match regex
  * Provided by https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#basic_validation
  */
-const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const emailPattern = /^[a-zA-Z0-9.!#$%&"*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 type EmailTestProps = {
     /** Send test email via api */
@@ -58,7 +58,7 @@ const EmailTest = ({ sendTestEmail }: EmailTestProps): JSX.Element => {
                 <Text
                     onValueChange={onValueChange}
                     defaultValue={value}
-                    label={{ caption: 'Recipient', horizontal: true }}
+                    label={{ caption: "Recipient", horizontal: true }}
                     placeholder="Enter valid email of recipient"
                 />
                 {!isValid && value.length > 0 &&

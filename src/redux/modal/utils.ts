@@ -19,7 +19,7 @@ import { getCloseModalAction } from "./actions/close";
          return;
      }
 
-     if (closeModalData.closeCode === 'cancel' && !isNullOrUndefined(modalCallback?.cancelCallback)) {
+     if (closeModalData.closeCode === "cancel" && !isNullOrUndefined(modalCallback?.cancelCallback)) {
          const customCallback: (modalData: ModalCloseData) => void =
              modalCallback?.cancelCallback as (modalData: ModalCloseData) => void;
 
@@ -29,7 +29,7 @@ import { getCloseModalAction } from "./actions/close";
 
          customCallback(closeModalData);
      }
-     else if (closeModalData.closeCode === 'save' && !isNullOrUndefined(modalCallback?.saveCallback)) {
+     else if (closeModalData.closeCode === "save" && !isNullOrUndefined(modalCallback?.saveCallback)) {
          const customCallback: (modalData: ModalCloseData) => void =
              modalCallback?.saveCallback as (modalData: ModalCloseData) => void;
 

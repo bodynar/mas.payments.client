@@ -23,7 +23,7 @@ const defaultState: UserModuleState = {
 export default function (state: UserModuleState = defaultState, action: ActionWithPayload): UserModuleState {
     switch (action.type) {
         case SetAppInfo: {
-            const appInfo: ApplicationInfo = getPropertyValueWithCheck(action.payload, 'appInfo');
+            const appInfo: ApplicationInfo = getPropertyValueWithCheck(action.payload, "appInfo");
 
             return {
                 ...state,
@@ -31,7 +31,7 @@ export default function (state: UserModuleState = defaultState, action: ActionWi
             };
         }
         case SetNotifications: {
-            const notifications: Array<UserNotification> = getPropertyValueWithCheck(action.payload, 'notifications') || [];
+            const notifications: Array<UserNotification> = getPropertyValueWithCheck(action.payload, "notifications") || [];
 
             return {
                 ...state,
@@ -39,7 +39,7 @@ export default function (state: UserModuleState = defaultState, action: ActionWi
             };
         }
         case SetSettings: {
-            const settings: Array<UserSetting> = getPropertyValueWithCheck(action.payload, 'settings') || [];
+            const settings: Array<UserSetting> = getPropertyValueWithCheck(action.payload, "settings") || [];
 
             return {
                 ...state,
@@ -53,7 +53,7 @@ export default function (state: UserModuleState = defaultState, action: ActionWi
             };
         }
         case SetMeasurementsWithoutDiff: {
-            const count: number = getPropertyValueWithCheck(action.payload, 'measurementsCount') || 0;
+            const count: number = getPropertyValueWithCheck(action.payload, "measurementsCount") || 0;
 
             return {
                 ...state,

@@ -33,7 +33,7 @@ const BreadCrumbs = ({
     const className = getClassName([
         "breadcrumb",
         isNullOrUndefined(position) ? undefined : `is-${size}`,
-        `has-${separator || 'arrow'}-separator`,
+        `has-${separator || "arrow"}-separator`,
         isNullOrUndefined(position) ? undefined : `is-${position}`
     ]);
 
@@ -45,9 +45,9 @@ const BreadCrumbs = ({
             <ul>
                 {items.map(breadCrumb =>
                     <li
-                        className={breadCrumb.active ? 'is-active' : undefined}
+                        className={breadCrumb.active ? "is-active" : undefined}
                         key={breadCrumb.path}
-                        aria-current={breadCrumb.active ? 'page' : undefined}
+                        aria-current={breadCrumb.active ? "page" : undefined}
                     >
                         <Link to={breadCrumb.path}>
                             {breadCrumb.icon &&

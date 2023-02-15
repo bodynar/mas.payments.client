@@ -1,16 +1,16 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import { ModalState } from './modal/types';
-import { NotificatorState } from './notificator/types';
-import { AppState } from './app/types';
-import { UserModuleState } from './user/types';
-import { PaymentModuleState } from './payments/types';
+import { ModalState } from "./modal/types";
+import { NotificatorState } from "./notificator/types";
+import { AppState } from "./app/types";
+import { UserModuleState } from "./user/types";
+import { PaymentModuleState } from "./payments/types";
 
-import modalBoxReducer from './modal/reducer';
-import notificatorReducer from './notificator/reducer';
-import appReducer from './app/reducer';
-import userReducer from './user/reducer';
-import paymentReducer from './payments';
+import modalBoxReducer from "./modal/reducer";
+import notificatorReducer from "./notificator/reducer";
+import appReducer from "./app/reducer";
+import userReducer from "./user/reducer";
+import paymentReducer from "./payments";
 
 /** Global application state */
 export type CompositeAppState = {

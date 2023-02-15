@@ -12,10 +12,10 @@ import { UserSetting } from "@app/models/user";
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { loadSettings } from "@app/redux/user/thunks/loadSettings";
 import { UpdatedUserSetting, updateUserSettings } from "@app/redux/user/thunks/updateUserSettings";
-import { getMeasurementsWithoutDiff } from '@app/redux/user/thunks/loadMeasurementsWithoutDiff';
+import { getMeasurementsWithoutDiff } from "@app/redux/user/thunks/loadMeasurementsWithoutDiff";
 import { recalculateDiff } from "@app/redux/user/thunks/recalculateDiff";
 
-import Setting from '../components/setting';
+import Setting from "../components/setting";
 
 type SettingsProps = {
     /** Custom settings */

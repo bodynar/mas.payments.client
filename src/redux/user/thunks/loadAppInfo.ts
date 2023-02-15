@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { version } from 'package.json';
+import { version } from "package.json";
 
 import { get } from "@app/utils/delayedApi";
 
@@ -37,4 +37,4 @@ export const getAppInfo = (): ThunkAction<void, CompositeAppState, unknown, Acti
             .catch(getDisplayErrorMessageAction(dispatch, getState));
     };
 
-type AppInfoResponse = Pick<ApplicationInfo, 'dataBaseName' | 'serverAppVersion'>;
+type AppInfoResponse = Pick<ApplicationInfo, "dataBaseName" | "serverAppVersion">;

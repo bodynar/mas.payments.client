@@ -1,13 +1,13 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
-import { isNullOrUndefined } from '@bodynarf/utils/common';
+import { isNullOrUndefined } from "@bodynarf/utils/common";
 
-import './common.style.scss';
+import "./common.style.scss";
 
-import { ModalFormConfiguration } from '../types';
+import { ModalFormConfiguration } from "../types";
 
-import Text from '../components/text/text';
-import Multiline from '../components/multiline/multiline';
+import Text from "../components/text/text";
+import Multiline from "../components/multiline/multiline";
 
 type ModalFormProps = {
     /** Form configuration */
@@ -32,7 +32,7 @@ interface FormFieldValidationState {
  */
 export const ModalForm = ({ formConfig, setSaveButtonDisabled }: ModalFormProps): JSX.Element => {
     if (formConfig.fields.length === 0) {
-        throw new Error('No field provided for ModalForm');
+        throw new Error("No field provided for ModalForm");
     }
 
     const requiredFields: Array<FormFieldValidationState> =
@@ -66,13 +66,13 @@ export const ModalForm = ({ formConfig, setSaveButtonDisabled }: ModalFormProps)
                 && <h3>{formConfig.caption}</h3>
             }
             {formConfig.fields.map(fieldConfig => {
-                if (fieldConfig.type === 'text') {
+                if (fieldConfig.type === "text") {
                     return <Text
                         key={fieldConfig.name}
                         fieldConfig={fieldConfig}
                         setFieldValidState={setFieldValidState}
                     />;
-                } else if (fieldConfig.type === 'multiline') {
+                } else if (fieldConfig.type === "multiline") {
                     return <Multiline
                         key={fieldConfig.name}
                         fieldConfig={fieldConfig}

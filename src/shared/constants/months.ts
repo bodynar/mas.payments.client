@@ -13,51 +13,51 @@ export interface Month {
 export const months: Array<Month> = [
     {
         id: 1,
-        name: 'January'
+        name: "January"
     },
     {
         id: 2,
-        name: 'February'
+        name: "February"
     },
     {
         id: 3,
-        name: 'March'
+        name: "March"
     },
     {
         id: 4,
-        name: 'April'
+        name: "April"
     },
     {
         id: 5,
-        name: 'May'
+        name: "May"
     },
     {
         id: 6,
-        name: 'June'
+        name: "June"
     },
     {
         id: 7,
-        name: 'July'
+        name: "July"
     },
     {
         id: 8,
-        name: 'August'
+        name: "August"
     },
     {
         id: 9,
-        name: 'September'
+        name: "September"
     },
     {
         id: 10,
-        name: 'October'
+        name: "October"
     },
     {
         id: 11,
-        name: 'November'
+        name: "November"
     },
     {
         id: 12,
-        name: 'December'
+        name: "December"
     },
 ];
 
@@ -65,11 +65,11 @@ export const months: Array<Month> = [
  * Get month name by its number
  * @param monthNumber Number of month
  * @returns Name of month
- * @throws Month number isn't in (0, 12) range 
+ * @throws Month number isn"t in (0, 12) range 
  */
 export const getMonthName = (monthNumber: number): string => {
     if (monthNumber < 0 || monthNumber > 12) {
-        throw new Error('Month number must be in (0, 12) range.');
+        throw new Error("Month number must be in (0, 12) range.");
     }
 
     const month: Month = months.find(x => x.id === monthNumber)!;

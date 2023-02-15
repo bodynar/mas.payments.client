@@ -32,7 +32,7 @@ const defaultState: PaymentModuleState = {
 export default function (state: PaymentModuleState = defaultState, action: ActionWithPayload): PaymentModuleState {
     switch (action.type) {
         case setPayments: {
-            const payments = getPropertyValueWithCheck<Array<Payment>>(action.payload, 'payments', true);
+            const payments = getPropertyValueWithCheck<Array<Payment>>(action.payload, "payments", true);
 
             return {
                 ...state,
@@ -41,7 +41,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
             };
         }
         case setFilterValue: {
-            const filterValue = getPropertyValueWithCheck<PaymentFilter>(action.payload, 'filter', false);
+            const filterValue = getPropertyValueWithCheck<PaymentFilter>(action.payload, "filter", false);
 
             return isUndefined(filterValue)
                 ? {
@@ -55,7 +55,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 };
         }
         case setPaymentTypes: {
-            const types = getPropertyValueWithCheck<Array<PaymentType>>(action.payload, 'types', true);
+            const types = getPropertyValueWithCheck<Array<PaymentType>>(action.payload, "types", true);
 
             const mappedToDropdownItems = types.map(({ id, caption }) => ({
                 id: id.toString(),
@@ -70,7 +70,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
             };
         }
         case setModuleInitializedState: {
-            const isInitialized = getPropertyValueWithCheck<boolean | undefined>(action.payload, 'isInitialized', false) || undefined;
+            const isInitialized = getPropertyValueWithCheck<boolean | undefined>(action.payload, "isInitialized", false) || undefined;
 
             return isUndefined(isInitialized)
                 ? state
@@ -88,7 +88,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
             };
         }
         case setSortColumn: {
-            const sortColumn = getPropertyValueWithCheck<SortColumn<Payment>>(action.payload, 'sortColumn', true);
+            const sortColumn = getPropertyValueWithCheck<SortColumn<Payment>>(action.payload, "sortColumn", true);
 
             const sortedPayments = sort(state.filteredItems, sortColumn);
 

@@ -4,9 +4,9 @@ import { ModalFormConfiguration, ModalFormItemData } from "@app/modules/modalBox
 
 /** Type of displaying modal */
 export type ModalType =
-    | 'info' /** Display some textual information */
-    | 'form' /** Display some form to fill */
-    | 'confirm' /** Display modal with confirm message and 2 optional buttons */
+    | "info" /** Display some textual information */
+    | "form" /** Display some form to fill */
+    | "confirm" /** Display modal with confirm message and 2 optional buttons */
     ;
 
 /** Modal box module state */
@@ -72,7 +72,7 @@ export type ModalCloseData = {
      * Close reason.
      * Cross sign (x on the top right) will be evaluated as cancel
      */
-    closeCode: 'save' | 'cancel';
+    closeCode: "save" | "cancel";
 
     /** Form data state */
     formData?: {

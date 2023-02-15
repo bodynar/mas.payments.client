@@ -13,28 +13,28 @@ import { routes as paymentRoutes } from "@app/modules/payments/components";
 /** Static navbar menu */
 export const menuItems: Array<MenuItem> = [
     {
-        name: 'Payments',
-        caption: 'Payments',
-        link: '/payment',
+        name: "Payments",
+        caption: "Payments",
+        link: "/payment",
         component: <Payments />,
         children: paymentRoutes
     },
     {
-        name: 'Measurements',
-        caption: 'Measurements',
-        link: '/measurement',
+        name: "Measurements",
+        caption: "Measurements",
+        link: "/measurement",
         component: <Measurements />,
     },
     {
-        name: 'Stats',
-        caption: 'Statistics',
-        link: '/stats',
+        name: "Stats",
+        caption: "Statistics",
+        link: "/stats",
         component: <Stats />,
     },
     {
-        name: 'User',
-        caption: 'User',
-        link: '/user/',
+        name: "User",
+        caption: "User",
+        link: "/user/",
         component: <User />,
         display: false,
         children: userRoutes

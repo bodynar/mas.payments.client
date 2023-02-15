@@ -32,8 +32,8 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
                 }
 
                 dispatch(getOpenModalAction({
-                    modalType: 'info',
-                    title: 'Recalculate error',
+                    modalType: "info",
+                    title: "Recalculate error",
                     message: (result as Array<string>).join("\n")
                 }));
 

@@ -23,7 +23,7 @@ export const sendTestEmail = (recipient: string): ThunkAction<void, CompositeApp
                 recipient: recipient
             });
             dispatch(getSetAppIsLoadingAction(false));
-            getDisplaySuccessMessageAction(dispatch, getState)('Message sucessfully added to queue');
+            getDisplaySuccessMessageAction(dispatch, getState)("Message sucessfully added to queue");
         } catch (error) {
             getDisplayErrorMessageAction(dispatch, getState)(error as any);
         }

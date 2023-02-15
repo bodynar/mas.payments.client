@@ -4,7 +4,7 @@ import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
 
 import { ElementSize } from "@bodynarf/react.components";
 
-import './style.scss';
+import "./style.scss";
 import Icon from "@bodynarf/react.components/components/icon";
 
 type AccordionProps = {
@@ -19,13 +19,13 @@ type AccordionProps = {
 
     /** Color */
     style?:
-    | 'primary' /** color: seawave green */
-    | 'link' /** color: blue-violet */
-    | 'info' /** color: sky-blue */
-    | 'success' /** color: green */
-    | 'warning' /** color: yellow */
-    | 'danger' /** color: red */
-    | 'dark' /** color: dark-gray */
+    | "primary" /** color: seawave green */
+    | "link" /** color: blue-violet */
+    | "info" /** color: sky-blue */
+    | "success" /** color: green */
+    | "warning" /** color: yellow */
+    | "danger" /** color: red */
+    | "dark" /** color: dark-gray */
     ;
 };
 
@@ -48,8 +48,8 @@ const Accordion = ({
     const className = getClassName([
         "app-accordion",
         "message",
-        isNullOrUndefined(style) ? '' : `is-${style}`,
-        isNullOrUndefined(size) ? '' : `is-${size}`,
+        isNullOrUndefined(style) ? "" : `is-${style}`,
+        isNullOrUndefined(size) ? "" : `is-${size}`,
     ]);
 
     return (

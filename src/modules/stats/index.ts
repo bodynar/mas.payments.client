@@ -1,3 +1,3 @@
-import module from './component';
+import module from "./component";
 
 export default module;

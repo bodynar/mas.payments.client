@@ -1,21 +1,21 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import './notificator.scss';
+import "./notificator.scss";
 
-import { NotificationCountToShowHideAll } from '@app/constants';
-import { isStringEmpty } from '@bodynarf/utils/common';
-import { NotificationItem } from '@app/models/notification';
+import { NotificationCountToShowHideAll } from "@app/constants";
+import { isStringEmpty } from "@bodynarf/utils/common";
+import { NotificationItem } from "@app/models/notification";
 
-import { CompositeAppState } from '@app/redux/rootReducer';
+import { CompositeAppState } from "@app/redux/rootReducer";
 
-import { getHideNotificationsAction } from '@app/redux/notificator/actions/hideNotification';
-import { getHideAllNotificationsAction } from '@app/redux/notificator/actions/hideAllNotifications';
+import { getHideNotificationsAction } from "@app/redux/notificator/actions/hideNotification";
+import { getHideAllNotificationsAction } from "@app/redux/notificator/actions/hideAllNotifications";
 
-import Notification from '../components/notificationItem/notificationItem';
+import Notification from "../components/notificationItem/notificationItem";
 
 type NotificatorProps = {
     /** Active notifications */

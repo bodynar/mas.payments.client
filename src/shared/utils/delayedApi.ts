@@ -14,9 +14,9 @@ import { LoadingStateHideDelay } from "@app/constants";
  */
 export const post = async <TResult>(uri: string, requestData: RequestData): Promise<TResult | undefined> => {
     const requestParams: RequestInit = {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'content-type': 'application/json',
+            "content-type": "application/json",
         },
         body: JSON.stringify(requestData)
     };
@@ -32,9 +32,9 @@ export const post = async <TResult>(uri: string, requestData: RequestData): Prom
  */
 export const get = async <TResult>(uri: string, requestData?: RequestData): Promise<TResult> => {
     const requestParams: RequestInit = {
-        method: 'GET',
+        method: "GET",
         headers: {
-            'content-type': 'application/json',
+            "content-type": "application/json",
         }
     };
 

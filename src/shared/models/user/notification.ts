@@ -30,5 +30,5 @@ export type UserNotification = {
     title: string;
 
     /** Type */
-    type: 'Info' | 'Warning';
+    type: "Info" | "Warning";
 };

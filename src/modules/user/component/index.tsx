@@ -28,8 +28,8 @@ const UserModule = (): JSX.Element => {
                                         to={menuItem.link}
                                         className={
                                             !isNullOrUndefined(activeMenuItem) && activeMenuItem?.name === menuItem.name
-                                                ? 'is-active'
-                                                : ''
+                                                ? "is-active"
+                                                : ""
                                         }
                                     >
                                         {menuItem.caption}

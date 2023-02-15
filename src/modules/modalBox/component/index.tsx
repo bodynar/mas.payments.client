@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { isNullOrUndefined } from "@bodynarf/utils/common";
 import Button from "@bodynarf/react.components/components/button";
 
-import './modalBox.scss';
+import "./modalBox.scss";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { closeModal } from "@app/redux/modal/utils";
@@ -50,16 +50,16 @@ function ModalBox({ isOpen, params, closeModal }: ModalBoxProps): JSX.Element {
     }, [isOpen, params]);
 
     const onCloseClick = useCallback(() => {
-        closeModal({ closeCode: 'cancel' }, params.callback);
+        closeModal({ closeCode: "cancel" }, params.callback);
     }, [closeModal, params]);
 
     const onSaveClick = useCallback(() => {
         if (!isSaveButtonDisabled) {
             const closeConfig: ModalCloseData = {
-                closeCode: 'save'
+                closeCode: "save"
             };
 
-            if (params.modalType === 'form') {
+            if (params.modalType === "form") {
                 const modalFormData: ModalFormConfiguration =
                     params.formData as ModalFormConfiguration;
 
@@ -78,9 +78,9 @@ function ModalBox({ isOpen, params, closeModal }: ModalBoxProps): JSX.Element {
 
         if (!isNullOrUndefined(htmlElement)) {
             if (isOpen) {
-                htmlElement?.classList.add('is-clipped');
+                htmlElement?.classList.add("is-clipped");
             } else {
-                htmlElement?.classList.remove('is-clipped');
+                htmlElement?.classList.remove("is-clipped");
             }
         }
     }, [isOpen]);
@@ -92,7 +92,7 @@ function ModalBox({ isOpen, params, closeModal }: ModalBoxProps): JSX.Element {
     const { saveBtnCaption, cancelBtnCaption } = getButtonCaptions(params);
 
     return (
-        <div className='app-modal modal is-active'>
+        <div className="app-modal modal is-active">
             <div className="modal-background"></div>
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -104,7 +104,7 @@ function ModalBox({ isOpen, params, closeModal }: ModalBoxProps): JSX.Element {
                     ></button>
                 </header>
                 <section className="modal-card-body">
-                    {params.modalType === 'form'
+                    {params.modalType === "form"
                         ? <ModalForm
                             formConfig={params.formData as ModalFormConfiguration}
                             setSaveButtonDisabled={setSaveButtonDisabled}
@@ -112,7 +112,7 @@ function ModalBox({ isOpen, params, closeModal }: ModalBoxProps): JSX.Element {
                         : <p>{params.message}</p>}
                 </section>
                 <footer className="modal-card-foot">
-                    {params.modalType !== 'info'
+                    {params.modalType !== "info"
                         &&
                         <Button
                             key="modal-success-btn"

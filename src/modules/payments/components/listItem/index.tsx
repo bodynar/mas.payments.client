@@ -35,14 +35,14 @@ const PaymentListItem = ({ item }: PaymentListItemProps): JSX.Element => {
                     <div className="control">
                         <Button
                             type="warning"
-                            icon={{ name: 'pencil' }}
+                            icon={{ name: "pencil" }}
                             onClick={onEditClick}
                         />
                     </div>
                     <div className="control">
                         <Button
                             type="danger"
-                            icon={{ name: 'trash' }}
+                            icon={{ name: "trash" }}
                             onClick={onDeleteClick}
                         />
                     </div>

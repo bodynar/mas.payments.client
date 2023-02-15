@@ -12,7 +12,7 @@ import { getAddNotificationAction } from "./actions/addNotification";
 export const getSuccessNotificationAction = (
     message: string,
     shouldDisplay: boolean
-): ActionWithPayload => getAddNotificationAction({ type: 'success', message, id: generateGuid(), createdAt: new Date() }, shouldDisplay);
+): ActionWithPayload => getAddNotificationAction({ type: "success", message, id: generateGuid(), createdAt: new Date() }, shouldDisplay);
 
 /**
  * Get notifications module action which adding error notification
@@ -23,4 +23,4 @@ export const getSuccessNotificationAction = (
 export const getErrorNotificationAction = (
     message: string,
     shouldDisplay: boolean
-): ActionWithPayload => getAddNotificationAction({ type: 'error', message, id: generateGuid(), createdAt: new Date() }, shouldDisplay);
+): ActionWithPayload => getAddNotificationAction({ type: "error", message, id: generateGuid(), createdAt: new Date() }, shouldDisplay);

@@ -121,7 +121,7 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                             </div>
                         )}
                         <Paginator
-                            position='right'
+                            position="right"
                             showNextButtons={true}
                             nearPagesCount={2}
                             count={pagesCount}

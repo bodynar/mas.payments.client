@@ -1,17 +1,17 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from "react";
 
-import { isNullOrUndefined } from '@bodynarf/utils/common';
+import { isNullOrUndefined } from "@bodynarf/utils/common";
 
-import { getFieldValueValidationError } from '../../utils';
+import { getFieldValueValidationError } from "../../utils";
 
-import { BaseFieldProps } from '../basePropsType';
+import { BaseFieldProps } from "../basePropsType";
 
 type MultilineProps = BaseFieldProps;
 
 // TODO: move to @sharedComponents
 /** Multiline form editor component */
 export default function Multiline({ fieldConfig, setFieldValidState }: MultilineProps): JSX.Element {
-	const [value, setValue] = useState<string>(fieldConfig.value || '');
+	const [value, setValue] = useState<string>(fieldConfig.value || "");
 	const [isDirty, setIsDirty] = useState<boolean>(false);
 	const [validationError, setValidationError] = useState<string | undefined>();
 
@@ -40,24 +40,24 @@ export default function Multiline({ fieldConfig, setFieldValidState }: Multiline
 			validate(newValue, isFieldDirty);
 		}, [fieldConfig, isDirty, validate, value]);
 
-	const controlClassName: string = 'textarea' +
+	const controlClassName: string = "textarea" +
 		(isNullOrUndefined(validationError)
-			? '' : ' is-danger');
+			? "" : " is-danger");
 
-	const labelClassName: string = 'label' +
+	const labelClassName: string = "label" +
 		(fieldConfig.isRequired === true
-			? ' is-required'
-			: '');
+			? " is-required"
+			: "");
 
 	return (
-		<div className='field'>
+		<div className="field">
 			<label
 				htmlFor={fieldConfig.name}
 				className={labelClassName}
 			>
 				{fieldConfig.caption || fieldConfig.name}
 			</label>
-			<div className='control'>
+			<div className="control">
 				<textarea
 					id={fieldConfig.name}
 					name={fieldConfig.name}
@@ -69,7 +69,7 @@ export default function Multiline({ fieldConfig, setFieldValidState }: Multiline
 				/>
 			</div>
 			{!isNullOrUndefined(validationError)
-				&& <p className='help is-danger'>
+				&& <p className="help is-danger">
 					{validationError}
 				</p>
 			}

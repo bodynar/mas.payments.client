@@ -35,8 +35,8 @@ type PaymentListProps = {
 const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListProps): JSX.Element => {
     const navigate = useNavigate();
 
-    const onCreateClick = useCallback(() => navigate('/payment/create', { replace: true }), [navigate]);
-    const onTypeManageClick = useCallback(() => navigate('/payment/types', { replace: true }), [navigate]);
+    const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
+    const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20);
     const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
@@ -134,10 +134,10 @@ interface TableHeader {
 
 /** Pre-defined payment table headings */
 const headings: Array<TableHeader> = [
-    { name: 'month', caption: "Month", sortable: true, className: "has-text-centered th-color--light-blue width-is-725rem is-vertical-align--center" },
-    { name: 'year', caption: "Year", sortable: true, className: "has-text-centered th-color--light-blue width-is-5rem is-vertical-align--center" },
-    { name: 'typeId', caption: "Type", sortable: true, className: "has-text-centered th-color--light-blue width-is-10rem is-vertical-align--center" },
-    { name: 'price', caption: "Price", sortable: true, className: "has-text-centered th-color--light-blue width-is-725rem is-vertical-align--center" },
+    { name: "month", caption: "Month", sortable: true, className: "has-text-centered th-color--light-blue width-is-725rem is-vertical-align--center" },
+    { name: "year", caption: "Year", sortable: true, className: "has-text-centered th-color--light-blue width-is-5rem is-vertical-align--center" },
+    { name: "typeId", caption: "Type", sortable: true, className: "has-text-centered th-color--light-blue width-is-10rem is-vertical-align--center" },
+    { name: "price", caption: "Price", sortable: true, className: "has-text-centered th-color--light-blue width-is-725rem is-vertical-align--center" },
     { caption: "Description", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center" },
     { caption: "Actions", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center width-is-15rem" },
 ];

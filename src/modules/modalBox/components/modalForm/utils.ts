@@ -9,7 +9,7 @@ import { ModalFormItemValidation } from "./types";
  * @returns Validation error if field value is not valid; otherwise undefuned
  */
 export const getFieldValueValidationError = (value: string, validationCfg?: ModalFormItemValidation): string | undefined => {
-    let validationError = 'Value is required';
+    let validationError = "Value is required";
     let validator: (value: string) => string | undefined =
         (value: string): string | undefined => isStringEmpty(value) ? validationError : undefined;
 

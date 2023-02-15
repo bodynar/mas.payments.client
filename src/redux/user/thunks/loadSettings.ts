@@ -27,11 +27,11 @@ export const loadSettings = (): ThunkAction<Promise<void>, CompositeAppState, un
                 dispatch(
                     getSetSettingsAction(
                         settings.map(x => ({
-                            displayName: x['displayName'],
-                            id: x['id'],
-                            name: x['name'],
-                            rawValue: x['rawValue'],
-                            type: x['typeName'].toLowerCase()
+                            displayName: x["displayName"],
+                            id: x["id"],
+                            name: x["name"],
+                            rawValue: x["rawValue"],
+                            type: x["typeName"].toLowerCase()
                         }) as UserSetting)
                     )
                 );

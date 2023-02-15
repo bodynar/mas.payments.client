@@ -3,10 +3,10 @@ import { useLocation } from "react-router-dom";
 
 import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils/common";
 
-import './navbar.scss';
+import "./navbar.scss";
 
-import { NavbarBrand, Bell, NavbarMenuItem, User } from '../components';
-import { menuItems as staticMenu } from '@app/static/menu';
+import { NavbarBrand, Bell, NavbarMenuItem, User } from "../components";
+import { menuItems as staticMenu } from "@app/static/menu";
 
 type NavbarProps = {
     /** Class for navbar */

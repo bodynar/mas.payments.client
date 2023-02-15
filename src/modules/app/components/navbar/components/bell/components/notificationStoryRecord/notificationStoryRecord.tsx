@@ -1,8 +1,8 @@
-import moment from 'moment';
+import moment from "moment";
 
-import './notificationStoryRecord.scss';
+import "./notificationStoryRecord.scss";
 
-import { NotificationHistoryItem, NotificationType } from '@app/models/notification';
+import { NotificationHistoryItem, NotificationType } from "@app/models/notification";
 
 type NotificationStoryRecordProps = {
     /** Notification item for displaying */
@@ -11,15 +11,15 @@ type NotificationStoryRecordProps = {
 
 /** Map of notification type to color */
 const typeColorMap: Map<NotificationType, string> = new Map([
-    ['info', '#3298dc'],
-    ['success', '#48c774'],
-    ['warn', '#ffd83d'],
-    ['error', '#f14668'],
+    ["info", "#3298dc"],
+    ["success", "#48c774"],
+    ["warn", "#ffd83d"],
+    ["error", "#f14668"],
 ]);
 
 /** Notification item in history list component */
 export default function NotificationStoryRecord({ item }: NotificationStoryRecordProps): JSX.Element {
-    const createdAt: string = moment(item.createdAt).format('DD MMMM HH:mm');
+    const createdAt: string = moment(item.createdAt).format("DD MMMM HH:mm");
 
     return (
         <li className="notification-story-item">

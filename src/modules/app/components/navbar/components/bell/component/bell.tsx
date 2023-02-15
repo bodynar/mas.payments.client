@@ -1,19 +1,19 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import Icon from '@bodynarf/react.components/components/icon';
-import { useComponentOutsideClick } from '@bodynarf/react.components/hooks/useComponentOutsideClick';
+import Icon from "@bodynarf/react.components/components/icon";
+import { useComponentOutsideClick } from "@bodynarf/react.components/hooks/useComponentOutsideClick";
 
-import './bell.scss';
+import "./bell.scss";
 
-import { NotificationHistoryItem } from '@app/models/notification';
+import { NotificationHistoryItem } from "@app/models/notification";
 
-import { CompositeAppState } from '@app/redux/rootReducer';
+import { CompositeAppState } from "@app/redux/rootReducer";
 
-import { setNotificationsBadgeToZero } from '@app/redux/notificator/actions/setNotificationsBadgeToZero';
+import { setNotificationsBadgeToZero } from "@app/redux/notificator/actions/setNotificationsBadgeToZero";
 
-import BellList from '../components/bellList/bellList';
+import BellList from "../components/bellList/bellList";
 
 type BellProps = {
     /** All notifications in current session */
@@ -42,17 +42,17 @@ function Bell(props: BellProps): JSX.Element {
     );
 
     useComponentOutsideClick(
-        '.app-bell',
+        ".app-bell",
         isListVisible,
         () => setListVisibility(false),
     );
 
     const shouldBadgeBeVisible: boolean = props.notificationBadge > 0;
-    const badgeNumber: string = props.notificationBadge > 9 ? '9+' : `${props.notificationBadge}`;
-    const title: string = shouldBadgeBeVisible ? `${badgeNumber} new notifications` : 'No new notifications';
+    const badgeNumber: string = props.notificationBadge > 9 ? "9+" : `${props.notificationBadge}`;
+    const title: string = shouldBadgeBeVisible ? `${badgeNumber} new notifications` : "No new notifications";
     const listClassName: string = !shouldBadgeBeVisible
-        ? 'app-bell__list app-bell__list--empty'
-        : 'app-bell__list';
+        ? "app-bell__list app-bell__list--empty"
+        : "app-bell__list";
 
     return (
         <div className="app-bell">

@@ -1,9 +1,9 @@
 /** Notification types */
 export type NotificationType =
-    | 'info' /** Blue color */
-    | 'success' /** Green color */
-    | 'warn' /** Orange color */
-    | 'error' /** Red color */
+    | "info" /** Blue color */
+    | "success" /** Green color */
+    | "warn" /** Orange color */
+    | "error" /** Red color */
     ;
 
 /** Notification model */
