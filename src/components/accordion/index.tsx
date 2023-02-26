@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
 
@@ -7,7 +7,7 @@ import { ElementSize } from "@bodynarf/react.components";
 import "./style.scss";
 import Icon from "@bodynarf/react.components/components/icon";
 
-type AccordionProps = {
+interface AccordionProps {
     /** Content that should be collapsed inside */
     children: React.ReactNode;
 
@@ -27,7 +27,7 @@ type AccordionProps = {
     | "danger" /** color: red */
     | "dark" /** color: dark-gray */
     ;
-};
+}
 
 /** Accordion panel */
 const Accordion = ({
@@ -38,12 +38,12 @@ const Accordion = ({
     const [isExpanded, setIsExpanded] = useState(false);
     const [maxHeight, setMaxHeight] = useState<string | undefined>(undefined);
 
-    const toggleCollapse = useCallback(() => {
-        const newValue = !isExpanded;
+    const toggleCollapse = useCallback(
+        () => setMaxHeight(isExpanded ? undefined : `${expandablePanelRef.current!.scrollHeight}px`),
+        [isExpanded]
+    );
 
-        setIsExpanded(newValue);
-        setMaxHeight(newValue ? `${expandablePanelRef.current!.scrollHeight}px` : undefined);
-    }, [isExpanded]);
+    useEffect(() => setIsExpanded(!isNullOrUndefined(maxHeight)), [maxHeight]);
 
     const className = getClassName([
         "app-accordion",
