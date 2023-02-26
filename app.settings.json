@@ -1,0 +1,10 @@
+{
+    "Notification": {
+        "HideDelay": 2.5,
+        "ItemsRequiredToShowDismissAllBtn": 2
+    },
+    "Request": {
+        "LoaderMinSecondsLife": 2,
+        "Timeout": 5
+    }
+}

@@ -2,9 +2,9 @@ import moment from "moment";
 
 import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils/common";
 import { delayResolve, delayReject } from "@bodynarf/utils/function";
-import { RequestData, safeFetch } from "@bodynarf/utils/api";
+import { safeFetch, RequestData } from "@bodynarf/utils/api";
 
-import { LoadingStateHideDelay } from "@app/constants";
+import { LoadingStateHideDelay, RequestTimeout } from "@app/constants";
 
 /**
  * Send data to api to process
@@ -54,7 +54,9 @@ export const get = async <TResult>(uri: string, requestData?: RequestData): Prom
 const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
     const start = moment();
 
-    return safeFetch(uri, requestParams)
+    return safeFetch(uri, requestParams, {
+        timeout: RequestTimeout
+    })
         .then((textResponse: string) => {
             const end = moment();
 
