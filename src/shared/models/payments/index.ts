@@ -1,9 +1,4 @@
-import { Payment } from "./payment";
-import { PaymentFilter } from "./paymentFilter";
-import { PaymentType } from "./paymentType";
-
-export {
-    Payment,
-    PaymentFilter,
-    PaymentType
-};
+export * from "./addPayment";
+export * from "./payment";
+export * from "./paymentFilter";
+export * from "./paymentType";
