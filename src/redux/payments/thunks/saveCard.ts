@@ -2,10 +2,8 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { ActionWithPayload, FieldValue } from "@bodynarf/react.components.form";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux/utils";
-
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
+import { CompositeAppState, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
 
 import { saveCard as saveCardAction } from "@app/core/payment";
 

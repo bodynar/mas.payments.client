@@ -8,9 +8,8 @@ import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
 import { usePagination } from "@bodynarf/react.components";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { loadNotifications } from "@app/redux/user/thunks/loadNotifications";
-import { getToggleNotificationsSortOrderAction } from "@app/redux/user/actionCreators/toggleNotificationsSortOrder";
+import { CompositeAppState } from "@app/redux";
+import { loadNotifications, getToggleNotificationsSortOrderAction } from "@app/redux/user/";
 
 import { UserNotification } from "@app/models/user";
 

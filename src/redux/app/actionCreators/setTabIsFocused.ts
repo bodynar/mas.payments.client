@@ -1,6 +1,5 @@
-import { ActionWithPayload } from "@app/redux/types";
-
-import { SetTabIsFocused } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { SetTabIsFocused } from "@app/redux/app";
 
 /**
  * Get redux action "Set tab is focused"

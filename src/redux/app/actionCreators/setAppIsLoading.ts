@@ -1,6 +1,5 @@
-import { ActionWithPayload } from "@app/redux/types";
-
-import { SetIsAppLoadingState } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { SetIsAppLoadingState } from "@app/redux/app";
 
 /**
  * Get redux action "Set app is in loading state"

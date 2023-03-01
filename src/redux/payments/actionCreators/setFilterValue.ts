@@ -1,7 +1,7 @@
 import { PaymentFilter } from "@app/models/payments";
-import { ActionWithPayload } from "@app/redux/types";
 
-import { setFilterValue } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { setFilterValue } from "@app/redux/payments";
 
 /**
  * Get redux action "Set payments filter value"

@@ -14,7 +14,7 @@ import { getDropdownItem } from "@app/core";
 import { Payment } from "@app/models/payments";
 import { getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/constants";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
+import { CompositeAppState } from "@app/redux";
 import { loadPayments, saveCard } from "@app/redux/payments";
 
 /** Payment card props types */

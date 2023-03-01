@@ -1,7 +1,7 @@
 import { UserNotification } from "@app/models/user";
-import { ActionWithPayload } from "@app/redux/types";
 
-import { SetNotifications } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { SetNotifications } from "@app/redux/user";
 
 /**
  * Get redux action "Set user notification history"

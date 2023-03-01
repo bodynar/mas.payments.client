@@ -34,8 +34,14 @@
 			"@app/utils/*": [
 				"src/shared/utils/*"
 			],
+			"@app/utils": [
+				"src/shared/utils"
+			],
 			"@app/redux/*": [
 				"src/redux/*"
+			],
+			"@app/redux": [
+				"src/redux"
 			],
 			"@app/modules/*": [
 				"src/modules/*"

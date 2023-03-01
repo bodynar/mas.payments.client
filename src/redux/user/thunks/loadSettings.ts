@@ -1,16 +1,12 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { get } from "@app/utils/delayedApi";
+import { get } from "@app/utils";
 
 import { UserSetting } from "@app/models/user";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { ActionWithPayload } from "@app/redux/types";
-import { getDisplayErrorMessageAction } from "@app/redux/utils";
-
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
-
-import { getSetSettingsAction } from "../actionCreators/setSettings";
+import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { getSetSettingsAction } from "@app/redux/user";
 
 /**
  * Get user settings

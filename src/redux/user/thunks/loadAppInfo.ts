@@ -2,17 +2,13 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { version } from "package.json";
 
-import { get } from "@app/utils/delayedApi";
+import { get } from "@app/utils";
 
 import { ApplicationInfo } from "@app/models/user";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { ActionWithPayload } from "@app/redux/types";
-import { getDisplayErrorMessageAction } from "@app/redux/utils";
-
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
-
-import { getSetAppInfoAction } from "../actionCreators/setAppInfo";
+import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { getSetAppInfoAction } from "@app/redux/user";
 
 /**
  * Get application info

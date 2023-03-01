@@ -9,11 +9,8 @@ import Text from "@bodynarf/react.components/components/primitives/text";
 
 import { UserSetting } from "@app/models/user";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { loadSettings } from "@app/redux/user/thunks/loadSettings";
-import { UpdatedUserSetting, updateUserSettings } from "@app/redux/user/thunks/updateUserSettings";
-import { getMeasurementsWithoutDiff } from "@app/redux/user/thunks/loadMeasurementsWithoutDiff";
-import { recalculateDiff } from "@app/redux/user/thunks/recalculateDiff";
+import { CompositeAppState } from "@app/redux";
+import { loadSettings, UpdatedUserSetting, updateUserSettings, getMeasurementsWithoutDiff, recalculateDiff } from "@app/redux/user/";
 
 import Setting from "../components/setting";
 

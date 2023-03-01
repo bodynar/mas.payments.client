@@ -2,15 +2,11 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 
-import { post } from "@app/utils/delayedApi";
+import { post } from "@app/utils";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { ActionWithPayload } from "@app/redux/types";
-import { getDisplayErrorMessageAction } from "@app/redux/utils";
-
-import { getOpenModalAction } from "@app/redux/modal/actionCreators/open";
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
-import { ModalAction } from "@app/redux/modal/types";
+import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { getOpenModalAction, ModalAction } from "@app/redux/modal/";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
 
 /**
  * Recalculate measurements diff

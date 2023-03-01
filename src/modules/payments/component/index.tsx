@@ -7,8 +7,8 @@ import { connect } from "react-redux";
 import BreadCrumbs from "@app/sharedComponents/breadcrumbs";
 import { BreadCrumb } from "@app/sharedComponents/breadcrumbs/types";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { initModuleState } from "@app/redux/payments/thunks";
+import { CompositeAppState } from "@app/redux";
+import { initModuleState } from "@app/redux/payments";
 
 import { routes } from "../components";
 

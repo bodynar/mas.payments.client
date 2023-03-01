@@ -1,7 +1,7 @@
 import { UserSetting } from "@app/models/user";
-import { ActionWithPayload } from "@app/redux/types";
 
-import { SetSettings } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { SetSettings } from "@app/redux/user";
 
 /**
  * Get redux action "Set user settings"

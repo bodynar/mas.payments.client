@@ -1,12 +1,9 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { post } from "@app/utils/delayedApi";
+import { post } from "@app/utils";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { Action } from "@app/redux/types";
-import { getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux/utils";
-
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
+import { CompositeAppState, Action, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
 
 /**
  * Send test email message

@@ -1,7 +1,7 @@
 import { Payment } from "@app/models/payments";
-import { ActionWithPayload } from "@app/redux/types";
 
-import { setPayments } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { setPayments } from "@app/redux/payments";
 
 /**
  * Get redux action "Set payments"

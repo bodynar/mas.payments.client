@@ -1,6 +1,5 @@
-import { Action } from "@app/redux/types";
-
-import { filterPayments } from "../actions";
+import { Action } from "@app/redux";
+import { filterPayments } from "@app/redux/payments";
 
 /**
  * Get redux action "Filter payments"

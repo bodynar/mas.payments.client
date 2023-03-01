@@ -1,8 +1,7 @@
-import { ActionWithPayload } from "@app/redux/types";
-
 import { NotificationItem } from "@app/models/notification";
 
-import { AddNotification } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { AddNotification } from "@app/redux/notificator";
 
 /**
  * Get redux action "Add notification"

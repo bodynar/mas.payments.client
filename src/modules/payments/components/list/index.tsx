@@ -14,8 +14,8 @@ import Icon from "@bodynarf/react.components/components/icon";
 import { Payment } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { getSetSortColumnAction } from "@app/redux/payments/actionCreators/setSortColumn";
+import { CompositeAppState } from "@app/redux";
+import { getSetSortColumnAction } from "@app/redux/payments";
 
 import PaymentFilter from "../filter";
 import PaymentListItem from "../listItem";

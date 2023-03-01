@@ -1,18 +1,12 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { get } from "@app/utils/delayedApi";
+import { get } from "@app/utils";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { ActionWithPayload } from "@app/redux/types";
-import { getDisplayErrorMessageAction } from "@app/redux/utils";
-
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
+import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { getSetPaymentTypesAction, getSetPaymentsAction, getSetModuleInitializedStateAction } from "@app/redux/payments";
+import { getSetAppIsLoadingAction } from "@app/redux/app/";
 
 import { PaymentType, Payment } from "@app/models/payments";
-
-import { getSetPaymentTypesAction } from "../actionCreators/setPaymentTypes";
-import { getSetPaymentsAction } from "../actionCreators/setPayments";
-import { getSetModuleInitializedStateAction } from "../actionCreators/setModuleInitializedState";
 
 /**
  * Init payments module state

@@ -8,8 +8,8 @@ import Text from "@bodynarf/react.components/components/primitives/text";
 
 import { ApplicationInfo as AppInfo } from "@app/models/user";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { getAppInfo } from "@app/redux/user/thunks/loadAppInfo";
+import { CompositeAppState } from "@app/redux";
+import { getAppInfo } from "@app/redux/user";
 
 type ApplicationInfoProps = {
     /** Application information */

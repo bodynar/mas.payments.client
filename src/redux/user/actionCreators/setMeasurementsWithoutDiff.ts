@@ -1,6 +1,5 @@
-import { ActionWithPayload } from "@app/redux/types";
-
-import { SetMeasurementsWithoutDiff } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { SetMeasurementsWithoutDiff } from "@app/redux/user";
 
 /**
  * Get redux action "Set measurements without diff count"

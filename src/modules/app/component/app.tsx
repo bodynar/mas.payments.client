@@ -4,9 +4,8 @@ import { connect } from "react-redux";
 
 import "./app.scss";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-
-import { getSetTabIsFocusedAction } from "@app/redux/app/actionCreators/setTabIsFocused";
+import { CompositeAppState } from "@app/redux";
+import { getSetTabIsFocusedAction } from "@app/redux/app";
 
 import ModalBox from "@app/modules/modalBox";
 

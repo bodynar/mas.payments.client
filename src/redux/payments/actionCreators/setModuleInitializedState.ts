@@ -1,6 +1,5 @@
-import { ActionWithPayload } from "@app/redux/types";
-
-import { setModuleInitializedState } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { setModuleInitializedState } from "@app/redux/payments";
 
 /**
  * Get redux action "Set module initialized state"

@@ -9,9 +9,8 @@ import "./bell.scss";
 
 import { NotificationHistoryItem } from "@app/models/notification";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-
-import { setNotificationsBadgeToZero } from "@app/redux/notificator/actionCreators/setNotificationsBadgeToZero";
+import { CompositeAppState } from "@app/redux";
+import { setNotificationsBadgeToZero } from "@app/redux/notificator/";
 
 import BellList from "../components/bellList/bellList";
 

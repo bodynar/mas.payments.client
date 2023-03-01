@@ -6,10 +6,8 @@ import Button from "@bodynarf/react.components/components/button";
 
 import "./modalBox.scss";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { closeModal } from "@app/redux/modal/utils";
-import { ModalCallback, ModalCloseData, ModalParams } from "@app/redux/modal/types";
-
+import { CompositeAppState } from "@app/redux";
+import { closeModal, ModalCallback, ModalCloseData, ModalParams } from "@app/redux/modal";
 
 import { getButtonCaptions, getInitIsSaveButtonDisabled, validateModalParams } from "../utils";
 

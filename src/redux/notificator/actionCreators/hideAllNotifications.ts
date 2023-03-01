@@ -1,6 +1,5 @@
-import { Action } from "@app/redux/types";
-
-import { HideAllNotifications } from "../actions";
+import { Action } from "@app/redux";
+import { HideAllNotifications } from "@app/redux/notificator";
 
 /**
  * Get redux action "Hide all notifications"

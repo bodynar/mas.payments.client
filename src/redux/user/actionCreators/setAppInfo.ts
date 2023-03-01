@@ -1,7 +1,7 @@
 import { ApplicationInfo } from "@app/models/user";
-import { ActionWithPayload } from "@app/redux/types";
 
-import { SetAppInfo } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { SetAppInfo } from "@app/redux/user";
 
 /**
  * Get redux action "Set application info"

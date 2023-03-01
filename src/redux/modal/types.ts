@@ -1,4 +1,4 @@
-import { Action } from "@app/redux/types";
+import { Action } from "@app/redux";
 
 import { ModalFormConfiguration, ModalFormItemData } from "@app/modules/modalBox/components/modalForm/types";
 

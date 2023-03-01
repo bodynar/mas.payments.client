@@ -7,7 +7,7 @@ import { isStringEmpty } from "@bodynarf/utils";
 import Button from "@bodynarf/react.components/components/button";
 import Text from "@bodynarf/react.components/components/primitives/text";
 
-import { sendTestEmail } from "@app/redux/user/thunks/sendTestEmail";
+import { sendTestEmail } from "@app/redux/user";
 
 /**
  * Email match regex

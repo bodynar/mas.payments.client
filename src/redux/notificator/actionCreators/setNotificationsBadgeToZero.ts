@@ -1,6 +1,5 @@
-import { Action } from "@app/redux/types";
-
-import { SetNotificationsBadgeToZero } from "../actions";
+import { Action } from "@app/redux";
+import { SetNotificationsBadgeToZero } from "@app/redux/notificator";
 
 /**
  * Get redux action "Set notifications badge to 0"

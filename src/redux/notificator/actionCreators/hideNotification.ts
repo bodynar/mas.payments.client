@@ -1,6 +1,5 @@
-import { ActionWithPayload } from "@app/redux/types";
-
-import { HideNotification } from "../actions";
+import { ActionWithPayload } from "@app/redux";
+import { HideNotification } from "@app/redux/notificator";
 
 /**
  * Get redux action "Hide specified notification"

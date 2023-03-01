@@ -8,8 +8,8 @@ import Dropdown from "@bodynarf/react.components/components/dropdown";
 import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
 import Button from "@bodynarf/react.components/components/button";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { getFilterPaymentsAction, getSetFilterValueAction } from "@app/redux/payments/actionCreators";
+import { CompositeAppState } from "@app/redux";
+import { getFilterPaymentsAction, getSetFilterValueAction } from "@app/redux/payments";
 
 import Accordion from "@app/sharedComponents/accordion";
 

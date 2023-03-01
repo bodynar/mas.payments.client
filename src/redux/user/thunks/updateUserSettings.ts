@@ -1,12 +1,9 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { post } from "@app/utils/delayedApi";
+import { post } from "@app/utils";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { ActionWithPayload } from "@app/redux/types";
-import { getDisplayErrorMessageAction } from "@app/redux/utils";
-
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
+import { CompositeAppState,  ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
 
 /**
  * Save user settings
@@ -17,7 +14,7 @@ export const updateUserSettings = (updatedSettings: Array<UpdatedUserSetting>): 
         getState: () => CompositeAppState
     ): Promise<void> => {
         dispatch(getSetAppIsLoadingAction(true));
-// TODO: Add success notification
+        // TODO: Add success notification
         return post(`api/user/updateUserSettings`, updatedSettings)
             .then(_ => undefined)
             .catch(getDisplayErrorMessageAction(dispatch, getState));

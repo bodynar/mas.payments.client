@@ -1,18 +1,16 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { get } from "@app/utils/delayedApi";
+import moment from "moment";
+
+import { isNullOrUndefined } from "@bodynarf/utils";
+
+import { get } from "@app/utils";
 
 import { UserNotification } from "@app/models/user";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { ActionWithPayload } from "@app/redux/types";
-import { getDisplayErrorMessageAction } from "@app/redux/utils";
-
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
-
-import { getSetNotificationsAction } from "../actionCreators/setNotifications";
-import { isNullOrUndefined } from "@bodynarf/utils";
-import moment from "moment";
+import { ActionWithPayload, getDisplayErrorMessageAction, CompositeAppState } from "@app/redux";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { getSetNotificationsAction } from "@app/redux/user";
 
 /**
  * Get user notificationts

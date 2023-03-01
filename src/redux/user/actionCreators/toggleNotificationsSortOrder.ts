@@ -1,6 +1,6 @@
-import { Action } from "@app/redux/types";
+import { Action } from "@app/redux";
 
-import { ToggleNotificationsSortOrder } from "../actions";
+import { ToggleNotificationsSortOrder } from "@app/redux/user";
 
 /**
  * Get redux action "Toggle sort order for notifications"

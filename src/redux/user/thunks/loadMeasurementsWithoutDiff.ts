@@ -1,14 +1,10 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { get } from "@app/utils/delayedApi";
+import { get } from "@app/utils";
 
-import { CompositeAppState } from "@app/redux/rootReducer";
-import { ActionWithPayload } from "@app/redux/types";
-import { getDisplayErrorMessageAction } from "@app/redux/utils";
-
-import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
-
-import { getSetMeasurementsWithoutDiffAction } from "../actionCreators/setMeasurementsWithoutDiff";
+import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { getSetMeasurementsWithoutDiffAction } from "@app/redux/user";
 
 /**
  * Get measurements without diff count
