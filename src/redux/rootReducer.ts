@@ -10,7 +10,7 @@ import modalBoxReducer from "./modal/reducer";
 import notificatorReducer from "./notificator/reducer";
 import appReducer from "./app/reducer";
 import userReducer from "./user/reducer";
-import paymentReducer from "./payments";
+import paymentReducer from "./payments/reducer";
 
 /** Global application state */
 export type CompositeAppState = {
