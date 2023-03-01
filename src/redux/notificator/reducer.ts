@@ -28,10 +28,6 @@ export default function (state: NotificatorState = defaultState, action: ActionW
 
             const displayDismissableNotification: boolean = getPropertyValueWithCheck(action.payload, "displayDismissableNotification", false) || false;
 
-            const notifications: Array<NotificationItem> = displayDismissableNotification
-                ? [...addingNotifications, ...state.notifications]
-                : state.notifications;
-
             const historyBadgeCount: number = displayDismissableNotification
                 ? state.historyBadgeCount
                 : state.historyBadgeCount + 1;
@@ -42,7 +38,7 @@ export default function (state: NotificatorState = defaultState, action: ActionW
                     ...addingNotifications,
                     ...state.history,
                 ],
-                notifications: notifications,
+                notifications: [...addingNotifications, ...state.notifications],
                 historyBadgeCount: historyBadgeCount,
             };
         }
