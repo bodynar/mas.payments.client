@@ -1,8 +1,10 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { connect } from "react-redux";
+
+import Button from "@bodynarf/react.components/components/button";
 
 import BreadCrumbs from "@app/sharedComponents/breadcrumbs";
 import { BreadCrumb } from "@app/sharedComponents/breadcrumbs/types";
@@ -12,16 +14,17 @@ import { initModuleState } from "@app/redux/payments";
 
 import { routes } from "../components";
 
-type PaymentModuleProps = {
+interface PaymentModuleProps {
     /** Is module state initialized */
     initialized: boolean;
 
     /** Initialize payment module state */
     initModuleState: () => void;
-};
+}
 
 const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JSX.Element => {
     const { pathname } = useLocation();
+    const navigate = useNavigate();
 
     const breadcrumbs: Array<BreadCrumb> = useMemo(
         () =>
@@ -43,9 +46,9 @@ const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JS
                         return false;
                     }
 
-                    const pathNameWithouParams = pathname.substring(0, withoutParams.length);
+                    const pathNameWithoutParams = pathname.substring(0, withoutParams.length);
 
-                    return pathNameWithouParams === withoutParams;
+                    return pathNameWithoutParams === withoutParams;
                 })
                 .map((x, i, a) => ({
                     path: x.link,
@@ -53,6 +56,8 @@ const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JS
                     active: a.length - 1 === i,
                 })
                 ), [pathname]);
+
+    const onBackButtonClick = useCallback(() => navigate(breadcrumbs[breadcrumbs.length - 2].path), [breadcrumbs, navigate]);
 
     useEffect(() => {
         if (!initialized) {
@@ -62,9 +67,21 @@ const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JS
 
     return (
         <section>
-            <BreadCrumbs items={breadcrumbs} />
+            <BreadCrumbs
+                items={breadcrumbs}
+                className="mb-3"
+            />
             {breadcrumbs.length > 1 &&
-                <hr />
+                <>
+                    <Button
+                        caption="Back"
+                        type="info"
+                        outlined={true}
+                        size="small"
+                        onClick={onBackButtonClick}
+                    />
+                    <hr />
+                </>
             }
             <section>
                 <Outlet />
