@@ -1,10 +1,10 @@
 import { ElementIcon } from "@bodynarf/react.components";
 
 /** Breadcrumb item */
-export type BreadCrumb = {
+export interface BreadCrumb {
     /** Displayed text */
     title: string;
-    
+
     /** Page address */
     path: string;
 
@@ -13,4 +13,4 @@ export type BreadCrumb = {
 
     /** Bootstrap icon class name */
     icon?: ElementIcon;
-};
+}

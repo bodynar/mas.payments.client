@@ -3,9 +3,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
 
 import { ElementSize } from "@bodynarf/react.components";
+import Icon from "@bodynarf/react.components/components/icon";
 
 import "./style.scss";
-import Icon from "@bodynarf/react.components/components/icon";
 
 interface AccordionProps {
     /** Content that should be collapsed inside */
