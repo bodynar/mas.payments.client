@@ -7,22 +7,22 @@ import PaymentCard from "./edit";
 export const routes: Array<RouteItem> = [
     {
         link: "/payment",
-        name: "List",
+        name: "Payment list",
         component: <PaymentList/>,
     },
     {
         link: "/payment/create",
-        name: "Create",
+        name: "Create new payment",
         component: <PaymentCard/>,
     },
     {
         link: "/payment/edit/:id",
-        name: "Edit",
+        name: "Edit payment",
         component: <PaymentCard/>,
     },
     {
         link: "/payment/types",
-        name: "Types",
+        name: "Payment types",
         component: <>Types</>,
         children: [
 
