@@ -10,9 +10,9 @@ import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading
 
 import { PaymentType, Payment } from "@app/models/payments";
 
-import { getSetPaymentTypesAction } from "../actions/setPaymentTypes";
-import { getSetPaymentsAction } from "../actions/setPayments";
-import { getSetModuleInitializedStateAction } from "../actions/setModuleInitializedState";
+import { getSetPaymentTypesAction } from "../actionCreators/setPaymentTypes";
+import { getSetPaymentsAction } from "../actionCreators/setPayments";
+import { getSetModuleInitializedStateAction } from "../actionCreators/setModuleInitializedState";
 
 /**
  * Init payments module state

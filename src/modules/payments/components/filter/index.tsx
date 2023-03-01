@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { connect } from "react-redux";
 
@@ -9,16 +9,13 @@ import { SelectableItem } from "@bodynarf/react.components/components/dropdown/t
 import Button from "@bodynarf/react.components/components/button";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
+import { getFilterPaymentsAction, getSetFilterValueAction } from "@app/redux/payments/actionCreators";
 
 import Accordion from "@app/sharedComponents/accordion";
 
-import { monthsAsDropdownItems } from "@app/static/months";
-import { yearsAsDropdownItems } from "@app/static/years";
-
+import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/static";
+import { getDropdownItem } from "@app/core";
 import { PaymentFilter } from "@app/models/payments";
-
-import { getSetFilterValueAction } from "@app/redux/payments/actions/setFilterValue";
-import { getFilterPaymentsAction } from "@app/redux/payments/actions/filterPayments";
 
 /** Payment filter props types */
 type PaymentFiltersProps = {
@@ -35,34 +32,14 @@ type PaymentFiltersProps = {
     filter: () => void;
 };
 
-/**
- * @private
- * Find dropdown item by value
- * @param dropdownItems Dropdown items
- * @param item Item value
- * @returns Found dropdown item; otherwise `undefined`
- */
-const getDropdownItem = (dropdownItems: Array<SelectableItem>, item?: number): SelectableItem | undefined => {
-    if (isNullOrUndefined(item)) {
-        return undefined;
-    }
-
-    const foundItem = dropdownItems.find(({ value }) => item === +value);
-
-    return foundItem;
-};
-
 /** Payments module filter */
 const PaymentFilters = ({
     filterValue,
     setFilterValue, filter,
     availableTypesAsDropdownItems,
 }: PaymentFiltersProps): JSX.Element => {
-    const selectableMonths = useMemo(() => monthsAsDropdownItems(), []);
-    const selectableYears = useMemo(() => yearsAsDropdownItems(), []);
-
-    const [selectedMonth, setMonth] = useState<SelectableItem | undefined>(getDropdownItem(selectableMonths, filterValue?.month));
-    const [selectedYear, setYear] = useState<SelectableItem | undefined>(getDropdownItem(selectableYears, filterValue?.year));
+    const [selectedMonth, setMonth] = useState<SelectableItem | undefined>(getDropdownItem(monthsAsDropdownItems(), filterValue?.month));
+    const [selectedYear, setYear] = useState<SelectableItem | undefined>(getDropdownItem(yearsAsDropdownItems(), filterValue?.year));
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, filterValue?.typeId));
 
     const onItemSelect = useCallback(
@@ -101,7 +78,7 @@ const PaymentFilters = ({
                             placeholder="Year"
                             hideOnOuterClick={true}
                             deselectable={true}
-                            items={selectableYears}
+                            items={yearsAsDropdownItems()}
                             value={selectedYear}
                             onSelect={onYearSelect}
                         />
@@ -120,7 +97,7 @@ const PaymentFilters = ({
                             placeholder="Month"
                             hideOnOuterClick={true}
                             deselectable={true}
-                            items={selectableMonths}
+                            items={monthsAsDropdownItems()}
                             value={selectedMonth}
                             onSelect={onMonthSelect}
                         />

@@ -6,7 +6,7 @@ import Button from "@bodynarf/react.components/components/button";
 
 import { Payment } from "@app/models/payments";
 
-import { getMonthName } from "@app/static/months";
+import { getMonthName } from "@app/static";
 
 /** Payment list item props type */
 type PaymentListItemProps = {

@@ -42,10 +42,12 @@
 			],
 			"@app/sharedComponents/*": [
 				"src/components/*",
-				"src/components/primitives/*"
 			],
 			"@app/constants": [
 				"src/shared/constants"
+			],
+			"@app/static": [
+				"src/shared/constants/",
 			],
 			"@app/static/*": [
 				"src/shared/constants/*"

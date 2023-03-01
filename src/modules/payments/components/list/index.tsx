@@ -15,7 +15,7 @@ import { Payment } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
-import { getSetSortColumnAction } from "@app/redux/payments/actions/setSortColumn";
+import { getSetSortColumnAction } from "@app/redux/payments/actionCreators/setSortColumn";
 
 import PaymentFilter from "../filter";
 import PaymentListItem from "../listItem";

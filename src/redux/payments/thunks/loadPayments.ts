@@ -10,7 +10,7 @@ import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading
 
 import { Payment } from "@app/models/payments";
 
-import { getSetPaymentsAction } from "../actions/setPayments";
+import { getSetPaymentsAction } from "../actionCreators/setPayments";
 
 /**
  * Load all payments
