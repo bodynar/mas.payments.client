@@ -55,7 +55,13 @@
 			],
 			"@app/assets/*": [
 				"src/shared/assets/*"
-			]
+			],
+			"@app/core": [
+				"src/core"
+			],
+			"@app/core/*": [
+				"src/core/*"
+			],
 		},
 	},
 	"include": [
