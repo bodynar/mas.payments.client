@@ -1,5 +1,4 @@
-import { CloseModal } from "../actions";
-import { ModalAction } from "../types";
+import { CloseModal, ModalAction } from "@app/redux/modal";
 
 /**
  * Get redux action "Close modal window"

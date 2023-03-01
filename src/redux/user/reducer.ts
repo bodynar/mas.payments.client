@@ -1,10 +1,9 @@
+import { getPropertyValueWithCheck } from "@bodynarf/utils";
+
 import { ApplicationInfo, UserSetting, UserNotification } from "@app/models/user";
-import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
 
-import { ActionWithPayload } from "../types";
-import { SetAppInfo, SetNotifications, ToggleNotificationsSortOrder, SetSettings, SetMeasurementsWithoutDiff } from "./actions";
-
-import { UserModuleState } from "./types";
+import { ActionWithPayload } from "@app/redux";
+import { SetAppInfo, SetNotifications, ToggleNotificationsSortOrder, SetSettings, SetMeasurementsWithoutDiff, UserModuleState } from "@app/redux/user";
 
 /** Initial user module state */
 const defaultState: UserModuleState = {

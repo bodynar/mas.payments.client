@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 
-import modalBoxReducer from "./modal/reducer";
-import notificatorReducer from "./notificator/reducer";
-import appReducer from "./app/reducer";
-import userReducer from "./user/reducer";
-import paymentReducer from "./payments/reducer";
+import { CompositeAppState } from "@app/redux";
 
-import { CompositeAppState } from "./types";
+import modalBoxReducer from "@app/redux/modal/reducer";
+import notificatorReducer from "@app/redux/notificator/reducer";
+import appReducer from "@app/redux/app/reducer";
+import userReducer from "@app/redux/user/reducer";
+import paymentReducer from "@app/redux/payments/reducer";
 
 /** Global application redux store reducer */
 export default combineReducers<CompositeAppState>({

@@ -1,4 +1,4 @@
-import { isNullOrEmpty, isNullOrUndefined, isStringEmpty } from "@bodynarf/utils/common";
+import { isNullOrEmpty, isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
 
 import { ModalFormItemValidation } from "./types";
 

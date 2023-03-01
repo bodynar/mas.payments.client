@@ -1,7 +1,7 @@
-import { generateGuid } from "@bodynarf/utils/guid";
+import { generateGuid } from "@bodynarf/utils";
 
-import { ActionWithPayload } from "../types";
-import { getAddNotificationAction } from "./actionCreators/addNotification";
+import { ActionWithPayload } from "@app/redux";
+import { getAddNotificationAction } from "@app/redux/notificator";
 
 /**
  * Get notifications module action which adding success notification

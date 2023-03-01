@@ -10,7 +10,7 @@ import { filter, FilterValue } from "@app/utils/array";
  * @param filterValue Applied filter
  * @returns Filtered payments
  */
-const filterPayments = (payments: Array<Payment>, filterValue?: PaymentFilter): Array<Payment> => {
+export const filterPaymentList = (payments: Array<Payment>, filterValue?: PaymentFilter): Array<Payment> => {
     if (isNullOrUndefined(filterValue)) {
         return payments;
     }
@@ -42,5 +42,3 @@ const filterPayments = (payments: Array<Payment>, filterValue?: PaymentFilter): 
 
     return filter([...payments], filters);
 };
-
-export default filterPayments;

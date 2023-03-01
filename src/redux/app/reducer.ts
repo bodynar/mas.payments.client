@@ -1,9 +1,7 @@
-import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
+import { getPropertyValueWithCheck } from "@bodynarf/utils";
 
-import { ActionWithPayload } from "../types";
-import { SetIsAppLoadingState, SetTabIsFocused } from "./actions";
-
-import { AppState } from "./types";
+import { ActionWithPayload } from "@app/redux";
+import { SetIsAppLoadingState, SetTabIsFocused, AppState } from "@app/redux/app";
 
 const defaultState: AppState = {
     isCurrentTabFocused: true,

@@ -1,8 +1,6 @@
-import { isNullOrUndefined } from "@bodynarf/utils/common";
-import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
+import { isNullOrUndefined, getPropertyValueWithCheck } from "@bodynarf/utils";
 
-import { ModalAction, ModalParams, ModalState } from "./types";
-import { OpenModal, CloseModal } from "./actions";
+import { ModalAction, ModalParams, ModalState, OpenModal, CloseModal } from "@app/redux/modal";
 
 /** Initial state of modal module */
 const initialState: ModalState = {

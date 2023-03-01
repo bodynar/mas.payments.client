@@ -1,8 +1,8 @@
-import { ModalState } from "./modal/types";
-import { NotificatorState } from "./notificator/types";
-import { AppState } from "./app/types";
-import { UserModuleState } from "./user/types";
-import { PaymentModuleState } from "./payments/types";
+import { AppState } from "@app/redux/app";
+import { NotificatorState } from "@app/redux/notificator";
+import { ModalState } from "@app/redux/modal";
+import { UserModuleState } from "@app/redux/user";
+import { PaymentModuleState } from "@app/redux/payments";
 
 /** Redux action */
 export type Action = {

@@ -1,10 +1,8 @@
 import { ThunkDispatch } from "redux-thunk";
 
-import { getSetAppIsLoadingAction } from "./app/actionCreators/setAppIsLoading";
-
-import { getErrorNotificationAction, getSuccessNotificationAction } from "./notificator/utils";
-import { CompositeAppState } from "./rootReducer";
-import { Action } from "./types";
+import { Action, CompositeAppState } from "@app/redux";
+import { getErrorNotificationAction, getSuccessNotificationAction } from "@app/redux/notificator";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
 
 /**
  * Create dispatch-based action to display error message
@@ -27,7 +25,7 @@ export const getDisplayErrorMessageAction = (
  * @param dispatch Redux store dispatcher
  * @returns Redux store action displaying success message
  */
- export const getDisplaySuccessMessageAction = (
+export const getDisplaySuccessMessageAction = (
     dispatch: ThunkDispatch<CompositeAppState, unknown, Action>,
     getState: () => CompositeAppState
 ) => (success: string): void => {

@@ -1,18 +1,14 @@
-import { isUndefined } from "@bodynarf/utils";
-import { getPropertyValueWithCheck } from "@bodynarf/utils/object";
+import { isUndefined, getPropertyValueWithCheck } from "@bodynarf/utils";
 
 import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
 
 import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
-import { sort } from "@app/utils/array";
+import { sort } from "@app/utils";
 
-import { ActionWithPayload } from "../types";
-
-import { filterPayments, setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setSortColumn } from "./actions";
-import { PaymentModuleState } from "./types";
-import filter from "./utils/filter";
+import { ActionWithPayload } from "@app/redux";
+import { filterPayments, setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setSortColumn, PaymentModuleState, filterPaymentList } from "@app/redux/payments";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
@@ -80,7 +76,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 };
         }
         case filterPayments: {
-            const displayedItems = filter(state.payments, state.lastFilter);
+            const displayedItems = filterPaymentList(state.payments, state.lastFilter);
 
             return {
                 ...state,

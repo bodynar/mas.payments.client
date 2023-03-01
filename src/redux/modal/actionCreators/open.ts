@@ -1,5 +1,4 @@
-import { OpenModal } from "../actions";
-import { ModalAction, ModalParams } from "../types";
+import { ModalAction, ModalParams, OpenModal } from "@app/redux/modal";
 
 /**
  * Get redux action "Open modal window"
