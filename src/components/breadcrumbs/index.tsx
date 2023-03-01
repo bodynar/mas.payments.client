@@ -7,7 +7,7 @@ import Icon from "@bodynarf/react.components/components/icon";
 
 import { BreadCrumb } from "./types";
 
-type BreadcrumbsProps = {
+interface BreadcrumbsProps {
     /** Breadcrumbs items */
     items: Array<BreadCrumb>;
 
@@ -19,27 +19,31 @@ type BreadcrumbsProps = {
 
     /** Items separator. By default `arrow` */
     separator?: "arrow" | "bullet" | "dot" | "succeeds";
-};
+
+    className?: string;
+}
 
 /** Breadcrumbs navigation panel */
 const BreadCrumbs = ({
     items,
     size, position, separator,
+    className,
 }: BreadcrumbsProps): JSX.Element => {
     if (items.length <= 1) {
         return <></>;
     }
 
-    const className = getClassName([
+    const elClassName = getClassName([
         "breadcrumb",
-        isNullOrUndefined(position) ? undefined : `is-${size}`,
+        isNullOrUndefined(size) ? undefined : `is-${size}`,
         `has-${separator || "arrow"}-separator`,
-        isNullOrUndefined(position) ? undefined : `is-${position}`
+        isNullOrUndefined(position) ? undefined : `is-${position}`,
+        className
     ]);
 
     return (
         <nav
-            className={className}
+            className={elClassName}
             aria-label="breadcrumbs"
         >
             <ul>
