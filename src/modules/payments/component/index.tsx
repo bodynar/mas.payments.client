@@ -8,7 +8,7 @@ import BreadCrumbs from "@app/sharedComponents/breadcrumbs";
 import { BreadCrumb } from "@app/sharedComponents/breadcrumbs/types";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
-import { initModuleState } from "@app/redux/payments/thunks/init";
+import { initModuleState } from "@app/redux/payments/thunks";
 
 import { routes } from "../components";
 

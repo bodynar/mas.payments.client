@@ -1,90 +1,162 @@
-import { useState } from "react";
+import { useCallback, useId, useMemo } from "react";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 
-// import Multiline from "@bodynarf/react.components/components/primitives/multiline";
-import Dropdown from "@bodynarf/react.components/components/dropdown";
+import { isNullOrUndefined } from "@bodynarf/utils";
+
+import { SelectableItem } from "@bodynarf/react.components";
+import { FieldValue } from "@bodynarf/react.components.form";
+import Form from "@bodynarf/react.components.form/component";
+
+import { getDropdownItem } from "@app/core";
+import { Payment } from "@app/models/payments";
+import { getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/constants";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
-import { isNullOrUndefined } from "@bodynarf/utils";
-import { SelectableItem } from "@bodynarf/react.components";
+import { loadPayments, saveCard } from "@app/redux/payments";
 
-/**
- * @private
- * Find dropdown item by value
- * @param dropdownItems Dropdown items
- * @param item Item value
- * @returns Found dropdown item; otherwise `undefined`
- */
-const getDropdownItem = (dropdownItems: Array<SelectableItem>, item?: number): SelectableItem | undefined => {
-    if (isNullOrUndefined(item)) {
-        return undefined;
-    }
+/** Payment card props types */
+interface PaymentCardProps {
+    /** All payments */
+    payments: Array<Payment>;
 
-    const foundItem = dropdownItems.find(({ value }) => item === +value);
+    /** Is payment module state initialized */
+    initialized: boolean;
 
-    return foundItem;
-};
+    /** Payment types mapped to dropdown items to cache values */
+    availableTypesAsDropdownItems: Array<SelectableItem>;
 
-const EditForm = (): JSX.Element => {
+    /** Load all payments */
+    loadPayments: () => Promise<void>;
+
+    /** Save current card values */
+    saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
+}
+
+const PaymentCard = ({
+    payments, initialized, availableTypesAsDropdownItems,
+    loadPayments, saveCard,
+}: PaymentCardProps): JSX.Element => {
     const { id } = useParams();
 
-    const payment = useSelector(({ payments }: CompositeAppState) => payments.payments.find(x => x.id === +id!));
-    const types = useSelector(({ payments }: CompositeAppState) => payments.availableTypesAsDropdownItems);
+    const name = useId();
+    const navigate = useNavigate();
 
-    const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(types, payment?.typeId));
+    const payment = payments.find(x => x.id === +id!);
+    const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, payment?.typeId), [payment?.typeId, availableTypesAsDropdownItems]);
+    const selectedMonth = useMemo(() => getDropdownItem(monthsAsDropdownItems(), payment?.month), [payment?.month]);
+    const selectedYear = useMemo(() => getDropdownItem(yearsAsDropdownItems(), payment?.year), [payment?.year]);
 
-    // const onDescriptionChange = useCallback((value: string) => { }, []);
-    // const onTypeSelect = useCallback(() => { }, []);
+    const onSubmit = useCallback((values: Array<FieldValue>) => {
+        saveCard(values, id)
+            .then(() => {
+                loadPayments().then(() => navigate("/payment", { replace: true }));
+            });
+    }, [id, loadPayments, saveCard, navigate]);
 
-    /**
-     * TODO:
-     *  1. Add form
-     *      1.1. add Number input components
-     *  2. Add save button, disabled until `dirty`
-     *  3. On save click - validate form (value > 0, smth selected)
-     *  4. All operations should be with copy of payment (see line 38)
-     * 
-     * 
-     * TODO:
-     *  create Form component with config?
-     *  { name: string, type: enum, validators: Array<function>, viewConfig: object, etc}
-     *  and create elements by config?
-     */
+
+    if (!initialized) {
+        return <></>; // TODO: add skeleton
+    }
 
     return (
         <section>
-            Edit - {id}
-            <div>
-                <div className="field">
-                    <p className="control">
-                        <input
-                            className="input"
-                            type="number"
-                            placeholder="Price"
-                            defaultValue={payment!.price}
-                        />
-                    </p>
-                </div>
-
-                <Dropdown
-                    placeholder="Type"
-                    hideOnOuterClick={true}
-                    onSelect={setType}
-                    items={types}
-                    value={selectedType}
-                />
-
-                {/* <Multiline
-                    onValueChange={onDescriptionChange}
-                    defaultValue={payment!.description}
-                /> */}
-            </div>
+            <Form
+                name={name}
+                caption={isNullOrUndefined(payment)
+                    ? "Create new payment record"
+                    : `Edit payment for ${getMonthName(payment!.month)} ${payment!.year}`
+                }
+                onSubmit={onSubmit}
+                submitButtonConfiguration={{
+                    type: "success",
+                    caption: "Save"
+                }}
+                items={[
+                    {
+                        name: "amount",
+                        label: { caption: "Amount" },
+                        type: "number",
+                        viewConfig: {
+                            layout: {
+                                column: 0,
+                                columnSpan: 12,
+                                row: 0,
+                            }
+                        },
+                        defaultValue: payment?.price,
+                        required: true,
+                    },
+                    {
+                        name: "type",
+                        label: { caption: "Type" },
+                        type: "lookup",
+                        viewConfig: {
+                            layout: {
+                                column: 0,
+                                columnSpan: 12,
+                                row: 1,
+                            }
+                        },
+                        defaultValue: selectedType,
+                        required: true,
+                        items: availableTypesAsDropdownItems,
+                    },
+                    {
+                        name: "month",
+                        label: { caption: "Month" },
+                        type: "lookup",
+                        viewConfig: {
+                            layout: {
+                                column: 0,
+                                columnSpan: 6,
+                                row: 2,
+                            }
+                        },
+                        defaultValue: selectedMonth,
+                        required: true,
+                        items: monthsAsDropdownItems(),
+                    },
+                    {
+                        name: "year",
+                        label: { caption: "Year" },
+                        type: "lookup",
+                        viewConfig: {
+                            layout: {
+                                column: 6,
+                                columnSpan: 6,
+                                row: 2,
+                            }
+                        },
+                        defaultValue: selectedYear,
+                        required: true,
+                        items: yearsAsDropdownItems(),
+                    },
+                    {
+                        name: "description",
+                        label: { caption: "Description" },
+                        type: "multiline",
+                        viewConfig: {
+                            layout: {
+                                column: 0,
+                                columnSpan: 12,
+                                row: 3,
+                            }
+                        },
+                        defaultValue: payment?.description
+                    }
+                ]}
+            />
         </section>
     );
 };
 
-/** Payments module */
-export default connect()(EditForm);
+/** Payment card */
+export default connect(
+    ({ payments }: CompositeAppState) => ({ ...payments }),
+    ({
+        loadPayments, saveCard
+    })
+)(PaymentCard);
