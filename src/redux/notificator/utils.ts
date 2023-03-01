@@ -1,7 +1,7 @@
 import { generateGuid } from "@bodynarf/utils/guid";
 
 import { ActionWithPayload } from "../types";
-import { getAddNotificationAction } from "./actions/addNotification";
+import { getAddNotificationAction } from "./actionCreators/addNotification";
 
 /**
  * Get notifications module action which adding success notification

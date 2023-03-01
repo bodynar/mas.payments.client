@@ -1,6 +1,6 @@
 import { ThunkDispatch } from "redux-thunk";
 
-import { getSetAppIsLoadingAction } from "./app/actions/setAppIsLoading";
+import { getSetAppIsLoadingAction } from "./app/actionCreators/setAppIsLoading";
 
 import { getErrorNotificationAction, getSuccessNotificationAction } from "./notificator/utils";
 import { CompositeAppState } from "./rootReducer";

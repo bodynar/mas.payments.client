@@ -4,7 +4,7 @@ import { getErrorNotificationAction } from "../notificator/utils";
 import { CompositeAppState } from "../rootReducer";
 import { Action } from "../types";
 
-import { getSetAppIsLoadingAction } from "./actions/setAppIsLoading";
+import { getSetAppIsLoadingAction } from "./actionCreators/setAppIsLoading";
 
 /**
  * Create dispatch-based action to set app error state

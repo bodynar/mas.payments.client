@@ -3,7 +3,7 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { isNullOrUndefined } from "@bodynarf/utils/common";
 
 import { ModalAction, ModalCloseData, ModalCallback, ModalState } from "./types";
-import { getCloseModalAction } from "./actions/close";
+import { getCloseModalAction } from "./actionCreators/close";
 
 /**
  * Close modal via redux dispatched action

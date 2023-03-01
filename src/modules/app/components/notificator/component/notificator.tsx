@@ -12,8 +12,8 @@ import { NotificationItem } from "@app/models/notification";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 
-import { getHideNotificationsAction } from "@app/redux/notificator/actions/hideNotification";
-import { getHideAllNotificationsAction } from "@app/redux/notificator/actions/hideAllNotifications";
+import { getHideNotificationsAction } from "@app/redux/notificator/actionCreators/hideNotification";
+import { getHideAllNotificationsAction } from "@app/redux/notificator/actionCreators/hideAllNotifications";
 
 import Notification from "../components/notificationItem/notificationItem";
 

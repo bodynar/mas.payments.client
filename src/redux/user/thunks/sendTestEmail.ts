@@ -6,7 +6,7 @@ import { CompositeAppState } from "@app/redux/rootReducer";
 import { Action } from "@app/redux/types";
 import { getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux/utils";
 
-import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
+import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
 
 /**
  * Send test email message

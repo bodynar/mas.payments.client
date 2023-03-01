@@ -6,7 +6,7 @@ import { CompositeAppState } from "@app/redux/rootReducer";
 import { ActionWithPayload } from "@app/redux/types";
 import { getDisplayErrorMessageAction } from "@app/redux/utils";
 
-import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
+import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
 
 import { PaymentType, Payment } from "@app/models/payments";
 

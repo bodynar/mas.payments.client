@@ -11,7 +11,7 @@ import { NotificationHistoryItem } from "@app/models/notification";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 
-import { setNotificationsBadgeToZero } from "@app/redux/notificator/actions/setNotificationsBadgeToZero";
+import { setNotificationsBadgeToZero } from "@app/redux/notificator/actionCreators/setNotificationsBadgeToZero";
 
 import BellList from "../components/bellList/bellList";
 

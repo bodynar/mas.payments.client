@@ -8,8 +8,8 @@ import { CompositeAppState } from "@app/redux/rootReducer";
 import { ActionWithPayload } from "@app/redux/types";
 import { getDisplayErrorMessageAction } from "@app/redux/utils";
 
-import { getOpenModalAction } from "@app/redux/modal/actions/open";
-import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
+import { getOpenModalAction } from "@app/redux/modal/actionCreators/open";
+import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
 import { ModalAction } from "@app/redux/modal/types";
 
 /**

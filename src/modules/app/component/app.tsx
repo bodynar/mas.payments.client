@@ -6,7 +6,7 @@ import "./app.scss";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 
-import { getSetTabIsFocusedAction } from "@app/redux/app/actions/setTabIsFocused";
+import { getSetTabIsFocusedAction } from "@app/redux/app/actionCreators/setTabIsFocused";
 
 import ModalBox from "@app/modules/modalBox";
 

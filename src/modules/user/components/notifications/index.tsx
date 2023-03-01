@@ -10,7 +10,7 @@ import { usePagination } from "@bodynarf/react.components";
 
 import { CompositeAppState } from "@app/redux/rootReducer";
 import { loadNotifications } from "@app/redux/user/thunks/loadNotifications";
-import { getToggleNotificationsSortOrderAction } from "@app/redux/user/actions/toggleNotificationsSortOrder";
+import { getToggleNotificationsSortOrderAction } from "@app/redux/user/actionCreators/toggleNotificationsSortOrder";
 
 import { UserNotification } from "@app/models/user";
 

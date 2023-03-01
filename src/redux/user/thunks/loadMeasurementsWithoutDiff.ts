@@ -6,9 +6,9 @@ import { CompositeAppState } from "@app/redux/rootReducer";
 import { ActionWithPayload } from "@app/redux/types";
 import { getDisplayErrorMessageAction } from "@app/redux/utils";
 
-import { getSetAppIsLoadingAction } from "@app/redux/app/actions/setAppIsLoading";
+import { getSetAppIsLoadingAction } from "@app/redux/app/actionCreators/setAppIsLoading";
 
-import { getSetMeasurementsWithoutDiffAction } from "../actions/setMeasurementsWithoutDiff";
+import { getSetMeasurementsWithoutDiffAction } from "../actionCreators/setMeasurementsWithoutDiff";
 
 /**
  * Get measurements without diff count
