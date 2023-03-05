@@ -75,7 +75,7 @@ const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListPr
             {pageItems.length > 0
                 &&
                 <section>
-                    <table className="table is-bordered is-narrow is-hoverable is-fullwidth has-sticky-header has-borderless-header">
+                    <table className="table is-bordered is-narrow is-hoverable is-fullwidth has-sticky-header has-borderless-header has-shadow-bordered-header">
                         <thead>
                             <tr>
                                 {headings.map((heading, i) =>
@@ -160,7 +160,6 @@ const TableListHeader = ({ className, caption, name, sortable, sortColumn, onCli
             return (
                 <th
                     className={`${className} is-clickable`}
-                    data--has-border="true"
                     onClick={onHeaderClick}
                 >
                     <div className="is-flex is-align-items-center is-justify-content-center">
@@ -174,7 +173,6 @@ const TableListHeader = ({ className, caption, name, sortable, sortColumn, onCli
         return (
             <th
                 className={`${className} is-clickable`}
-                data--has-border="true"
                 onClick={onHeaderClick}
             >
                 <div className="is-flex is-align-items-center is-justify-content-center">
@@ -187,7 +185,7 @@ const TableListHeader = ({ className, caption, name, sortable, sortColumn, onCli
     return (
         <th
             className={className}
-            data--has-border="true">
+        >
             <div className="is-flex is-align-items-center is-justify-content-center">
                 <span>{caption}</span>
             </div>
