@@ -20,7 +20,7 @@ export const saveCard = (values: Array<FieldValue>, id?: string): ThunkAction<Pr
     return saveCardAction(values, id)
         .then(() => {
             dispatch(getSetAppIsLoadingAction(false));
-            getDisplaySuccessMessageAction(dispatch, getState)("Payement successfully saved");
+            getDisplaySuccessMessageAction(dispatch, getState)("Payment record successfully saved");
         })
         .catch(getDisplayErrorMessageAction(dispatch, getState));
 };
