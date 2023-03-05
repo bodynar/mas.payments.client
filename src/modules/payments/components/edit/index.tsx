@@ -47,7 +47,7 @@ const PaymentCard = ({
     const payment = payments.find(x => x.id === +id!);
     const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, payment?.typeId), [payment?.typeId, availableTypesAsDropdownItems]);
     const selectedMonth = useMemo(() => getDropdownItem(monthsAsDropdownItems(), payment?.month), [payment?.month]);
-    const selectedYear = useMemo(() => getDropdownItem(yearsAsDropdownItems(), payment?.year), [payment?.year]);
+    const selectedYear = useMemo(() => getDropdownItem(yearsAsDropdownItems(true), payment?.year), [payment?.year]);
 
     const onSubmit = useCallback((values: Array<FieldValue>) => {
         saveCard(values, id)

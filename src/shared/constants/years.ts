@@ -10,7 +10,7 @@ let _yearsAsDropdownItems: Array<SelectableItem> = [];
  * Get years as items for dropdown component
  * @returns Array of years (from 2019 to current year) as selectable items
  */
-export const yearsAsDropdownItems = (): Array<SelectableItem> => {
+export const yearsAsDropdownItems = (reverse?: boolean): Array<SelectableItem> => {
     if (_yearsAsDropdownItems.length === 0) {
         _yearsAsDropdownItems = Array
             .from({ length: new Date().getFullYear() - 2018 }, (_, i) => `${i + 2019}`)
@@ -21,5 +21,5 @@ export const yearsAsDropdownItems = (): Array<SelectableItem> => {
             }));
     }
 
-    return _yearsAsDropdownItems;
+    return reverse === true ? _yearsAsDropdownItems.sort(_ => -1) : _yearsAsDropdownItems;
 };
