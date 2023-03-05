@@ -14,7 +14,7 @@ import { setNotificationsBadgeToZero } from "@app/redux/notificator/";
 
 import BellList from "../components/bellList/bellList";
 
-type BellProps = {
+interface BellProps {
     /** All notifications in current session */
     notifications: Array<NotificationHistoryItem>;
 
@@ -23,7 +23,7 @@ type BellProps = {
 
     /** Handler of open notifications list action  */
     onListOpened: () => void;
-};
+}
 
 /** Bell with notifications component */
 function Bell(props: BellProps): JSX.Element {

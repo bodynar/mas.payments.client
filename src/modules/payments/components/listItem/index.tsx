@@ -9,10 +9,10 @@ import { Payment } from "@app/models/payments";
 import { getMonthName } from "@app/static";
 
 /** Payment list item props type */
-type PaymentListItemProps = {
+interface PaymentListItemProps {
     /** Payment information */
     item: Payment;
-};
+}
 
 /** Payment list item */
 const PaymentListItem = ({ item }: PaymentListItemProps): JSX.Element => {

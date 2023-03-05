@@ -4,10 +4,10 @@ import "./notificationStoryRecord.scss";
 
 import { NotificationHistoryItem, NotificationType } from "@app/models/notification";
 
-type NotificationStoryRecordProps = {
+interface NotificationStoryRecordProps {
     /** Notification item for displaying */
     item: NotificationHistoryItem;
-};
+}
 
 /** Map of notification type to color */
 const typeColorMap: Map<NotificationType, string> = new Map([

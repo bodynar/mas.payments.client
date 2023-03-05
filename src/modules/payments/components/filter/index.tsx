@@ -18,7 +18,7 @@ import { getDropdownItem } from "@app/core";
 import { PaymentFilter } from "@app/models/payments";
 
 /** Payment filter props types */
-type PaymentFiltersProps = {
+interface PaymentFiltersProps {
     /** Payment filter value */
     filterValue?: PaymentFilter;
 
@@ -30,7 +30,7 @@ type PaymentFiltersProps = {
 
     /** Apply current filter */
     filter: () => void;
-};
+}
 
 /** Payments module filter */
 const PaymentFilters = ({

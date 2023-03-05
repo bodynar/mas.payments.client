@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 
-type StatsModuleProps = {
+interface StatsModuleProps {
 
-};
+}
 
 const StatsModule = (_: StatsModuleProps): JSX.Element => {
     return (

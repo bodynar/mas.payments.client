@@ -7,13 +7,13 @@ import loading from "@app/assets/loading01.svg";
 import { menuItems } from "@app/static/menu";
 import { RouteItem } from "@app/models/routeItem";
 
-type AppContentProps = {
+interface AppContentProps {
     /** 
      * Is app currently loading something important.
      * If so - covers content with loading gif block
     */
     isLoading: boolean;
-};
+}
 
 /**
  * Block of application main content

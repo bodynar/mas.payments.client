@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 
-type MeasurementModuleProps = {
+interface MeasurementModuleProps {
 
-};
+}
 
 const MeasurementModule = (_: MeasurementModuleProps): JSX.Element => {
     return (

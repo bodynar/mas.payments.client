@@ -16,7 +16,7 @@ import { getHideNotificationsAction, getHideAllNotificationsAction } from "@app/
 
 import Notification from "../components/notificationItem/notificationItem";
 
-type NotificatorProps = {
+interface NotificatorProps {
     /** Active notifications */
     notifications: Array<NotificationItem>;
 
@@ -25,7 +25,7 @@ type NotificatorProps = {
 
     /** Hide all active notifications */
     hideAll: () => void;
-};
+}
 
 /** Container component for notifications */
 function Notificator({ notifications, hideNotifications, hideAll }: NotificatorProps): JSX.Element {

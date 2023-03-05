@@ -6,13 +6,13 @@ import "./navbarMenuItem.scss";
 
 import { MenuItem } from "@app/models/routeItem";
 
-type NavbarMenuItemProps = {
+interface NavbarMenuItemProps {
     /** Menu item configuration */
     item: MenuItem;
 
     /** Is menu item active */
     isActive: boolean;
-};
+}
 
 /** Navar menu item component */
 export default function NavbarMenuItem({ item, isActive }: NavbarMenuItemProps): JSX.Element {

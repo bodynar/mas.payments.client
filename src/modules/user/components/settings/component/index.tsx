@@ -14,7 +14,7 @@ import { loadSettings, UpdatedUserSetting, updateUserSettings, getMeasurementsWi
 
 import Setting from "../components/setting";
 
-type SettingsProps = {
+interface SettingsProps {
     /** Custom settings */
     settings: Array<UserSetting>;
 
@@ -35,7 +35,7 @@ type SettingsProps = {
 
     /** Recalculate measurements diff */
     recalculateDiff: () => Promise<boolean>;
-};
+}
 
 const Settings = ({
     settings, loadSettings, updateUserSettings,

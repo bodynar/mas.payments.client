@@ -15,10 +15,10 @@ import { sendTestEmail } from "@app/redux/user";
  */
 const emailPattern = /^[a-zA-Z0-9.!#$%&"*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-type EmailTestProps = {
+interface EmailTestProps {
     /** Send test email via api */
     sendTestEmail: (recipient: string) => void;
-};
+}
 
 /** Component providing small form to test email integration */
 const EmailTest = ({ sendTestEmail }: EmailTestProps): JSX.Element => {

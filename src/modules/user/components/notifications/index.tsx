@@ -13,7 +13,7 @@ import { loadNotifications, getToggleNotificationsSortOrderAction } from "@app/r
 
 import { UserNotification } from "@app/models/user";
 
-type NotificationsProps = {
+interface NotificationsProps {
     /** Loaded user notification history */
     notifications: Array<UserNotification>;
 
@@ -25,7 +25,7 @@ type NotificationsProps = {
 
     /** Toggle sort order for notifications */
     toggleSort: () => void;
-};
+}
 
 const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }: NotificationsProps): JSX.Element => {
     const [loaded, setIsLoaded] = useState(false);

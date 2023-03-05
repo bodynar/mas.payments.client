@@ -13,7 +13,7 @@ import Notificator from "../components/notificator/component/notificator";
 import Navbar from "../components/navbar/component/navbar";
 import AppContent from "../components/content";
 
-type AppProps = {
+interface AppProps {
     /** 
      * Is app currently loading something important.
      * If so - covers content with loading gif block
@@ -22,7 +22,7 @@ type AppProps = {
 
     /** Store state of app tab focus */
     setTabIsFocused: (isFocused: boolean) => void;
-};
+}
 
 /** Root app component */
 function App({ isLoading, setTabIsFocused }: AppProps): JSX.Element {

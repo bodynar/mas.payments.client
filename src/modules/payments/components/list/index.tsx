@@ -21,7 +21,7 @@ import PaymentFilter from "../filter";
 import PaymentListItem from "../listItem";
 
 /** Payment list props type */
-type PaymentListProps = {
+interface PaymentListProps {
     /** Items that was filtered by last filter */
     filteredItems: Array<Payment>;
 
@@ -30,7 +30,7 @@ type PaymentListProps = {
 
     /** Save sort column config */
     setSortColumn: (sortColumn: SortColumn<Payment>) => void;
-};
+}
 
 const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListProps): JSX.Element => {
     const navigate = useNavigate();
@@ -143,13 +143,13 @@ const headings: Array<TableHeader> = [
 ];
 
 /** Table heading cell component props */
-type TableListHeaderProps = TableHeader & {
+interface TableListHeaderProps extends TableHeader {
     /** Current sort column */
     sortColumn?: SortColumn<Payment>;
 
     /** Cell click handler */
     onClick: (column: keyof Payment) => void;
-};
+}
 
 /** Payment list header cell */
 const TableListHeader = ({ className, caption, name, sortable, sortColumn, onClick }: TableListHeaderProps): JSX.Element => {

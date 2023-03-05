@@ -11,13 +11,13 @@ import { ApplicationInfo as AppInfo } from "@app/models/user";
 import { CompositeAppState } from "@app/redux";
 import { getAppInfo } from "@app/redux/user";
 
-type ApplicationInfoProps = {
+interface ApplicationInfoProps {
     /** Application information */
     appInfo?: AppInfo;
 
     /** Load application information */
     getAppInfo: () => void;
-};
+}
 
 const ApplicationInfo = ({ appInfo, getAppInfo }: ApplicationInfoProps): JSX.Element => {
 

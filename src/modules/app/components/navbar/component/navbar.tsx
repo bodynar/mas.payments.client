@@ -8,10 +8,10 @@ import "./navbar.scss";
 import { NavbarBrand, Bell, NavbarMenuItem, User } from "../components";
 import { menuItems as staticMenu } from "@app/static/menu";
 
-type NavbarProps = {
+interface NavbarProps {
     /** Class for navbar */
     className: string;
-};
+}
 
 /**
  * App navigation bar component

@@ -15,13 +15,13 @@ const typeClassNameMap: Map<NotificationType, string> = new Map([
 ]);
 
 /** Single notification component configuration */
-type NotificationProps = {
+interface NotificationProps {
     /** Notification configuration */
     item: NotificationItem;
 
     /** Close notification click handler */
     onHideClick: (notificationId: string) => void;
-};
+}
 
 /** Single notification component */
 export default function Notification({ item, onHideClick }: NotificationProps): JSX.Element {
