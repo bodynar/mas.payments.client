@@ -2,7 +2,9 @@ import { useCallback, useEffect } from "react";
 
 import { connect } from "react-redux";
 
-import "./app.scss";
+import { getClassName } from "@bodynarf/utils";
+
+import "./style.scss";
 
 import { CompositeAppState } from "@app/redux";
 import { getSetTabIsFocusedAction } from "@app/redux/app";
@@ -39,8 +41,13 @@ function App({ isLoading, setTabIsFocused }: AppProps): JSX.Element {
         };
     }, [onBlur, onFocus]);
 
+    const className = getClassName([
+        "app",
+        isLoading ? "is-clipped" : ""
+    ]);
+
     return (
-        <main className="app">
+        <main className={className}>
             <Navbar className="app__navbar" />
             <ModalBox />
             <Notificator />

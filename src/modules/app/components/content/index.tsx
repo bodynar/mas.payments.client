@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
-import "./content.scss";
+import "./style.scss";
 
 import loading from "@app/assets/loading01.svg";
 
