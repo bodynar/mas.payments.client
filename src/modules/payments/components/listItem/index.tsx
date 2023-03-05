@@ -12,16 +12,19 @@ import { getMonthName } from "@app/static";
 interface PaymentListItemProps {
     /** Payment information */
     item: Payment;
+
+    /** Delete specified payment */
+    deletePayment: (id: number) => void;
 }
 
 /** Payment list item */
-const PaymentListItem = ({ item }: PaymentListItemProps): JSX.Element => {
+const PaymentListItem = ({
+    item, deletePayment
+}: PaymentListItemProps): JSX.Element => {
     const navigate = useNavigate();
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
-    const onDeleteClick = useCallback(() => {
-
-    }, []);
+    const onDeleteClick = useCallback(() => deletePayment(item.id), [deletePayment, item]);
 
     return (
         <tr key={item.id}>

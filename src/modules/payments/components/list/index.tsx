@@ -15,7 +15,7 @@ import { Payment, PaymentFilter as PaymentFilterModel } from "@app/models/paymen
 import SortColumn from "@app/models/sortColumn";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetSortColumnAction } from "@app/redux/payments";
+import { getSetSortColumnAction, deleteRecord } from "@app/redux/payments";
 
 import PaymentFilter from "../filter";
 import PaymentListItem from "../listItem";
@@ -36,11 +36,14 @@ interface PaymentListProps {
 
     /** Save sort column config */
     setSortColumn: (sortColumn: SortColumn<Payment>) => void;
+
+    /** Delete specified payment */
+    deletePayment: (id: number) => void;
 }
 
 const PaymentList = ({
     filteredItems, sortColumn, lastFilter, initialized,
-    setSortColumn,
+    setSortColumn, deletePayment, 
 }: PaymentListProps): JSX.Element => {
     const navigate = useNavigate();
     const isFilterApplied = !isNullOrUndefined(lastFilter);
@@ -103,6 +106,7 @@ const PaymentList = ({
                                 <PaymentListItem
                                     key={x.id}
                                     item={x}
+                                    deletePayment={deletePayment}
                                 />
                             )}
                         </tbody>
@@ -132,7 +136,10 @@ export default connect(
         lastFilter: payments.lastFilter,
         initialized: payments.initialized,
     }),
-    ({ setSortColumn: getSetSortColumnAction })
+    ({
+        setSortColumn: getSetSortColumnAction,
+        deletePayment: deleteRecord
+    })
 )(PaymentList);
 
 /** Table column heading model  */

@@ -37,3 +37,12 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
 
     return post(url, paymentApiModel);
 };
+
+/**
+ * Delete specified payment record
+ * @param id Payment identifier
+ * @returns Promise of sending request to API
+ */
+export const deleteRecord = (id: number): Promise<void> => {
+    return post("/api/payment/deletePayment", { paymentId: id });
+};
