@@ -48,7 +48,7 @@ const PaymentList = ({
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
 
-    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 5, 1, [filteredItems]);
+    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
     const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
 
     const onHeaderCellClick = useCallback(
@@ -61,7 +61,6 @@ const PaymentList = ({
             }),
         [setSortColumn, sortColumn]
     );
-
 
     return (
         <section>
