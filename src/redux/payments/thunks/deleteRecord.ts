@@ -3,6 +3,7 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { CompositeAppState, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalAction } from "@app/redux/modal";
+import { getRemoveItemFromStorage } from "@app/redux/payments";
 
 import { deleteRecord as deleteRecordAction } from "@app/core/payment";
 import { getMonthName } from "@app/constants";
@@ -30,6 +31,7 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
 
                 deleteRecordAction(id)
                     .then(() => {
+                        dispatch(getRemoveItemFromStorage(id));
                         dispatch(getSetAppIsLoadingAction(false));
                         getDisplaySuccessMessageAction(dispatch, getState)("Payement record successfully deleted");
                     })

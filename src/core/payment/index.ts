@@ -44,5 +44,5 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
  * @returns Promise of sending request to API
  */
 export const deleteRecord = (id: number): Promise<void> => {
-    return post("/api/payment/deletePayment", { paymentId: id });
+    return post("/api/payment/deletePayment", { id });
 };

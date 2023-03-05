@@ -4,3 +4,4 @@ export * from "./setModuleInitializedState";
 export * from "./setPaymentTypes";
 export * from "./setPayments";
 export * from "./setSortColumn";
+export * from "./removeItemFromStorage";

@@ -16,3 +16,5 @@ export const filterPayments = "payment/filterItems";
 /** Save current sort column */
 export const setSortColumn = "payment/setSortColumn";
 
+/** Remove item from storage */
+export const removeItemFromStorage = "payment/removeItem";
