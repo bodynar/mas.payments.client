@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
 
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
@@ -49,10 +49,12 @@ const PaymentFilters = ({
         ) => {
             setter(item);
 
-            setFilterValue({
+            const newValue = {
                 ...filterValue,
                 [propertyName]: isNullOrUndefined(item) ? undefined : +item!.value,
-            });
+            };
+
+            setFilterValue(isObjectEmpty(newValue) ? undefined : newValue);
         }, [filterValue, setFilterValue]);
 
     const onMonthSelect = useCallback((item?: SelectableItem) => onItemSelect("month", setMonth, item), [onItemSelect]);
