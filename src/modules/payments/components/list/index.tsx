@@ -11,7 +11,7 @@ import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
 import Icon from "@bodynarf/react.components/components/icon";
 
-import { Payment } from "@app/models/payments";
+import { Payment, PaymentFilter as PaymentFilterModel } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
 import { CompositeAppState } from "@app/redux";
@@ -22,8 +22,14 @@ import PaymentListItem from "../listItem";
 
 /** Payment list props type */
 interface PaymentListProps {
+    /** Is module state initialized */
+    initialized: boolean;
+
     /** Items that was filtered by last filter */
     filteredItems: Array<Payment>;
+
+    /** Last applied fiter */
+    lastFilter?: PaymentFilterModel;
 
     /** Current sort column config */
     sortColumn?: SortColumn<Payment>;
@@ -32,8 +38,12 @@ interface PaymentListProps {
     setSortColumn: (sortColumn: SortColumn<Payment>) => void;
 }
 
-const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListProps): JSX.Element => {
+const PaymentList = ({
+    filteredItems, sortColumn, lastFilter, initialized,
+    setSortColumn,
+}: PaymentListProps): JSX.Element => {
     const navigate = useNavigate();
+    const isFilterApplied = !isNullOrUndefined(lastFilter);
 
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
@@ -51,6 +61,7 @@ const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListPr
             }),
         [setSortColumn, sortColumn]
     );
+
 
     return (
         <section>
@@ -104,6 +115,12 @@ const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListPr
                     />
                 </section>
             }
+            {initialized && pageItems.length === 0
+                &&
+                <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
+                    {isFilterApplied ? "No payments were found by specified filter" : `No payments were loaded\r\nTry refreshing page`}
+                </p>
+            }
         </section>
     );
 };
@@ -112,7 +129,8 @@ const PaymentList = ({ filteredItems, sortColumn, setSortColumn }: PaymentListPr
 export default connect(
     ({ payments }: CompositeAppState) => ({
         filteredItems: payments.filteredItems,
-        sortColumn: payments.sortColumn
+        sortColumn: payments.sortColumn,
+        lastFilter: payments.lastFilter,
     }),
     ({ setSortColumn: getSetSortColumnAction })
 )(PaymentList);
