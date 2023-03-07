@@ -1,4 +1,4 @@
-import { isUndefined, getPropertyValueWithCheck } from "@bodynarf/utils";
+import { isUndefined, getPropertyValueWithCheck, isNullOrUndefined } from "@bodynarf/utils";
 
 import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
 
@@ -30,10 +30,12 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
         case setPayments: {
             const payments = getPropertyValueWithCheck<Array<Payment>>(action.payload, "payments", true);
 
+            const filteredItems = isNullOrUndefined(state.lastFilter) ? payments : filterPaymentList(payments, state.lastFilter);
+
             return {
                 ...state,
                 payments,
-                filteredItems: payments,
+                filteredItems: filteredItems,
             };
         }
         case setFilterValue: {
