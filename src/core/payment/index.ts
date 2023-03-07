@@ -4,8 +4,8 @@ import { SelectableItem } from "@bodynarf/react.components";
 
 import { FieldValue } from "@bodynarf/react.components.form";
 
-import { AddPayment, UpdatePayment } from "@app/models/payments";
-import { post } from "@app/utils/delayedApi";
+import { AddPayment, Payment, PaymentType, UpdatePayment } from "@app/models/payments";
+import { get, post } from "@app/utils/delayedApi";
 
 /**
  * Save payment card with data
@@ -45,4 +45,43 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
  */
 export const deleteRecord = (id: number): Promise<void> => {
     return post("/api/payment/deletePayment", { id });
+};
+
+/**
+ * Load all available payment records
+ * @returns Promise with array of loaded payments
+ */
+export const getPaymentRecords = async (): Promise<Array<Payment>> => {
+    const payments = await get<Array<any>>(`api/payment/getPayments`);
+
+    return payments.map(x => ({
+        id: x["id"],
+        month: x["dateMonth"],
+        year: x["dateYear"],
+        price: x["amount"],
+        typeId: x["paymentTypeId"],
+        typeCaption: x["paymentTypeName"],
+        typeColor: x["paymentTypeColor"],
+        description: x["description"],
+    }) as Payment);
+};
+
+/**
+ * Load all available payment types
+ * @returns Promise with array of loaded payment types
+ */
+export const getPaymentTypes = async (): Promise<Array<PaymentType>> => {
+    const types = await get<Array<any>>(`api/payment/getPaymentTypes`);
+
+    return types.map(x => ({
+        id: x["id"],
+        name: x["systemName"],
+        caption: x["name"],
+        hasRelatedMeasurementTypes: x["hasRelatedMeasurementTypes"],
+        hasRelatedPayments: x["hasRelatedPayments"],
+
+        color: x["color"],
+        company: x["company"],
+        description: x["description"],
+    }) as PaymentType);
 };
