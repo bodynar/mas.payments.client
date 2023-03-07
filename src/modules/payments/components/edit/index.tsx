@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -15,7 +15,7 @@ import { Payment } from "@app/models/payments";
 import { getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/constants";
 
 import { CompositeAppState } from "@app/redux";
-import { loadPayments, saveCard } from "@app/redux/payments";
+import { saveCard } from "@app/redux/payments";
 
 /** Payment card props types */
 interface PaymentCardProps {
@@ -28,16 +28,13 @@ interface PaymentCardProps {
     /** Payment types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
-    /** Load all payments */
-    loadPayments: () => Promise<void>;
-
     /** Save current card values */
     saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
 }
 
 const PaymentCard = ({
     payments, initialized, availableTypesAsDropdownItems,
-    loadPayments, saveCard,
+    saveCard,
 }: PaymentCardProps): JSX.Element => {
     const { id } = useParams();
 
@@ -48,13 +45,17 @@ const PaymentCard = ({
     const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, payment?.typeId), [payment?.typeId, availableTypesAsDropdownItems]);
     const selectedMonth = useMemo(() => getDropdownItem(monthsAsDropdownItems(), payment?.month), [payment?.month]);
     const selectedYear = useMemo(() => getDropdownItem(yearsAsDropdownItems(), payment?.year), [payment?.year]);
+    const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
 
     const onSubmit = useCallback((values: Array<FieldValue>) => {
+        setIsSubmitAvailable(true);
+
         saveCard(values, id)
             .then(() => {
-                loadPayments().then(() => navigate("/payment", { replace: true }));
-            });
-    }, [id, loadPayments, saveCard, navigate]);
+                navigate("/payment", { replace: true });
+            })
+            .catch(() => setIsSubmitAvailable(false));
+    }, [id, saveCard, navigate]);
 
 
     if (!initialized) {
@@ -72,7 +73,8 @@ const PaymentCard = ({
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
-                    caption: "Save"
+                    caption: "Save",
+                    disabled: isSubmitAvailable
                 }}
                 items={[
                     {
@@ -88,6 +90,7 @@ const PaymentCard = ({
                         },
                         defaultValue: payment?.price,
                         required: true,
+                        readonly: isSubmitAvailable,
                     },
                     {
                         name: "type",
@@ -103,6 +106,7 @@ const PaymentCard = ({
                         defaultValue: selectedType,
                         required: true,
                         items: availableTypesAsDropdownItems,
+                        readonly: isSubmitAvailable,
                     },
                     {
                         name: "month",
@@ -118,6 +122,7 @@ const PaymentCard = ({
                         defaultValue: selectedMonth,
                         required: true,
                         items: monthsAsDropdownItems(),
+                        readonly: isSubmitAvailable,
                     },
                     {
                         name: "year",
@@ -133,6 +138,7 @@ const PaymentCard = ({
                         defaultValue: selectedYear,
                         required: true,
                         items: yearsAsDropdownItems(),
+                        readonly: isSubmitAvailable,
                     },
                     {
                         name: "description",
@@ -145,7 +151,8 @@ const PaymentCard = ({
                                 row: 3,
                             }
                         },
-                        defaultValue: payment?.description
+                        defaultValue: payment?.description,
+                        readonly: isSubmitAvailable,
                     }
                 ]}
             />
@@ -156,7 +163,5 @@ const PaymentCard = ({
 /** Payment card */
 export default connect(
     ({ payments }: CompositeAppState) => ({ ...payments }),
-    ({
-        loadPayments, saveCard
-    })
+    ({ saveCard })
 )(PaymentCard);
