@@ -8,7 +8,7 @@ import SortColumn from "@app/models/sortColumn";
 import { sort } from "@app/utils";
 
 import { ActionWithPayload } from "@app/redux";
-import { filterPayments, setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setSortColumn, PaymentModuleState, filterPaymentList, removeItemFromStorage } from "@app/redux/payments";
+import { filterPayments, setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setSortColumn, PaymentModuleState, filterPaymentList } from "@app/redux/payments";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
@@ -94,15 +94,6 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 ...state,
                 sortColumn,
                 filteredItems: sortedPayments,
-            };
-        }
-        case removeItemFromStorage: {
-            const paymentId = getPropertyValueWithCheck<number>(action.payload, "id", true);
-
-            return {
-                ...state,
-                payments: state.payments.filter(({ id }) => id !== paymentId),
-                filteredItems: state.filteredItems.filter(({ id }) => id !== paymentId),
             };
         }
         default: {
