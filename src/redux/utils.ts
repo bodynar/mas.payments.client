@@ -2,7 +2,6 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { Action, CompositeAppState } from "@app/redux";
 import { getErrorNotificationAction, getSuccessNotificationAction } from "@app/redux/notificator";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
 
 /**
  * Create dispatch-based action to display error message
@@ -16,8 +15,6 @@ export const getDisplayErrorMessageAction = (
     const { app } = getState();
 
     dispatch(getErrorNotificationAction(error, app.isCurrentTabFocused));
-
-    dispatch(getSetAppIsLoadingAction(false));
 };
 
 /**
@@ -32,6 +29,4 @@ export const getDisplaySuccessMessageAction = (
     const { app } = getState();
 
     dispatch(getSuccessNotificationAction(success, app.isCurrentTabFocused));
-
-    dispatch(getSetAppIsLoadingAction(false));
 };
