@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { connect } from "react-redux";
 
@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 
-import { usePagination } from "@bodynarf/react.components";
+import { SelectableItem, usePagination } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
 import Icon from "@bodynarf/react.components/components/icon";
@@ -15,7 +15,9 @@ import { Payment, PaymentFilter as PaymentFilterModel } from "@app/models/paymen
 import SortColumn from "@app/models/sortColumn";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetSortColumnAction, deleteRecord } from "@app/redux/payments";
+import { getSetSortColumnAction, deleteRecord, getSetFilterValueAction } from "@app/redux/payments";
+
+import { getDropdownItem } from "@app/core";
 
 import PaymentFilter from "../filter";
 import PaymentListItem from "../listItem";
@@ -28,11 +30,17 @@ interface PaymentListProps {
     /** Items that was filtered by last filter */
     filteredItems: Array<Payment>;
 
+    /** Payment types mapped to dropdown items to cache values */
+    availableTypesAsDropdownItems: Array<SelectableItem>;
+
     /** Last applied fiter */
     lastFilter?: PaymentFilterModel;
 
     /** Current sort column config */
     sortColumn?: SortColumn<Payment>;
+
+    /** Store filter value */
+    setFilterValue: (filterValue?: PaymentFilterModel, applyFilter?: boolean) => void;
 
     /** Save sort column config */
     setSortColumn: (sortColumn: SortColumn<Payment>) => void;
@@ -43,13 +51,15 @@ interface PaymentListProps {
 
 const PaymentList = ({
     filteredItems, sortColumn, lastFilter, initialized,
-    setSortColumn, deletePayment, 
+    availableTypesAsDropdownItems,
+    setSortColumn, deletePayment, setFilterValue,
 }: PaymentListProps): JSX.Element => {
     const navigate = useNavigate();
     const isFilterApplied = !isNullOrUndefined(lastFilter);
 
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
+    const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId));
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
     const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
@@ -64,6 +74,20 @@ const PaymentList = ({
             }),
         [setSortColumn, sortColumn]
     );
+
+    const onPaymentTypeClick = useCallback((paymentTypeId: number) => {
+        const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, paymentTypeId);
+
+        if (isNullOrUndefined(dropdownItem)) {
+            return;
+        }
+
+        setType(dropdownItem);
+        setFilterValue({
+            ...lastFilter,
+            typeId: paymentTypeId,
+        }, true);
+    }, [availableTypesAsDropdownItems, lastFilter, setFilterValue]);
 
     return (
         <section>
@@ -84,7 +108,10 @@ const PaymentList = ({
                     />
                 </p>
             </nav>
-            <PaymentFilter />
+            <PaymentFilter
+                onTypeChange={setType}
+                currentType={selectedType}
+            />
             {pageItems.length > 0
                 &&
                 <section>
@@ -107,6 +134,7 @@ const PaymentList = ({
                                     key={x.id}
                                     item={x}
                                     deletePayment={deletePayment}
+                                    onPaymentTypeClick={onPaymentTypeClick}
                                 />
                             )}
                         </tbody>
@@ -135,10 +163,12 @@ export default connect(
         sortColumn: payments.sortColumn,
         lastFilter: payments.lastFilter,
         initialized: payments.initialized,
+        availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
     }),
     ({
         setSortColumn: getSetSortColumnAction,
-        deletePayment: deleteRecord
+        deletePayment: deleteRecord,
+        setFilterValue: getSetFilterValueAction,
     })
 )(PaymentList);
 

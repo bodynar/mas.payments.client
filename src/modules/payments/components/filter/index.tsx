@@ -30,17 +30,23 @@ interface PaymentFiltersProps {
 
     /** Apply current filter */
     filter: () => void;
+
+    /** Current payment type selected as filter value */
+    currentType?: SelectableItem,
+
+    /** On payment type change */
+    onTypeChange: (type?: SelectableItem) => void;
 }
 
 /** Payments module filter */
 const PaymentFilters = ({
     filterValue,
     setFilterValue, filter,
+    currentType, onTypeChange,
     availableTypesAsDropdownItems,
 }: PaymentFiltersProps): JSX.Element => {
     const [selectedMonth, setMonth] = useState<SelectableItem | undefined>(getDropdownItem(monthsAsDropdownItems(), filterValue?.month));
     const [selectedYear, setYear] = useState<SelectableItem | undefined>(getDropdownItem(yearsAsDropdownItems(), filterValue?.year));
-    const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, filterValue?.typeId));
 
     const onItemSelect = useCallback(
         (propertyName: keyof PaymentFilter,
@@ -59,9 +65,9 @@ const PaymentFilters = ({
 
     const onMonthSelect = useCallback((item?: SelectableItem) => onItemSelect("month", setMonth, item), [onItemSelect]);
     const onYearSelect = useCallback((item?: SelectableItem) => onItemSelect("year", setYear, item), [onItemSelect]);
-    const onTypeSelect = useCallback((item?: SelectableItem) => onItemSelect("typeId", setType, item), [onItemSelect]);
+    const onTypeSelect = useCallback((item?: SelectableItem) => onItemSelect("typeId", onTypeChange, item), [onItemSelect, onTypeChange]);
 
-    const onClearClick = useCallback(() => [setFilterValue, setMonth, setYear, setType].forEach(x => x(undefined)), [setFilterValue]);
+    const onClearClick = useCallback(() => [setFilterValue, setMonth, setYear, onTypeChange].forEach(x => x(undefined)), [setFilterValue, onTypeChange]);
 
     return (
         <Accordion
@@ -119,7 +125,7 @@ const PaymentFilters = ({
                             hideOnOuterClick={true}
                             deselectable={true}
                             items={availableTypesAsDropdownItems}
-                            value={selectedType}
+                            value={currentType}
                             onSelect={onTypeSelect}
                         />
                     </div>

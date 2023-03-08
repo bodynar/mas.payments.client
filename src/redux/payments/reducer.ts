@@ -40,6 +40,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
         }
         case setFilterValue: {
             const filterValue = getPropertyValueWithCheck<PaymentFilter>(action.payload, "filter", false);
+            const applyFilter = getPropertyValueWithCheck<boolean>(action.payload, "applyFilter", false);
 
             return isUndefined(filterValue)
                 ? {
@@ -50,6 +51,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 : {
                     ...state,
                     lastFilter: filterValue,
+                    filteredItems: !applyFilter ? state.filteredItems : filterPaymentList(state.payments, filterValue)
                 };
         }
         case setPaymentTypes: {
