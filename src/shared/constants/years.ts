@@ -1,4 +1,4 @@
-import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
+import { SelectableItem } from "@bodynarf/react.components";
 
 /**
  * @private

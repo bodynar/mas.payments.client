@@ -1,6 +1,6 @@
 import { isUndefined, getPropertyValueWithCheck, isNullOrUndefined } from "@bodynarf/utils";
 
-import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
+import { SelectableItem } from "@bodynarf/react.components";
 
 import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
