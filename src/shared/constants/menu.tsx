@@ -1,3 +1,5 @@
+import { Navigate } from "react-router-dom";
+
 import { isStringEmpty } from "@bodynarf/utils/common";
 
 import { MenuItem } from "@app/models/routeItem";
@@ -12,6 +14,13 @@ import { routes as paymentRoutes } from "@app/modules/payments/components";
 
 /** Static navbar menu */
 export const menuItems: Array<MenuItem> = [
+    {
+        name: "root",
+        caption: "",
+        link: "/",
+        component: <Navigate to="/user/appInfo" replace />,
+        display: false,
+    },
     {
         name: "Payments",
         caption: "Payments",
@@ -34,7 +43,7 @@ export const menuItems: Array<MenuItem> = [
     {
         name: "User",
         caption: "User",
-        link: "/user/",
+        link: "/user",
         component: <User />,
         display: false,
         children: userRoutes

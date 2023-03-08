@@ -1,3 +1,5 @@
+import { Navigate } from "react-router-dom";
+
 import { MenuItem } from "@app/models/routeItem";
 
 import ApplicationInfo from "./appInfo";
@@ -11,31 +13,31 @@ export const routes: Array<MenuItem> = [
         caption: "home",
         link: "",
         name: "home",
-        component: <></>,
+        component: <Navigate to="/user/appInfo" replace />,
         display: false,
     },
     {
         caption: "Application info",
         link: "/user/appInfo",
         name: "appInfo",
-        component: <ApplicationInfo/>,
+        component: <ApplicationInfo />,
     },
     {
         caption: "Notifications",
         link: "/user/notifications",
         name: "notifications",
-        component: <Notifications/>,
+        component: <Notifications />,
     },
     {
         caption: "Settings",
         link: "/user/settings",
         name: "settings",
-        component: <Settings/>,
+        component: <Settings />,
     },
     {
         caption: "Email test",
         link: "/user/emailTest",
         name: "emailTest",
-        component: <EmailTest/>,
+        component: <EmailTest />,
     },
 ];
