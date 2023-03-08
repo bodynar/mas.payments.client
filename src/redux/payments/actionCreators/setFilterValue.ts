@@ -1,7 +1,7 @@
 import { PaymentFilter } from "@app/models/payments";
 
 import { ActionWithPayload } from "@app/redux";
-import { setFilterValue } from "@app/redux/payments";
+import { setPaymentFilterValue } from "@app/redux/payments";
 
 /**
  * Get redux action "Set payments filter value"
@@ -10,7 +10,7 @@ import { setFilterValue } from "@app/redux/payments";
  * @returns Redux action to update state
  */
 export const getSetFilterValueAction = (filter?: PaymentFilter, applyFilter: boolean = false): ActionWithPayload => ({
-    type: setFilterValue,
+    type: setPaymentFilterValue,
     payload: {
         filter,
         applyFilter

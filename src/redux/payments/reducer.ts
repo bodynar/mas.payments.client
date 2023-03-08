@@ -8,7 +8,7 @@ import SortColumn from "@app/models/sortColumn";
 import { sort } from "@app/utils";
 
 import { ActionWithPayload } from "@app/redux";
-import { filterPayments, setFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setSortColumn, PaymentModuleState, filterPaymentList } from "@app/redux/payments";
+import { filterPayments, setPaymentFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setPaymentSortColumn, PaymentModuleState, filterPaymentList, setTypeSortColumn } from "@app/redux/payments";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
@@ -38,7 +38,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 filteredItems: filteredItems,
             };
         }
-        case setFilterValue: {
+        case setPaymentFilterValue: {
             const filterValue = getPropertyValueWithCheck<PaymentFilter>(action.payload, "filter", false);
             const applyFilter = getPropertyValueWithCheck<boolean>(action.payload, "applyFilter", false);
 
@@ -87,17 +87,29 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 filteredItems: displayedItems,
             };
         }
-        case setSortColumn: {
+        case setPaymentSortColumn: {
             const sortColumn = getPropertyValueWithCheck<SortColumn<Payment>>(action.payload, "sortColumn", true);
 
             const sortedPayments = sort(state.filteredItems, sortColumn);
 
             return {
                 ...state,
-                sortColumn,
+                paymentSortColumn: sortColumn,
                 filteredItems: sortedPayments,
             };
         }
+        case setTypeSortColumn: {
+            const sortColumn = getPropertyValueWithCheck<SortColumn<PaymentType>>(action.payload, "sortColumn", true);
+
+            const sortedItems = sort(state.availableTypes, sortColumn);
+
+            return {
+                ...state,
+                paymentTypeSortColumn: sortColumn,
+                availableTypes: sortedItems,
+            };
+        }
+
         default: {
             return state;
         }

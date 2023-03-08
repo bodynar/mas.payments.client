@@ -23,6 +23,9 @@ export type PaymentModuleState = {
     /** Last payments applied filter */
     lastFilter?: PaymentFilter;
 
-    /** Current sort column config */
-    sortColumn?: SortColumn<Payment>;
+    /** Current payment sort column config */
+    paymentSortColumn?: SortColumn<Payment>;
+
+    /** Current payment type sort column config */
+    paymentTypeSortColumn?: SortColumn<PaymentType>;
 };

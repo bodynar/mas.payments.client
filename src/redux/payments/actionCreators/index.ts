@@ -1,3 +1,4 @@
+export * from "./paymentType";
 export * from "./filterPayments";
 export * from "./setFilterValue";
 export * from "./setModuleInitializedState";
