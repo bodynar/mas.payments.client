@@ -3,6 +3,9 @@ import { RouteItem } from "@app/models/routeItem";
 import PaymentList from "./list";
 import PaymentCard from "./edit";
 
+import { routes as typeRoutes } from "./paymentTypes/routes";
+import PaymentTypeSubModule from "./paymentTypes/component";
+
 /** Payments module sub-routes */
 export const routes: Array<RouteItem> = [
     {
@@ -23,9 +26,7 @@ export const routes: Array<RouteItem> = [
     {
         link: "/payment/types",
         name: "Payment types",
-        component: <>Types</>,
-        children: [
-
-        ]
+        component: <PaymentTypeSubModule/>,
+        children: typeRoutes
     },
 ];
