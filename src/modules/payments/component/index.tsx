@@ -12,6 +12,7 @@ import { CompositeAppState } from "@app/redux";
 import { initModuleState } from "@app/redux/payments";
 
 import { routes } from "../components";
+import { isNullOrUndefined } from "@bodynarf/utils";
 
 interface PaymentModuleProps {
     /** Is module state initialized */
@@ -28,6 +29,7 @@ const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JS
     const breadcrumbs: Array<BreadCrumb> = useMemo(
         () =>
             routes
+                .flatMap(x => isNullOrUndefined(x.children) ? [x] : x.children!)
                 .filter(({ link }) => {
                     if (pathname.startsWith(link)) {
                         return true;
