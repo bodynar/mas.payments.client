@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
@@ -68,9 +68,18 @@ const PaymentFilters = ({
 
     const onClearClick = useCallback(() => [setFilterValue, setMonth, setYear, onTypeChange].forEach(x => x(undefined)), [setFilterValue, onTypeChange]);
 
+    const accordionCaption = useMemo(() => {
+        const appliedFiltersCount =
+            [selectedMonth, selectedYear, currentType]
+                .filter(x => !isNullOrUndefined(x))
+                .length;
+
+        return appliedFiltersCount > 0 ? `Filters (${appliedFiltersCount})` : "Filters";
+    }, [selectedMonth, selectedYear, currentType]);
+
     return (
         <Accordion
-            caption="Filters"
+            caption={accordionCaption}
             style={ElementColor.Info}
         >
             <div className="field is-horizontal">
