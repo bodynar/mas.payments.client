@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 
-import { UserSetting } from "@app/models/user";
-
 import Text from "@bodynarf/react.components/components/primitives/text";
 import CheckBox from "@bodynarf/react.components/components/primitives/checkbox";
+
+import { UserSetting } from "@app/models/user";
 
 interface SettingProps {
     /** Custom setting */
