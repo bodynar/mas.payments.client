@@ -18,15 +18,7 @@ interface AccordionProps {
     size?: ElementSize;
 
     /** Color */
-    style?:
-    | "primary" /** color: seawave green */
-    | "link" /** color: blue-violet */
-    | "info" /** color: sky-blue */
-    | "success" /** color: green */
-    | "warning" /** color: yellow */
-    | "danger" /** color: red */
-    | "dark" /** color: dark-gray */
-    ;
+    style?: ElementColor;
 }
 
 /** Accordion panel */

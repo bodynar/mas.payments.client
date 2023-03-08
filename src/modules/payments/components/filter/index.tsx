@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 
 import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
 
+import { ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
-import { SelectableItem } from "@bodynarf/react.components/components/dropdown/types";
 import Button from "@bodynarf/react.components/components/button";
 
 import { CompositeAppState } from "@app/redux";
@@ -66,7 +66,7 @@ const PaymentFilters = ({
     return (
         <Accordion
             caption="Filters"
-            style="info"
+            style={ElementColor.Info}
         >
             <div className="field is-horizontal">
                 <div className="field-label is-normal is-flex-grow-035 has-text-left">
