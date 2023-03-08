@@ -1,3 +1,4 @@
+import { ElementSize } from "@bodynarf/react.components";
 import Icon from "@bodynarf/react.components/components/icon";
 
 import { Link, useLocation } from "react-router-dom";
@@ -22,7 +23,10 @@ const UserIcon = (): JSX.Element => {
             >
                 <Link to="/user/appInfo">
                     <span className="icon">
-                        <Icon name={icon} />
+                        <Icon
+                            name={icon}
+                            size={ElementSize.Medium}
+                        />
                     </span>
                 </Link>
             </div>
@@ -34,7 +38,10 @@ const UserIcon = (): JSX.Element => {
             data-is-active={false}
         >
             <span className="icon">
-                <Icon name={icon} />
+                <Icon
+                    name={icon}
+                    size={ElementSize.Medium}
+                />
             </span>
         </div>
     );

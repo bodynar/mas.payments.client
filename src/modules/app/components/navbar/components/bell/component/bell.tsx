@@ -2,8 +2,8 @@ import { useCallback, useState } from "react";
 
 import { connect } from "react-redux";
 
+import { ElementSize, useComponentOutsideClick } from "@bodynarf/react.components";
 import Icon from "@bodynarf/react.components/components/icon";
-import { useComponentOutsideClick } from "@bodynarf/react.components/hooks/useComponentOutsideClick";
 
 import "./bell.scss";
 
@@ -60,7 +60,7 @@ function Bell(props: BellProps): JSX.Element {
                 onClick={onBellClick}
                 title={title}
             >
-                <Icon name="bell" />
+                <Icon name="bell" size={ElementSize.Medium}/>
                 {shouldBadgeBeVisible &&
                     <span className="app-bell__badge">{badgeNumber}</span>
                 }

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
 
-import { ElementSize } from "@bodynarf/react.components";
+import { ElementColor, ElementSize } from "@bodynarf/react.components";
 import Icon from "@bodynarf/react.components/components/icon";
 
 import "./style.scss";
@@ -64,7 +64,7 @@ const Accordion = ({
                 <span>
                     {caption}
                 </span>
-                <Icon name="arrow-down" />
+                <Icon name="arrow-down" size={ElementSize.Medium} />
             </div>
             <div
                 className="message-body"

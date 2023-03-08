@@ -6,7 +6,7 @@ import { isNullOrUndefined } from "@bodynarf/utils";
 
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
-import { usePagination } from "@bodynarf/react.components";
+import { ElementSize, usePagination } from "@bodynarf/react.components";
 
 import { CompositeAppState } from "@app/redux";
 import { loadNotifications, getToggleNotificationsSortOrderAction } from "@app/redux/user/";
@@ -60,10 +60,10 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                             <Button
                                 type="success"
                                 caption="Reload"
-                                size="small"
+                                size={ElementSize.Small}
                                 rounded={true}
                                 outlined={true}
-                                icon={{ name: "arrow-clockwise", position: "left" }}
+                                icon={{ name: "arrow-clockwise", position: "left", size: ElementSize.Medium, }}
                                 onClick={onReloadClick}
                             />
                         </div>
@@ -73,10 +73,11 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                             <Button
                                 type="ghost"
                                 caption="Order by CreatedOn"
-                                size="small"
+                                size={ElementSize.Small}
                                 icon={{
                                     position: "left",
                                     name: ascSort ? "sort-down" : "sort-up",
+                                    size: ElementSize.Medium,
                                 }}
                                 onClick={toggleSort}
                             />
