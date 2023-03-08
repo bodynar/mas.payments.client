@@ -6,7 +6,7 @@ import SortColumn from "@app/models/sortColumn";
 export interface FilterValue<TModel> {
     /** Name of column */
     key: keyof TModel;
-    
+
     /** Comparison value */
     value: any;
 
@@ -48,7 +48,7 @@ export const sort = <TModel>(items: Array<TModel>, sortColumn: SortColumn<TModel
         const prevValue = prev[sortColumn.columnName];
         const currValue = curr[sortColumn.columnName];
 
-        const comparisonResult = compare(prevValue, currValue, sortColumn);
+        const comparisonResult = compare(prevValue, currValue);
 
         return comparisonResult * (sortColumn.ascending ? 1 : -1);
     });
@@ -60,28 +60,28 @@ export const sort = <TModel>(items: Array<TModel>, sortColumn: SortColumn<TModel
  * Compare two values
  * @param left Previous value
  * @param right Next value
- * @param sortColumn Sorting property
- * @returns 1 if previous value is greater than next, -1 otherwise, 0 if values are equal
+ * @returns `1` if previous value is greater than next, `-1` otherwise, `0` if values are equal
  */
-const compare = <TModel>(left: any, right: any, sortColumn: SortColumn<TModel>): number => {
+const compare = (left: any, right: any): number => {
     if (isNullOrUndefined(left) && isNullOrUndefined(right)) {
         return 0;
     }
 
-    if (typeof left === "string") {
-        return sortColumn.ascending
-            ? left.localeCompare(right as string)
-            : (right as string).localeCompare(left);
-    }
-
-    const leftNumber = left as number;
-    const rightNumber = right as number;
-
-    if (leftNumber > rightNumber) {
+    if (isNullOrUndefined(left)) {
         return 1;
     }
-    else if (rightNumber === leftNumber) {
-        return 0;
+
+    if (isNullOrUndefined(right)) {
+        return -1;
     }
-    return -1;
+
+    if (right < left) {
+        return -1;
+    }
+
+    if (right > left) {
+        return 1;
+    }
+
+    return 0;
 };
