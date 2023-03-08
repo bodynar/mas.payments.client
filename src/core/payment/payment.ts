@@ -16,10 +16,10 @@ import { get, post } from "@app/utils/delayedApi";
 export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> => {
     let paymentApiModel: AddPayment | UpdatePayment = {
         amount: +values.find(({ key }) => key === "amount")!.value,
-        description: values.find(({ key }) => key === "description")!.value,
         month: +(values.find(({ key }) => key === "month")!.value as SelectableItem).value,
         year: +(values.find(({ key }) => key === "year")!.value as SelectableItem).value,
         paymentTypeId: +(values.find(({ key }) => key === "type")!.value as SelectableItem).value,
+        description: values.find(({ key }) => key === "description")?.value,
     };
 
     const isNewRecord = isNullOrUndefined(id);

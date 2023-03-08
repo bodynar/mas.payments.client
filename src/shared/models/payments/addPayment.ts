@@ -10,7 +10,7 @@ export interface AddPayment {
     month: number;
 
     /** Description */
-    description: string;
+    description?: string;
 
     /** Identifier of payment type */
     paymentTypeId: number;

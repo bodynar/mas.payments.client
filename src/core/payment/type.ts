@@ -1,10 +1,8 @@
 import { isNullOrUndefined } from "@bodynarf/utils";
 
-import { SelectableItem } from "@bodynarf/react.components";
-
 import { FieldValue } from "@bodynarf/react.components.form";
 
-import { AddPayment, PaymentType, UpdatePayment } from "@app/models/payments";
+import { AddPaymentType, PaymentType, UpdatePaymentType } from "@app/models/payments";
 import { get, post } from "@app/utils/delayedApi";
 
 /**
@@ -14,19 +12,18 @@ import { get, post } from "@app/utils/delayedApi";
  * @returns Promise of sending request to API
  */
 export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<void> => {
-    let paymentApiModel: AddPayment | UpdatePayment = {
-        amount: +values.find(({ key }) => key === "amount")!.value,
-        description: values.find(({ key }) => key === "description")!.value,
-        month: +(values.find(({ key }) => key === "month")!.value as SelectableItem).value,
-        year: +(values.find(({ key }) => key === "year")!.value as SelectableItem).value,
-        paymentTypeId: +(values.find(({ key }) => key === "type")!.value as SelectableItem).value,
+    let apiRequestModel: AddPaymentType | UpdatePaymentType = {
+        name: values.find(({ key }) => key === "caption")!.value,
+        company: values.find(({ key }) => key === "provider")?.value,
+        color: values.find(({ key }) => key === "color")?.value,
+        description: values.find(({ key }) => key === "description")?.value,
     };
 
     const isNewRecord = isNullOrUndefined(id);
 
     if (!isNewRecord) {
-        paymentApiModel = {
-            ...paymentApiModel,
+        apiRequestModel = {
+            ...apiRequestModel,
             id: +id!
         };
     }
@@ -35,7 +32,7 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
         ? "/api/payment/addPaymentType"
         : "/api/payment/updatePaymentType";
 
-    return post(url, paymentApiModel);
+    return post(url, apiRequestModel);
 };
 
 /**
