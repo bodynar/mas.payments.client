@@ -13,7 +13,7 @@ import { Payment, PaymentFilter as PaymentFilterModel } from "@app/models/paymen
 import SortColumn from "@app/models/sortColumn";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetSortColumnAction, deleteRecord, getSetFilterValueAction } from "@app/redux/payments";
+import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@app/redux/payments";
 
 import { getDropdownItem } from "@app/core";
 
@@ -160,7 +160,7 @@ const PaymentList = ({
 export default connect(
     ({ payments }: CompositeAppState) => ({
         filteredItems: payments.filteredItems,
-        sortColumn: payments.sortColumn,
+        sortColumn: payments.paymentSortColumn,
         lastFilter: payments.lastFilter,
         initialized: payments.initialized,
         availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
