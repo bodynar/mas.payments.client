@@ -46,7 +46,7 @@ const PaymentListItem = ({
                         backgroundColor: item.typeColor!
                     }}
                     onClick={onTypeClick}
-                    title={`Show only "${item.typeCaption}" records`}
+                    title={`Filter by type "${item.typeCaption}" additionaly`}
                 />
             </td>
             <td className="has-text-centered is-vertical-align--center">{item.price}</td>
