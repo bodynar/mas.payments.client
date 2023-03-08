@@ -50,7 +50,7 @@
 
         position: absolute;
         right: 1.5rem;
-        
+
         width: 20rem;
         min-height: 10vh;
         max-height: 35vh;
@@ -83,7 +83,7 @@
             visibility: visible;
         }
     }
-    
+
     &__empty-list {
         color: gray;
         padding: 0.5rem;
@@ -102,5 +102,10 @@
         border-radius: 50%;
         font-size: 0.75em;
         text-align: center;
+
+        &[aria-hidden="true"] {
+            opacity: 0;
+            visibility: collapse;
+        }
     }
 }

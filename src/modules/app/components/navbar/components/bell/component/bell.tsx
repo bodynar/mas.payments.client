@@ -25,18 +25,20 @@ interface BellProps {
 }
 
 /** Bell with notifications component */
-function Bell(props: BellProps): JSX.Element {
+function Bell({
+    notificationBadge, notifications,
+    onListOpened,
+}: BellProps): JSX.Element {
     const [isListVisible, setListVisibility] = useState<boolean>(false);
 
     const onBellClick = useCallback(
         () => {
             setListVisibility(!isListVisible);
 
-            if (props.notificationBadge !== 0) {
-                props.onListOpened();
+            if (notificationBadge !== 0) {
+                onListOpened();
             }
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [isListVisible, props.notificationBadge, props.onListOpened]
+        }, [isListVisible, notificationBadge, onListOpened]
     );
 
     useComponentOutsideClick(
@@ -45,8 +47,8 @@ function Bell(props: BellProps): JSX.Element {
         () => setListVisibility(false),
     );
 
-    const shouldBadgeBeVisible: boolean = props.notificationBadge > 0;
-    const badgeNumber: string = props.notificationBadge > 9 ? "9+" : `${props.notificationBadge}`;
+    const shouldBadgeBeVisible: boolean = notificationBadge > 0;
+    const badgeNumber: string = notificationBadge > 9 ? "9+" : `${notificationBadge}`;
     const title: string = shouldBadgeBeVisible ? `${badgeNumber} new notifications` : "No new notifications";
     const listClassName: string = !shouldBadgeBeVisible
         ? "app-bell__list app-bell__list--empty"
@@ -59,14 +61,17 @@ function Bell(props: BellProps): JSX.Element {
                 onClick={onBellClick}
                 title={title}
             >
-                <Icon name="bell" size={ElementSize.Medium}/>
-                {shouldBadgeBeVisible &&
-                    <span className="app-bell__badge">{badgeNumber}</span>
-                }
+                <Icon name="bell" size={ElementSize.Medium} />
+                <span
+                    className="app-bell__badge"
+                    aria-hidden={!shouldBadgeBeVisible}
+                >
+                    {badgeNumber}
+                </span>
             </div>
             <div className={listClassName} aria-hidden={!isListVisible}>
                 <div className="app-bell__list-wrapper">
-                    <BellList notifications={props.notifications} />
+                    <BellList notifications={notifications} />
                 </div>
             </div>
         </div>
