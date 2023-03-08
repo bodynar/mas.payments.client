@@ -97,6 +97,7 @@ const PaymentList = ({
                         type="primary"
                         caption="Create"
                         onClick={onCreateClick}
+                        title="Create new payment record"
                     />
                 </p>
                 <p className="control">
@@ -105,6 +106,7 @@ const PaymentList = ({
                         caption="Manage types"
                         outlined={true}
                         onClick={onTypeManageClick}
+                        title="Open payment types list"
                     />
                 </p>
             </nav>
