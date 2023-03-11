@@ -1,7 +1,7 @@
 import { Payment } from "@app/models/payments";
 
 import { ActionWithPayload } from "@app/redux";
-import { setPayments } from "@app/redux/payments";
+import { SET_PAYMENTS } from "@app/redux/payments";
 
 /**
  * Get redux action "Set payments"
@@ -9,6 +9,6 @@ import { setPayments } from "@app/redux/payments";
  * @returns Redux action to update state
  */
 export const getSetPaymentsAction = (payments: Array<Payment>): ActionWithPayload => ({
-    type: setPayments,
+    type: SET_PAYMENTS,
     payload: { payments },
 });

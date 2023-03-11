@@ -8,7 +8,7 @@ import SortColumn from "@app/models/sortColumn";
 import { sort } from "@app/utils";
 
 import { ActionWithPayload } from "@app/redux";
-import { filterPayments, setPaymentFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setPaymentSortColumn, PaymentModuleState, filterPaymentList, setTypeSortColumn, filterPaymentTypes } from "@app/redux/payments";
+import { FILTER_PAYMENTS, SET_PAYMENT_FILTER_VALUE, SET_MODULE_INITIALIZED_STATE, SET_PAYMENTS, SET_PAYMENT_TYPES, SET_PAYMENT_SORT_COLUMN, PaymentModuleState, filterPaymentList, SET_TYPE_SORT_COLUMN, FILTER_PAYMENT_TYPES } from "@app/redux/payments";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
@@ -28,7 +28,7 @@ const defaultState: PaymentModuleState = {
  */
 export default function (state: PaymentModuleState = defaultState, action: ActionWithPayload): PaymentModuleState {
     switch (action.type) {
-        case setPayments: {
+        case SET_PAYMENTS: {
             const payments = getPropertyValueWithCheck<Array<Payment>>(action.payload, "payments", true);
 
             const filteredItems = isNullOrUndefined(state.lastFilter) ? payments : filterPaymentList(payments, state.lastFilter);
@@ -39,7 +39,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 filteredItems: filteredItems,
             };
         }
-        case setPaymentFilterValue: {
+        case SET_PAYMENT_FILTER_VALUE: {
             const filterValue = getPropertyValueWithCheck<PaymentFilter>(action.payload, "filter", false);
             const applyFilter = getPropertyValueWithCheck<boolean>(action.payload, "applyFilter", false);
 
@@ -55,7 +55,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                     filteredItems: !applyFilter ? state.filteredItems : filterPaymentList(state.payments, filterValue)
                 };
         }
-        case setPaymentTypes: {
+        case SET_PAYMENT_TYPES: {
             const types = getPropertyValueWithCheck<Array<PaymentType>>(action.payload, "types", true);
 
             const mappedToDropdownItems = types.map(({ id, caption }) => ({
@@ -71,7 +71,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 filteredTypes: types,
             };
         }
-        case setModuleInitializedState: {
+        case SET_MODULE_INITIALIZED_STATE: {
             const isInitialized = getPropertyValueWithCheck<boolean | undefined>(action.payload, "isInitialized", false) || undefined;
 
             return isUndefined(isInitialized)
@@ -81,7 +81,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                     initialized: isInitialized!,
                 };
         }
-        case filterPayments: {
+        case FILTER_PAYMENTS: {
             const displayedItems = filterPaymentList(state.payments, state.lastFilter);
 
             return {
@@ -89,7 +89,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 filteredItems: displayedItems,
             };
         }
-        case setPaymentSortColumn: {
+        case SET_PAYMENT_SORT_COLUMN: {
             const sortColumn = getPropertyValueWithCheck<SortColumn<Payment>>(action.payload, "sortColumn", true);
 
             const sortedPayments = sort(state.filteredItems, sortColumn);
@@ -100,7 +100,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 filteredItems: sortedPayments,
             };
         }
-        case setTypeSortColumn: {
+        case SET_TYPE_SORT_COLUMN: {
             const sortColumn = getPropertyValueWithCheck<SortColumn<PaymentType>>(action.payload, "sortColumn", true);
 
             const sortedItems = sort(state.availableTypes, sortColumn);
@@ -111,7 +111,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 availableTypes: sortedItems,
             };
         }
-        case filterPaymentTypes: {
+        case FILTER_PAYMENT_TYPES: {
             const filterValue = getPropertyValue<string | undefined>(action.payload, "name");
 
             if (isNullOrEmpty(filterValue)) {

@@ -1,5 +1,5 @@
 import { ActionWithPayload } from "@app/redux";
-import { filterPaymentTypes } from "@app/redux/payments";
+import { FILTER_PAYMENT_TYPES } from "@app/redux/payments";
 
 /**
  * Get redux action "Filter payment types"
@@ -7,7 +7,7 @@ import { filterPaymentTypes } from "@app/redux/payments";
  * @returns Redux action to update state
  */
 export const getFilterPaymentTypesAction = (nameFilterValue?: string): ActionWithPayload => ({
-    type: filterPaymentTypes,
+    type: FILTER_PAYMENT_TYPES,
     payload: {
         name: nameFilterValue
     },

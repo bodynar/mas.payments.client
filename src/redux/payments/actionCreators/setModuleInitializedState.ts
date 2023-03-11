@@ -1,5 +1,5 @@
 import { ActionWithPayload } from "@app/redux";
-import { setModuleInitializedState } from "@app/redux/payments";
+import { SET_MODULE_INITIALIZED_STATE } from "@app/redux/payments";
 
 /**
  * Get redux action "Set module initialized state"
@@ -7,6 +7,6 @@ import { setModuleInitializedState } from "@app/redux/payments";
  * @returns Redux action to update state
  */
 export const getSetModuleInitializedStateAction = (isInitialized: boolean): ActionWithPayload => ({
-    type: setModuleInitializedState,
+    type: SET_MODULE_INITIALIZED_STATE,
     payload: { isInitialized },
 });

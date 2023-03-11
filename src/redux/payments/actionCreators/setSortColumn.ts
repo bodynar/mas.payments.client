@@ -2,7 +2,7 @@ import { Payment } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
 import { ActionWithPayload } from "@app/redux";
-import { setPaymentSortColumn } from "@app/redux/payments";
+import { SET_PAYMENT_SORT_COLUMN } from "@app/redux/payments";
 
 /**
  * Get redux action "Set payment sort column"
@@ -10,6 +10,6 @@ import { setPaymentSortColumn } from "@app/redux/payments";
  * @returns Redux action to update state
  */
 export const getSetSortColumnAction = (sortColumn: SortColumn<Payment>): ActionWithPayload => ({
-    type: setPaymentSortColumn,
+    type: SET_PAYMENT_SORT_COLUMN,
     payload: { sortColumn },
 });
