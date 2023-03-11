@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { getClassName } from "@bodynarf/utils/component";
+import { getClassName } from "@bodynarf/utils";
 
 import "./navbarMenuItem.scss";
 

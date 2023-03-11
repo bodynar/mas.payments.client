@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
-import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils/common";
+import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
 
 import "./navbar.scss";
 

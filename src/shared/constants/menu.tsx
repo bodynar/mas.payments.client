@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-import { isStringEmpty } from "@bodynarf/utils/common";
+import { isStringEmpty } from "@bodynarf/utils";
 
 import { MenuItem } from "@app/models/routeItem";
 

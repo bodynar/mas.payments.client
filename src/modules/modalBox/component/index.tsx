@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils/common";
+import { isNullOrUndefined } from "@bodynarf/utils";
 import Button from "@bodynarf/react.components/components/button";
 
 import "./modalBox.scss";
