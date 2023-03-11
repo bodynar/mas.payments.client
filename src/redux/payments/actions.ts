@@ -22,3 +22,5 @@ export const FILTER_PAYMENT_TYPES = "mas.payments/paymentTypes/filterItems";
 /** Save current payment type sort column */
 export const SET_TYPE_SORT_COLUMN = "mas.payments/paymentTypes/setSortColumn";
 
+/** Toggle group view flag */
+export const TOGGLE_GROUP_VIEW = "mas.payments/payment/toggleGroupView";

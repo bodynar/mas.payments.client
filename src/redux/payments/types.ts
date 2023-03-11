@@ -23,6 +23,12 @@ export type PaymentModuleState = {
     /** Payment types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
+    /**
+     * Display payments grouped by year.
+     * @default false
+    */
+    useGroupedView: boolean;
+
     /** Last payments applied filter */
     lastFilter?: PaymentFilter;
 

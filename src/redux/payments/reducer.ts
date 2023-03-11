@@ -8,11 +8,12 @@ import SortColumn from "@app/models/sortColumn";
 import { sort } from "@app/utils";
 
 import { ActionWithPayload } from "@app/redux";
-import { FILTER_PAYMENTS, SET_PAYMENT_FILTER_VALUE, SET_MODULE_INITIALIZED_STATE, SET_PAYMENTS, SET_PAYMENT_TYPES, SET_PAYMENT_SORT_COLUMN, PaymentModuleState, filterPaymentList, SET_TYPE_SORT_COLUMN, FILTER_PAYMENT_TYPES } from "@app/redux/payments";
+import { FILTER_PAYMENTS, SET_PAYMENT_FILTER_VALUE, SET_MODULE_INITIALIZED_STATE, SET_PAYMENTS, SET_PAYMENT_TYPES, SET_PAYMENT_SORT_COLUMN, PaymentModuleState, filterPaymentList, SET_TYPE_SORT_COLUMN, FILTER_PAYMENT_TYPES, TOGGLE_GROUP_VIEW } from "@app/redux/payments";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
     initialized: false,
+    useGroupedView: false,
     payments: [],
     filteredItems: [],
     availableTypes: [],
@@ -127,6 +128,12 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 ...state,
                 filteredTypes: state.availableTypes.filter(({ caption }) => caption.toLocaleLowerCase().includes(loweredValue)),
                 typeFilterCaption: filterValue!,
+            };
+        }
+        case TOGGLE_GROUP_VIEW: {
+            return {
+                ...state,
+                useGroupedView: !state.useGroupedView,
             };
         }
         default: {
