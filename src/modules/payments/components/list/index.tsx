@@ -7,7 +7,6 @@ import { isNullOrUndefined } from "@bodynarf/utils";
 import { SelectableItem, usePagination } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
-import Icon from "@bodynarf/react.components/components/icon";
 
 import { Payment, PaymentFilter as PaymentFilterModel } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
@@ -16,6 +15,8 @@ import { CompositeAppState } from "@app/redux";
 import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@app/redux/payments";
 
 import { getDropdownItem } from "@app/core";
+
+import Table, { TableHeading } from "@app/sharedComponents/table";
 
 import PaymentFilter from "../filter";
 import PaymentListItem from "../listItem";
@@ -115,20 +116,17 @@ const PaymentList = ({
             {pageItems.length > 0
                 &&
                 <section>
-                    <table className="table is-bordered is-narrow is-hoverable is-fullwidth has-sticky-header has-borderless-header has-shadow-bordered-header">
-                        <thead>
-                            <tr>
-                                {headings.map((heading, i) =>
-                                    <TableListHeader
-                                        key={i}
-                                        {...heading}
-                                        sortColumn={sortColumn}
-                                        onClick={onHeaderCellClick}
-                                    />
-                                )}
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <Table
+                        headings={headings}
+                        hasBorder={true}
+                        narrow={true}
+                        hoverable={true}
+                        fullWidth={true}
+                        hasStickyHeader={true}
+                        headerWithBorder={true}
+                        currentSortColumn={sortColumn}
+                        onHeaderClick={onHeaderCellClick}
+                    >
                             {pageItems.map(x =>
                                 <PaymentListItem
                                     key={x.id}
@@ -137,8 +135,7 @@ const PaymentList = ({
                                     onPaymentTypeClick={onPaymentTypeClick}
                                 />
                             )}
-                        </tbody>
-                    </table>
+                    </Table>
                     <Paginator
                         count={pagesCount}
                         currentPage={currentPage}
@@ -172,23 +169,8 @@ export default connect(
     })
 )(PaymentList);
 
-/** Table column heading model  */
-interface TableHeader {
-    /** Name of model column*/
-    name?: keyof Payment;
-
-    /** Heading caption */
-    caption: string;
-
-    /** Is column sortable  */
-    sortable: boolean;
-
-    /** Class names */
-    className: string;
-}
-
 /** Pre-defined payment table headings */
-const headings: Array<TableHeader> = [
+const headings: Array<TableHeading<Payment>> = [
     { name: "month", caption: "Month", sortable: true, className: "has-text-centered th-color--light-blue width-is-725rem is-vertical-align--center" },
     { name: "year", caption: "Year", sortable: true, className: "has-text-centered th-color--light-blue width-is-5rem is-vertical-align--center" },
     { name: "typeId", caption: "Type", sortable: true, className: "has-text-centered th-color--light-blue width-is-10rem is-vertical-align--center" },
@@ -196,54 +178,3 @@ const headings: Array<TableHeader> = [
     { caption: "Description", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center" },
     { caption: "Actions", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center width-is-15rem" },
 ];
-
-/** Table heading cell component props */
-interface TableListHeaderProps extends TableHeader {
-    /** Current sort column */
-    sortColumn?: SortColumn<Payment>;
-
-    /** Cell click handler */
-    onClick: (column: keyof Payment) => void;
-}
-
-/** Payment list header cell */
-const TableListHeader = ({ className, caption, name, sortable, sortColumn, onClick }: TableListHeaderProps): JSX.Element => {
-    const onHeaderClick = useCallback(() => onClick(name!), [name, onClick]);
-
-    if (sortable) {
-        if (sortColumn?.columnName === name!) {
-            return (
-                <th
-                    className={`${className} is-clickable`}
-                    onClick={onHeaderClick}
-                >
-                    <div className="is-flex is-align-items-center is-justify-content-center">
-                        <span>{caption}</span>
-                        <Icon className="has-margin-left-025r" name={`sort-alpha-down${sortColumn!.ascending ? "" : "-alt"}`} />
-                    </div>
-                </th>
-            );
-        }
-
-        return (
-            <th
-                className={`${className} is-clickable`}
-                onClick={onHeaderClick}
-            >
-                <div className="is-flex is-align-items-center is-justify-content-center">
-                    <span>{caption}</span>
-                </div>
-            </th>
-        );
-    }
-
-    return (
-        <th
-            className={className}
-        >
-            <div className="is-flex is-align-items-center is-justify-content-center">
-                <span>{caption}</span>
-            </div>
-        </th>
-    );
-};
