@@ -22,12 +22,18 @@ interface AppProps {
     */
     isLoading: boolean;
 
+    /** Is modal currently displayed */
+    isModalDisplaying: boolean;
+
     /** Store state of app tab focus */
     setTabIsFocused: (isFocused: boolean) => void;
 }
 
 /** Root app component */
-function App({ isLoading, setTabIsFocused }: AppProps): JSX.Element {
+function App({
+    isLoading, isModalDisplaying,
+    setTabIsFocused,
+}: AppProps): JSX.Element {
     const onFocus = useCallback(() => setTabIsFocused(true), [setTabIsFocused]);
     const onBlur = useCallback(() => setTabIsFocused(false), [setTabIsFocused]);
 
@@ -43,7 +49,7 @@ function App({ isLoading, setTabIsFocused }: AppProps): JSX.Element {
 
     const className = getClassName([
         "app",
-        isLoading ? "is-clipped" : ""
+        isLoading || isModalDisplaying ? "is-clipped" : ""
     ]);
 
     return (
@@ -59,7 +65,10 @@ function App({ isLoading, setTabIsFocused }: AppProps): JSX.Element {
 }
 
 export default connect(
-    ({ app }: CompositeAppState) => ({ isLoading: app.loading, }),
+    ({ app, modal }: CompositeAppState) => ({
+        isLoading: app.loading,
+        isModalDisplaying: modal.isOpen,
+    }),
     { setTabIsFocused: getSetTabIsFocusedAction, }
 )(App);
 

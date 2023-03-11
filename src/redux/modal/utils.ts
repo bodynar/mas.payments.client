@@ -2,7 +2,8 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 
-import { ModalAction, ModalCloseData, ModalCallback, ModalState, getCloseModalAction } from "@app/redux/modal";
+import { Action } from "@app/redux";
+import { ModalCloseData, ModalCallback, ModalState, getCloseModalAction } from "@app/redux/modal";
 
 /**
  * Close modal via redux dispatched action
@@ -10,8 +11,8 @@ import { ModalAction, ModalCloseData, ModalCallback, ModalState, getCloseModalAc
  * @param modalCallback Modal callbacks from modal configuration
  * @returns Redux action which can be called via dispatch to close modal
  */
-export const closeModal = (closeModalData: ModalCloseData, modalCallback?: ModalCallback): ThunkAction<void, ModalState, unknown, ModalAction> =>
-    (dispatch: ThunkDispatch<ModalState, unknown, ModalAction>): void => {
+export const closeModal = (closeModalData: ModalCloseData, modalCallback?: ModalCallback): ThunkAction<void, ModalState, unknown, Action> =>
+    (dispatch: ThunkDispatch<ModalState, unknown, Action>): void => {
         dispatch(getCloseModalAction());
 
         if (isNullOrUndefined(modalCallback)) {

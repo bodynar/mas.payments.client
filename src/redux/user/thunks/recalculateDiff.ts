@@ -5,15 +5,15 @@ import { isNullOrUndefined } from "@bodynarf/utils";
 import { post } from "@app/utils";
 
 import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
-import { getOpenModalAction, ModalAction } from "@app/redux/modal/";
+import { getOpenModalAction, ModalType } from "@app/redux/modal/";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 
 /**
  * Recalculate measurements diff
  * @returns Action function that can be called with redux dispatcher
  */
-export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppState, unknown, ActionWithPayload | ModalAction> =>
-    (dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload | ModalAction>,
+export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppState, unknown, ActionWithPayload> =>
+    (dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
         getState: () => CompositeAppState
     ): Promise<boolean> => {
         dispatch(getSetAppIsLoadingAction(true));
@@ -28,7 +28,7 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
                 }
 
                 dispatch(getOpenModalAction({
-                    modalType: "info",
+                    modalType: ModalType.Info,
                     title: "Recalculate error",
                     message: (result as Array<string>).join("\n")
                 }));

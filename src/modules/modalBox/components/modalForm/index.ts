@@ -1,2 +1,1 @@
-export * from "./component/modalForm";
-export * from "./types";
+export { default } from "./component";

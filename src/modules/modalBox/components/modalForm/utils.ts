@@ -1,6 +1,6 @@
 import { isNullOrEmpty, isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
 
-import { ModalFormItemValidation } from "./types";
+import { ModalFormItemValidation } from "@app/models/modal";
 
 /**
  * Validate field value
@@ -14,14 +14,12 @@ export const getFieldValueValidationError = (value: string, validationCfg?: Moda
         (value: string): string | undefined => isStringEmpty(value) ? validationError : undefined;
 
     if (!isNullOrUndefined(validationCfg)) {
-        const cfg = validationCfg as ModalFormItemValidation;
-
-        if (!isNullOrEmpty(cfg.customRequiredvalidationError)) {
-            validationError = cfg.customRequiredvalidationError as string;
+        if (!isNullOrEmpty(validationCfg!.customRequiredvalidationError)) {
+            validationError = validationCfg!.customRequiredvalidationError as string;
         }
 
-        if (!isNullOrUndefined(cfg.customValidation)) {
-            validator = cfg.customValidation as (value: string) => string | undefined;
+        if (!isNullOrUndefined(validationCfg!.customValidation)) {
+            validator = validationCfg!.customValidation as (value: string) => string | undefined;
         }
     }
 

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
 
-import { isNullOrUndefined } from "@bodynarf/utils/common";
+import { isNullOrUndefined } from "@bodynarf/utils";
 
 import { routes } from "../components";
 

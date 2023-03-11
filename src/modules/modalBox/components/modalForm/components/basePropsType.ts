@@ -1,4 +1,4 @@
-import { ModalFormItem } from "../types";
+import { ModalFormItem } from "@app/models/modal";
 
 /** Base field editor props */
 export type BaseFieldProps = {

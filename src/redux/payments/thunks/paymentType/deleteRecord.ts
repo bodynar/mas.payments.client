@@ -1,8 +1,8 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { CompositeAppState, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
+import { ActionWithPayload, CompositeAppState, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getOpenModalAction, ModalAction } from "@app/redux/modal";
+import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetPaymentTypesAction } from "@app/redux/payments";
 
 import { deleteTypeRecord as deleteRecordAction, getPaymentTypes } from "@app/core/payment";
@@ -12,8 +12,8 @@ import { deleteTypeRecord as deleteRecordAction, getPaymentTypes } from "@app/co
  * @param id Item identifier
  * @returns Action function that can be called with redux dispatcher
  */
-export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppState, unknown, ModalAction> => (
-    dispatch: ThunkDispatch<CompositeAppState, unknown, ModalAction>,
+export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppState, unknown, ActionWithPayload> => (
+    dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState
 ): void => {
     const { payments } = getState();
@@ -22,7 +22,7 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
 
     dispatch(
         getOpenModalAction({
-            modalType: "confirm",
+            modalType: ModalType.Confirm,
             title: "Confirm deleting payment type",
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure want to delete payment type ${paymentType.caption}?`,
