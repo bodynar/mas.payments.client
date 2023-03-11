@@ -2,8 +2,6 @@ import { useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
-
 import { usePagination } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
@@ -13,6 +11,7 @@ import SortColumn from "@app/models/sortColumn";
 
 import { CompositeAppState } from "@app/redux";
 import { getSetTypeSortColumnAction, deleteTypeRecord } from "@app/redux/payments";
+import { useSortColumn } from "@app/hooks";
 
 import Table, { TableHeading } from "@app/sharedComponents/table";
 
@@ -46,17 +45,7 @@ const PaymentTypeList = ({
     const onCreateClick = useCallback(() => navigate("/payment/types/create", { replace: true }), [navigate]);
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(availableTypes.length, 20, 1, [availableTypes]);
     const pageItems: Array<PaymentType> = useMemo(() => paginate(availableTypes), [paginate, availableTypes]);
-
-    const onHeaderCellClick = useCallback(
-        (column: keyof PaymentType) =>
-            setSortColumn({
-                ascending: !isNullOrUndefined(sortColumn) && sortColumn!.columnName === column
-                    ? !sortColumn!.ascending
-                    : true,
-                columnName: column
-            }),
-        [setSortColumn, sortColumn]
-    );
+    const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     return (
         <section>
@@ -84,13 +73,13 @@ const PaymentTypeList = ({
                         currentSortColumn={sortColumn}
                         onHeaderClick={onHeaderCellClick}
                     >
-                            {pageItems.map(x =>
-                                <PaymentTypeListItem
-                                    key={x.id}
-                                    item={x}
-                                    deletePaymentType={deletePaymentType}
-                                />
-                            )}
+                        {pageItems.map(x =>
+                            <PaymentTypeListItem
+                                key={x.id}
+                                item={x}
+                                deletePaymentType={deletePaymentType}
+                            />
+                        )}
                     </Table>
                     <Paginator
                         count={pagesCount}

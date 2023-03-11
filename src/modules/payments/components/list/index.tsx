@@ -15,6 +15,7 @@ import { CompositeAppState } from "@app/redux";
 import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@app/redux/payments";
 
 import { getDropdownItem } from "@app/core";
+import { useSortColumn } from "@app/hooks";
 
 import Table, { TableHeading } from "@app/sharedComponents/table";
 
@@ -59,20 +60,10 @@ const PaymentList = ({
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId));
+    const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
     const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
-
-    const onHeaderCellClick = useCallback(
-        (column: keyof Payment) =>
-            setSortColumn({
-                ascending: !isNullOrUndefined(sortColumn) && sortColumn!.columnName === column
-                    ? !sortColumn!.ascending
-                    : true,
-                columnName: column
-            }),
-        [setSortColumn, sortColumn]
-    );
 
     const onPaymentTypeClick = useCallback((paymentTypeId: number) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, paymentTypeId);
@@ -127,14 +118,14 @@ const PaymentList = ({
                         currentSortColumn={sortColumn}
                         onHeaderClick={onHeaderCellClick}
                     >
-                            {pageItems.map(x =>
-                                <PaymentListItem
-                                    key={x.id}
-                                    item={x}
-                                    deletePayment={deletePayment}
-                                    onPaymentTypeClick={onPaymentTypeClick}
-                                />
-                            )}
+                        {pageItems.map(x =>
+                            <PaymentListItem
+                                key={x.id}
+                                item={x}
+                                deletePayment={deletePayment}
+                                onPaymentTypeClick={onPaymentTypeClick}
+                            />
+                        )}
                     </Table>
                     <Paginator
                         count={pagesCount}

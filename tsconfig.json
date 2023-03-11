@@ -58,6 +58,9 @@
 			"@app/static/*": [
 				"src/shared/constants/*"
 			],
+			"@app/hooks": [
+				"src/shared/hooks"
+			],
 			"@app/hooks/*": [
 				"src/shared/hooks/*"
 			],
