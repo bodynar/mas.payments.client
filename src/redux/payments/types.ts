@@ -17,6 +17,9 @@ export type PaymentModuleState = {
     /** All payment types */
     availableTypes: Array<PaymentType>;
 
+    /** Payment types filtered by caption */
+    filteredTypes: Array<PaymentType>;
+
     /** Payment types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
@@ -28,4 +31,7 @@ export type PaymentModuleState = {
 
     /** Current payment type sort column config */
     paymentTypeSortColumn?: SortColumn<PaymentType>;
+
+    /** Last payment type list caption filter */
+    typeFilterCaption?: string;
 };

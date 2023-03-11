@@ -55,7 +55,6 @@ const PaymentCard = ({
             .catch(() => setIsSubmitAvailable(false));
     }, [id, saveCard, navigate]);
 
-
     if (!initialized) {
         return <></>; // TODO: add skeleton
     }

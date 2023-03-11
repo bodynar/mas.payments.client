@@ -2,15 +2,17 @@ import { useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { isNullOrEmpty } from "@bodynarf/utils";
 import { usePagination } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
+import Search from "@bodynarf/react.components/components/search";
 
 import { PaymentType } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetTypeSortColumnAction, deleteTypeRecord } from "@app/redux/payments";
+import { getSetTypeSortColumnAction, deleteTypeRecord, getFilterPaymentTypesAction } from "@app/redux/payments";
 import { useSortColumn } from "@app/hooks";
 
 import Table, { TableHeading } from "@app/sharedComponents/table";
@@ -23,28 +25,34 @@ interface PaymentTypeListProps {
     initialized: boolean;
 
     /** Items that was filtered by last filter */
-    availableTypes: Array<PaymentType>;
+    filteredTypes: Array<PaymentType>;
 
     /** Current sort column config */
     sortColumn?: SortColumn<PaymentType>;
+
+    /** Current filterValue */
+    typeFilterCaption?: string;
 
     /** Save sort column config */
     setSortColumn: (sortColumn: SortColumn<PaymentType>) => void;
 
     /** Delete specified payment type */
     deletePaymentType: (id: number) => void;
+
+    /** Filter types list by specified caption value */
+    filterTypes: (value?: string) => void;
 }
 
 const PaymentTypeList = ({
-    availableTypes, sortColumn, initialized,
-
+    filteredTypes, sortColumn, initialized,
+    filterTypes, typeFilterCaption,
     setSortColumn, deletePaymentType,
 }: PaymentTypeListProps): JSX.Element => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/payment/types/create", { replace: true }), [navigate]);
-    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(availableTypes.length, 20, 1, [availableTypes]);
-    const pageItems: Array<PaymentType> = useMemo(() => paginate(availableTypes), [paginate, availableTypes]);
+    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredTypes.length, 20, 1, [filteredTypes]);
+    const pageItems: Array<PaymentType> = useMemo(() => paginate(filteredTypes), [paginate, filteredTypes]);
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     return (
@@ -54,11 +62,21 @@ const PaymentTypeList = ({
                     <Button
                         type="primary"
                         caption="Create"
-                        onClick={onCreateClick}
                         title="Create new payment type"
+                        onClick={onCreateClick}
                     />
                 </p>
             </nav>
+            <div className="columns">
+                <div className="column is-3">
+                    <Search
+                        searchType="byTyping"
+                        caption="Start typing name to filter"
+                        onSearch={filterTypes}
+                        defaultValue={typeFilterCaption}
+                    />
+                </div>
+            </div>
             {pageItems.length > 0
                 &&
                 <section>
@@ -91,7 +109,10 @@ const PaymentTypeList = ({
             {initialized && pageItems.length === 0
                 &&
                 <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
-                    {`No payments were loaded\r\nTry refreshing page`}
+                    {isNullOrEmpty(typeFilterCaption)
+                        ? "No payment types were found by specified filter"
+                        : `No payment types were loaded\r\nTry refreshing page`
+                    }
                 </p>
             }
         </section>
@@ -103,10 +124,12 @@ export default connect(
     ({ payments }: CompositeAppState) => ({
         ...payments,
         sortColumn: payments.paymentTypeSortColumn,
+        typeFilterCaption: payments.typeFilterCaption
     }),
     ({
         setSortColumn: getSetTypeSortColumnAction,
         deletePaymentType: deleteTypeRecord,
+        filterTypes: getFilterPaymentTypesAction,
     })
 )(PaymentTypeList);
 

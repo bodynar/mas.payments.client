@@ -1,4 +1,4 @@
-import { isUndefined, getPropertyValueWithCheck, isNullOrUndefined } from "@bodynarf/utils";
+import { isUndefined, getPropertyValueWithCheck, isNullOrUndefined, getPropertyValue, isNullOrEmpty } from "@bodynarf/utils";
 
 import { SelectableItem } from "@bodynarf/react.components";
 
@@ -8,7 +8,7 @@ import SortColumn from "@app/models/sortColumn";
 import { sort } from "@app/utils";
 
 import { ActionWithPayload } from "@app/redux";
-import { filterPayments, setPaymentFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setPaymentSortColumn, PaymentModuleState, filterPaymentList, setTypeSortColumn } from "@app/redux/payments";
+import { filterPayments, setPaymentFilterValue, setModuleInitializedState, setPayments, setPaymentTypes, setPaymentSortColumn, PaymentModuleState, filterPaymentList, setTypeSortColumn, filterPaymentTypes } from "@app/redux/payments";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
@@ -17,6 +17,7 @@ const defaultState: PaymentModuleState = {
     filteredItems: [],
     availableTypes: [],
     availableTypesAsDropdownItems: [],
+    filteredTypes: [],
 };
 
 /**
@@ -67,6 +68,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 ...state,
                 availableTypes: types,
                 availableTypesAsDropdownItems: mappedToDropdownItems,
+                filteredTypes: types,
             };
         }
         case setModuleInitializedState: {
@@ -109,7 +111,24 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 availableTypes: sortedItems,
             };
         }
+        case filterPaymentTypes: {
+            const filterValue = getPropertyValue<string | undefined>(action.payload, "name");
 
+            if (isNullOrEmpty(filterValue)) {
+                return {
+                    ...state,
+                    filteredTypes: state.availableTypes,
+                };
+            }
+
+            const loweredValue = filterValue!.toLocaleLowerCase();
+
+            return {
+                ...state,
+                filteredTypes: state.availableTypes.filter(({ caption }) => caption.toLocaleLowerCase().includes(loweredValue)),
+                typeFilterCaption: filterValue!,
+            };
+        }
         default: {
             return state;
         }

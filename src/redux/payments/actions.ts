@@ -16,8 +16,8 @@ export const setPaymentSortColumn = "mas.payments/payment/setSortColumn";
 /** Save payment types */
 export const setPaymentTypes = "mas.payments/paymentTypes/setItems";
 
-// /** Filter payment types according to current filter */
-// export const filterPaymentTypes = "app/paymentTypes/filterItems";
+/** Filter payment types according to current filter */
+export const filterPaymentTypes = "mas.payments/paymentTypes/filterItems";
 
 /** Save current payment type sort column */
 export const setTypeSortColumn = "mas.payments/paymentTypes/setSortColumn";
