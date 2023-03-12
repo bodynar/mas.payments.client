@@ -15,7 +15,7 @@ import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
 import Table, { TableHeading } from "@app/sharedComponents/table";
 
-import PaymentListItem from "../../../listItem";
+import PaymentListItem from "./listItem";
 
 /** Payment flat list props type */
 interface PaymentFlatListProps {
@@ -52,7 +52,6 @@ const PaymentFlatList = ({
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
     setSortColumn, deletePayment,
 }: PaymentFlatListProps): JSX.Element => {
-
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
