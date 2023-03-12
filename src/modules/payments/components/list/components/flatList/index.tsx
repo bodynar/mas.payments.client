@@ -5,6 +5,7 @@ import { isNullOrUndefined } from "@bodynarf/utils";
 import { SelectableItem, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
+import { flatListTableHeadings } from "@app/static/payment";
 import { Payment, PaymentFilter } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
@@ -13,7 +14,7 @@ import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@
 
 import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
-import Table, { TableHeading } from "@app/sharedComponents/table";
+import Table from "@app/sharedComponents/table";
 
 import PaymentListItem from "./listItem";
 
@@ -77,7 +78,7 @@ const PaymentFlatList = ({
                 &&
                 <section>
                     <Table
-                        headings={headings}
+                        headings={flatListTableHeadings}
                         hasBorder={true}
                         narrow={true}
                         hoverable={true}
@@ -131,13 +132,3 @@ export default connect(
         setFilterValue: getSetFilterValueAction,
     })
 )(PaymentFlatList);
-
-/** Pre-defined payment table headings */
-const headings: Array<TableHeading<Payment>> = [
-    { name: "month", caption: "Month", sortable: true, className: "has-text-centered th-color--light-blue width-is-725rem is-vertical-align--center" },
-    { name: "year", caption: "Year", sortable: true, className: "has-text-centered th-color--light-blue width-is-5rem is-vertical-align--center" },
-    { name: "typeId", caption: "Type", sortable: true, className: "has-text-centered th-color--light-blue width-is-10rem is-vertical-align--center" },
-    { name: "price", caption: "Price", sortable: true, className: "has-text-centered th-color--light-blue width-is-725rem is-vertical-align--center" },
-    { caption: "Description", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center" },
-    { caption: "Actions", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center width-is-15rem" },
-];

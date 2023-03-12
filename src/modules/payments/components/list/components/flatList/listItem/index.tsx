@@ -20,24 +20,35 @@ interface PaymentListItemProps {
     deletePayment: (id: number) => void;
 
     /** On payment type click handler */
-    onPaymentTypeClick: (paymentTypeId: number) => void;
+    onPaymentTypeClick?: (paymentTypeId: number) => void;
+
+    /**
+     * Is component used in group view.
+     * Removes month & year columns from display
+     */
+    useInGroupView?: boolean;
 }
 
 /** Payment list item */
 const PaymentListItem = ({
-    item,
+    item, useInGroupView,
     deletePayment, onPaymentTypeClick,
 }: PaymentListItemProps): JSX.Element => {
     const navigate = useNavigate();
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
     const onDeleteClick = useCallback(() => deletePayment(item.id), [deletePayment, item]);
-    const onTypeClick = useCallback(() => onPaymentTypeClick(item.typeId), [item.typeId, onPaymentTypeClick]);
+    const onTypeClick = useCallback(() => onPaymentTypeClick!(item.typeId), [item.typeId, onPaymentTypeClick]);
 
     return (
         <tr key={item.id}>
-            <td className="has-text-centered is-vertical-align--center">{getMonthName(item.month)}</td>
-            <td className="has-text-centered is-vertical-align--center">{item.year}</td>
+            {useInGroupView !== true
+                &&
+                <>
+                    <td className="has-text-centered is-vertical-align--center">{getMonthName(item.month)}</td>
+                    <td className="has-text-centered is-vertical-align--center">{item.year}</td>
+                </>
+            }
             <td className="has-text-centered is-vertical-align--center">
                 <Tag
                     content={item.typeCaption}
@@ -45,8 +56,16 @@ const PaymentListItem = ({
                         color: getFontColorFromString(item.typeColor!),
                         backgroundColor: item.typeColor!
                     }}
-                    onClick={onTypeClick}
-                    title={`Filter by type "${item.typeCaption}" additionaly`}
+                    onClick={
+                        isNullOrUndefined(onPaymentTypeClick)
+                            ? undefined
+                            : onTypeClick
+                    }
+                    title={
+                        isNullOrUndefined(onPaymentTypeClick)
+                            ? undefined
+                            : `Filter by type "${item.typeCaption}" additionaly`
+                    }
                 />
             </td>
             <td className="has-text-centered is-vertical-align--center">{item.price}</td>

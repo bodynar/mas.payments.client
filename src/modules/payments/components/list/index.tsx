@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { SelectableItem } from "@bodynarf/react.components";
+import { ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import CheckBox from "@bodynarf/react.components/components/primitives/checkbox";
 
@@ -42,6 +42,9 @@ const PaymentList = ({
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId));
+    const [ascSortGroups, setAscSortGroups] = useState(false);
+
+    const toggleGroupSort = useCallback(() => setAscSortGroups(oldValue => !oldValue), []);
 
     return (
         <section>
@@ -68,27 +71,41 @@ const PaymentList = ({
                 onTypeChange={setType}
                 currentType={selectedType}
             />
-            <section className="my-3">
-                <CheckBox
-                    onValueChange={toggleUseGrouping}
-                    defaultValue={useGroupedView}
-                    label={{
-                        horizontal: true,
-                        caption: "Use grouping by month"
-                    }}
-                />
-            </section>
+            <div className="block columns">
+                <div className="column is-3">
+                    <CheckBox
+                        onValueChange={toggleUseGrouping}
+                        defaultValue={useGroupedView}
+                        label={{
+                            horizontal: true,
+                            caption: "Use grouping by month"
+                        }}
+                    />
+                </div>
+                {useGroupedView
+                    &&
+                    <div className="column is-3">
+                        <Button
+                            type="ghost"
+                            caption="Order by Date"
+                            size={ElementSize.Small}
+                            icon={{
+                                position: "left",
+                                name: ascSortGroups ? "sort-down" : "sort-up",
+                                size: ElementSize.Medium,
+                            }}
+                            onClick={toggleGroupSort}
+                        />
+                    </div>
+                }
+            </div>
             {!useGroupedView
                 &&
-                <PaymentFlatList
-                    setType={setType}
-                />
+                <PaymentFlatList setType={setType} />
             }
             {useGroupedView
                 &&
-                <PaymentGroupedView
-
-                />
+                <PaymentGroupedView isAscOrder={ascSortGroups}/>
             }
         </section>
     );
