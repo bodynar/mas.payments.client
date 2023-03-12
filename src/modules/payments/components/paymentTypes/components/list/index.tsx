@@ -110,8 +110,8 @@ const PaymentTypeList = ({
                 &&
                 <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
                     {isNullOrEmpty(typeFilterCaption)
-                        ? "No payment types were found by specified filter"
-                        : `No payment types were loaded\r\nTry refreshing page`
+                        ? `No payment types were loaded\r\nTry refreshing page`
+                        : "No payment types were found by specified filter"
                     }
                 </p>
             }
