@@ -56,7 +56,14 @@ const Accordion = ({
                 <span>
                     {caption}
                 </span>
-                <Icon name="arrow-down" size={ElementSize.Medium} />
+                <Icon
+                    name="arrow-down"
+                    size={isNullOrUndefined(size)
+                        ? ElementSize.Medium
+                        : size!
+                    }
+
+                />
             </div>
             <div
                 className="message-body"
