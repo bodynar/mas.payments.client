@@ -80,7 +80,7 @@ const PaymentFilters = ({
     return (
         <Accordion
             caption={accordionCaption}
-            style={ElementColor.Info}
+            style={ElementColor.Link}
         >
             <div className="field is-horizontal">
                 <div className="field-label is-normal is-flex-grow-035 has-text-left">
