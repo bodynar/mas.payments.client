@@ -87,7 +87,7 @@ const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JS
             <section>
                 <Outlet />
             </section>
-        </section >
+        </section>
     );
 };
 

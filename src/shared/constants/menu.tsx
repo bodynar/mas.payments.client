@@ -11,6 +11,7 @@ import User from "@app/modules/user";
 
 import { routes as userRoutes } from "@app/modules/user/components";
 import { routes as paymentRoutes } from "@app/modules/payments/components";
+import { routes as measurementRoutes } from "@app/modules/measurements/components";
 
 /** Static navbar menu */
 export const menuItems: Array<MenuItem> = [
@@ -33,6 +34,7 @@ export const menuItems: Array<MenuItem> = [
         caption: "Measurements",
         link: "/measurement",
         component: <Measurements />,
+        children: measurementRoutes,
     },
     {
         name: "Stats",
