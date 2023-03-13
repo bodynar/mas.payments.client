@@ -1,6 +1,6 @@
 import { RouteItem } from "@app/models/routeItem";
 
-// import MeasurementList from "./list";
+import MeasurementList from "./list";
 // import MeasurementCard from "./edit";
 
 // import { routes as typeRoutes } from "./measurementTypes/routes";
@@ -11,8 +11,7 @@ export const routes: Array<RouteItem> = [
     {
         link: "/measurement",
         name: "Measurement list",
-        component: <>List</>
-        // component: <MeasurementList/>,
+        component: <MeasurementList/>,
     },
     {
         link: "/measurement/create",

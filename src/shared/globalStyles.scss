@@ -27,8 +27,22 @@
     }
 }
 
+.min-width {
+    $width: 0;
+    @while $width < 100 {
+        &--is-#{$width} {
+            min-width: #{$width}#{"%"} !important;
+        }
+
+        $width: $width + 10;
+    }
+}
+
 .is-flex-grow- {
     @media screen and (min-width: 769px) {
+        &0125 {
+            flex-grow: 0.125 !important;
+        }
         &025 {
             flex-grow: 0.25 !important;
         }
