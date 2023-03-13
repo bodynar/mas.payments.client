@@ -110,6 +110,7 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
                 ...state,
                 paymentTypeSortColumn: sortColumn,
                 availableTypes: sortedItems,
+                filteredTypes: state.availableTypes.filter(({ caption }) => caption.toLocaleLowerCase().includes(state.typeFilterCaption?.toLocaleLowerCase() ?? "")),
             };
         }
         case FILTER_PAYMENT_TYPES: {
