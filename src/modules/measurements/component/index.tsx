@@ -97,6 +97,6 @@ const MeasurementModule = ({
 
 /** Measurement module component */
 export default connect(
-    ({ payments }: CompositeAppState) => ({ initialized: payments.initialized, }),
+    ({ measurements }: CompositeAppState) => ({ initialized: measurements.initialized, }),
     ({ initModuleState })
 )(MeasurementModule);
