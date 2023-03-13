@@ -112,6 +112,7 @@ export default function (state: MeasurementModuleState = defaultState, action: A
                 ...state,
                 measurementTypeSortColumn: sortColumn,
                 availableTypes: sortedItems,
+                filteredTypes: state.availableTypes.filter(({ caption }) => caption.toLocaleLowerCase().includes(state.typeFilterCaption?.toLocaleLowerCase() ?? "")),
             };
         }
         case FILTER_MEASUREMENT_TYPES: {
