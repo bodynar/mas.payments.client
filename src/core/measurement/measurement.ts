@@ -1,7 +1,9 @@
 import { isNullOrUndefined } from "@bodynarf/utils";
+import { SelectableItem } from "@bodynarf/react.components";
+import { FieldValue } from "@bodynarf/react.components.form";
 
 import { filter, FilterValue, get, post } from "@app/utils";
-import { Measurement, MeasurementFilter, MeasurementGroup } from "@app/models/measurements";
+import { Measurement, MeasurementFilter, MeasurementGroup, UpdateMeasurement } from "@app/models/measurements";
 import { getMonthName } from "@app/constants";
 
 /**
@@ -107,4 +109,24 @@ export const groupMeasurements = (
     });
 
     return result;
+};
+
+
+/**
+ * Update measurement with specified identifier by specific form values
+ * @param values Measurement card form values
+ * @param id Measurement identifier
+ * @returns Promise without any data
+ */
+export const updateMeasurement = (values: Array<FieldValue>, id: string): Promise<void> => {
+    const apiModel: UpdateMeasurement = {
+        id: +id,
+        value: +values.find(({ key }) => key === "value")!.value,
+        month: +(values.find(({ key }) => key === "month")!.value as SelectableItem).value,
+        year: +(values.find(({ key }) => key === "year")!.value as SelectableItem).value,
+        typeId: +(values.find(({ key }) => key === "type")!.value as SelectableItem).value,
+        comment: values.find(({ key }) => key === "comment")?.value,
+    };
+
+    return post("api/measurement/updateMeasurement", apiModel);
 };

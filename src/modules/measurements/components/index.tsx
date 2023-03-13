@@ -1,7 +1,7 @@
 import { RouteItem } from "@app/models/routeItem";
 
 import MeasurementList from "./list";
-// import MeasurementCard from "./edit";
+import MeasurementEditCard from "./edit";
 
 import { routes as typeRoutes } from "./measurementTypes";
 import MeasurementTypeSubModule from "./measurementTypes/component";
@@ -22,8 +22,7 @@ export const routes: Array<RouteItem> = [
     {
         link: "/measurement/edit/:id",
         name: "Edit measurement",
-        component: <>Card</>,
-        // component: <MeasurementCard/>,
+        component: <MeasurementEditCard />,
     },
     {
         link: "/measurement/types",
