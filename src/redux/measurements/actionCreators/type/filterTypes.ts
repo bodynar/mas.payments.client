@@ -6,7 +6,7 @@ import { FILTER_MEASUREMENT_TYPES } from "@app/redux/measurements";
  * @param sortColumn Sort column
  * @returns Redux action to update state
  */
-export const getFilterMeasurementsTypesAction = (nameFilterValue?: string): ActionWithPayload => ({
+export const getFilterMeasurementTypesAction = (nameFilterValue?: string): ActionWithPayload => ({
     type: FILTER_MEASUREMENT_TYPES,
     payload: {
         name: nameFilterValue

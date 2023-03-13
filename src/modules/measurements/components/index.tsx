@@ -3,8 +3,8 @@ import { RouteItem } from "@app/models/routeItem";
 import MeasurementList from "./list";
 // import MeasurementCard from "./edit";
 
-// import { routes as typeRoutes } from "./measurementTypes/routes";
-// import MeasurementTypeSubModule from "./measurementTypes/component";
+import { routes as typeRoutes } from "./measurementTypes";
+import MeasurementTypeSubModule from "./measurementTypes/component";
 
 /** Measurements module sub-routes */
 export const routes: Array<RouteItem> = [
@@ -28,8 +28,7 @@ export const routes: Array<RouteItem> = [
     {
         link: "/measurement/types",
         name: "Measurement types",
-        component: <>Types</>
-        // component: <MeasurementTypeSubModule/>,
-        // children: typeRoutes
+        component: <MeasurementTypeSubModule/>,
+        children: typeRoutes
     },
 ];

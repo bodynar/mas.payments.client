@@ -5,6 +5,7 @@ import { getSetPaymentTypesAction, getSetModuleInitializedStateAction, getSetPay
 import { getSetAppIsLoadingAction } from "@app/redux/app/";
 
 import { getPaymentRecords, getPaymentTypes } from "@app/core/payment";
+import { PaymentType } from "@app/models/payments";
 
 /**
  * Init payments module state
@@ -16,8 +17,15 @@ export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown,
 ): void => {
     dispatch(getSetAppIsLoadingAction(true));
 
+    const { payments } = getState();
+
+    const paymentTypeProvider: Promise<Array<PaymentType>> =
+        payments.availableTypesAsDropdownItems.length > 0
+            ? new Promise(x => x(payments.availableTypes))
+            : getPaymentTypes();
+
     Promise.all([
-        getPaymentTypes(),
+        paymentTypeProvider,
         getPaymentRecords(),
     ])
         .then(([types, payments]) => {
