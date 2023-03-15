@@ -60,7 +60,9 @@ table.table {
         position: sticky;
         top: 0.125rem;
         z-index: 1;
+    }
 
+    thead th {
         &.th-color--light-blue {
             background-color: #eff5fb;
             color: #296fa8;
