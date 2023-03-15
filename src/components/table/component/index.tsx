@@ -34,6 +34,9 @@ interface TableProps<TItem> {
     */
     headerWithBorder?: boolean;
 
+    /** Header has no borders */
+    headerBorderless?: boolean;
+
     /**
      * Should rows be stripped.
      * @description Even rows will have gray background
@@ -56,7 +59,7 @@ interface TableProps<TItem> {
  */
 function Table<TItem>({
     headings,
-    hasBorder, hoverable, narrow, fullWidth, zebra,
+    hasBorder, hoverable, narrow, fullWidth, zebra, headerBorderless,
     hasStickyHeader, headerWithBorder, className,
     currentSortColumn, onHeaderClick,
     children,
@@ -71,6 +74,7 @@ function Table<TItem>({
         zebra ? "is-striped" : "",
         hasStickyHeader ? "has-sticky-header" : "",
         headerWithBorder ? "has-borderless-header has-shadow-bordered-header" : "",
+        headerBorderless ? "has-borderless-header" : "",
         className,
     ]);
 
