@@ -31,6 +31,9 @@
 			"@app/models/*": [
 				"src/shared/models/*"
 			],
+			"@app/models": [
+				"src/shared/models"
+			],
 			"@app/utils/*": [
 				"src/shared/utils/*"
 			],
