@@ -9,34 +9,7 @@
     height: 100%;
 }
 
-.width-is {
-    &-5rem {
-        width: 5rem !important;
-    }
-    &-725rem {
-        width: 7.25rem !important;
-    }
-    &-10rem {
-        width: 10rem !important;
-    }
-    &-15rem {
-        width: 15rem !important;
-    }
-    &-10 {
-        width: 10% !important;
-    }
-}
-
-.min-width {
-    $width: 0;
-    @while $width < 100 {
-        &--is-#{$width} {
-            min-width: #{$width}#{"%"} !important;
-        }
-
-        $width: $width + 10;
-    }
-}
+@import "./style/width.scss";
 
 .is-flex-grow- {
     @media screen and (min-width: 769px) {

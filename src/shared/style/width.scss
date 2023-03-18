@@ -1,0 +1,24 @@
+.width--is {
+    &-725rem {
+        width: 7.25rem !important;
+    }
+    $value: 5;
+    @while $value < 100 {
+        &-#{$value}rem {
+            width: #{$value}rem !important;
+        }
+
+        $value: $value + 5;
+    }
+}
+
+.min-width--is {
+    $width: 0;
+    @while $width < 100 {
+        &-#{$width} {
+            min-width: #{$width}#{"%"} !important;
+        }
+
+        $width: $width + 10;
+    }
+}
