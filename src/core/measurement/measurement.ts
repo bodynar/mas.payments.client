@@ -3,7 +3,7 @@ import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
 import { filter, FilterValue, get, post } from "@app/utils";
-import { Measurement, MeasurementFilter, MeasurementGroup, UpdateMeasurement } from "@app/models/measurements";
+import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, UpdateMeasurement } from "@app/models/measurements";
 import { getMonthName } from "@app/constants";
 
 /**
@@ -111,6 +111,14 @@ export const groupMeasurements = (
     return result;
 };
 
+/**
+ * Save create measurement card with several possible measurements
+ * @param measurementsData Measurements data
+ * @returns Promise without any data
+ */
+export const createMeasurements = (measurementsData: AddMeasurements): Promise<void> => {
+    return post("api/measurement/addMeasurement", measurementsData);
+};
 
 /**
  * Update measurement with specified identifier by specific form values
@@ -129,4 +137,27 @@ export const updateMeasurement = (values: Array<FieldValue>, id: string): Promis
     };
 
     return post("api/measurement/updateMeasurement", apiModel);
+};
+
+/**
+ * Validate single measurement item
+ * @param param0 Measurement create single item data
+ * @returns Validation error if there's something; otherwise - `undefined`
+ */
+export const validateMeasurementCreateData = (
+    { typeId, value }: AddMeasurementRecordData
+): string | undefined => {
+    if (isNullOrUndefined(typeId)) {
+        return "Type is not selected";
+    }
+
+    if (isNullOrUndefined(value)) {
+        return "Value is not valid";
+    }
+
+    if (value! <= 0) {
+        return "Value cannot be less or equal to 0";
+    }
+
+    return undefined;
 };

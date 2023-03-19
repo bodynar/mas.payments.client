@@ -2,6 +2,7 @@ import { RouteItem } from "@app/models/routeItem";
 
 import MeasurementList from "./list";
 import MeasurementEditCard from "./edit";
+import MeasurementCreateCard from "./create";
 
 import { routes as typeRoutes } from "./measurementTypes";
 import MeasurementTypeSubModule from "./measurementTypes/component";
@@ -11,13 +12,12 @@ export const routes: Array<RouteItem> = [
     {
         link: "/measurement",
         name: "Measurement list",
-        component: <MeasurementList/>,
+        component: <MeasurementList />,
     },
     {
         link: "/measurement/create",
         name: "Create new measurement",
-        component: <>Card</>,
-        // component: <MeasurementCard/>,
+        component: <MeasurementCreateCard />,
     },
     {
         link: "/measurement/edit/:id",
@@ -27,7 +27,7 @@ export const routes: Array<RouteItem> = [
     {
         link: "/measurement/types",
         name: "Measurement types",
-        component: <MeasurementTypeSubModule/>,
+        component: <MeasurementTypeSubModule />,
         children: typeRoutes
     },
 ];
