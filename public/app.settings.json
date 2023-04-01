@@ -5,6 +5,6 @@
     },
     "Request": {
         "LoaderMinSecondsLife": 2,
-        "Timeout": 10
+        "Timeout": 15
     }
 }
