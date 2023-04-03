@@ -124,13 +124,18 @@ const MeasurementCreateCard = ({
     }, [items, saveCard, model, changeItems, navigate]);
 
     const onAddForAllTypesClick = useCallback(
-        () => changeItems(
-            availableTypes.map(type => ({
-                id: generateGuid(),
-                typeId: type.id,
-                previousValues: getPreviousValues(),
-            }))
-        ),
+        () => {
+            const previousValues = getPreviousValues();
+
+            changeItems(
+                availableTypes.map(type => ({
+                    id: generateGuid(),
+                    typeId: type.id,
+                    previousValues: previousValues,
+                    value: previousValues.find(({ typeId }) => typeId === type.id)?.value,
+                }))
+            );
+        },
         [availableTypes, changeItems, getPreviousValues]
     );
 
@@ -291,9 +296,9 @@ export default connect(
 /** Measurement add table headings */
 const tableHeadings = [
     { caption: "Type", sortable: false, className: "has-text-centered width--is-15rem is-vertical-align--center" },
-    { caption: "Value", sortable: false, className: "has-text-centered width--is-15rem is-vertical-align--center" },
+    { caption: "Value", sortable: false, className: "has-text-centered width--is-15rem is-vertical-align--center width--is-15rem" },
     { caption: "Comment", sortable: false, className: "has-text-centered is-vertical-align--center width--is-25rem" },
-    { caption: "", sortable: false, className: "has-text-centered is-vertical-align--center width--is-15rem" },
+    { caption: "", sortable: false, className: "has-text-centered is-vertical-align--center width--is-5rem" },
 ];
 
 /** Temporary extension for add measurement model */

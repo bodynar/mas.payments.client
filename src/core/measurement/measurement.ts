@@ -145,7 +145,7 @@ export const updateMeasurement = (values: Array<FieldValue>, id: string): Promis
  * @returns Validation error if there's something; otherwise - `undefined`
  */
 export const validateMeasurementCreateData = (
-    { typeId, value }: AddMeasurementRecordData
+    { typeId, value, previousValues }: AddMeasurementRecordData
 ): string | undefined => {
     if (isNullOrUndefined(typeId)) {
         return "Type is not selected";
@@ -157,6 +157,18 @@ export const validateMeasurementCreateData = (
 
     if (value! <= 0) {
         return "Value cannot be less or equal to 0";
+    }
+
+    const previousValue = previousValues.find(previous => previous.typeId === typeId)?.value;
+
+    if (!isNullOrUndefined(previousValue)) {
+        if (previousValue! > value!) {
+            return "Value cannot be less than previous value";
+        }
+
+        if (previousValue! === value!) {
+            return "Value is not changed";
+        }
     }
 
     return undefined;

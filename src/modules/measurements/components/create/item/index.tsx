@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
@@ -36,7 +36,9 @@ const MeasurementCreateCardItem = ({
     deleteItem, updateItem,
 }: MeasurementCreateCardItemProps): JSX.Element => {
     const onDeleteClick = useCallback(() => deleteItem(item.id), [deleteItem, item]);
+
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, item.typeId));
+    const [diff, setDiff] = useState<number | undefined>();
     const [lastMeasurement, setLastMeasurement] = useState<number | undefined>(
         isNullOrUndefined(item.typeId)
             ? undefined
@@ -44,13 +46,24 @@ const MeasurementCreateCardItem = ({
                 .filter(({ typeId }) => typeId === item.typeId!)
                 .pop()?.value
     );
-    const [diff, setDiff] = useState<number | undefined>();
+
+    useEffect(
+        () =>
+            setDiff(!isNullOrUndefined(lastMeasurement) && !isNullOrUndefined(item.value)
+                ? +item.value! - lastMeasurement!
+                : undefined
+            ),
+        [item.value, lastMeasurement]
+    );
 
     const onTypeSelect = useCallback(
         (type?: SelectableItem) => {
             updateItem(item.id, {
                 ...item,
                 typeId: isNullOrUndefined(type) ? undefined : +type!.value,
+                value: !isNullOrUndefined(type)
+                    ? item.previousValues.find(({ typeId }) => typeId === +type!.value)?.value ?? undefined
+                    : undefined,
             });
             setType(type);
 
@@ -77,13 +90,6 @@ const MeasurementCreateCardItem = ({
         [item, updateItem]
     );
 
-    const onValueBoxBlur = useCallback(() =>
-        setDiff(isNullOrUndefined(item.value)
-            ? undefined
-            : +item.value! - lastMeasurement!)
-        , [item.value, lastMeasurement]
-    );
-
     const className = getClassName([
         "measurements_table__item",
         !isNullOrUndefined(validationError) ? "measurements_table__item--has-error" : "",
@@ -106,7 +112,7 @@ const MeasurementCreateCardItem = ({
                     <Number
                         placeholder="Value"
                         onValueChange={onValueChange}
-                        onBlur={onValueBoxBlur}
+                        defaultValue={item.value}
                     />
                     {!isNullOrUndefined(diff) && diff! > 0
                         &&
@@ -140,7 +146,7 @@ const MeasurementCreateCardItem = ({
             </td>
             {!isNullOrUndefined(validationError)
                 &&
-                <td className="is-vertical-align--center width--is-10rem">
+                <td className="is-vertical-align--center width--is-15rem has-text-weight-bold">
                     {validationError}
                 </td>
             }
