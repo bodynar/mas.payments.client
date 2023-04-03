@@ -2,7 +2,7 @@ import { isUndefined, getPropertyValueWithCheck, isNullOrUndefined, getPropertyV
 
 import { SelectableItem } from "@bodynarf/react.components";
 
-import { MeasurementType, Measurement, MeasurementFilter } from "@app/models/measurements";
+import { MeasurementType, Measurement, MeasurementFilter, MeasurementGroupedByType } from "@app/models/measurements";
 import SortColumn from "@app/models/sortColumn";
 
 import { sort } from "@app/utils";
@@ -10,7 +10,7 @@ import { sort } from "@app/utils";
 import { filterMeasurementList } from "@app/core/measurement";
 
 import { ActionWithPayload } from "@app/redux";
-import { FILTER_MEASUREMENTS, FILTER_MEASUREMENT_TYPES, MeasurementModuleState, SET_MEASUREMENTS, SET_MEASUREMENT_FILTER_VALUE, SET_MEASUREMENT_SORT_COLUMN, SET_MEASUREMENT_TYPES, SET_MODULE_INITIALIZED_STATE, SET_TYPE_SORT_COLUMN, TOGGLE_GROUP_VIEW } from ".";
+import { FILTER_MEASUREMENTS, FILTER_MEASUREMENT_TYPES, MeasurementModuleState, SET_GROUPED_BY_TYPE, SET_MEASUREMENTS, SET_MEASUREMENT_FILTER_VALUE, SET_MEASUREMENT_SORT_COLUMN, SET_MEASUREMENT_TYPES, SET_MODULE_INITIALIZED_STATE, SET_TYPE_SORT_COLUMN, TOGGLE_GROUP_VIEW } from ".";
 
 /** Initial module state */
 const defaultState: MeasurementModuleState = {
@@ -137,6 +137,14 @@ export default function (state: MeasurementModuleState = defaultState, action: A
             return {
                 ...state,
                 useGroupedView: !state.useGroupedView,
+            };
+        }
+        case SET_GROUPED_BY_TYPE: {
+            const groups = getPropertyValue<Array<MeasurementGroupedByType>>(action.payload, "groups");
+
+            return {
+                ...state,
+                groupedByType: groups,
             };
         }
         default: {

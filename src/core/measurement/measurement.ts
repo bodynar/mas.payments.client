@@ -3,7 +3,7 @@ import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
 import { filter, FilterValue, get, post } from "@app/utils";
-import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, UpdateMeasurement } from "@app/models/measurements";
+import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, MeasurementGroupedByType, UpdateMeasurement } from "@app/models/measurements";
 import { getMonthName } from "@app/constants";
 
 /**
@@ -160,4 +160,13 @@ export const validateMeasurementCreateData = (
     }
 
     return undefined;
+};
+
+/**
+ * Group measurement items by `typeId` value
+ * @param items Measurement items
+ * @returns Measurements grouped by type
+ */
+export const groupMeasurementsByType = (items: Array<Measurement>): Array<MeasurementGroupedByType> => {
+    return items.groupBy('typeId');
 };

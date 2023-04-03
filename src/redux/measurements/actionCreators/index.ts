@@ -5,3 +5,4 @@ export * from "./setMeasurements";
 export * from "./setModuleInitState";
 export * from "./setSortColumn";
 export * from "./toggleGroupView";
+export * from "./setGroupedByType";

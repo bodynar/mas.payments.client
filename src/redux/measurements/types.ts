@@ -1,6 +1,6 @@
 import { SelectableItem } from "@bodynarf/react.components";
 
-import { MeasurementType, Measurement, MeasurementFilter } from "@app/models/measurements";
+import { MeasurementType, Measurement, MeasurementFilter, MeasurementGroupedByType } from "@app/models/measurements";
 import SortColumn from "@app/models/sortColumn";
 
 /** Measurement module state */
@@ -40,4 +40,7 @@ export interface MeasurementModuleState {
 
     /** Last measurement type list caption filter */
     typeFilterCaption?: string;
+
+    /** All measurements grouped by type */
+    groupedByType?: Array<MeasurementGroupedByType>;
 }

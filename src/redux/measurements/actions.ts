@@ -24,3 +24,6 @@ export const SET_TYPE_SORT_COLUMN = "mas.payments/measurementTypes/setSortColumn
 
 /** Toggle group view flag */
 export const TOGGLE_GROUP_VIEW = "mas.payments/measurement/toggleGroupView";
+
+/** Save measurements grouped by type */
+export const SET_GROUPED_BY_TYPE = "mas.payments/measurement/setGroupedByType";
