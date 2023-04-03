@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -10,12 +10,12 @@ import Button from "@bodynarf/react.components/components/button";
 import "./style.scss";
 
 import { LookupDate } from "@app/models";
-import { AddMeasurementRecordData, AddMeasurements, MeasurementType } from "@app/models/measurements";
+import { AddMeasurementRecordData, AddMeasurements, MeasurementGroupedByType, MeasurementType } from "@app/models/measurements";
 import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/constants";
 import { validateMeasurementCreateData } from "@app/core/measurement";
 
 import { CompositeAppState } from "@app/redux";
-import { saveCard } from "@app/redux/measurements";
+import { groupByType, saveCard } from "@app/redux/measurements";
 
 import Table from "@app/sharedComponents/table";
 import MeasurementCreateCardItem from "./item";
@@ -28,8 +28,14 @@ interface MeasurementCreateCardProps {
     /** Is measurement module state initialized */
     initialized: boolean;
 
+    /** All measurements grouped by type */
+    groupedByType?: Array<MeasurementGroupedByType>;
+
     /** Save current card values */
     saveCard: (values: AddMeasurements, id?: string) => Promise<void>;
+
+    /** Group measurements by type */
+    groupByType: () => void;
 }
 
 /**
@@ -53,10 +59,17 @@ const validateItems = (
 };
 
 const MeasurementCreateCard = ({
-    initialized, availableTypes,
-    saveCard,
+    initialized, groupedByType, availableTypes,
+    saveCard, groupByType,
 }: MeasurementCreateCardProps): JSX.Element => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (initialized && isNullOrUndefined(groupedByType)) {
+            groupByType();
+        }
+
+    }, [groupedByType, initialized, groupByType]);
 
     const [model, setModel] = useState<AddMeasurements>({ measurements: [] });
     const [items, setItems] = useState<Array<AddMeasurementRecordDataExtended>>([]);
@@ -64,8 +77,20 @@ const MeasurementCreateCard = ({
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
 
     const changeItems = useCallback((newArray: Array<AddMeasurementRecordData>) => setItems(newArray), []);
-    const onAddMeasurementClick = useCallback(() => changeItems([...items, { id: generateGuid() }]), [changeItems, items]);
     const onRemoveAllClick = useCallback(() => changeItems([]), [changeItems]);
+
+    const getPreviousValues = useCallback(
+        () => (groupedByType ?? []).map(group => ({
+            typeId: group.key as number,
+            value: group.items[group.items.length - 1]!.value
+        })),
+        [groupedByType]
+    );
+
+    const onAddMeasurementClick = useCallback(
+        () => changeItems([...items, { id: generateGuid(), previousValues: getPreviousValues(), }]),
+        [changeItems, getPreviousValues, items]
+    );
 
     const onChangeItem = useCallback(
         (id: string, newValues: AddMeasurementRecordDataExtended) =>
@@ -99,8 +124,14 @@ const MeasurementCreateCard = ({
     }, [items, saveCard, model, changeItems, navigate]);
 
     const onAddForAllTypesClick = useCallback(
-        () => changeItems(availableTypes.map(type => ({ id: generateGuid(), typeId: type.id, }))),
-        [availableTypes, changeItems]
+        () => changeItems(
+            availableTypes.map(type => ({
+                id: generateGuid(),
+                typeId: type.id,
+                previousValues: getPreviousValues(),
+            }))
+        ),
+        [availableTypes, changeItems, getPreviousValues]
     );
 
     const onDeleteItemClick = useCallback(
@@ -248,9 +279,13 @@ const MeasurementCreateCard = ({
 export default connect(
     ({ measurements: state }: CompositeAppState) => ({
         initialized: state.initialized,
+        groupedByType: state.groupedByType,
         availableTypes: state.availableTypes,
     }),
-    ({ saveCard })
+    ({
+        saveCard,
+        groupByType: groupByType
+    })
 )(MeasurementCreateCard);
 
 /** Measurement add table headings */

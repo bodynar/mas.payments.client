@@ -8,15 +8,12 @@ import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Number from "@bodynarf/react.components/components/primitives/number";
 import Text from "@bodynarf/react.components/components/primitives/text";
 
-import { AddMeasurementRecordData, Measurement } from "@app/models/measurements";
+import { AddMeasurementRecordData } from "@app/models/measurements";
 import { CompositeAppState } from "@app/redux/types";
 import { getDropdownItem } from "@app/core";
 
 /** Measurement card props types */
 interface MeasurementCreateCardItemProps {
-    /** All measurements */
-    measurements: Array<Measurement>;
-
     /** Data container */
     item: AddMeasurementRecordData;
 
@@ -34,20 +31,20 @@ interface MeasurementCreateCardItemProps {
 }
 
 const MeasurementCreateCardItem = ({
-    item, availableTypesAsDropdownItems, /* measurements, */
+    item, availableTypesAsDropdownItems,
     validationError,
     deleteItem, updateItem,
 }: MeasurementCreateCardItemProps): JSX.Element => {
     const onDeleteClick = useCallback(() => deleteItem(item.id), [deleteItem, item]);
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, item.typeId));
-    // const [lastMeasurement, setLastMeasurement] = useState<number | undefined>(
-    //     isNullOrUndefined(item.typeId)
-    //         ? undefined
-    //         : measurements
-    //             .filter(({ typeId }) => typeId === item.typeId!)
-    //             .pop()?.value
-    // );
-    // const [diff, setDiff] = useState<number | undefined>();
+    const [lastMeasurement, setLastMeasurement] = useState<number | undefined>(
+        isNullOrUndefined(item.typeId)
+            ? undefined
+            : item.previousValues
+                .filter(({ typeId }) => typeId === item.typeId!)
+                .pop()?.value
+    );
+    const [diff, setDiff] = useState<number | undefined>();
 
     const onTypeSelect = useCallback(
         (type?: SelectableItem) => {
@@ -57,15 +54,15 @@ const MeasurementCreateCardItem = ({
             });
             setType(type);
 
-            // if (isNullOrUndefined(type)) {
-            //     setLastMeasurement(undefined);
-            // } else {
-            //     const lastItem = measurements
-            //         .filter(({ typeId }) => typeId === +type!.value)
-            //         .pop();
+            if (isNullOrUndefined(type)) {
+                setLastMeasurement(undefined);
+            } else {
+                const lastItem = item.previousValues
+                    .filter(({ typeId }) => typeId === +type!.value)
+                    .pop();
 
-            //     setLastMeasurement(lastItem?.value);
-            // }
+                setLastMeasurement(lastItem?.value);
+            }
         },
         [item, updateItem]
     );
@@ -80,12 +77,12 @@ const MeasurementCreateCardItem = ({
         [item, updateItem]
     );
 
-    // const onValueBoxBlur = useCallback(() =>
-    //     setDiff(isNullOrUndefined(item.value)
-    //         ? undefined
-    //         : +item.value! - lastMeasurement!)
-    //     , [item.value, lastMeasurement]
-    // );
+    const onValueBoxBlur = useCallback(() =>
+        setDiff(isNullOrUndefined(item.value)
+            ? undefined
+            : +item.value! - lastMeasurement!)
+        , [item.value, lastMeasurement]
+    );
 
     const className = getClassName([
         "measurements_table__item",
@@ -94,7 +91,7 @@ const MeasurementCreateCardItem = ({
 
     return (
         <tr className={className}>
-            <td>
+            <td className="is-vertical-align--center">
                 <Dropdown
                     placeholder="Type"
                     deselectable={true}
@@ -104,21 +101,29 @@ const MeasurementCreateCardItem = ({
                     items={availableTypesAsDropdownItems}
                 />
             </td>
-            <td>
-                <Number
-                    placeholder="Value"
-                    onValueChange={onValueChange}
-                // onBlur={onValueBoxBlur}
-                />
-                {/* {!isNullOrUndefined(diff) &&
-                    <span> Diff with last value: {diff}</span>
-                } */}
+            <td className="is-vertical-align--center">
+                <div className="field has-addons">
+                    <Number
+                        placeholder="Value"
+                        onValueChange={onValueChange}
+                        onBlur={onValueBoxBlur}
+                    />
+                    {!isNullOrUndefined(diff) && diff! > 0
+                        &&
+                        <div className="control">
+                            <Button
+                                type="default"
+                                static={true}
+                                caption={`+${diff}`}
+                            />
+                        </div>
+                    }
+                </div>
             </td>
-            <td>
+            <td className="is-vertical-align--center">
                 <Text
                     placeholder="Comment"
                     onValueChange={onCommentChange}
-
                 />
             </td>
             <td className="is-vertical-align--center">
@@ -147,7 +152,6 @@ const MeasurementCreateCardItem = ({
 export default connect(
     ({ measurements: state }: CompositeAppState) => ({
         availableTypesAsDropdownItems: state.availableTypesAsDropdownItems,
-        measurements: state.measurements,
     }),
     ({})
 )(MeasurementCreateCardItem);

@@ -23,4 +23,10 @@ export interface AddMeasurementRecordData {
 
     /** Optional comment*/
     comment?: string;
+
+    previousValues: Array<{
+        typeId: number;
+
+        value: number;
+    }>;
 }
