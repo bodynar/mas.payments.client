@@ -75,6 +75,7 @@ const MeasurementCreateCard = ({
     const [items, setItems] = useState<Array<AddMeasurementRecordDataExtended>>([]);
     const [date, setDate] = useState<LookupDate>();
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
+    const [validationError, setValidationError] = useState("");
 
     const changeItems = useCallback((newArray: Array<AddMeasurementRecordData>) => setItems(newArray), []);
     const onRemoveAllClick = useCallback(() => changeItems([]), [changeItems]);
@@ -106,11 +107,19 @@ const MeasurementCreateCard = ({
     const onSubmit = useCallback(() => {
         const [isValid, validatedItems] = validateItems(items);
 
+        changeItems(validatedItems);
+
         if (!isValid) {
-            changeItems(validatedItems);
+            setValidationError("Measurement items contains errors. See description below");
             return;
         }
 
+        if (isNullOrUndefined(date) || isNullOrUndefined(date!.year) || isNullOrUndefined(date!.month)) {
+            setValidationError("Date is not set");
+            return;
+        }
+
+        setValidationError("");
         setIsSubmitAvailable(false);
 
         saveCard({
@@ -121,7 +130,7 @@ const MeasurementCreateCard = ({
                 navigate("/measurement", { replace: true });
             })
             .catch(() => setIsSubmitAvailable(true));
-    }, [items, saveCard, model, changeItems, navigate]);
+    }, [items, date, saveCard, model, changeItems, navigate]);
 
     const onAddForAllTypesClick = useCallback(
         () => {
@@ -203,13 +212,21 @@ const MeasurementCreateCard = ({
                     />
                 </div>
             </div>
+            {!isNullOrEmpty(validationError)
+                &&
+                <article className="message is-danger">
+                    <div className="message-body">
+                        {validationError}
+                    </div>
+                </article>
+            }
             <hr />
             <div className="field is-grouped">
                 <p className="control">
                     <Button
                         type="primary"
                         outlined={true}
-                        caption="Create"
+                        caption="Add"
                         size={ElementSize.Small}
                         onClick={onAddMeasurementClick}
                         title="Add new measurement record"
@@ -222,7 +239,7 @@ const MeasurementCreateCard = ({
                             type="info"
                             outlined={true}
                             size={ElementSize.Small}
-                            caption="Create for all types"
+                            caption="Add for all types"
                             onClick={onAddForAllTypesClick}
                             title="Add measurement records for all existed types"
                         />
