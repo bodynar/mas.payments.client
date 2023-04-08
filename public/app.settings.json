@@ -1,6 +1,6 @@
 {
     "Notification": {
-        "HideDelay": 2.5,
+        "HideDelay": 5,
         "ItemsRequiredToShowDismissAllBtn": 2
     },
     "Request": {
