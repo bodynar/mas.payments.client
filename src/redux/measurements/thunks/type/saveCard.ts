@@ -18,7 +18,14 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): ThunkActio
 ): Promise<void> => {
     dispatch(getSetAppIsLoadingAction(true));
 
-    await saveCardAction(values, id);
+    try {
+        await saveCardAction(values, id);
+    } catch (error: any) {
+        getDisplayErrorMessageAction(dispatch, getState)(error);
+        dispatch(getSetAppIsLoadingAction(false));
+
+        return new Promise((_, reject) => reject(error as string));
+    }
 
     getDisplaySuccessMessageAction(dispatch, getState)("Measurement type successfully saved");
 

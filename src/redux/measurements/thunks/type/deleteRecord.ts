@@ -30,16 +30,21 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
                 saveCallback: async (): Promise<void> => {
                     dispatch(getSetAppIsLoadingAction(true));
 
-                    await deleteRecordAction(id);
+                    try {
+                        await deleteRecordAction(id);
 
-                    getDisplaySuccessMessageAction(dispatch, getState)(`Measurement type [${measurementType.caption}] successfully deleted`);
+                        getDisplaySuccessMessageAction(dispatch, getState)(`Measurement type [${measurementType.caption}] successfully deleted`);
 
-                    getMeasurementTypes()
-                        .then(items => {
-                            dispatch(getSetMeasurementTypesAction(items));
-                            dispatch(getSetAppIsLoadingAction(false));
-                        })
-                        .catch(getDisplayErrorMessageAction(dispatch, getState));
+                        getMeasurementTypes()
+                            .then(items => {
+                                dispatch(getSetMeasurementTypesAction(items));
+                                dispatch(getSetAppIsLoadingAction(false));
+                            })
+                            .catch(getDisplayErrorMessageAction(dispatch, getState));
+                    } catch (error: any) {
+                        getDisplayErrorMessageAction(dispatch, getState)(error);
+                        dispatch(getSetAppIsLoadingAction(false));
+                    }
                 },
                 cancelCallback: (): void => { }
             }
