@@ -1,0 +1,9 @@
+.measurements_table {
+    &__item {
+        transition: box-shadow 0.15s ease-in-out;
+
+        &--has-error {
+            box-shadow: inset 5px 0px 0px 0px hsl(348deg, 86%, 61%);
+        }
+    }
+}

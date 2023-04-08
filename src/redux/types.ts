@@ -3,6 +3,7 @@ import { NotificatorState } from "@app/redux/notificator";
 import { ModalState } from "@app/redux/modal";
 import { UserModuleState } from "@app/redux/user";
 import { PaymentModuleState } from "@app/redux/payments";
+import { MeasurementModuleState } from "./measurements";
 
 /** Redux action */
 export type Action = {
@@ -34,4 +35,7 @@ export type CompositeAppState = {
 
     /** Payments module state */
     payments: PaymentModuleState;
+
+    /** Measurements module state */
+    measurements: MeasurementModuleState;
 };
