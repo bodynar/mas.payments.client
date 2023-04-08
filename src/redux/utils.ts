@@ -11,10 +11,12 @@ import { getErrorNotificationAction, getSuccessNotificationAction } from "@app/r
 export const getDisplayErrorMessageAction = (
     dispatch: ThunkDispatch<CompositeAppState, unknown, Action>,
     getState: () => CompositeAppState
-) => (error: string): void => {
+) => (error: Error | string): void => {
     const { app } = getState();
 
-    dispatch(getErrorNotificationAction(error, app.isCurrentTabFocused));
+    const errorMessage = (error as Error)?.message ?? (error as string);
+
+    dispatch(getErrorNotificationAction(errorMessage, app.isCurrentTabFocused));
 };
 
 /**
