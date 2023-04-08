@@ -20,10 +20,17 @@ export const saveCard = (values: Array<FieldValue> | AddMeasurements, id?: strin
 ): Promise<void> => {
     dispatch(getSetAppIsLoadingAction(true));
 
-    if (isNullOrUndefined(id)) {
-        await createMeasurements(values as AddMeasurements);
-    } else {
-        await updateMeasurement(values as Array<FieldValue>, id!);
+    try {
+        if (isNullOrUndefined(id)) {
+            await createMeasurements(values as AddMeasurements);
+        } else {
+            await updateMeasurement(values as Array<FieldValue>, id!);
+        }
+    } catch (error: any) {
+        getDisplayErrorMessageAction(dispatch, getState)(error);
+        dispatch(getSetAppIsLoadingAction(false));
+
+        return new Promise((_, reject) => reject(error as string));
     }
 
     getDisplaySuccessMessageAction(dispatch, getState)("Measurement records successfully saved");
