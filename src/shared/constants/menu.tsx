@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 
 import { isStringEmpty } from "@bodynarf/utils";
+import { TabItem } from "@bodynarf/react.components";
 
 import { MenuItem } from "@app/models/routeItem";
 
@@ -12,6 +13,25 @@ import User from "@app/modules/user";
 import { routes as userRoutes } from "@app/modules/user/components";
 import { routes as paymentRoutes } from "@app/modules/payments/components";
 import { routes as measurementRoutes } from "@app/modules/measurements/components";
+
+import PaymentsChart from "@app/modules/stats/components/payments";
+import MeasurementsChart from "@app/modules/stats/components/measurements";
+
+const tabsConfig: Array<TabItem> = [
+    {
+        caption: "Payments",
+        id: "pmt",
+    },
+    {
+        caption: "Measurements",
+        id: "mrm",
+    }
+];
+
+const statsTabsConfig = new Map([
+    [tabsConfig[0], <PaymentsChart key={tabsConfig[0].id} />],
+    [tabsConfig[1], <MeasurementsChart key={tabsConfig[1].id} />],
+]);
 
 /** Static navbar menu */
 export const menuItems: Array<MenuItem> = [
@@ -40,7 +60,7 @@ export const menuItems: Array<MenuItem> = [
         name: "Stats",
         caption: "Statistics",
         link: "/stats",
-        component: <Stats />,
+        component: <Stats firstItem={tabsConfig[0]} configuration={statsTabsConfig} />,
     },
     {
         name: "User",
