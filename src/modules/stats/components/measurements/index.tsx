@@ -16,6 +16,7 @@ import { getSaveChartConfigAction, loadChartData } from "@app/redux/stats";
 
 import ChartDateOptions from "../chartDateOptions";
 import { ChartComponentProps } from "../types";
+import ChartContainer from "../chart";
 
 /** Payments chart component props type */
 interface MeasurementsChartProps extends ChartComponentProps { }
@@ -68,7 +69,7 @@ const MeasurementsChart = ({
             <nav className="block">
                 <div className="block is-italic	">
                     <p>
-                        <Icon name="question-circle" className="mr-1"/>
+                        <Icon name="question-circle" className="mr-1" />
                         Displays change of measurement difference through time
                     </p>
                 </div>
@@ -115,7 +116,13 @@ const MeasurementsChart = ({
             </nav>
             <hr />
             <section>
-                {chartSeriesData.length}
+                <ChartContainer
+                    title="Measurements"
+                    series={chartSeriesData.map(({ key, data }) => ({
+                        name: key,
+                        data: Array.from(data, ([x, y]) => ({ x, y }))
+                    }))}
+                />
             </section>
         </>
     );
