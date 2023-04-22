@@ -33,7 +33,7 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
                     try {
                         await deleteMeasurement(id);
 
-                        getDisplaySuccessMessageAction(dispatch, getState)("Measurement record successfully deleted");
+                        getDisplaySuccessMessageAction(dispatch, getState, false)("Measurement record successfully deleted");
 
                         getMeasurements()
                             .then(measurements => {
@@ -43,7 +43,6 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
                             .catch(getDisplayErrorMessageAction(dispatch, getState));
                     } catch (error: any) {
                         getDisplayErrorMessageAction(dispatch, getState)(error);
-                        dispatch(getSetAppIsLoadingAction(false));
                     }
                 },
                 cancelCallback: (): void => { }

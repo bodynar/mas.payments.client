@@ -33,7 +33,7 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
                     try {
                         await deleteRecordAction(id);
 
-                        getDisplaySuccessMessageAction(dispatch, getState)(`Measurement type [${measurementType.caption}] successfully deleted`);
+                        getDisplaySuccessMessageAction(dispatch, getState, false)(`Measurement type [${measurementType.caption}] successfully deleted`);
 
                         getMeasurementTypes()
                             .then(items => {
@@ -43,7 +43,6 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
                             .catch(getDisplayErrorMessageAction(dispatch, getState));
                     } catch (error: any) {
                         getDisplayErrorMessageAction(dispatch, getState)(error);
-                        dispatch(getSetAppIsLoadingAction(false));
                     }
                 },
                 cancelCallback: (): void => { }

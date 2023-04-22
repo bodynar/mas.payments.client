@@ -32,7 +32,7 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
 
                     await deleteRecordAction(id);
 
-                    getDisplaySuccessMessageAction(dispatch, getState)("Payment record successfully deleted");
+                    getDisplaySuccessMessageAction(dispatch, getState, false)("Payment record successfully deleted");
 
                     getPaymentRecords()
                         .then(payments => {
