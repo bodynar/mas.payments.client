@@ -1,12 +1,12 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
-import { getSetMeasurementTypesAction, getSetModuleInitializedStateAction, getSetMeasurementsAction } from "@app/redux/measurements";
-import { getSetAppIsLoadingAction } from "@app/redux/app/";
-import { getSetPaymentTypesAction } from "@app/redux/payments";
-
 import { getMeasurements, getMeasurementTypes } from "@app/core/measurement";
 import { getPaymentTypes } from "@app/core/payment";
+
+import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { getSetMeasurementTypesAction, getSetModuleInitializedStateAction, getSetMeasurementsAction } from "@app/redux/measurements";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { getSetPaymentTypesAction } from "@app/redux/payments";
 
 /**
  * Init measurements module state
