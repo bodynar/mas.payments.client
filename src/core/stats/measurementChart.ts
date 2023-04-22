@@ -22,7 +22,7 @@ export const getChartData = ({ from, to, type }: ChartConfig): Promise<Array<Cha
         queryParams.set("to", new Date(toDate!.year, toDate!.month).toDateString());
     }
     if (!isNullOrUndefined(type)) {
-        queryParams.set("paymentTypeId", type!.value);
+        queryParams.set("measurementTypeId", type!.value);
     }
 
     const queryString = queryParams.toString();
