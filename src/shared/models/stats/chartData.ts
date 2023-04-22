@@ -1,7 +1,7 @@
 /** Chart data series */
 export interface ChartData {
     /** Unique key */
-    key: number;
+    key: string;
 
     /** Values */
     data: Map<string, number>;
