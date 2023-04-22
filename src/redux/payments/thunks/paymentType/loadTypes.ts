@@ -1,11 +1,12 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
-import { getSetPaymentTypesAction } from "@app/redux/payments";
-import { getSetAppIsLoadingAction } from "@app/redux/app/";
+import { PaymentType } from "@app/models/payments";
 
 import { getPaymentTypes } from "@app/core/payment";
-import { PaymentType } from "@app/models/payments";
+
+import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { getSetPaymentTypesAction } from "@app/redux/payments";
 
 /**
  * Load available payment types
