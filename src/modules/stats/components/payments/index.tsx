@@ -5,36 +5,20 @@ import { connect } from "react-redux";
 import { SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
+import Icon from "@bodynarf/react.components/components/icon";
 
 import { LookupDate } from "@app/models";
-import { Chart, ChartConfig, ChartData } from "@app/models/stats";
+import { Chart } from "@app/models/stats";
 
 import { CompositeAppState } from "@app/redux";
 import { loadTypes } from "@app/redux/payments";
 import { getSaveChartConfigAction, loadChartData } from "@app/redux/stats";
 
 import ChartDateOptions from "../chartDateOptions";
+import { ChartComponentProps } from "../types";
 
 /** Payments chart component props type */
-interface PaymentsChartProps {
-    /** Payment types mapped to dropdown items to cache values */
-    availableTypesAsDropdownItems: Array<SelectableItem>;
-
-    /** Last loaded chart data */
-    chartSeriesData: Array<ChartData>;
-
-    /** Last chart configuration */
-    lastConfig?: ChartConfig;
-
-    /** Load all payment types */
-    loadTypes: () => void;
-
-    /** Save current chart configuration */
-    saveConfig: (config: ChartConfig) => void;
-
-    /** Load chart series data by specified config */
-    loadChartData: (config: ChartConfig) => Promise<void>;
-}
+interface PaymentsChartProps extends ChartComponentProps { }
 
 /** Payments chart component */
 const PaymentsChart = ({
@@ -81,7 +65,13 @@ const PaymentsChart = ({
 
     return (
         <>
-            <nav>
+            <nav className="block">
+                <div className="block is-italic	">
+                    <p>
+                        <Icon name="question-circle" className="mr-1" />
+                        Displays change of monthly payment amount through time
+                    </p>
+                </div>
                 <div className="notification is-warning is-light">
                     To apply date as filter you should select <b>month and year</b>
                 </div>
