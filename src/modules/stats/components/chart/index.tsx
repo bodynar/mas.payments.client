@@ -6,18 +6,15 @@ import Chart from "react-apexcharts";
 /** Chart component container props type */
 interface ChartContainerProps {
     /** Title configuration */
-    title: string | ApexOptions["title"];
+    title: string;
 
     /** Values to display on line chart (Y axis) */
     series: ApexOptions["series"];
-
-    /** Horizontal line values (X axis) */
-    horizontalAxisValues: Array<string>;
 }
 
 /** Chart component container */
 const ChartContainer = ({
-    title, series, horizontalAxisValues
+    title, series,
 }: ChartContainerProps): JSX.Element => {
     const options: ApexOptions = useMemo(() => ({
         chart: {
@@ -46,14 +43,8 @@ const ChartContainer = ({
             offsetX: 0,
             offsetY: 0,
         },
-        xaxis: {
-            type: "category",
-            categories: horizontalAxisValues,
-        },
-        title: title instanceof String
-            ? { text: title as string }
-            : title as ApexOptions["title"],
-    }), [horizontalAxisValues, title]);
+        title: { text: title as string },
+    }), [title]);
 
     return (
         <Chart
