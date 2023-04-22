@@ -1,30 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { connect } from "react-redux";
-
 import { TabItem } from "@bodynarf/react.components";
 import Tabs from "@bodynarf/react.components/components/tabs";
 
-/** */
+/** Stats module container props type */
 interface StatsModuleProps {
-    /** */
+    /** Available charts */
     configuration: Map<TabItem, JSX.Element>;
 
-    /** */
+    /** Chart that should be presented first */
     firstItem?: TabItem;
 }
 
-const tabsConfig: Array<TabItem> = [
-    {
-        caption: "Payments",
-        id: "pmt",
-    },
-    {
-        caption: "Measurements",
-        id: "mrm",
-    }
-];
-
+/** Stats module container component */
 const StatsModule = ({
     firstItem, configuration,
 }: StatsModuleProps): JSX.Element => {
@@ -44,8 +32,8 @@ const StatsModule = ({
     return (
         <>
             <Tabs
-                defaultActive={tabsConfig[0]}
-                items={tabsConfig}
+                defaultActive={firstTab}
+                items={Array.from(configuration.keys())}
                 onActiveItemChange={setTab}
             />
             <section>
@@ -58,13 +46,4 @@ const StatsModule = ({
     );
 };
 
-export default
-    connect(
-        () => { },
-        {
-
-        }
-    )(
-        StatsModule
-    )
-    ;
+export default StatsModule;
