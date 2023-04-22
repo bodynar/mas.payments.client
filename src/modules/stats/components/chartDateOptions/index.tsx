@@ -63,6 +63,11 @@ const ChartDateOptions = ({
         []
     );
 
+    const onClearButtonClick = useCallback(
+        () => setDate({}),
+        []
+    );
+
     return (
         <div className="columns">
             <div className="column is-4">
@@ -89,13 +94,24 @@ const ChartDateOptions = ({
                     items={yearsAsDropdownItems()}
                 />
             </div>
-            <div className="column">
+            <div className="column is-1">
                 <Button
                     type="success"
                     caption="Today"
                     outlined={true}
                     onClick={onTodayClick}
                     disabled={!todayIsActive}
+                    title="Select current date"
+                />
+            </div>
+            <div className="column">
+                <Button
+                    type="danger"
+                    caption="Clear"
+                    className="is-inverted"
+                    onClick={onClearButtonClick}
+                    title="Delete selected date"
+                    disabled={isNullOrUndefined(date.month) || isNullOrUndefined(date.year)}
                 />
             </div>
         </div>
