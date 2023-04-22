@@ -5,7 +5,7 @@ import { Chart, ChartConfig, ChartData } from "@app/models/stats";
 import { ActionWithPayload } from "@app/redux";
 
 import { StatisticsModuleState } from "./types";
-import { SAVE_CHART_CONFIG, SAVE_CHART_SERIES } from "./actions";
+import { CLEAR_CHART_SERIES, SAVE_CHART_CONFIG, SAVE_CHART_SERIES } from "./actions";
 
 /** Initial module state */
 const defaultState: StatisticsModuleState = {
@@ -27,7 +27,6 @@ export default function (state: StatisticsModuleState = defaultState, action: Ac
                 const chartData = state.charts.get(chartConfig.chart)!;
 
                 chartData.lastConfig = chartConfig;
-                chartData.lastData = undefined;
             } else {
                 state.charts.set(chartConfig.chart, {
                     key: chartConfig.chart,
@@ -48,6 +47,17 @@ export default function (state: StatisticsModuleState = defaultState, action: Ac
                 chartData.lastData = chartSeries;
             } else {
                 throw new Error(`Chart "${chartKey}" is processed, but it wasn't initialized.`);
+            }
+
+            return state;
+        }
+        case CLEAR_CHART_SERIES: {
+            const chartKey = getPropertyValueWithCheck<Chart>(action.payload, "chartKey", true);
+
+            if (state.charts.has(chartKey)) {
+                const chartData = state.charts.get(chartKey)!;
+
+                chartData.lastData = undefined;
             }
 
             return state;
