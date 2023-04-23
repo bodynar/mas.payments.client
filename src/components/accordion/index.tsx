@@ -23,12 +23,16 @@ export interface AccordionProps extends BaseElementProps {
 
     /** Color */
     style?: ElementColor;
+
+    /** Extra handler for toggling visibility. Doesn't affect component logic */
+    onToggle?: (collapsed: boolean) => void;
 }
 
 /** Accordion panel */
 const Accordion = ({
     children, caption,
     style, size, defaultExpanded,
+    onToggle,
     className, data, title,
 }: AccordionProps): JSX.Element => {
     const expandablePanelRef = useRef<HTMLDivElement>(null);
@@ -47,6 +51,9 @@ const Accordion = ({
     }, []);
 
     useEffect(() => setIsExpanded(maxHeight !== 0), [maxHeight]);
+    useEffect(() => {
+        onToggle?.call(undefined, !isExpanded);
+    }, [isExpanded, onToggle]);
 
     const elClassName = getClassName([
         "app-accordion",

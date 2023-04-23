@@ -2,17 +2,18 @@ import { useCallback, useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 
-import { SelectableItem } from "@bodynarf/react.components";
+import { ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Icon from "@bodynarf/react.components/components/icon";
+import Accordion from "@app/sharedComponents/accordion";
 
 import { LookupDate } from "@app/models";
 import { Chart } from "@app/models/stats";
 
 import { CompositeAppState } from "@app/redux";
 import { loadTypes } from "@app/redux/measurements";
-import { getSaveChartConfigAction, loadChartData } from "@app/redux/stats";
+import { getSaveChartConfigAction, getSaveChartConfigPanelVisibilityAction, loadChartData } from "@app/redux/stats";
 
 import ChartDateOptions from "../chartDateOptions";
 import { ChartComponentProps } from "../types";
@@ -26,6 +27,7 @@ const MeasurementsChart = ({
     availableTypesAsDropdownItems,
     loadTypes, loadChartData, saveConfig,
     chartSeriesData, lastConfig,
+    saveChartConfigPanelVisibility,
 }: MeasurementsChartProps): JSX.Element => {
     useEffect(() => {
         if (availableTypesAsDropdownItems.length === 0) {
@@ -37,6 +39,7 @@ const MeasurementsChart = ({
     const [toDate, setToDate] = useState<LookupDate>(lastConfig?.to ?? {});
     const [type, setType] = useState<SelectableItem | undefined>(lastConfig?.type);
 
+    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => saveChartConfigPanelVisibility(Chart.Measurements, collapsed), [saveChartConfigPanelVisibility]);
     const onShowDataClick = useCallback(
         () =>
             loadChartData({
@@ -44,8 +47,9 @@ const MeasurementsChart = ({
                 from: fromDate,
                 to: toDate,
                 type: type,
+                configIsCollapsed: lastConfig?.configIsCollapsed ?? false,
             }),
-        [fromDate, loadChartData, toDate, type]
+        [fromDate, lastConfig?.configIsCollapsed, loadChartData, toDate, type]
     );
 
     useEffect(
@@ -55,9 +59,10 @@ const MeasurementsChart = ({
                 from: fromDate,
                 to: toDate,
                 type: type,
+                configIsCollapsed: lastConfig?.configIsCollapsed ?? false,
             });
         },
-        [fromDate, saveConfig, toDate, type]
+        [fromDate, lastConfig?.configIsCollapsed, saveConfig, toDate, type]
     );
 
     if (availableTypesAsDropdownItems.length === 0) {
@@ -66,54 +71,61 @@ const MeasurementsChart = ({
 
     return (
         <>
-            <nav className="block">
-                <div className="block is-italic	">
-                    <p>
-                        <Icon name="question-circle" className="mr-1" />
-                        Displays change of measurement difference through time
-                    </p>
-                </div>
-                <div className="notification is-warning is-light">
-                    To apply date as filter you should select <b>month and year</b>
-                </div>
-
-                <ChartDateOptions
-                    caption="From"
-                    onValueChage={setFromDate}
-                    defaultValue={lastConfig?.from}
-                />
-                <ChartDateOptions
-                    caption="To"
-                    onValueChage={setToDate}
-                    defaultValue={lastConfig?.to}
-                />
-                <div className="columns">
-                    <div className="column is-4">
-                        <Dropdown
-                            value={type}
-                            placeholder="Type"
-                            deselectable={true}
-                            onSelect={setType}
-                            hideOnOuterClick={true}
-                            items={availableTypesAsDropdownItems}
-                            label={{
-                                caption: "Type",
-                                horizontal: true,
-                            }}
-                        />
+            <Accordion
+                caption="Configuration"
+                style={ElementColor.Info}
+                onToggle={onConfigPanelVisibilityToggle}
+                defaultExpanded={!lastConfig?.configIsCollapsed ?? true}
+            >
+                <nav className="block">
+                    <div className="block is-italic	">
+                        <p>
+                            <Icon name="question-circle" className="mr-1" />
+                            Displays change of measurement difference through time
+                        </p>
                     </div>
-                </div>
-
-                <div className="columns">
-                    <div className="column">
-                        <Button
-                            type="primary"
-                            caption="Show data"
-                            onClick={onShowDataClick}
-                        />
+                    <div className="notification is-warning is-light">
+                        To apply date as filter you should select <b>month and year</b>
                     </div>
-                </div>
-            </nav>
+
+                    <ChartDateOptions
+                        caption="From"
+                        onValueChage={setFromDate}
+                        defaultValue={lastConfig?.from}
+                    />
+                    <ChartDateOptions
+                        caption="To"
+                        onValueChage={setToDate}
+                        defaultValue={lastConfig?.to}
+                    />
+                    <div className="columns">
+                        <div className="column is-4">
+                            <Dropdown
+                                value={type}
+                                placeholder="Type"
+                                deselectable={true}
+                                onSelect={setType}
+                                hideOnOuterClick={true}
+                                items={availableTypesAsDropdownItems}
+                                label={{
+                                    caption: "Type",
+                                    horizontal: true,
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="columns">
+                        <div className="column">
+                            <Button
+                                type="primary"
+                                caption="Show data"
+                                onClick={onShowDataClick}
+                            />
+                        </div>
+                    </div>
+                </nav>
+            </Accordion>
             <hr />
             <section>
                 <ChartContainer
@@ -143,5 +155,6 @@ export default
             loadTypes: loadTypes,
             loadChartData: loadChartData,
             saveConfig: getSaveChartConfigAction,
+            saveChartConfigPanelVisibility: getSaveChartConfigPanelVisibilityAction,
         }
     )(MeasurementsChart);

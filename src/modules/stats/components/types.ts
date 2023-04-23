@@ -1,6 +1,6 @@
 import { SelectableItem } from "@bodynarf/react.components";
 
-import { ChartConfig, ChartData } from "@app/models/stats";
+import { Chart, ChartConfig, ChartData } from "@app/models/stats";
 
 /** Base for chart components props */
 export interface ChartComponentProps {
@@ -21,4 +21,7 @@ export interface ChartComponentProps {
 
     /** Load chart series data by specified config */
     loadChartData: (config: ChartConfig) => Promise<void>;
+
+    /** Save config panel visibility state */
+    saveChartConfigPanelVisibility: (chart: Chart, collapsed: boolean) => void;
 }

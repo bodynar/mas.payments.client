@@ -5,7 +5,7 @@ import { Chart, ChartConfig, ChartData } from "@app/models/stats";
 import { ActionWithPayload } from "@app/redux";
 
 import { StatisticsModuleState } from "./types";
-import { CLEAR_CHART_SERIES, SAVE_CHART_CONFIG, SAVE_CHART_SERIES } from "./actions";
+import { CLEAR_CHART_SERIES, SAVE_CHART_CONFIG, SAVE_CHART_SERIES, SAVE_CONFIG_PANEL_VISIBILITY } from "./actions";
 
 /** Initial module state */
 const defaultState: StatisticsModuleState = {
@@ -26,7 +26,10 @@ export default function (state: StatisticsModuleState = defaultState, action: Ac
             if (state.charts.has(chartConfig.chart)) {
                 const chartData = state.charts.get(chartConfig.chart)!;
 
-                chartData.lastConfig = chartConfig;
+                chartData.lastConfig = {
+                    ...chartData.lastConfig,
+                    ...chartConfig
+                };
             } else {
                 state.charts.set(chartConfig.chart, {
                     key: chartConfig.chart,
@@ -58,6 +61,26 @@ export default function (state: StatisticsModuleState = defaultState, action: Ac
                 const chartData = state.charts.get(chartKey)!;
 
                 chartData.lastData = undefined;
+            }
+
+            return state;
+        }
+        case SAVE_CONFIG_PANEL_VISIBILITY: {
+            const chartKey = getPropertyValueWithCheck<Chart>(action.payload, "chartKey", true);
+            const collapsed = getPropertyValueWithCheck<boolean>(action.payload, "collapsed", true);
+
+            if (state.charts.has(chartKey)) {
+                const chartData = state.charts.get(chartKey)!;
+
+                chartData.lastConfig.configIsCollapsed = collapsed;
+            } else {
+                state.charts.set(chartKey, {
+                    key: chartKey,
+                    lastConfig: {
+                        chart: chartKey,
+                        configIsCollapsed: collapsed,
+                    },
+                });
             }
 
             return state;

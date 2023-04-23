@@ -10,11 +10,14 @@ export interface ChartConfig {
     chart: Chart;
 
     /** Left date corridor border */
-    from: LookupDate;
+    from?: LookupDate;
 
     /** Right date corridor border */
-    to: LookupDate;
+    to?: LookupDate;
 
     /** Selected type to filter series */
     type?: SelectableItem;
+
+    /** Is configuration block hidden */
+    configIsCollapsed?: boolean;
 }
