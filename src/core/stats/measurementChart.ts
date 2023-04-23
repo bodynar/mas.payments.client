@@ -40,15 +40,17 @@ export const getChartData = ({ from, to, type }: ChartConfig): Promise<Array<Cha
             return typeStatistics.map((x: any) => ({
                 key: x.measurementTypeName,
                 data: new Map<string, number>(
-                    x['statisticsData'].map(
-                        (y: any) =>
-                            [
-                                isSameYear
-                                    ? getShortMonthName(y['month'])
-                                    : getShortMonthName(y['month']) + ' ' + y['year'],
-                                y['measurementDiff']
-                            ]
-                    )
+                    x['statisticsData']
+                        .trimNotDefinedValuesBy((y: any) => y['measurementDiff'])
+                        .map(
+                            (y: any) =>
+                                [
+                                    isSameYear
+                                        ? getShortMonthName(y['month'])
+                                        : getShortMonthName(y['month']) + ' ' + y['year'],
+                                    y['measurementDiff']
+                                ]
+                        )
                 )
             }) as ChartData);
         });
