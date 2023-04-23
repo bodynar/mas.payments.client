@@ -31,50 +31,6 @@ export const filter = <TModel>(items: Array<TModel>, filters: Array<FilterValue<
     return result;
 };
 
-declare global {
-    interface Array<T> {
-
-        /**
-         * Remove border items that contains `null` or `undefined` values in specified key
-         * @param keySelector Key value selector
-         */
-        trimNotDefinedValuesBy<TKey>(keySelector: (item: T) => TKey): Array<T>;
-    }
-}
-
-Array.prototype.trimNotDefinedValuesBy = function <T, TKey>(keySelector: (item: T) => TKey) {
-    const excludeIndexes: Array<number> = [];
-    let index = 0;
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-        const keyValue = keySelector(this[index]);
-
-        if (isNullOrUndefined(keyValue)) {
-            excludeIndexes.push(index++);
-        } else {
-            break;
-        }
-    }
-
-    index = this.length - 1;
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-        const keyValue = keySelector(this[index]);
-
-        if (isNullOrUndefined(keyValue)) {
-            excludeIndexes.push(index--);
-        } else {
-            break;
-        }
-    }
-
-    
-    // code to remove "o"
-    return this.filter((_, i) => !excludeIndexes.includes(i));
-};
-
 /**
  * Sort array of items by sort column config
  * @param items Array of items

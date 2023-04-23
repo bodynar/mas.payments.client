@@ -27,7 +27,7 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@bodynarf/utils": "^1.1.6",
+    "@bodynarf/utils": "^1.1.7",
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
