@@ -37,7 +37,7 @@ const Accordion = ({
 }: AccordionProps): JSX.Element => {
     const expandablePanelRef = useRef<HTMLDivElement>(null);
     const [isExpanded, setIsExpanded] = useState(defaultExpanded ?? false);
-    const [maxHeight, setMaxHeight] = useState<number>(0);
+    const [maxHeight, setMaxHeight] = useState<number | undefined>(defaultExpanded === true ? undefined : 0);
 
     const toggleCollapse = useCallback(
         () => setMaxHeight(isExpanded ? 0 : expandablePanelRef.current!.scrollHeight),
@@ -45,10 +45,10 @@ const Accordion = ({
     );
 
     useEffect(() => {
-        if (!isNullOrUndefined(expandablePanelRef.current)) {
+        if (defaultExpanded === true && !isNullOrUndefined(expandablePanelRef.current)) {
             setMaxHeight(expandablePanelRef.current!.scrollHeight);
         }
-    }, []);
+    }, [defaultExpanded]);
 
     useEffect(() => setIsExpanded(maxHeight !== 0), [maxHeight]);
     useEffect(() => {
