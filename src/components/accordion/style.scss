@@ -3,16 +3,14 @@
         &-header {
             cursor: pointer;
 
-            i {
+            .bbr-icon {
                 transition: transform 0.125s ease-in-out;
             }
         }
         &-body {
             color: black !important;
-            max-height: 0;
-            overflow-y: hidden;
             transition: max-height 0.2s ease-out;
-
+            overflow-y: inherit;
             padding: 0 1.5em;
 
             &__content {
@@ -24,8 +22,10 @@
         .message-header i {
             transform: rotate(180deg);
         }
+    }
+    &[aria-expanded="false"] {
         .message-body {
-            overflow-y: inherit;
+            overflow-y: hidden;
         }
     }
 }
