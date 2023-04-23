@@ -19,7 +19,6 @@ const ChartContainer = ({
     const options: ApexOptions = useMemo(() => ({
         chart: {
             type: "line",
-            height: 400,
             animations: {
                 enabled: true,
                 easing: "easeinout",
@@ -69,6 +68,7 @@ const ChartContainer = ({
         <Chart
             options={options}
             series={series}
+            height={400}
         />
     );
 };
