@@ -33,8 +33,27 @@ const ChartContainer = ({
                     speed: 350
                 },
             },
-            toolbar: { show: false, },
-            zoom: { enabled: false, },
+            toolbar: {
+                show: true,
+                tools: {
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    reset: true,
+                }
+            },
+            legend: {
+                itemMargin: {
+                    horizontal: 50,
+                    vertical: 0
+                },
+            },
+        },
+        grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'],
+                opacity: 0.5
+            },
         },
         noData: {
             text: "No data found",
