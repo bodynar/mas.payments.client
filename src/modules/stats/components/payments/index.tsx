@@ -6,7 +6,7 @@ import { ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Icon from "@bodynarf/react.components/components/icon";
-import Accordion from "@app/sharedComponents/accordion";
+import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { LookupDate } from "@app/models";
 import { Chart } from "@app/models/stats";
