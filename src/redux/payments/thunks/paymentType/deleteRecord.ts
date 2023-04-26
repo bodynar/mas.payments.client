@@ -32,7 +32,7 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
 
                     await deleteRecordAction(id);
 
-                    getDisplaySuccessMessageAction(dispatch, getState)("Payment type successfully deleted");
+                    getDisplaySuccessMessageAction(dispatch, getState, false)("Payment type successfully deleted");
 
                     getPaymentTypes()
                         .then(items => {

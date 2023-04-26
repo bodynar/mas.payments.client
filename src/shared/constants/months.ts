@@ -1,3 +1,4 @@
+import { isNullOrEmpty } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 
 /** Month */
@@ -75,6 +76,18 @@ export const getMonthName = (monthNumber: number): string => {
     const month: Month = months.find(x => x.id === monthNumber)!;
 
     return month?.name;
+};
+
+/**
+ * Get short month name by its number
+ * @param monthNumber Number of month
+ * @returns Short name of month in 3 characters lenght
+ * @throws Month number isn"t in (0, 12) range 
+ */
+export const getShortMonthName = (monthNumber: number): string => {
+    const monthName: string = getMonthName(monthNumber);
+
+    return isNullOrEmpty(monthName) ? monthName : monthName.substring(0, 3);
 };
 
 /**

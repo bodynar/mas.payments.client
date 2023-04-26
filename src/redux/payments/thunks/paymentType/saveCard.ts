@@ -20,7 +20,7 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): ThunkActio
 
     await saveCardAction(values, id);
 
-    getDisplaySuccessMessageAction(dispatch, getState)("Payment type successfully saved");
+    getDisplaySuccessMessageAction(dispatch, getState, false)("Payment type successfully saved");
 
     return getPaymentTypes()
         .then(items => {

@@ -28,12 +28,11 @@ export const saveCard = (values: Array<FieldValue> | AddMeasurements, id?: strin
         }
     } catch (error: any) {
         getDisplayErrorMessageAction(dispatch, getState)(error);
-        dispatch(getSetAppIsLoadingAction(false));
 
         return new Promise((_, reject) => reject(error as string));
     }
 
-    getDisplaySuccessMessageAction(dispatch, getState)("Measurement records successfully saved");
+    getDisplaySuccessMessageAction(dispatch, getState, false)("Measurement records successfully saved");
 
     return getMeasurements()
         .then(items => {

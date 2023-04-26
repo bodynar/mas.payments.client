@@ -22,12 +22,11 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): ThunkActio
         await saveCardAction(values, id);
     } catch (error: any) {
         getDisplayErrorMessageAction(dispatch, getState)(error);
-        dispatch(getSetAppIsLoadingAction(false));
 
         return new Promise((_, reject) => reject(error as string));
     }
 
-    getDisplaySuccessMessageAction(dispatch, getState)("Measurement type successfully saved");
+    getDisplaySuccessMessageAction(dispatch, getState, false)("Measurement type successfully saved");
 
     return getMeasurementTypes()
         .then(items => {

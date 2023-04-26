@@ -6,11 +6,10 @@ import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
 import { ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Button from "@bodynarf/react.components/components/button";
+import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { CompositeAppState } from "@app/redux";
 import { getFilterPaymentsAction, getSetFilterValueAction } from "@app/redux/payments";
-
-import Accordion from "@app/sharedComponents/accordion";
 
 import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/static";
 import { getDropdownItem } from "@app/core";
@@ -89,7 +88,7 @@ const PaymentFilters = ({
                     </label>
                 </div>
                 <div className="field-body">
-                    <div className="control">
+                    <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Year"
                             hideOnOuterClick={true}
@@ -108,7 +107,7 @@ const PaymentFilters = ({
                     </label>
                 </div>
                 <div className="field-body">
-                    <div className="control">
+                    <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Month"
                             hideOnOuterClick={true}
@@ -127,7 +126,7 @@ const PaymentFilters = ({
                     </label>
                 </div>
                 <div className="field-body">
-                    <div className="control">
+                    <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Type"
                             hideOnOuterClick={true}

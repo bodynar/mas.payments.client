@@ -8,6 +8,7 @@ import appReducer from "@app/redux/app/reducer";
 import userReducer from "@app/redux/user/reducer";
 import paymentReducer from "@app/redux/payments/reducer";
 import measurementReducer from "@app/redux/measurements/reducer";
+import statsReducer from "@app/redux/stats/reducer";
 
 /** Global application redux store reducer */
 export default combineReducers<CompositeAppState>({
@@ -17,4 +18,5 @@ export default combineReducers<CompositeAppState>({
     user: userReducer,
     payments: paymentReducer,
     measurements: measurementReducer,
+    stats: statsReducer,
 });

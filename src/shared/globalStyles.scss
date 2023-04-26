@@ -1,3 +1,7 @@
+@use "./style/table.scss";
+@use "./style/width";
+@use "./style/modifications";
+
 .has-title[title] {
     text-decoration-line: underline;
     text-decoration-style: dotted;
@@ -8,8 +12,6 @@
 .height-is-100 {
     height: 100%;
 }
-
-@import "./style/width.scss";
 
 .is-flex-grow- {
     @media screen and (min-width: 769px) {
@@ -24,35 +26,6 @@
         }
         &05 {
             flex-grow: 0.5 !important;
-        }
-    }
-}
-
-table.table {
-    &.has-sticky-header thead th {
-        position: sticky;
-        top: 0.125rem;
-        z-index: 1;
-    }
-
-    thead th {
-        &.th-color--light-blue {
-            background-color: #eff5fb;
-            color: #296fa8;
-        }
-    }
-
-    &.has-shadow-bordered-header thead th {
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
-    }
-
-    &.has-borderless-header {
-        thead th {
-            border: none !important;
-        }
-
-        tbody tr:nth-child(1) td {
-            border-top: none !important;
         }
     }
 }

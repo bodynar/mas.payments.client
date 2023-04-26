@@ -2,14 +2,14 @@ import { useCallback, useMemo, useState } from "react";
 
 import { ElementColor, ElementSize, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
+import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { groupedViewTableHeadings } from "@app/static/payment";
 import { Payment, PaymentGroup } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
-import { sort } from "@app/utils/array";
+import { sort } from "@app/utils";
 
 import { useSortColumn } from "@app/hooks";
-import Accordion from "@app/sharedComponents/accordion";
 import Table from "@app/sharedComponents/table";
 
 import PaymentListItem from "../../flatList/listItem";

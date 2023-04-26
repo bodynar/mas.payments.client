@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 
 import { ElementColor, ElementSize, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
+import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { groupedViewTableHeadings } from "@app/static/measurement";
 import { Measurement, MeasurementGroup } from "@app/models/measurements";
@@ -9,7 +10,6 @@ import SortColumn from "@app/models/sortColumn";
 import { sort } from "@app/utils/array";
 
 import { useSortColumn } from "@app/hooks";
-import Accordion from "@app/sharedComponents/accordion";
 import Table from "@app/sharedComponents/table";
 
 import ListItem from "../../flatList/listItem";
