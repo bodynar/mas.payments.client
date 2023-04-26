@@ -10,8 +10,8 @@ import { getDateIfDefined, get } from "@app/utils";
  * @returns Promise with chart series data
  */
 export const getChartData = ({ from, to, type }: ChartConfig): Promise<Array<ChartData>> => {
-    const fromDate = getDateIfDefined(from);
-    const toDate = getDateIfDefined(to);
+    const fromDate = getDateIfDefined(from ?? {});
+    const toDate = getDateIfDefined(to ?? {});
 
     const queryParams = new URLSearchParams();
 
