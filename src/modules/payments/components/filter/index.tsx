@@ -88,7 +88,7 @@ const PaymentFilters = ({
                     </label>
                 </div>
                 <div className="field-body">
-                    <div className="control">
+                    <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Year"
                             hideOnOuterClick={true}
@@ -107,7 +107,7 @@ const PaymentFilters = ({
                     </label>
                 </div>
                 <div className="field-body">
-                    <div className="control">
+                    <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Month"
                             hideOnOuterClick={true}
@@ -126,7 +126,7 @@ const PaymentFilters = ({
                     </label>
                 </div>
                 <div className="field-body">
-                    <div className="control">
+                    <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Type"
                             hideOnOuterClick={true}
