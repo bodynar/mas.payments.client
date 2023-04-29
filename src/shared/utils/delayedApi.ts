@@ -49,15 +49,17 @@ const fetchWithApiErrorHandling = async <TResult>(uri: string, requestParams: Re
     try {
         const { responseObject } = await fetchWithDelay<TResult>(uri, requestParams);
         return responseObject!;
-    } catch ({ response, error }: any) {
+    } catch ({ response, error, code, status }: any) {
         let errorMessage = error as string;
 
-        if (!isNullOrUndefined(response)) {
+        if (!isNullOrUndefined(response) && !isNullOrEmpty(response)) {
             const errorResponseMessage = JSON.parse((response as any)!)?.Message ?? "";
 
             if (!isNullOrEmpty(errorResponseMessage)) {
                 errorMessage = errorResponseMessage;
             }
+        } else {
+            errorMessage += ` (${status}: ${code})`;
         }
 
         throw new Error(errorMessage);
