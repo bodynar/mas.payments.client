@@ -1,7 +1,7 @@
 import { ApplicationInfo, UserSetting, UserNotification } from "@app/models/user";
 
 /** User module state */
-export type UserModuleState = {
+export interface UserModuleState {
     /** Current app info */
     appInfo?: ApplicationInfo;
 
@@ -19,4 +19,4 @@ export type UserModuleState = {
         /** Amount of measurements without diff */
         measurementsWithoutDiff: number;
     };
-};
+}

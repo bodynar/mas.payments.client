@@ -1,5 +1,5 @@
 /** Root application state */
-export type AppState = {
+export interface AppState {
     /** Is browser tab with app is in focus */
     isCurrentTabFocused: boolean;
 
@@ -8,4 +8,4 @@ export type AppState = {
      * If so - covers content with loading gif block
     */
     loading: boolean;
-};
+}

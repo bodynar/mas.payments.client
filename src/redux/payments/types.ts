@@ -4,7 +4,7 @@ import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
 import SortColumn from "@app/models/sortColumn";
 
 /** Payment module state */
-export type PaymentModuleState = {
+export interface PaymentModuleState {
     /** Is module state initialized */
     initialized: boolean;
 
@@ -40,4 +40,4 @@ export type PaymentModuleState = {
 
     /** Last payment type list caption filter */
     typeFilterCaption?: string;
-};
+}

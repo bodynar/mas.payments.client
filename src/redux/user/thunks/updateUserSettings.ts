@@ -21,10 +21,10 @@ export const updateUserSettings = (updatedSettings: Array<UpdatedUserSetting>): 
     };
 
 /** Updated user setting */
-export type UpdatedUserSetting = {
+export interface UpdatedUserSetting {
     /** Setting id */
     id: number;
 
     /** Textual value */
-    rawValue: string
-};
+    rawValue: string;
+}

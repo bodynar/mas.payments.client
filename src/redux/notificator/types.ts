@@ -1,7 +1,7 @@
 import { NotificationHistoryItem, NotificationItem } from "@app/models/notification";
 
 /** State of notification module */
-export type NotificatorState = {
+export interface NotificatorState {
     /** Active notifications */
     notifications: Array<NotificationItem>;
 
@@ -10,4 +10,4 @@ export type NotificatorState = {
 
     /** Number on history badge */
     historyBadgeCount: number;
-};
+}
