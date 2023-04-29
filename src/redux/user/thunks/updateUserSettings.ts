@@ -2,8 +2,9 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { post } from "@app/utils";
 
-import { CompositeAppState,  ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { displayError } from "@app/redux/notificator";
 
 /**
  * Save user settings
@@ -12,12 +13,12 @@ import { getSetAppIsLoadingAction } from "@app/redux/app";
 export const updateUserSettings = (updatedSettings: Array<UpdatedUserSetting>): ThunkAction<Promise<void>, CompositeAppState, unknown, ActionWithPayload> =>
     (dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
         getState: () => CompositeAppState
-    ): Promise<void> => {
+    ): Promise<void> => { // TODO: promise?
         dispatch(getSetAppIsLoadingAction(true));
         // TODO: Add success notification
         return post(`api/user/updateUserSettings`, updatedSettings)
             .then(_ => undefined)
-            .catch(getDisplayErrorMessageAction(dispatch, getState));
+            .catch(displayError(dispatch, getState));
     };
 
 /** Updated user setting */

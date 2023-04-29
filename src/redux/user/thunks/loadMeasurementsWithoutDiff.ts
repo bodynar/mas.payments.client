@@ -2,9 +2,10 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { get } from "@app/utils";
 
-import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetMeasurementsWithoutDiffAction } from "@app/redux/user";
+import { displayError } from "@app/redux/notificator";
 
 /**
  * Get measurements without diff count
@@ -22,6 +23,6 @@ export const getMeasurementsWithoutDiff = (): ThunkAction<void, CompositeAppStat
 
                 dispatch(getSetAppIsLoadingAction(false));
             })
-            .catch(getDisplayErrorMessageAction(dispatch, getState));
+            .catch(displayError(dispatch, getState));
     };
 

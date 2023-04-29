@@ -1,7 +1,7 @@
 import moment from "moment";
 
 /** User notification story model */
-export type UserNotification = {
+export interface UserNotification {
     /** Date of creation */
     createdAt: Date;
 
@@ -31,4 +31,4 @@ export type UserNotification = {
 
     /** Type */
     type: "Info" | "Warning";
-};
+}

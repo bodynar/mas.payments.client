@@ -2,9 +2,10 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { ChartConfig } from "@app/models/stats";
 
-import { ActionWithPayload, CompositeAppState, getDisplayErrorMessageAction } from "@app/redux";
+import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getClearChartSeriesAction, getSaveChartConfigAction, getSaveChartSeriesAction } from "@app/redux/stats";
+import { displayError } from "@app/redux/notificator";
 
 import { getChartDataProvider } from "@app/core/stats";
 
@@ -28,5 +29,5 @@ export const loadChartData = (config: ChartConfig): ThunkAction<Promise<void>, C
 
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(getDisplayErrorMessageAction(dispatch, getState));
+        .catch(displayError(dispatch, getState));
 };
