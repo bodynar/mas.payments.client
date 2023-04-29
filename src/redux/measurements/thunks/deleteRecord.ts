@@ -1,9 +1,10 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { ActionWithPayload, CompositeAppState, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
+import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetMeasurementsAction } from "@app/redux/measurements";
+import { displayError, displaySuccess } from "@app/redux/notificator";
 
 import { getMonthName } from "@app/constants";
 import { getMeasurements, deleteMeasurement } from "@app/core/measurement";
@@ -27,23 +28,20 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${item.typeCaption}]?`,
             callback: {
-                saveCallback: async (): Promise<void> => {
+                saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));
 
-                    try {
-                        await deleteMeasurement(id);
+                    deleteMeasurement(id)
+                        .then(() => {
+                            displaySuccess(dispatch, getState, false)("Measurement record successfully deleted");
+                        })
+                        .then(getMeasurements)
+                        .then(measurements => {
+                            dispatch(getSetMeasurementsAction(measurements));
+                            dispatch(getSetAppIsLoadingAction(false));
+                        })
+                        .catch(displayError(dispatch, getState));
 
-                        getDisplaySuccessMessageAction(dispatch, getState, false)("Measurement record successfully deleted");
-
-                        getMeasurements()
-                            .then(measurements => {
-                                dispatch(getSetMeasurementsAction(measurements));
-                                dispatch(getSetAppIsLoadingAction(false));
-                            })
-                            .catch(getDisplayErrorMessageAction(dispatch, getState));
-                    } catch (error: any) {
-                        getDisplayErrorMessageAction(dispatch, getState)(error);
-                    }
                 },
                 cancelCallback: (): void => { }
             }

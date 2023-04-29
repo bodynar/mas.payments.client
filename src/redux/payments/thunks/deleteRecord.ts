@@ -1,9 +1,10 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { ActionWithPayload, CompositeAppState, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
+import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetPaymentsAction } from "@app/redux/payments";
+import { displayError, displaySuccess } from "@app/redux/notificator";
 
 import { deleteRecord as deleteRecordAction, getPaymentRecords } from "@app/core/payment";
 import { getMonthName } from "@app/constants";
@@ -27,19 +28,21 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure want to delete payment record for ${getMonthName(payment.month)} ${payment.year}?`,
             callback: {
-                saveCallback: async (): Promise<void> => {
+                saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));
 
-                    await deleteRecordAction(id);
-
-                    getDisplaySuccessMessageAction(dispatch, getState, false)("Payment record successfully deleted");
-
-                    getPaymentRecords()
+                    deleteRecordAction(id)
+                        .then(() => {
+                            displaySuccess(dispatch, getState, false)("Payment record successfully deleted");
+                        })
+                        .then(getPaymentRecords)
                         .then(payments => {
                             dispatch(getSetPaymentsAction(payments));
                             dispatch(getSetAppIsLoadingAction(false));
                         })
-                        .catch(getDisplayErrorMessageAction(dispatch, getState));
+                        .catch(
+                            displayError(dispatch, getState)
+                        );
                 },
                 cancelCallback: (): void => { }
             }

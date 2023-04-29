@@ -1,8 +1,9 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { CompositeAppState, ActionWithPayload, getDisplayErrorMessageAction } from "@app/redux";
+import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetPaymentsAction } from "@app/redux/payments";
+import { displayError } from "@app/redux/notificator";
 
 import { getPaymentRecords } from "@app/core/payment";
 
@@ -21,5 +22,5 @@ export const loadPayments = (): ThunkAction<Promise<void>, CompositeAppState, un
             dispatch(getSetPaymentsAction(payments));
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(getDisplayErrorMessageAction(dispatch, getState));
+        .catch(displayError(dispatch, getState));
 };

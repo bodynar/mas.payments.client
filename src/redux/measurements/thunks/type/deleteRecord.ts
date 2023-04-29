@@ -1,9 +1,10 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { ActionWithPayload, CompositeAppState, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
+import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetMeasurementTypesAction } from "@app/redux/measurements";
+import { displayError, displaySuccess } from "@app/redux/notificator";
 
 import { deleteTypeRecord as deleteRecordAction, getMeasurementTypes } from "@app/core/measurement";
 
@@ -27,23 +28,19 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure want to delete measurement type ${measurementType.caption}?`,
             callback: {
-                saveCallback: async (): Promise<void> => {
+                saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));
 
-                    try {
-                        await deleteRecordAction(id);
-
-                        getDisplaySuccessMessageAction(dispatch, getState, false)(`Measurement type [${measurementType.caption}] successfully deleted`);
-
-                        getMeasurementTypes()
-                            .then(items => {
-                                dispatch(getSetMeasurementTypesAction(items));
-                                dispatch(getSetAppIsLoadingAction(false));
-                            })
-                            .catch(getDisplayErrorMessageAction(dispatch, getState));
-                    } catch (error: any) {
-                        getDisplayErrorMessageAction(dispatch, getState)(error);
-                    }
+                    deleteRecordAction(id)
+                        .then(() => {
+                            displaySuccess(dispatch, getState, false)(`Measurement type [${measurementType.caption}] successfully deleted`);
+                        })
+                        .then(getMeasurementTypes)
+                        .then(items => {
+                            dispatch(getSetMeasurementTypesAction(items));
+                            dispatch(getSetAppIsLoadingAction(false));
+                        })
+                        .catch(displayError(dispatch, getState));
                 },
                 cancelCallback: (): void => { }
             }

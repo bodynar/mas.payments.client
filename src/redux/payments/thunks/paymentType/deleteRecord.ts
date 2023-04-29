@@ -1,9 +1,10 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { ActionWithPayload, CompositeAppState, getDisplayErrorMessageAction, getDisplaySuccessMessageAction } from "@app/redux";
+import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetPaymentTypesAction } from "@app/redux/payments";
+import { displayError, displaySuccess } from "@app/redux/notificator";
 
 import { deleteTypeRecord as deleteRecordAction, getPaymentTypes } from "@app/core/payment";
 
@@ -14,7 +15,7 @@ import { deleteTypeRecord as deleteRecordAction, getPaymentTypes } from "@app/co
  */
 export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppState, unknown, ActionWithPayload> => (
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
-    getState: () => CompositeAppState
+    getState: () => CompositeAppState,
 ): void => {
     const { payments } = getState();
 
@@ -27,19 +28,19 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure want to delete payment type ${paymentType.caption}?`,
             callback: {
-                saveCallback: async (): Promise<void> => {
+                saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));
 
-                    await deleteRecordAction(id);
-
-                    getDisplaySuccessMessageAction(dispatch, getState, false)("Payment type successfully deleted");
-
-                    getPaymentTypes()
+                    deleteRecordAction(id)
+                        .then(() => {
+                            displaySuccess(dispatch, getState, false)("Payment type successfully deleted");
+                        })
+                        .then(getPaymentTypes)
                         .then(items => {
                             dispatch(getSetPaymentTypesAction(items));
                             dispatch(getSetAppIsLoadingAction(false));
                         })
-                        .catch(getDisplayErrorMessageAction(dispatch, getState));
+                        .catch(displayError(dispatch, getState));
                 },
                 cancelCallback: (): void => { }
             }
