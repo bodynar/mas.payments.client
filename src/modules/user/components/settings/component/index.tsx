@@ -44,6 +44,8 @@ const Settings = ({
     const [updatedSettings, setUpdatedSettings] = useState<Map<string, string>>(new Map([]));
 
     useEffect(() => {
+        // TODO: on error there's 2 notification
+        // on init must be one (store init state in redux)
         if (!loaded && settings.length === 0) {
             loadSettings().then(() => setIsLoaded(true));
         }
