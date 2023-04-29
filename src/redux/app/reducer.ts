@@ -1,7 +1,7 @@
 import { getPropertyValueWithCheck } from "@bodynarf/utils";
 
 import { ActionWithPayload } from "@app/redux";
-import { SetIsAppLoadingState, SetTabIsFocused, AppState } from "@app/redux/app";
+import { SET_IS_APP_IN_LOADING_STATE, SET_TAB_IS_FOCUSED, AppState } from "@app/redux/app";
 
 const defaultState: AppState = {
     isCurrentTabFocused: true,
@@ -16,7 +16,7 @@ const defaultState: AppState = {
  */
 export default function (state: AppState = defaultState, action: ActionWithPayload): AppState {
     switch (action.type) {
-        case SetTabIsFocused: {
+        case SET_TAB_IS_FOCUSED: {
             const isTabFocused: boolean =
                 getPropertyValueWithCheck(action.payload, "isTabFocused");
 
@@ -25,7 +25,7 @@ export default function (state: AppState = defaultState, action: ActionWithPaylo
                 isCurrentTabFocused: isTabFocused
             };
         }
-        case SetIsAppLoadingState: {
+        case SET_IS_APP_IN_LOADING_STATE: {
             const isLoading: boolean =
                 getPropertyValueWithCheck(action.payload, "loading", false) || false;
 

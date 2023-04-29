@@ -1,5 +1,5 @@
 import { ActionWithPayload } from "@app/redux";
-import { SetTabIsFocused } from "@app/redux/app";
+import { SET_TAB_IS_FOCUSED } from "@app/redux/app";
 
 /**
  * Get redux action "Set tab is focused"
@@ -7,7 +7,7 @@ import { SetTabIsFocused } from "@app/redux/app";
  * @returns Redux action to update state
  */
 export const getSetTabIsFocusedAction = (isTabFocused: boolean): ActionWithPayload => ({
-    type: SetTabIsFocused,
+    type: SET_TAB_IS_FOCUSED,
     payload: {
         isTabFocused
     }
