@@ -21,7 +21,7 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
 
     const [_, displayError] = getNotifications(dispatch, getState);
 
-    return post<Array<string>>(`api/measurement/updateDiff1`, {})
+    return post<Array<string>>(`api/measurement/updateDiff`, {})
         .then((result: Array<string> | undefined) => {
             dispatch(getSetAppIsLoadingAction(false));
 
