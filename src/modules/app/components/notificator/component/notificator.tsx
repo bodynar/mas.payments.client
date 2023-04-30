@@ -1,12 +1,10 @@
 import { useCallback } from "react";
-
 import { connect } from "react-redux";
-
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import { isStringEmpty } from "@bodynarf/utils";
 
-import "./notificator.scss";
+import "./style.scss";
 
 import { NotificationCountToShowHideAll } from "@app/constants";
 import { NotificationItem } from "@app/models/notification";

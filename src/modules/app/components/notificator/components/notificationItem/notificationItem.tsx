@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 
-import "./notificationItem.scss";
+import "./style.scss";
 
 import { NotificationHideDelay } from "@app/constants";
 
