@@ -1,3 +1,5 @@
+import { Action as ReduxAction } from "redux";
+
 import { AppState } from "@app/redux/app";
 import { NotificatorState } from "@app/redux/notificator";
 import { ModalState } from "@app/redux/modal";
@@ -7,10 +9,7 @@ import { MeasurementModuleState } from "@app/redux/measurements";
 import { StatisticsModuleState } from "@app/redux/stats";
 
 /** Redux action */
-export interface Action {
-    /** Unique action code */
-    type: string;
-}
+export interface Action extends ReduxAction<string> { }
 
 /** Redux action with some extra payload */
 export interface ActionWithPayload extends Action {
