@@ -1,5 +1,5 @@
 .app-user-icon {
-    .icon {
+    .bbr-icon {
         color: white;
         transition: 0.125s ease-in-out color;
         &:hover {
@@ -7,7 +7,7 @@
         }
     }
     &[data-is-active="false"] {
-        .icon {
+        .bbr-icon {
             color: rgb(0, 203, 255);
         }
     }

@@ -1,6 +1,6 @@
 import { NotificationHistoryItem } from "@app/models/notification";
 
-import NotificationStoryRecord from "../notificationStoryRecord/notificationStoryRecord";
+import NotificationStoryRecord from "../notificationStoryRecord";
 
 /** Bell notification list component */
 export default function BellList({ notifications }: { notifications: Array<NotificationHistoryItem>; }): JSX.Element {

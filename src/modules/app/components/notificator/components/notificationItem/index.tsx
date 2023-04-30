@@ -8,10 +8,10 @@ import { NotificationItem, NotificationType } from "@app/models/notification";
 
 /** Map of notification type to bulma class name */
 const typeClassNameMap: Map<NotificationType, string> = new Map([
-    ["info", "is-info"],
-    ["success", "is-success"],
-    ["warn", "is-warning"],
-    ["error", "is-danger"],
+    [NotificationType.info, "is-info"],
+    [NotificationType.success, "is-success"],
+    [NotificationType.warn, "is-warning"],
+    [NotificationType.error, "is-danger"],
 ]);
 
 /** Single notification component configuration */

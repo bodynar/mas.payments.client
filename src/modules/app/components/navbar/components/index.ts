@@ -1,6 +1,6 @@
-import NavbarBrand from "./navbarBrand/navbar-brand";
-import Bell from "./bell/component/bell";
-import NavbarMenuItem from "./navbarMenuItem/navbarMenuItem";
+import NavbarBrand from "./navbarBrand";
+import Bell from "./bell/component";
+import NavbarMenuItem from "./navbarMenuItem";
 import User from "./user";
 
 export {

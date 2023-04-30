@@ -2,6 +2,7 @@ import { generateGuid } from "@bodynarf/utils";
 
 import { ActionWithPayload } from "@app/redux";
 import { getAddNotificationAction } from "@app/redux/notificator";
+import { NotificationType } from "@app/models/notification";
 
 /**
  * Get notifications module action which adding success notification
@@ -14,7 +15,7 @@ export const getSuccessNotificationAction = (
     shouldDisplay: boolean
 ): ActionWithPayload =>
     getAddNotificationAction(
-        { type: "success", message, id: generateGuid(), createdAt: new Date() },
+        { type: NotificationType.success, message, id: generateGuid(), createdAt: new Date() },
         shouldDisplay
     );
 
@@ -29,6 +30,6 @@ export const getErrorNotificationAction = (
     shouldDisplay: boolean
 ): ActionWithPayload =>
     getAddNotificationAction(
-        { type: "error", message, id: generateGuid(), createdAt: new Date() },
+        { type: NotificationType.error, message, id: generateGuid(), createdAt: new Date() },
         shouldDisplay
     );

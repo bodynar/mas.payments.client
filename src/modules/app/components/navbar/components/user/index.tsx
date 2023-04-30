@@ -1,9 +1,9 @@
+import { Link, useLocation } from "react-router-dom";
+
 import { ElementSize } from "@bodynarf/react.components";
 import Icon from "@bodynarf/react.components/components/icon";
 
-import { Link, useLocation } from "react-router-dom";
-
-import "./user.scss";
+import "./style.scss";
 
 /**
  * User icon component
@@ -37,12 +37,12 @@ const UserIcon = (): JSX.Element => {
             className="app-user-icon is-flex is-align-items-center"
             data-is-active={false}
         >
-            <span className="icon">
+            {/* <span className="icon"> */}
                 <Icon
                     name={icon}
                     size={ElementSize.Medium}
                 />
-            </span>
+            {/* </span> */}
         </div>
     );
 };

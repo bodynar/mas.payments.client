@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import { ElementSize, useComponentOutsideClick } from "@bodynarf/react.components";
 import Icon from "@bodynarf/react.components/components/icon";
 
-import "./bell.scss";
+import "./style.scss";
 
 import { NotificationHistoryItem } from "@app/models/notification";
 
 import { CompositeAppState } from "@app/redux";
 import { setNotificationsBadgeToZero } from "@app/redux/notificator/";
 
-import BellList from "../components/bellList/bellList";
+import BellList from "../components/bellList";
 
 interface BellProps {
     /** All notifications in current session */

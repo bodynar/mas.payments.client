@@ -11,8 +11,8 @@ import { getSetTabIsFocusedAction } from "@app/redux/app";
 
 import ModalBox from "@app/modules/modalBox";
 
-import Notificator from "../components/notificator/component/notificator";
-import Navbar from "../components/navbar/component/navbar";
+import Notificator from "../components/notificator";
+import Navbar from "../components/navbar";
 import AppContent from "../components/content";
 
 interface AppProps {
@@ -71,4 +71,3 @@ export default connect(
     }),
     { setTabIsFocused: getSetTabIsFocusedAction, }
 )(App);
-

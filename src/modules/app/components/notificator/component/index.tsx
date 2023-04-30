@@ -12,7 +12,7 @@ import { NotificationItem } from "@app/models/notification";
 import { CompositeAppState } from "@app/redux";
 import { getHideNotificationsAction, getHideAllNotificationsAction } from "@app/redux/notificator";
 
-import Notification from "../components/notificationItem/notificationItem";
+import Notification from "../components/notificationItem";
 
 interface NotificatorProps {
     /** Active notifications */
