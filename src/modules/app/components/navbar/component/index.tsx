@@ -6,7 +6,7 @@ import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
 import "./style.scss";
 
 import { NavbarBrand, Bell, NavbarMenuItem, User } from "../components";
-import { menuItems as staticMenu } from "@app/static";
+import { menuItems as staticMenu } from "@app/static/menu";
 
 interface NavbarProps {
     /** Class for navbar */
