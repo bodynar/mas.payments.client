@@ -1,7 +1,7 @@
 import { SelectableItem } from "@bodynarf/react.components";
 
 import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 /** Payment module state */
 export interface PaymentModuleState {

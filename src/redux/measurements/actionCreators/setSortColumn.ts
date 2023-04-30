@@ -1,5 +1,5 @@
 import { Measurement } from "@app/models/measurements";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 import { ActionWithPayload } from "@app/redux";
 import { SET_MEASUREMENT_SORT_COLUMN } from "@app/redux/measurements";

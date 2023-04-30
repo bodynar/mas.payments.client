@@ -1,6 +1,6 @@
 import { isNullOrUndefined } from "@bodynarf/utils";
 
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 /** Filter value */
 export interface FilterValue<TModel> {

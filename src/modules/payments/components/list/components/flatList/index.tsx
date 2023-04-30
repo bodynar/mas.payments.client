@@ -7,7 +7,7 @@ import Paginator from "@bodynarf/react.components/components/paginator";
 
 import { flatListTableHeadings } from "@app/static/payment";
 import { Payment, PaymentFilter } from "@app/models/payments";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
 import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@app/redux/payments";

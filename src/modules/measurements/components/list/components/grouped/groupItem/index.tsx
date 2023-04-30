@@ -6,7 +6,7 @@ import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { groupedViewTableHeadings } from "@app/static/measurement";
 import { Measurement, MeasurementGroup } from "@app/models/measurements";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 import { sort } from "@app/utils/array";
 
 import { useSortColumn } from "@app/hooks";

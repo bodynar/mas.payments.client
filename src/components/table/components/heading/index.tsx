@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
 import Icon from "@bodynarf/react.components/components/icon";
 
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 import { TableHeading } from "../../types";
 

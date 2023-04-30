@@ -2,7 +2,7 @@ import { DependencyList, useCallback } from "react";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 import { TableHeading } from "@app/sharedComponents/table";
 
 /**

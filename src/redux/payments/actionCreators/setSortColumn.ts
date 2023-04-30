@@ -1,5 +1,5 @@
 import { Payment } from "@app/models/payments";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 import { ActionWithPayload } from "@app/redux";
 import { SET_PAYMENT_SORT_COLUMN } from "@app/redux/payments";

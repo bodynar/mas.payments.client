@@ -9,7 +9,7 @@ import Paginator from "@bodynarf/react.components/components/paginator";
 import Search from "@bodynarf/react.components/components/search";
 
 import { MeasurementType } from "@app/models/measurements";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux";
 import { getSetTypeSortColumnAction, deleteTypeRecord, getFilterMeasurementTypesAction } from "@app/redux/measurements";

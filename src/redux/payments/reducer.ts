@@ -3,7 +3,7 @@ import { isUndefined, getPropertyValueWithCheck, isNullOrUndefined, getPropertyV
 import { SelectableItem } from "@bodynarf/react.components";
 
 import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 import { sort } from "@app/utils";
 

@@ -1,6 +1,6 @@
 import { getClassName } from "@bodynarf/utils";
 
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 import { TableHeading } from "..";
 import TableHeader from "../components/heading";

@@ -6,7 +6,7 @@ import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { groupedViewTableHeadings } from "@app/static/payment";
 import { Payment, PaymentGroup } from "@app/models/payments";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 import { sort } from "@app/utils";
 
 import { useSortColumn } from "@app/hooks";

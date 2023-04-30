@@ -1,7 +1,7 @@
 import { SelectableItem } from "@bodynarf/react.components";
 
 import { MeasurementType, Measurement, MeasurementFilter, MeasurementGroupedByType } from "@app/models/measurements";
-import SortColumn from "@app/models/sortColumn";
+import { SortColumn } from "@app/models";
 
 /** Measurement module state */
 export interface MeasurementModuleState {
