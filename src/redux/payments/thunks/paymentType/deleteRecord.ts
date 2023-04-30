@@ -4,7 +4,7 @@ import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetPaymentTypesAction } from "@app/redux/payments";
-import { displayError, displaySuccess } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 import { deleteTypeRecord as deleteRecordAction, getPaymentTypes } from "@app/core/payment";
 
@@ -31,18 +31,19 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
                 saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));
 
+                    const [displaySuccess, displayError] = getNotifications(dispatch, getState);
+
                     deleteRecordAction(id)
                         .then(() => {
-                            displaySuccess(dispatch, getState, false)("Payment type successfully deleted");
+                            displaySuccess("Payment type successfully deleted", false);
                         })
                         .then(getPaymentTypes)
                         .then(items => {
                             dispatch(getSetPaymentTypesAction(items));
                             dispatch(getSetAppIsLoadingAction(false));
                         })
-                        .catch(displayError(dispatch, getState));
+                        .catch(displayError);
                 },
-                cancelCallback: (): void => { }
             }
         }));
 };

@@ -5,7 +5,7 @@ import { get } from "@app/utils";
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetMeasurementsWithoutDiffAction } from "@app/redux/user";
-import { displayError } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 /**
  * Get measurements without diff count
@@ -17,12 +17,14 @@ export const getMeasurementsWithoutDiff = (): ThunkAction<void, CompositeAppStat
     ): void => {
         dispatch(getSetAppIsLoadingAction(true));
 
+        const [_, displayError] = getNotifications(dispatch, getState);
+
         get<number>(`api/measurement/withoutDiff`)
             .then((count: number) => {
                 dispatch(getSetMeasurementsWithoutDiffAction(count));
 
                 dispatch(getSetAppIsLoadingAction(false));
             })
-            .catch(displayError(dispatch, getState));
+            .catch(displayError);
     };
 

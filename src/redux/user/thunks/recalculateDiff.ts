@@ -7,7 +7,7 @@ import { post } from "@app/utils";
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getOpenModalAction, ModalType } from "@app/redux/modal/";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { displayError } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 /**
  * Recalculate measurements diff
@@ -18,6 +18,8 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
     getState: () => CompositeAppState,
 ): Promise<boolean> => { // TODO: promise?
     dispatch(getSetAppIsLoadingAction(true));
+
+    const [_, displayError] = getNotifications(dispatch, getState);
 
     return post<Array<string>>(`api/measurement/updateDiff1`, {})
         .then((result: Array<string> | undefined) => {
@@ -37,7 +39,7 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
             return false;
         })
         .catch((e) => {
-            displayError(dispatch, getState)(e);
+            displayError(e);
             return false;
         });
 };

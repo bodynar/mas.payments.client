@@ -7,7 +7,7 @@ import { getMeasurementTypes } from "@app/core/measurement";
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetMeasurementTypesAction } from "@app/redux/measurements";
-import { displayError } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 /**
  * Load available measurement types
@@ -26,10 +26,12 @@ export const loadTypes = (): ThunkAction<void, CompositeAppState, unknown, Actio
             ? new Promise(x => x(measurements.availableTypes))
             : getMeasurementTypes();
 
+    const [_, displayError] = getNotifications(dispatch, getState);
+
     paymentTypeProvider
         .then((types) => {
             dispatch(getSetMeasurementTypesAction(types));
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(displayError(dispatch, getState));
+        .catch(displayError);
 };

@@ -7,7 +7,7 @@ import { getPaymentTypes } from "@app/core/payment";
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetPaymentTypesAction } from "@app/redux/payments";
-import { displayError } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 /**
  * Load available payment types
@@ -26,10 +26,12 @@ export const loadTypes = (): ThunkAction<void, CompositeAppState, unknown, Actio
             ? new Promise(x => x(payments.availableTypes))
             : getPaymentTypes();
 
+    const [_, displayError] = getNotifications(dispatch, getState);
+
     paymentTypeProvider
         .then((types) => {
             dispatch(getSetPaymentTypesAction(types));
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(displayError(dispatch, getState));
+        .catch(displayError);
 };

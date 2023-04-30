@@ -6,7 +6,7 @@ import { ActionWithPayload, FieldValue } from "@bodynarf/react.components.form";
 import { CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetMeasurementsAction } from "@app/redux/measurements";
-import { displayError, displaySuccess } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 import { getMeasurements, createMeasurements, updateMeasurement } from "@app/core/measurement";
 import { AddMeasurements } from "@app/models/measurements";
@@ -26,14 +26,16 @@ export const saveCard = (values: Array<FieldValue> | AddMeasurements, id?: strin
             ? () => createMeasurements(values as AddMeasurements)
             : () => updateMeasurement(values as Array<FieldValue>, id!);
 
+    const [displaySuccess, displayError] = getNotifications(dispatch, getState);
+
     return action()
         .then(() => {
-            displaySuccess(dispatch, getState, false)("Measurement records successfully saved");
+            displaySuccess("Measurement records successfully saved", false);
         })
         .then(getMeasurements)
         .then(items => {
             dispatch(getSetMeasurementsAction(items));
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(displayError(dispatch, getState));
+        .catch(displayError);
 };

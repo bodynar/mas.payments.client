@@ -11,7 +11,7 @@ import { UserNotification } from "@app/models/user";
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetNotificationsAction } from "@app/redux/user";
-import { displayError } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 /**
  * Get user notificationts
@@ -22,6 +22,8 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
     getState: () => CompositeAppState,
 ): Promise<void> => { // TODO: promise?
     dispatch(getSetAppIsLoadingAction(true));
+
+    const [_, displayError] = getNotifications(dispatch, getState);
 
     return get<Array<UserNotification>>(`api/user/getUserNotifications`)
         .then((notifications: Array<UserNotification>) => {
@@ -41,5 +43,5 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
 
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(displayError(dispatch, getState));
+        .catch(displayError);
 };

@@ -5,7 +5,7 @@ import { ActionWithPayload, FieldValue } from "@bodynarf/react.components.form";
 import { CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetPaymentsAction } from "@app/redux/payments";
-import { displayError, displaySuccess } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 import { getPaymentRecords, saveCard as saveCardAction } from "@app/core/payment";
 
@@ -19,14 +19,16 @@ export const saveCard = (values: Array<FieldValue>, id?: string): ThunkAction<Pr
 ): Promise<void> => {
     dispatch(getSetAppIsLoadingAction(true));
 
+    const [displaySuccess, displayError] = getNotifications(dispatch, getState);
+
     return saveCardAction(values, id)
         .then(() => {
-            displaySuccess(dispatch, getState, false)("Payment record successfully saved");
+            displaySuccess("Payment record successfully saved", false);
         })
         .then(getPaymentRecords)
         .then(payments => {
             dispatch(getSetPaymentsAction(payments));
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(displayError(dispatch, getState));
+        .catch(displayError);
 };

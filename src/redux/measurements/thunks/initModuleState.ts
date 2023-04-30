@@ -7,7 +7,7 @@ import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getSetMeasurementTypesAction, getSetModuleInitializedStateAction, getSetMeasurementsAction } from "@app/redux/measurements";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetPaymentTypesAction } from "@app/redux/payments";
-import { displayError } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 /**
  * Init measurements module state
@@ -18,6 +18,8 @@ export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown,
     getState: () => CompositeAppState
 ): void => {
     dispatch(getSetAppIsLoadingAction(true));
+
+    const [_, displayError] = getNotifications(dispatch, getState);
 
     Promise.all([
         getMeasurementTypes(),
@@ -32,5 +34,5 @@ export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown,
             dispatch(getSetModuleInitializedStateAction(true));
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(displayError(dispatch, getState));
+        .catch(displayError);
 };

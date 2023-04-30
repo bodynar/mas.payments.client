@@ -4,7 +4,7 @@ import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetMeasurementsAction } from "@app/redux/measurements";
-import { displayError, displaySuccess } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 import { getMonthName } from "@app/constants";
 import { getMeasurements, deleteMeasurement } from "@app/core/measurement";
@@ -31,19 +31,19 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
                 saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));
 
+                    const [displaySuccess, displayError] = getNotifications(dispatch, getState);
+
                     deleteMeasurement(id)
                         .then(() => {
-                            displaySuccess(dispatch, getState, false)("Measurement record successfully deleted");
+                            displaySuccess("Measurement record successfully deleted", false);
                         })
                         .then(getMeasurements)
                         .then(measurements => {
                             dispatch(getSetMeasurementsAction(measurements));
                             dispatch(getSetAppIsLoadingAction(false));
                         })
-                        .catch(displayError(dispatch, getState));
-
+                        .catch(displayError);
                 },
-                cancelCallback: (): void => { }
             }
         }));
 };

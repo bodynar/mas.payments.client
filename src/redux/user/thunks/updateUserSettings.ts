@@ -4,7 +4,7 @@ import { post } from "@app/utils";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { displayError } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 /**
  * Save user settings
@@ -16,9 +16,11 @@ export const updateUserSettings = (updatedSettings: Array<UpdatedUserSetting>): 
     ): Promise<void> => { // TODO: promise?
         dispatch(getSetAppIsLoadingAction(true));
         // TODO: Add success notification
+        const [_, displayError] = getNotifications(dispatch, getState);
+
         return post(`api/user/updateUserSettings`, updatedSettings)
             .then(_ => undefined)
-            .catch(displayError(dispatch, getState));
+            .catch(displayError);
     };
 
 /** Updated user setting */

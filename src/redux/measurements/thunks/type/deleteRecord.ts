@@ -4,7 +4,7 @@ import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetMeasurementTypesAction } from "@app/redux/measurements";
-import { displayError, displaySuccess } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 import { deleteTypeRecord as deleteRecordAction, getMeasurementTypes } from "@app/core/measurement";
 
@@ -31,18 +31,19 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
                 saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));
 
+                    const [displaySuccess, displayError] = getNotifications(dispatch, getState);
+
                     deleteRecordAction(id)
                         .then(() => {
-                            displaySuccess(dispatch, getState, false)(`Measurement type [${measurementType.caption}] successfully deleted`);
+                            displaySuccess(`Measurement type [${measurementType.caption}] successfully deleted`, false);
                         })
                         .then(getMeasurementTypes)
                         .then(items => {
                             dispatch(getSetMeasurementTypesAction(items));
                             dispatch(getSetAppIsLoadingAction(false));
                         })
-                        .catch(displayError(dispatch, getState));
+                        .catch(displayError);
                 },
-                cancelCallback: (): void => { }
             }
         }));
 };

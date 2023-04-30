@@ -4,7 +4,7 @@ import { post } from "@app/utils";
 
 import { CompositeAppState, Action } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { displayError, displaySuccess } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 /**
  * Send test email message
@@ -16,13 +16,13 @@ export const sendTestEmail = (recipient: string): ThunkAction<void, CompositeApp
 ): void => {
     dispatch(getSetAppIsLoadingAction(true));
 
+    const [displaySuccess, displayError] = getNotifications(dispatch, getState);
+
     post<Array<string>>(`api/user/testMailMessage`, {
         recipient: recipient
     })
         .then(() => {
-            displaySuccess(dispatch, getState)("Message sucessfully added to queue");
+            displaySuccess("Message sucessfully added to queue");
         })
-        .catch(
-            displayError(dispatch, getState)
-        );
+        .catch(displayError);
 };

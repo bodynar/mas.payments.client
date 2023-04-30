@@ -11,3 +11,12 @@ export interface NotificatorState {
     /** Number on history badge */
     historyBadgeCount: number;
 }
+
+/** Function that can display notification */
+type ShowNotificationFn<TMessage> = (message: TMessage, removeLoadingState?: boolean) => void;
+
+/** Success notification show function type */
+export type ShowSuccessFn = ShowNotificationFn<string>;
+
+/** Error notification show function type */
+export type ShowErrorFn = ShowNotificationFn<Error | string>;

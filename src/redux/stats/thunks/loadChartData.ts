@@ -5,7 +5,7 @@ import { ChartConfig } from "@app/models/stats";
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getClearChartSeriesAction, getSaveChartConfigAction, getSaveChartSeriesAction } from "@app/redux/stats";
-import { displayError } from "@app/redux/notificator";
+import { getNotifications } from "@app/redux/notificator";
 
 import { getChartDataProvider } from "@app/core/stats";
 
@@ -23,11 +23,13 @@ export const loadChartData = (config: ChartConfig): ThunkAction<Promise<void>, C
 
     const dataProvider = getChartDataProvider(config.chart);
 
+    const [_, displayError] = getNotifications(dispatch, getState);
+
     dataProvider(config)
         .then(chartSeries => {
             dispatch(getSaveChartSeriesAction(config.chart, chartSeries));
 
             dispatch(getSetAppIsLoadingAction(false));
         })
-        .catch(displayError(dispatch, getState));
+        .catch(displayError);
 };
