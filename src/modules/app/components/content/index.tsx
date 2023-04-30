@@ -5,7 +5,7 @@ import "./style.scss";
 import loading from "@app/assets/loading01.svg";
 
 import { menuItems } from "@app/static/menu";
-import { RouteItem } from "@app/models/routeItem";
+import { RouteItem } from "@app/models";
 
 interface AppContentProps {
     /** 

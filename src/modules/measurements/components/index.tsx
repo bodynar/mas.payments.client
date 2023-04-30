@@ -1,4 +1,4 @@
-import { RouteItem } from "@app/models/routeItem";
+import { RouteItem } from "@app/models";
 
 import MeasurementList from "./list";
 import MeasurementEditCard from "./edit";

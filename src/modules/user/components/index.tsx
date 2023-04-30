@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-import { MenuItem } from "@app/models/routeItem";
+import { MenuItem } from "@app/models";
 
 import ApplicationInfo from "./appInfo";
 import Notifications from "./notifications";

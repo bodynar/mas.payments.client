@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 
 import { isStringEmpty } from "@bodynarf/utils";
 
-import { MenuItem } from "@app/models/routeItem";
+import { MenuItem } from "@app/models";
 
 import Payments from "@app/modules/payments";
 import Measurements from "@app/modules/measurements";

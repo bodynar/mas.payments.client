@@ -1,4 +1,4 @@
-import { RouteItem } from "@app/models/routeItem";
+import { RouteItem } from "@app/models";
 
 import PaymentList from "./list";
 import PaymentCard from "./edit";

@@ -1,4 +1,4 @@
-import { RouteItem } from "@app/models/routeItem";
+import { RouteItem } from "@app/models";
 
 import List from "./components/list";
 import Card from "./components/edit";
