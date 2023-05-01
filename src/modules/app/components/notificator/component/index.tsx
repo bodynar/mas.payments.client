@@ -6,7 +6,7 @@ import { isStringEmpty } from "@bodynarf/utils";
 
 import "./style.scss";
 
-import { NotificationCountToShowHideAll } from "@app/constants";
+import { NotificationCountToShowHideAll } from "@app/static";
 import { NotificationItem } from "@app/models/notification";
 
 import { CompositeAppState } from "@app/redux";

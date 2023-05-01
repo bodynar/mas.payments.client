@@ -3,7 +3,7 @@ import moment from "moment";
 import { isNullOrUndefined, delayResolve, delayReject, RequestData, isNullOrEmpty, ApiResult } from "@bodynarf/utils";
 import { safeFetch } from "@bodynarf/utils/api/v2";
 
-import { LoadingStateHideDelay, RequestTimeout } from "@app/constants";
+import { LoadingStateHideDelay, RequestTimeout } from "@app/static";
 
 /**
  * Send data to api to process

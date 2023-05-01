@@ -52,9 +52,6 @@
 			"@app/sharedComponents/*": [
 				"src/components/*",
 			],
-			"@app/constants": [
-				"src/shared/constants"
-			],
 			"@app/static": [
 				"src/shared/constants/",
 			],

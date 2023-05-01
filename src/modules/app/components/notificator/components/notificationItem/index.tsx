@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 
 import "./style.scss";
 
-import { NotificationHideDelay } from "@app/constants";
+import { NotificationHideDelay } from "@app/static";
 
 import { NotificationItem, NotificationType } from "@app/models/notification";
 

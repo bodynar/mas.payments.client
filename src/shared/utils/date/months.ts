@@ -2,7 +2,7 @@ import { isNullOrEmpty } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 
 import { Month } from "@app/models";
-import { months } from "@app/constants";
+import { months } from "@app/static";
 
 /**
  * Get month name by its number
