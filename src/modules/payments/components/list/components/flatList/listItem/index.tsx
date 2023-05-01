@@ -9,7 +9,7 @@ import Tag from "@bodynarf/react.components/components/tag";
 
 import { Payment } from "@app/models/payments";
 
-import { getMonthName } from "@app/static";
+import { getMonthName } from "@app/utils";
 
 /** Payment list item props type */
 interface PaymentListItemProps {

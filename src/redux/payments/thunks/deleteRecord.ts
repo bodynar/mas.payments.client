@@ -1,13 +1,13 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
+import { deleteRecord as deleteRecordAction, getPaymentRecords } from "@app/core/payment";
+import { getMonthName } from "@app/utils";
+
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetPaymentsAction } from "@app/redux/payments";
 import { getNotifications } from "@app/redux/notificator";
-
-import { deleteRecord as deleteRecordAction, getPaymentRecords } from "@app/core/payment";
-import { getMonthName } from "@app/constants";
 
 /**
  * Delete specified payment

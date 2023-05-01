@@ -11,7 +11,7 @@ import Accordion from "@bodynarf/react.components/components/accordion";
 import { CompositeAppState } from "@app/redux";
 import { getFilterPaymentsAction, getSetFilterValueAction } from "@app/redux/payments";
 
-import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/static";
+import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { getDropdownItem } from "@app/core";
 import { PaymentFilter } from "@app/models/payments";
 

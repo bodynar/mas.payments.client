@@ -2,8 +2,7 @@ import { isNullOrUndefined } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
-import { getMonthName } from "@app/constants";
-import { get, post } from "@app/utils";
+import { get, post, getMonthName } from "@app/utils";
 import { AddPayment, Payment, PaymentGroup, UpdatePayment } from "@app/models/payments";
 
 /**

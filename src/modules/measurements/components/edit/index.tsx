@@ -10,7 +10,7 @@ import Form from "@bodynarf/react.components.form/component";
 
 import { getDropdownItem } from "@app/core";
 import { Measurement } from "@app/models/measurements";
-import { getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/constants";
+import { getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 
 import { CompositeAppState } from "@app/redux";
 import { saveCard } from "@app/redux/measurements";

@@ -6,7 +6,7 @@ import { getOpenModalAction, ModalType } from "@app/redux/modal";
 import { getSetMeasurementsAction } from "@app/redux/measurements";
 import { getNotifications } from "@app/redux/notificator";
 
-import { getMonthName } from "@app/constants";
+import { getMonthName } from "@app/utils";
 import { getMeasurements, deleteMeasurement } from "@app/core/measurement";
 
 /**

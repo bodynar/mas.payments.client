@@ -1,3 +1,5 @@
+import { SimpleLookup } from "./lookup";
+
 /** Date */
 export interface DateModel {
     /** Day */
@@ -9,3 +11,6 @@ export interface DateModel {
     /** Year */
     year: number;
 }
+
+/** Month as lookup model */
+export type Month = SimpleLookup;

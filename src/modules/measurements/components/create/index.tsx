@@ -11,7 +11,7 @@ import "./style.scss";
 
 import { LookupDate } from "@app/models";
 import { AddMeasurementRecordData, AddMeasurements, MeasurementGroupedByType, MeasurementType } from "@app/models/measurements";
-import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/constants";
+import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { validateMeasurementCreateData } from "@app/core/measurement";
 
 import { CompositeAppState } from "@app/redux";

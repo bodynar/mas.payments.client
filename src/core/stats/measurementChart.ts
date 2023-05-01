@@ -1,8 +1,7 @@
 import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
 
 import { ChartConfig, ChartData } from "@app/models/stats";
-import { getShortMonthName } from "@app/constants";
-import { getDateIfDefined, get } from "@app/utils";
+import { getDateIfDefined, get, getShortMonthName } from "@app/utils";
 
 /**
  * Load measurements chart series data

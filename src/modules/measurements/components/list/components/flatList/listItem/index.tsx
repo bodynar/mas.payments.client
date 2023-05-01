@@ -9,7 +9,7 @@ import Tag from "@bodynarf/react.components/components/tag";
 
 import { Measurement } from "@app/models/measurements";
 
-import { getMonthName } from "@app/static";
+import { getMonthName } from "@app/utils";
 
 /** Measurement list item props type */
 interface MeasurementListItemProps {

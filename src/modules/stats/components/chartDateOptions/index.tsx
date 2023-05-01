@@ -5,10 +5,8 @@ import { SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 
-import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/constants";
+import { monthsAsDropdownItems, yearsAsDropdownItems, getNowDate } from "@app/utils";
 import { LookupDate } from "@app/models";
-
-import { getNowDate } from "@app/utils";
 
 /** Chart date options component props type */
 interface ChartDateOptionsProps {
