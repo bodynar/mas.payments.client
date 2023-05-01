@@ -10,7 +10,7 @@ import Form from "@bodynarf/react.components.form/component";
 
 import { getDropdownItem } from "@app/core";
 import { Payment } from "@app/models/payments";
-import { getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
+import { getDateOrNowLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 
 import { CompositeAppState } from "@app/redux";
 import { saveCard } from "@app/redux/payments";
@@ -41,8 +41,8 @@ const PaymentCard = ({
 
     const payment = payments.find(x => x.id === +id!);
     const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, payment?.typeId), [payment?.typeId, availableTypesAsDropdownItems]);
-    const selectedMonth = useMemo(() => getDropdownItem(monthsAsDropdownItems(), payment?.month), [payment?.month]);
-    const selectedYear = useMemo(() => getDropdownItem(yearsAsDropdownItems(), payment?.year), [payment?.year]);
+
+    const { year, month } = useMemo(() => getDateOrNowLookup(payment), [payment]);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
 
     const onSubmit = useCallback((values: Array<FieldValue>) => {
@@ -57,6 +57,9 @@ const PaymentCard = ({
 
     if (!initialized) {
         return <></>; // TODO: add skeleton
+    }
+    if (initialized && !isNullOrUndefined(id) && isNullOrUndefined(payment)) {
+        return <>ERROR: Payment not found</>;
     }
 
     return (
@@ -116,7 +119,7 @@ const PaymentCard = ({
                                 row: 2,
                             }
                         },
-                        defaultValue: selectedMonth,
+                        defaultValue: month,
                         required: true,
                         items: monthsAsDropdownItems(),
                         readonly: isSubmitAvailable,
@@ -132,7 +135,7 @@ const PaymentCard = ({
                                 row: 2,
                             }
                         },
-                        defaultValue: selectedYear,
+                        defaultValue: year,
                         required: true,
                         items: yearsAsDropdownItems(),
                         readonly: isSubmitAvailable,

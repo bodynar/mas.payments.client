@@ -8,7 +8,10 @@ import { SelectableItem } from "@bodynarf/react.components";
  * @param item Item value
  * @returns Found dropdown item; otherwise `undefined`
  */
-export const getDropdownItem = (dropdownItems: Array<SelectableItem>, item?: number): SelectableItem | undefined => {
+export const getDropdownItem = (
+    dropdownItems: Array<SelectableItem>,
+    item?: number
+): SelectableItem | undefined => {
     if (isNullOrUndefined(item)) {
         return undefined;
     }

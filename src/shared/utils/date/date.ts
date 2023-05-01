@@ -3,6 +3,9 @@ import moment from "moment";
 import { isNullOrUndefined } from "@bodynarf/utils";
 
 import { DateModel, LookupDate } from "@app/models";
+import { getDropdownItem } from "@app/core";
+
+import { monthsAsDropdownItems, yearsAsDropdownItems } from ".";
 
 /**
  * Build date object from lookup date values
@@ -33,4 +36,41 @@ export const getNowDate = (): DateModel => {
         month: months + 1,
         year: years,
     };
+};
+
+/**
+ * Get current date as lookup values
+ * @returns Current date as lookup values
+ */
+export const getNowDateLookup = (): LookupDate => {
+    const { month, year } = getNowDate();
+
+    return {
+        month: getDropdownItem(monthsAsDropdownItems(), month),
+        year: getDropdownItem(yearsAsDropdownItems(), year),
+    };
+};
+
+/**
+ * Get lookup date model if dates defined in specified model; Otherwise - get current date
+ * @param model Model with date values
+ * @returns Lookup values for date controls
+ */
+export const getDateOrNowLookup = (model?: ModelWithDate): LookupDate => {
+    if (isNullOrUndefined(model)) {
+        return getNowDateLookup();
+    }
+
+    const { month, year } = model!;
+
+    return {
+        month: getDropdownItem(monthsAsDropdownItems(), month),
+        year: getDropdownItem(yearsAsDropdownItems(), year),
+    };
+};
+
+/** Some model that contains date props */
+type ModelWithDate = {
+    month: number;
+    year: number;
 };

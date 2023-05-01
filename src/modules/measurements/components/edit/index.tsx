@@ -10,7 +10,7 @@ import Form from "@bodynarf/react.components.form/component";
 
 import { getDropdownItem } from "@app/core";
 import { Measurement } from "@app/models/measurements";
-import { getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
+import { getDateOrNowLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 
 import { CompositeAppState } from "@app/redux";
 import { saveCard } from "@app/redux/measurements";
@@ -40,9 +40,9 @@ const MeasurementEditCard = ({
     const navigate = useNavigate();
 
     const measurement = measurements.find(x => x.id === +id!);
+
     const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, measurement?.typeId), [measurement?.typeId, availableTypesAsDropdownItems]);
-    const selectedMonth = useMemo(() => getDropdownItem(monthsAsDropdownItems(), measurement?.month), [measurement?.month]);
-    const selectedYear = useMemo(() => getDropdownItem(yearsAsDropdownItems(), measurement?.year), [measurement?.year]);
+    const { year, month } = useMemo(() => getDateOrNowLookup(measurement), [measurement]);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
 
     const onSubmit = useCallback((values: Array<FieldValue>) => {
@@ -57,6 +57,9 @@ const MeasurementEditCard = ({
 
     if (!initialized) {
         return <></>; // TODO: add skeleton
+    }
+    if (initialized && !isNullOrUndefined(id) && isNullOrUndefined(measurement)) {
+        return <>ERROR: Measurement not found</>;
     }
 
     return (
@@ -116,7 +119,7 @@ const MeasurementEditCard = ({
                                 row: 2,
                             }
                         },
-                        defaultValue: selectedMonth,
+                        defaultValue: month,
                         required: true,
                         items: monthsAsDropdownItems(),
                         readonly: isSubmitAvailable,
@@ -132,7 +135,7 @@ const MeasurementEditCard = ({
                                 row: 2,
                             }
                         },
-                        defaultValue: selectedYear,
+                        defaultValue: year,
                         required: true,
                         items: yearsAsDropdownItems(),
                         readonly: isSubmitAvailable,

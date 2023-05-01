@@ -11,4 +11,4 @@
 ### To improve
 
 #### All
-1. On cards with year-month selection - auto select current date
+1. [**DONE**] On cards with year-month selection - auto select current date
