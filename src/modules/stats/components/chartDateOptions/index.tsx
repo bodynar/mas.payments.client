@@ -10,19 +10,19 @@ import { LookupDate } from "@app/models";
 
 /** Chart date options component props type */
 interface ChartDateOptionsProps {
-    /** Row date captiom */
+    /** Row date caption */
     caption: string;
 
     /** Default selected values */
     defaultValue?: LookupDate;
 
     /** Value change handler */
-    onValueChage: (date: LookupDate) => void;
+    onValueChange: (date: LookupDate) => void;
 }
 
 /** Chart date range border select component */
 const ChartDateOptions = ({
-    caption, onValueChage,
+    caption, onValueChange,
     defaultValue,
 }: ChartDateOptionsProps): JSX.Element => {
     const isFirstRun = useRef(true);
@@ -37,13 +37,13 @@ const ChartDateOptions = ({
                 return;
             }
 
-            onValueChage(date);
+            onValueChange(date);
 
             setTodayIsActive(
                 getDateIsToday(date)
             );
         },
-        [date, onValueChage, setTodayIsActive]
+        [date, onValueChange, setTodayIsActive]
     );
 
     const onMonthSelect = useCallback((item?: SelectableItem) => setDate(x => ({ ...x, month: item })), []);
@@ -109,7 +109,7 @@ const ChartDateOptions = ({
                     className="is-inverted"
                     onClick={onClearButtonClick}
                     title="Delete selected date"
-                    disabled={isNullOrUndefined(date.month) || isNullOrUndefined(date.year)}
+                    disabled={isNullOrUndefined(date.month) && isNullOrUndefined(date.year)}
                 />
             </div>
         </div>

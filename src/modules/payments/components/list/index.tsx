@@ -25,7 +25,7 @@ interface PaymentListProps {
     /** Payment types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
-    /** Last applied fiter */
+    /** Last applied filter */
     lastFilter?: PaymentFilterModel;
 
     /** Toggle grouping view */

@@ -25,7 +25,7 @@ interface MeasurementListProps {
     /** Measurement types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
-    /** Last applied fiter */
+    /** Last applied filter */
     lastFilter?: MeasurementFilterModel;
 
     /** Toggle grouping view */

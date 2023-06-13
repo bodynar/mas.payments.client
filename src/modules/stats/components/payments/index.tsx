@@ -89,12 +89,12 @@ const PaymentsChart = ({
                     </div>
                     <ChartDateOptions
                         caption="From"
-                        onValueChage={setFromDate}
+                        onValueChange={setFromDate}
                         defaultValue={lastConfig?.from}
                     />
                     <ChartDateOptions
                         caption="To"
-                        onValueChage={setToDate}
+                        onValueChange={setToDate}
                         defaultValue={lastConfig?.to}
                     />
                     <div className="columns">

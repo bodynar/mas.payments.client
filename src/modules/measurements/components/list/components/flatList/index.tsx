@@ -29,7 +29,7 @@ interface MeasurementFlatListProps {
     /** Measurement types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
-    /** Last applied fiter */
+    /** Last applied filter */
     lastFilter?: MeasurementFilter;
 
     /** Current sort column config */

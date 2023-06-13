@@ -24,7 +24,7 @@ interface MeasurementGroupedViewProps {
     /** Items that was filtered by last filter */
     filteredItems: Array<Measurement>;
 
-    /** Last applied fiter */
+    /** Last applied filter */
     lastFilter?: MeasurementFilter;
 
     /** Delete specified measurement */

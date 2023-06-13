@@ -23,7 +23,7 @@ interface PaymentGroupedViewProps {
     /** Items that was filtered by last filter */
     filteredItems: Array<Payment>;
 
-    /** Last applied fiter */
+    /** Last applied filter */
     lastFilter?: PaymentFilter;
 
     /** Delete specified payment */
