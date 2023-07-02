@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 
-import "./style.scss";
-
 import { PaymentType } from "@app/models/payments";
+import { ColorSquare } from "@app/sharedComponents/colorSquare";
 
 /** Payment type list item props type */
 interface PaymentTypeListItemProps {
@@ -30,11 +29,7 @@ const PaymentTypeListItem = ({
     return (
         <tr key={item.id}>
             <td className="has-text-centered is-vertical-align--center">
-                <span
-                    className="payment-type-color"
-                    style={{ backgroundColor: item.color }}
-                    title={item.color ?? "Color isn't set"}
-                />
+                <ColorSquare color={item.color}/>
             </td>
             <td className="has-text-centered is-vertical-align--center">{item.caption}</td>
             <td className="has-text-centered is-vertical-align--center">{item.company}</td>
