@@ -2,7 +2,7 @@ import { useCallback, useId, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { hexToRgb, isNullOrUndefined } from "@bodynarf/utils";
 
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
@@ -33,8 +33,12 @@ const PaymentTypeCard = ({
     const name = useId();
     const navigate = useNavigate();
 
-    const paymentType = availableTypes.find(x => x.id === +id!);
+    const item = availableTypes.find(x => x.id === +id!);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
+
+    const defaultColor = !isNullOrUndefined(item) && !isNullOrUndefined(item!.color)
+        ? hexToRgb(item!.color!)
+        : undefined;
 
     const onSubmit = useCallback((values: Array<FieldValue>) => {
         setIsSubmitAvailable(true);
@@ -55,7 +59,7 @@ const PaymentTypeCard = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(paymentType)
+                caption={isNullOrUndefined(item)
                     ? "Create new payment type"
                     : "Edit payment type"
                 }
@@ -77,7 +81,7 @@ const PaymentTypeCard = ({
                                 row: 0,
                             }
                         },
-                        defaultValue: paymentType?.caption,
+                        defaultValue: item?.caption,
                         required: true,
                         readonly: isSubmitAvailable,
                     },
@@ -92,8 +96,21 @@ const PaymentTypeCard = ({
                                 row: 1,
                             }
                         },
-                        defaultValue: paymentType?.company,
+                        defaultValue: item?.company,
                         readonly: isSubmitAvailable,
+                    },
+                    {
+                        name: "color",
+                        label: { caption: "Badge color" },
+                        type: "color",
+                        viewConfig: {
+                            layout: {
+                                column: 0,
+                                columnSpan: 12,
+                                row: 2,
+                            }
+                        },
+                        defaultValue: defaultColor,
                     },
                     {
                         name: "description",
@@ -103,10 +120,10 @@ const PaymentTypeCard = ({
                             layout: {
                                 column: 0,
                                 columnSpan: 12,
-                                row: 2,
+                                row: 3,
                             }
                         },
-                        defaultValue: paymentType?.description,
+                        defaultValue: item?.description,
                         readonly: isSubmitAvailable,
                     }
                 ]}

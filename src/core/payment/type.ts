@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { Color, isNullOrUndefined, rgbToHex } from "@bodynarf/utils";
 
 import { FieldValue } from "@bodynarf/react.components.form";
 
@@ -15,9 +15,14 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
     let apiRequestModel: AddPaymentType | UpdatePaymentType = {
         name: values.find(({ key }) => key === "caption")!.value,
         company: values.find(({ key }) => key === "provider")?.value,
-        color: values.find(({ key }) => key === "color")?.value,
         description: values.find(({ key }) => key === "description")?.value,
     };
+
+    const color = values.find(({ key }) => key === "color");
+
+    if (!isNullOrUndefined(color)) {
+        apiRequestModel.color = rgbToHex(color!.value as Color);
+    }
 
     const isNewRecord = isNullOrUndefined(id);
 

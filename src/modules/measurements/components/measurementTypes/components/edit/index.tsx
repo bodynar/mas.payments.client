@@ -2,7 +2,7 @@ import { useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { hexToRgb, isNullOrUndefined } from "@bodynarf/utils";
 
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
@@ -30,7 +30,7 @@ interface MeasurementTypeCardProps {
 }
 
 const MeasurementTypeCard = ({
-    availableTypes, initialized, paymentTypesAsDropdownItems, 
+    availableTypes, initialized, paymentTypesAsDropdownItems,
     saveCard,
 }: MeasurementTypeCardProps): JSX.Element => {
     const { id } = useParams();
@@ -41,6 +41,10 @@ const MeasurementTypeCard = ({
     const item = availableTypes.find(x => x.id === +id!);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
     const selectedType = useMemo(() => getDropdownItem(paymentTypesAsDropdownItems, item?.paymentTypeId), [paymentTypesAsDropdownItems, item?.paymentTypeId]);
+
+    const defaultColor = !isNullOrUndefined(item) && !isNullOrUndefined(item!.color)
+        ? hexToRgb(item!.color!)
+        : undefined;
 
     const onSubmit = useCallback((values: Array<FieldValue>) => {
         setIsSubmitAvailable(true);
@@ -104,6 +108,19 @@ const MeasurementTypeCard = ({
                         items: paymentTypesAsDropdownItems,
                     },
                     {
+                        name: "color",
+                        label: { caption: "Badge color" },
+                        type: "color",
+                        viewConfig: {
+                            layout: {
+                                column: 0,
+                                columnSpan: 12,
+                                row: 2,
+                            }
+                        },
+                        defaultValue: defaultColor,
+                    },
+                    {
                         name: "description",
                         label: { caption: "Description" },
                         type: "multiline",
@@ -111,7 +128,7 @@ const MeasurementTypeCard = ({
                             layout: {
                                 column: 0,
                                 columnSpan: 12,
-                                row: 2,
+                                row: 3,
                             }
                         },
                         defaultValue: item?.description,
