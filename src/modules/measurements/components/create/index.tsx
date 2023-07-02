@@ -11,7 +11,7 @@ import "./style.scss";
 
 import { LookupDate } from "@app/models";
 import { AddMeasurementRecordData, AddMeasurements, MeasurementGroupedByType, MeasurementType } from "@app/models/measurements";
-import { getNowDateLookup, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
+import { getNowDate, getNowDateLookup, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { validateMeasurementCreateData } from "@app/core/measurement";
 
 import { CompositeAppState } from "@app/redux";
@@ -71,7 +71,7 @@ const MeasurementCreateCard = ({
 
     }, [groupedByType, initialized, groupByType]);
 
-    const [model, setModel] = useState<AddMeasurements>({ measurements: [] });
+    const [model, setModel] = useState<AddMeasurements>({ measurements: [], ...getNowDate() });
     const [items, setItems] = useState<Array<AddMeasurementRecordDataExtended>>([]);
     const [date, setDate] = useState<LookupDate>(getNowDateLookup());
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
