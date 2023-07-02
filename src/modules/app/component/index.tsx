@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 
@@ -8,7 +8,9 @@ import "./style.scss";
 
 import { CompositeAppState } from "@app/redux";
 import { getSetTabIsFocusedAction } from "@app/redux/app";
+import { loadNotifications } from "@app/redux/user";
 
+import { UserNotification } from "@app/models/user";
 import ModalBox from "@app/modules/modalBox";
 
 import Notificator from "../components/notificator";
@@ -25,6 +27,12 @@ interface AppProps {
     /** Is modal currently displayed */
     isModalDisplaying: boolean;
 
+    /** Loaded user notification history */
+    notifications: Array<UserNotification>;
+
+    /** Load all user notification history */
+    loadNotifications: () => Promise<void>;
+
     /** Store state of app tab focus */
     setTabIsFocused: (isFocused: boolean) => void;
 }
@@ -33,9 +41,12 @@ interface AppProps {
 function App({
     isLoading, isModalDisplaying,
     setTabIsFocused,
+    notifications, loadNotifications,
 }: AppProps): JSX.Element {
     const onFocus = useCallback(() => setTabIsFocused(true), [setTabIsFocused]);
     const onBlur = useCallback(() => setTabIsFocused(false), [setTabIsFocused]);
+
+    const [loaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         window.addEventListener("focus", onFocus);
@@ -46,6 +57,12 @@ function App({
             window.removeEventListener("blur", onBlur);
         };
     }, [onBlur, onFocus]);
+
+    useEffect(() => {
+        if (!loaded && notifications.length === 0) {
+            loadNotifications().then(() => setIsLoaded(true));
+        }
+    }, [notifications, loadNotifications, loaded]);
 
     const className = getClassName([
         "app",
@@ -65,9 +82,13 @@ function App({
 }
 
 export default connect(
-    ({ app, modal }: CompositeAppState) => ({
+    ({ app, modal, user }: CompositeAppState) => ({
         isLoading: app.loading,
         isModalDisplaying: modal.isOpen,
+        notifications: user.notificationHistory,
     }),
-    { setTabIsFocused: getSetTabIsFocusedAction, }
+    {
+        loadNotifications,
+        setTabIsFocused: getSetTabIsFocusedAction,
+    }
 )(App);

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
@@ -16,10 +16,10 @@ interface NotificationsProps {
     /** Loaded user notification history */
     notifications: Array<UserNotification>;
 
-    /** Is notifications sorted ascendely by CreatedAt field */
+    /** Is notifications sorted ascending by CreatedAt field */
     ascSort: boolean;
 
-    /** Loadd all user notification history */
+    /** Load all user notification history */
     loadNotifications: () => Promise<void>;
 
     /** Toggle sort order for notifications */
@@ -27,15 +27,7 @@ interface NotificationsProps {
 }
 
 const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }: NotificationsProps): JSX.Element => {
-    const [loaded, setIsLoaded] = useState(false);
-
-    useEffect(() => {
-        if (!loaded && notifications.length === 0) {
-            loadNotifications().then(() => setIsLoaded(true));
-        }
-    }, [notifications, loadNotifications, loaded]);
-
-    const onReloadClick = useCallback(() => loadNotifications().then(() => setIsLoaded(true)), [loadNotifications]);
+    const onReloadClick = useCallback(() => loadNotifications(), [loadNotifications]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(notifications.length, 15);
     const pageItems: Array<UserNotification> = useMemo(
@@ -49,7 +41,7 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
 
     return (
         <div className="box">
-            {(loaded || notifications.length > 0) &&
+            {notifications.length > 0 &&
                 <>
                     <div className="block columns is-align-items-center">
                         <div className="column is-2">
