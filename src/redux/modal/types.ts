@@ -21,7 +21,7 @@ export interface ModalState {
     modalParams?: ModalParams;
 }
 
-/** Modal box congifuration params */
+/** Modal box configuration params */
 export interface ModalParams {
     /** Modal box title */
     title: string;

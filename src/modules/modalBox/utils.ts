@@ -113,8 +113,7 @@ const validateConfirmModalType = (modalConfig: ModalParams): string | undefined 
     }
 
     if (isNullOrUndefined(modalConfig.callback)
-        || isNullOrUndefined(modalConfig.callback!.saveCallback)
-        || isNullOrUndefined(modalConfig.callback!.cancelCallback)
+        || (isNullOrUndefined(modalConfig.callback!.saveCallback) && isNullOrUndefined(modalConfig.callback!.cancelCallback))
     ) {
         return "Callbacks are not defined.";
     }
