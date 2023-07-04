@@ -20,10 +20,16 @@ export interface NotificationItem extends NotificationHistoryItem {
 
     /** Should notification be light-colored */
     isLightColor?: boolean;
+
+    /**
+     * If notification marked as important - it won't be hidden after few seconds.
+     * After manual hide - it will be updated on server
+    */
+    important: boolean;
 }
 
 export interface NotificationHistoryItem {
-    /** Unique identifier, automaticly generated */
+    /** Unique identifier, automatically generated */
     id: string;
 
     /** Type  */

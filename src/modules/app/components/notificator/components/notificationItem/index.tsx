@@ -1,9 +1,10 @@
 import { useCallback, useEffect } from "react";
 
+import { emptyFn } from "@bodynarf/utils";
+
 import "./style.scss";
 
 import { NotificationHideDelay } from "@app/static";
-
 import { NotificationItem, NotificationType } from "@app/models/notification";
 
 /** Map of notification type to bulma class name */
@@ -25,15 +26,17 @@ interface NotificationProps {
 
 /** Single notification component */
 export default function Notification({ item, onHideClick }: NotificationProps): JSX.Element {
-    const hide = useCallback(() => {
-        onHideClick(item.id);
-    }, [item.id, onHideClick]);
+    const hide = useCallback(() => onHideClick(item.id), [item.id, onHideClick]);
 
     useEffect(() => {
-        const timer = setTimeout(hide, NotificationHideDelay);
+        if (!item.important) {
+            const timer = setTimeout(hide, NotificationHideDelay);
 
-        return (): void => { clearTimeout(timer); };
-    }, [hide]);
+            return (): void => { clearTimeout(timer); };
+        }
+
+        return emptyFn;
+    }, [hide, item.important]);
 
     return (
         <div className={`app-notification notification ${typeClassNameMap.get(item.type)}`}>

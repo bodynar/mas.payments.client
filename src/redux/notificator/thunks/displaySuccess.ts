@@ -14,11 +14,11 @@ export const displaySuccess = (
     dispatch: ThunkDispatch<CompositeAppState, unknown, Action>,
     getState: () => CompositeAppState,
 ): ShowSuccessFn => {
-    return (message: string, removeLoadingState: boolean = true) => {
+    return (message: string, removeLoadingState: boolean = true, important: boolean = false) => {
         const { app } = getState();
 
         dispatch(
-            getSuccessNotificationAction(message, app.isCurrentTabFocused)
+            getSuccessNotificationAction(message, app.isCurrentTabFocused, important)
         );
 
         if (removeLoadingState) {

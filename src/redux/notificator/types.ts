@@ -13,7 +13,7 @@ export interface NotificatorState {
 }
 
 /** Function that can display notification */
-type ShowNotificationFn<TMessage> = (message: TMessage, removeLoadingState?: boolean) => void;
+type ShowNotificationFn<TMessage> = (message: TMessage, removeLoadingState?: boolean, important?: boolean) => void;
 
 /** Success notification show function type */
 export type ShowSuccessFn = ShowNotificationFn<string>;

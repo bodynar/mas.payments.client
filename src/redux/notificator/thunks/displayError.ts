@@ -14,14 +14,14 @@ export const displayError = (
     dispatch: ThunkDispatch<CompositeAppState, unknown, Action>,
     getState: () => CompositeAppState,
 ): ShowErrorFn => {
-    return (error: Error | string, removeLoadingState: boolean = true) => {
+    return (error: Error | string, removeLoadingState: boolean = true, important: boolean = false) => {
         const { app } = getState();
 
         const errorMessage = (error as Error)?.message ?? (error as string);
 
         console.error(errorMessage);
 
-        dispatch(getErrorNotificationAction(errorMessage, app.isCurrentTabFocused));
+        dispatch(getErrorNotificationAction(errorMessage, app.isCurrentTabFocused, important));
 
         if (removeLoadingState) {
             dispatch(getSetAppIsLoadingAction(false));
