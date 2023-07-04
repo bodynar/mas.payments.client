@@ -24,7 +24,7 @@ export const getAddNotificationsAction = (notifications: Array<NotificationItem>
         type: AddNotification,
         payload: {
             notifications: notifications,
-            displayDismissableNotification: notifyOnBadge
+            displayDismissibleNotification: notifyOnBadge
         },
     };
 };

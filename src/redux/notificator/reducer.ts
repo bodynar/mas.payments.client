@@ -19,13 +19,13 @@ export default function (state: NotificatorState = defaultState, action: ActionW
             const addingNotifications: Array<NotificationItem> = getPropertyValueWithCheck(action.payload, "notifications", false);
 
             if (addingNotifications.length === 0) {
-                // TOOD: v2 log warning
+                // TODO: v2 log warning
                 return state;
             }
 
-            const displayDismissableNotification: boolean = getPropertyValueWithCheck(action.payload, "displayDismissableNotification", false) || false;
+            const displayDismissibleNotification: boolean = getPropertyValueWithCheck(action.payload, "displayDismissibleNotification", false) || false;
 
-            const historyBadgeCount: number = displayDismissableNotification
+            const historyBadgeCount: number = displayDismissibleNotification
                 ? state.historyBadgeCount
                 : state.historyBadgeCount + 1;
 
@@ -40,17 +40,15 @@ export default function (state: NotificatorState = defaultState, action: ActionW
             };
         }
         case HideNotification: {
-            const addingNotifications: Array<string> = getPropertyValueWithCheck(action.payload, "notificationIds", false);
-
-
-            if (addingNotifications.length === 0) {
-                // TOOD: v2 log warning
+            const notifications: Array<string> = getPropertyValueWithCheck(action.payload, "notificationIds", false);
+            if (notifications.length === 0) {
+                // TODO: v2 log warning
                 return state;
             }
 
             return {
                 ...state,
-                notifications: removeByKey(state.notifications, x => x.id, addingNotifications),
+                notifications: removeByKey(state.notifications, x => x.id, notifications),
             };
         }
         case HideAllNotifications: {
