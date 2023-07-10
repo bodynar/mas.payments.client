@@ -16,10 +16,16 @@ const defaultState: NotificatorState = {
 export default function (state: NotificatorState = defaultState, action: ActionWithPayload): NotificatorState {
     switch (action.type) {
         case AddNotification: {
-            const addingNotifications: Array<NotificationItem> = getPropertyValueWithCheck(action.payload, "notifications", false);
+            let addingNotifications: Array<NotificationItem> = getPropertyValueWithCheck(action.payload, "notifications", false);
 
             if (addingNotifications.length === 0) {
                 // TODO: v2 log warning
+                return state;
+            }
+
+            addingNotifications = addingNotifications.filter(({ id }) => !state.notifications.some(x => x.id === id));
+
+            if (addingNotifications.length === 0) {
                 return state;
             }
 
@@ -41,6 +47,7 @@ export default function (state: NotificatorState = defaultState, action: ActionW
         }
         case HideNotification: {
             const notifications: Array<string> = getPropertyValueWithCheck(action.payload, "notificationIds", false);
+
             if (notifications.length === 0) {
                 // TODO: v2 log warning
                 return state;
