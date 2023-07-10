@@ -26,6 +26,9 @@ export interface NotificationItem extends NotificationHistoryItem {
      * After manual hide - it will be updated on server
     */
     important: boolean;
+
+    /** Unique entity identifier */
+    entityId?: number;
 }
 
 export interface NotificationHistoryItem {
