@@ -10,9 +10,9 @@ import { NotificationCountToShowHideAll } from "@app/static";
 import { NotificationItem } from "@app/models/notification";
 
 import { CompositeAppState } from "@app/redux";
-import { getHideNotificationsAction, getHideAllNotificationsAction } from "@app/redux/notificator";
 
 import Notification from "../components/notificationItem";
+import { hideNotifications } from "@app/redux/user";
 
 interface NotificatorProps {
     /** Active notifications */
@@ -20,13 +20,10 @@ interface NotificatorProps {
 
     /** Hide notification handler */
     hideNotifications: (notificationIds: Array<string>) => void;
-
-    /** Hide all active notifications */
-    hideAll: () => void;
 }
 
 /** Container component for notifications */
-function Notificator({ notifications, hideNotifications, hideAll }: NotificatorProps): JSX.Element {
+function Notificator({ notifications, hideNotifications }: NotificatorProps): JSX.Element {
     const hideNotification = useCallback(
         (notificationId: string): void => {
             if (!isStringEmpty(notificationId)) {
@@ -34,7 +31,7 @@ function Notificator({ notifications, hideNotifications, hideAll }: NotificatorP
             }
         }, [hideNotifications]);
 
-    const hideAllNotifications = useCallback(() => hideAll(), [hideAll]);
+    const hideAllNotifications = useCallback(() => hideNotifications([]), [hideNotifications]);
 
     return (
         <TransitionGroup className="app-notificator">
@@ -74,7 +71,6 @@ function Notificator({ notifications, hideNotifications, hideAll }: NotificatorP
 export default connect(
     ({ notificator }: CompositeAppState) => ({ ...notificator }),
     {
-        hideNotifications: getHideNotificationsAction,
-        hideAll: getHideAllNotificationsAction
+        hideNotifications: hideNotifications,
     }
 )(Notificator);

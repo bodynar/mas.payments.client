@@ -1,3 +1,4 @@
+export * from "./hideNotifications";
 export * from "./loadAppInfo";
 export * from "./loadMeasurementsWithoutDiff";
 export * from "./loadNotifications";
