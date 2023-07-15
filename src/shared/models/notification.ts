@@ -1,10 +1,17 @@
 /** Notification types */
-export type NotificationType =
-    | 'info' /** Blue color */
-    | 'success' /** Green color */
-    | 'warn' /** Orange color */
-    | 'error' /** Red color */
-    ;
+export enum NotificationType {
+    /** Blue color */
+    "info",
+
+    /** Green color */
+    "success",
+
+    /** Orange color */
+    "warn",
+
+    /** Red color */
+    "error",
+}
 
 /** Notification model */
 export interface NotificationItem extends NotificationHistoryItem {
@@ -13,10 +20,19 @@ export interface NotificationItem extends NotificationHistoryItem {
 
     /** Should notification be light-colored */
     isLightColor?: boolean;
+
+    /**
+     * If notification marked as important - it won't be hidden after few seconds.
+     * After manual hide - it will be updated on server
+    */
+    important: boolean;
+
+    /** Unique entity identifier */
+    entityId?: number;
 }
 
 export interface NotificationHistoryItem {
-    /** Unique identifier, automaticly generated */
+    /** Unique identifier, automatically generated */
     id: string;
 
     /** Type  */

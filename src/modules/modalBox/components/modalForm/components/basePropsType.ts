@@ -1,7 +1,7 @@
-import { ModalFormItem } from "../types";
+import { ModalFormItem } from "@app/models/modal";
 
 /** Base field editor props */
-export type BaseFieldProps = {
+export interface BaseFieldProps {
     /** Field configuration */
     fieldConfig: ModalFormItem;
 
@@ -10,4 +10,4 @@ export type BaseFieldProps = {
      * Required for changing modal form save button accessibility.
     */
     setFieldValidState: (fieldName: string, isValid: boolean) => void;
-};
+}

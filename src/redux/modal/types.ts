@@ -1,25 +1,28 @@
-import { Action } from "@app/redux/types";
-
-import { ModalFormConfiguration, ModalFormItemData } from "@app/modules/modalBox/components/modalForm/types";
+import { ModalFormConfiguration, ModalFormItemData } from "@app/models/modal";
 
 /** Type of displaying modal */
-export type ModalType =
-    | 'info' /** Display some textual information */
-    | 'form' /** Display some form to fill */
-    | 'confirm' /** Display modal with confirm message and 2 optional buttons */
-    ;
+export enum ModalType {
+    /** Display some textual information */
+    Info = "info",
+
+    /** Display some form to fill */
+    Form = "form",
+
+    /** Display modal with confirm message and 2 optional buttons */
+    Confirm = "confirm",
+}
 
 /** Modal box module state */
-export type ModalState = {
+export interface ModalState {
     /** Is modal box displaying */
     isOpen: boolean;
 
     /** Last modal box params */
     modalParams?: ModalParams;
-};
+}
 
-/** Modal box congifuration params */
-export type ModalParams = {
+/** Modal box configuration params */
+export interface ModalParams {
     /** Modal box title */
     title: string;
 
@@ -55,37 +58,28 @@ export type ModalParams = {
      * Will be invoked after modal close
     */
     callback?: ModalCallback;
-};
+}
 
 /** Modal callback after close configuration */
-export type ModalCallback = {
+export interface ModalCallback {
     /** Callback for closing modal on clicking Save button */
     saveCallback?: (modalData: ModalCloseData) => void;
 
     /** Callback for closing modal on clicking Cancel button */
     cancelCallback?: (modalData: ModalCloseData) => void;
-};
+}
 
 /** Modal close data params */
-export type ModalCloseData = {
+export interface ModalCloseData {
     /** 
      * Close reason.
      * Cross sign (x on the top right) will be evaluated as cancel
      */
-    closeCode: 'save' | 'cancel';
+    closeCode: "save" | "cancel";
 
     /** Form data state */
     formData?: {
         /** Form fields states */
         fields: Array<ModalFormItemData>;
     };
-};
-
-/** Modal box redux action */
-export type ModalAction = Action & {
-    /**
-     * Modal params.
-     * Applies only to show action
-    */
-    params?: ModalParams;
-};
+}

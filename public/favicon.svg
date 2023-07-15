@@ -1,0 +1,28 @@
+<svg width="256px" height="256px" viewBox="-3.2 -3.2 70.40 70.40" id="Layer_1" version="1.1" xml:space="preserve"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" fill="#21aba9" stroke="#21aba9" transform="rotate(0)matrix(1, 0, 0, 1, 0, 0)">
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#f5f5f5" stroke-width="12.8">
+        <style type="text/css"> .st0 {fill: none;stroke: #13716b;stroke-width: 1.92;stroke-miterlimit: 10;}.st1 {fill: none;stroke: #13716b;stroke-width: 1.92;stroke-linecap: round;stroke-linejoin: round;stroke-miterlimit: 10;}.st2 {fill: none;stroke: #13716b;stroke-width: 1.92;stroke-linecap: round;stroke-linejoin: round;stroke-miterlimit: 10;stroke-dasharray: 6, 5;}@media (prefers-color-scheme: dark) {.st0 {stroke: #20d9cd;}.st1 {stroke: #20d9cd;}.st2 {stroke: #20d9cd;}} </style>
+        <g>
+            <polyline class="st1" points="41,19 44.9,19.1 44.9,27.3 "></polyline>
+            <path class="st1" d="M12,27.3h33.1H52V52H15.5c-1.9,0-3.5-1.6-3.5-3.5V22.6c0-1.9,1.6-3.5,3.5-3.5L23,19"></path>
+            <path class="st1" d="M44.9,42.6H52v-7.1h-7.1c-1.9,0-3.5,1.6-3.5,3.5v0C41.4,41,43,42.6,44.9,42.6z"></path>
+        </g>
+        <g>
+            <polyline class="st1" points="27.3,19.3 32,24 36.7,19.3 "></polyline>
+            <line class="st1" x1="32" x2="32" y1="12" y2="23"></line>
+        </g>
+    </g>
+    <g id="SVGRepo_iconCarrier">
+        <style type="text/css"> .st0 {fill: none;stroke: #13716b;stroke-width: 1.92;stroke-miterlimit: 10;}.st1 {fill: none;stroke: #13716b;stroke-width: 1.92;stroke-linecap: round;stroke-linejoin: round;stroke-miterlimit: 10;}.st2 {fill: none;stroke: #13716b;stroke-width: 1.92;stroke-linecap: round;stroke-linejoin: round;stroke-miterlimit: 10;stroke-dasharray: 6, 5;}@media (prefers-color-scheme: dark) {.st0 {stroke: #20d9cd;}.st1 {stroke: #20d9cd;}.st2 {stroke: #20d9cd;}} </style>
+        <g>
+            <polyline class="st1" points="41,19 44.9,19.1 44.9,27.3 "></polyline>
+            <path class="st1" d="M12,27.3h33.1H52V52H15.5c-1.9,0-3.5-1.6-3.5-3.5V22.6c0-1.9,1.6-3.5,3.5-3.5L23,19"></path>
+            <path class="st1" d="M44.9,42.6H52v-7.1h-7.1c-1.9,0-3.5,1.6-3.5,3.5v0C41.4,41,43,42.6,44.9,42.6z"></path>
+        </g>
+        <g>
+            <polyline class="st1" points="27.3,19.3 32,24 36.7,19.3 "></polyline>
+            <line class="st1" x1="32" x2="32" y1="12" y2="23"></line>
+        </g>
+    </g>
+</svg>

@@ -1,56 +1,51 @@
-.app--dark {
-    .app-input {
-        label {
-            color: white;
+@use "./style/table.scss";
+@use "./style/width";
+@use "./style/modifications";
+
+.has-title[title] {
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 0.275rem;
+    cursor: help;
+}
+
+.height-is-100 {
+    height: 100%;
+}
+
+.is-flex-grow- {
+    @media screen and (min-width: 769px) {
+        &0125 {
+            flex-grow: 0.125 !important;
         }
-        input,
-        textarea {
-            background-color: #585858;
-            color: white;
-
-            &::-webkit-input-placeholder {
-                color: #d1cfcf;
-            }
-
-            &[type="date"]::-webkit-calendar-picker-indicator {
-                background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0id2hpdGUiIGNsYXNzPSJiaSBiaS1jYWxlbmRhciIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNMy41IDBhLjUuNSAwIDAgMSAuNS41VjFoOFYuNWEuNS41IDAgMCAxIDEgMFYxaDFhMiAyIDAgMCAxIDIgMnYxMWEyIDIgMCAwIDEtMiAySDJhMiAyIDAgMCAxLTItMlYzYTIgMiAwIDAgMSAyLTJoMVYuNWEuNS41IDAgMCAxIC41LS41ek0xIDR2MTBhMSAxIDAgMCAwIDEgMWgxMmExIDEgMCAwIDAgMS0xVjRIMXoiLz4KPC9zdmc+");
-            }
+        &025 {
+            flex-grow: 0.25 !important;
         }
-    }
-
-    .table {
-        background-color: #595959;
-        color: #fff;
-
-        transition: 0.25s ease-in-out;
-        transition-property: color, background-color;
-
-        tr {
-            transition: 0.25s ease-in-out;
-            transition-property: color, background-color;
+        &035 {
+            flex-grow: 0.35 !important;
         }
-
-        & thead td,
-        & thead th {
-            color: #fff;
-        }
-
-        &.is-striped tbody tr:not(.is-selected):nth-child(even) {
-            background-color: #767676;
-        }
-
-        &.is-hoverable.is-striped tbody tr:not(.is-selected):hover {
-            background-color: #cccccc;
-            color: #000;
+        &05 {
+            flex-grow: 0.5 !important;
         }
     }
 }
 
-.app-input {
-    input[type="date"] {
-        &::-webkit-calendar-picker-indicator {
-            cursor: pointer;
-            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktY2FsZW5kYXIiIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTMuNSAwYS41LjUgMCAwIDEgLjUuNVYxaDhWLjVhLjUuNSAwIDAgMSAxIDBWMWgxYTIgMiAwIDAgMSAyIDJ2MTFhMiAyIDAgMCAxLTIgMkgyYTIgMiAwIDAgMS0yLTJWM2EyIDIgMCAwIDEgMi0yaDFWLjVhLjUuNSAwIDAgMSAuNS0uNXpNMSA0djEwYTEgMSAwIDAgMCAxIDFoMTJhMSAxIDAgMCAwIDEtMVY0SDF6Ii8+Cjwvc3ZnPg==");
-        }
+.is-borderless {
+    border: none !important;
+}
+
+.has-margin {
+    &-left-025r {
+        margin-left: 0.25rem !important;
     }
+}
+
+.is-vertical-align {
+    &--center {
+        vertical-align: middle !important;
+    }
+}
+
+.has-wrap-text {
+    white-space: pre-line;
 }

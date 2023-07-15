@@ -1,28 +1,27 @@
 import moment from "moment";
 
-import { isNullOrUndefined } from "@bodynarf/utils/common";
-import { delayResolve, delayReject } from "@bodynarf/utils/function";
-import { RequestData, safeFetch } from "@bodynarf/utils/api";
+import { isNullOrUndefined, delayResolve, delayReject, RequestData, isNullOrEmpty, ApiResult } from "@bodynarf/utils";
+import { safeFetch } from "@bodynarf/utils/api/v2";
 
-import { LoadingStateHideDelay } from "@app/constants";
-import { BaseResponseWithResult } from "@app/models/response/baseResponse";
+import { LoadingStateHideDelay, RequestTimeout } from "@app/static";
 
 /**
  * Send data to api to process
  * @param uri Api endpoint address
  * @param requestData Request data
- * @returns {Promise<TResult>} Promise with api processing result
+ * @returns Promise with api processing result
  */
 export const post = async <TResult>(uri: string, requestData: RequestData): Promise<TResult> => {
     const requestParams: RequestInit = {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'content-type': 'application/json',
+            "content-type": "application/json",
         },
         body: JSON.stringify(requestData)
     };
 
-    return fetchWithDelay<TResult>(uri, requestParams);
+
+    return fetchWithApiErrorHandling(uri, requestParams);
 };
 
 /**
@@ -33,9 +32,9 @@ export const post = async <TResult>(uri: string, requestData: RequestData): Prom
  */
 export const get = async <TResult>(uri: string, requestData?: RequestData): Promise<TResult> => {
     const requestParams: RequestInit = {
-        method: 'GET',
+        method: "GET",
         headers: {
-            'content-type': 'application/json',
+            "content-type": "application/json",
         }
     };
 
@@ -43,7 +42,28 @@ export const get = async <TResult>(uri: string, requestData?: RequestData): Prom
         requestParams.body = JSON.stringify(requestData);
     }
 
-    return fetchWithDelay<TResult>(uri, requestParams);
+    return fetchWithApiErrorHandling(uri, requestParams);
+};
+
+const fetchWithApiErrorHandling = async <TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
+    try {
+        const { responseObject } = await fetchWithDelay<TResult>(uri, requestParams);
+        return responseObject!;
+    } catch ({ response, error, code, status }: any) {
+        let errorMessage = error as string;
+
+        if (!isNullOrUndefined(response) && !isNullOrEmpty(response)) {
+            const errorResponseMessage = JSON.parse((response as any)!)?.Message ?? "";
+
+            if (!isNullOrEmpty(errorResponseMessage)) {
+                errorMessage = errorResponseMessage;
+            }
+        } else {
+            errorMessage += ` (${status}: ${code})`;
+        }
+
+        throw new Error(errorMessage);
+    }
 };
 
 /**
@@ -52,23 +72,20 @@ export const get = async <TResult>(uri: string, requestData?: RequestData): Prom
  * @param requestParams Request data
  * @returns {Promise<TResult>} Promise with api get result
  */
-const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
+const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): Promise<ApiResult<TResult>> => {
     const start = moment();
 
-    return safeFetch<BaseResponseWithResult<TResult>>(uri, requestParams)
-        .then((response: BaseResponseWithResult<TResult>) => {
-            return response.success
-                ? response.result
-                : new Promise<TResult>((_, r) => r(response.erorr));
-        })
-        .then((result: TResult) => {
+    return safeFetch<TResult>(uri, requestParams, {
+        timeout: RequestTimeout
+    })
+        .then((result: ApiResult<TResult>) => {
             const end = moment();
 
             const duration = moment.duration(end.diff(start)).asSeconds();
 
             return duration > LoadingStateHideDelay
-                ? new Promise<TResult>(resolve => resolve(result))
-                : delayResolve<TResult>(Math.abs(LoadingStateHideDelay - duration), result);
+                ? new Promise<ApiResult<TResult>>(resolve => resolve(result))
+                : delayResolve<ApiResult<TResult>>(Math.abs(LoadingStateHideDelay - duration), result);
         })
         .catch(error => {
             const end = moment();
@@ -80,5 +97,7 @@ const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): 
             } else {
                 return delayReject(Math.abs(LoadingStateHideDelay - duration), error);
             }
-        });
+        })
+        ;
 };
+

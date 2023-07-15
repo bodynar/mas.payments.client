@@ -1,12 +1,9 @@
-import { getPropertyValueWithCheck } from '@bodynarf/utils/object';
+import { getPropertyValueWithCheck, removeByKey } from "@bodynarf/utils";
 
-import { removeByKey } from '@app/utils/array';
-import { NotificationItem } from '@app/models/notification';
+import { NotificationItem } from "@app/models/notification";
 
-import { ActionWithPayload } from '@app/redux/types';
-
-import { NotificatorState } from './types';
-import { AddNotification, HideAllNotifications, HideNotification, SetNotificationsBadgeToZero } from './actions';
+import { ActionWithPayload } from "@app/redux";
+import { AddNotification, HideAllNotifications, HideNotification, SetNotificationsBadgeToZero, NotificatorState } from "@app/redux/notificator";
 
 /** Default state of notification module */
 const defaultState: NotificatorState = {
@@ -19,20 +16,22 @@ const defaultState: NotificatorState = {
 export default function (state: NotificatorState = defaultState, action: ActionWithPayload): NotificatorState {
     switch (action.type) {
         case AddNotification: {
-            const addingNotifications: Array<NotificationItem> = getPropertyValueWithCheck(action.payload, 'notifications', false);
+            let addingNotifications: Array<NotificationItem> = getPropertyValueWithCheck(action.payload, "notifications", false);
 
             if (addingNotifications.length === 0) {
-                // TOOD: v2 log warning
+                // TODO: v2 log warning
                 return state;
             }
 
-            const displayDismissableNotification: boolean = getPropertyValueWithCheck(action.payload, 'displayDismissableNotification', false) || false;
+            addingNotifications = addingNotifications.filter(({ id }) => !state.notifications.some(x => x.id === id));
 
-            const notifications: Array<NotificationItem> = displayDismissableNotification
-                ? [...addingNotifications, ...state.notifications]
-                : state.notifications;
+            if (addingNotifications.length === 0) {
+                return state;
+            }
 
-            const historyBadgeCount: number = displayDismissableNotification
+            const displayDismissibleNotification: boolean = getPropertyValueWithCheck(action.payload, "displayDismissibleNotification", false) || false;
+
+            const historyBadgeCount: number = displayDismissibleNotification
                 ? state.historyBadgeCount
                 : state.historyBadgeCount + 1;
 
@@ -42,22 +41,21 @@ export default function (state: NotificatorState = defaultState, action: ActionW
                     ...addingNotifications,
                     ...state.history,
                 ],
-                notifications: notifications,
+                notifications: [...addingNotifications, ...state.notifications],
                 historyBadgeCount: historyBadgeCount,
             };
         }
         case HideNotification: {
-            const addingNotifications: Array<string> = getPropertyValueWithCheck(action.payload, 'notificationIds', false);
+            const notifications: Array<string> = getPropertyValueWithCheck(action.payload, "notificationIds", false);
 
-
-            if (addingNotifications.length === 0) {
-                // TOOD: v2 log warning
+            if (notifications.length === 0) {
+                // TODO: v2 log warning
                 return state;
             }
 
             return {
                 ...state,
-                notifications: removeByKey(state.notifications, x => x.id, addingNotifications),
+                notifications: removeByKey(state.notifications, x => x.id, notifications),
             };
         }
         case HideAllNotifications: {

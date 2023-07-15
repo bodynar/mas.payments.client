@@ -1,0 +1,11 @@
+@use "variables";
+
+.bbr-tabs__tab a {
+    transition: variables.$transition_125;
+    transition-timing-function: ease-in-out;
+    transition-property: color, border-bottom-color;
+}
+
+.modal-card {
+    overflow: auto !important;
+}

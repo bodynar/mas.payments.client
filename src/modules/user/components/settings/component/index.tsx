@@ -1,0 +1,172 @@
+import { useCallback, useEffect, useState } from "react";
+import { connect } from "react-redux";
+
+import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
+
+import Button from "@bodynarf/react.components/components/button";
+import Text from "@bodynarf/react.components/components/primitives/text";
+
+import { UserSetting } from "@app/models/user";
+
+import { CompositeAppState } from "@app/redux";
+import { loadSettings, UpdatedUserSetting, updateUserSettings, getMeasurementsWithoutDiff, recalculateDiff } from "@app/redux/user/";
+
+import Setting from "../components/setting";
+
+interface SettingsProps {
+    /** Custom settings */
+    settings: Array<UserSetting>;
+
+    /** Load user settings */
+    loadSettings: () => Promise<void>;
+
+    /** Save updated used settings */
+    updateUserSettings: (updatedSettings: Array<UpdatedUserSetting>) => Promise<void>;
+
+    /** Load measurements without diff count */
+    getMeasurementsWithoutDiff: () => void;
+
+    /** Incorrect data */
+    options?: {
+        /** Amount of measurements without diff */
+        measurementsWithoutDiff: number;
+    };
+
+    /** Recalculate measurements diff */
+    recalculateDiff: () => Promise<boolean>;
+}
+
+const Settings = ({
+    settings, loadSettings, updateUserSettings,
+    getMeasurementsWithoutDiff, options, recalculateDiff
+}: SettingsProps): JSX.Element => {
+    const [loaded, setIsLoaded] = useState(false);
+    const [updatedSettings, setUpdatedSettings] = useState<Map<string, string>>(new Map([]));
+
+    useEffect(() => {
+        // TODO: on error there's 2 notification
+        // on init must be one (store init state in redux)
+        if (!loaded && settings.length === 0) {
+            loadSettings().then(() => setIsLoaded(true));
+        }
+        if (isNullOrUndefined(options)) {
+            getMeasurementsWithoutDiff();
+        }
+    }, [settings, loadSettings, loaded, options, getMeasurementsWithoutDiff]);
+
+    const onSaveClick = useCallback(() => {
+        updateUserSettings(
+            settings
+                .filter(({ name }) => updatedSettings.has(name))
+                .map(({ id, name }) => ({
+                    id,
+                    rawValue: updatedSettings.get(name)!
+                }))
+        ).then(() => {
+            loadSettings();
+            setUpdatedSettings(new Map([]));
+        });
+    }, [updateUserSettings, settings, loadSettings, updatedSettings]);
+
+    const onSettingUpdate = useCallback(
+        ({ key, value }: { key: string, value: string }) => {
+            if (updatedSettings.has(key)) {
+                const setting = settings.find(({ name }) => name === key)!;
+
+                if (setting.rawValue === value) {
+                    updatedSettings.delete(key);
+                    setUpdatedSettings(new Map(updatedSettings));
+                }
+                else {
+                    updatedSettings.set(key, value);
+                    setUpdatedSettings(updatedSettings);
+                }
+            } else {
+                setUpdatedSettings(x => new Map([...x, [key, value]]));
+            }
+        }, [settings, updatedSettings]);
+
+    const onRecalcClick = useCallback(() => {
+        recalculateDiff()
+            .then((result: boolean) => {
+                if (result) {
+                    getMeasurementsWithoutDiff();
+                }
+            });
+    }, [getMeasurementsWithoutDiff, recalculateDiff]);
+
+    return (
+        <div className="box">
+            {options &&
+                <div className="block">
+                    <div className="block columns is-align-items-center">
+                        <div className="column is-2">
+                            <span className="has-text-weight-bold">Options</span>:
+                        </div>
+                    </div>
+                    <div className="block columns">
+                        <div className="column is-10">
+                            <Text
+                                disabled={true}
+                                onValueChange={emptyFn}
+                                defaultValue={options.measurementsWithoutDiff.toString()}
+                                label={{
+                                    horizontal: true,
+                                    caption: "Without diff"
+                                }}
+                                title="Measurements without diff"
+                            />
+                        </div>
+                        <div className="column">
+                            <Button
+                                caption="Recalculate"
+                                type="success"
+                                onClick={onRecalcClick}
+                            />
+                        </div>
+                    </div>
+                </div>
+            }
+            {(loaded || settings.length > 0) &&
+                <div className="block">
+                    <hr />
+                    <div className="block columns is-align-items-center">
+                        <div className="column is-2">
+                            <span className="has-text-weight-bold">Settings</span>: {settings.length}
+                        </div>
+                    </div>
+                    <div className="block">
+                        {settings.map(x =>
+                            <div key={x.id} className="column">
+                                <Setting
+                                    key={x.id}
+                                    setting={x}
+                                    onUpdate={onSettingUpdate}
+                                />
+                            </div>
+                        )}
+                    </div>
+                    <div className="block">
+                        <Button
+                            type="primary"
+                            caption="Save"
+                            onClick={onSaveClick}
+                            disabled={updatedSettings.size === 0}
+                        />
+                    </div>
+                </div>
+            }
+        </div>
+    );
+};
+
+/**
+ * User settings component
+ */
+export default connect(
+    ({ user }: CompositeAppState) => ({ ...user }),
+    {
+        loadSettings, updateUserSettings,
+        getMeasurementsWithoutDiff, recalculateDiff
+    }
+)(Settings);

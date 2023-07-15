@@ -1,0 +1,9 @@
+.app-navbar {
+    transition: 0.15s ease-in-out;
+    transition-property: background-color;
+
+    .navbar-end {
+        margin-right: 1.75rem;
+        gap: 1.25rem;
+    }
+}

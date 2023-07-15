@@ -1,0 +1,14 @@
+.app-user-icon {
+    .bbr-icon {
+        color: white;
+        transition: 0.125s ease-in-out color;
+        &:hover {
+            color: rgb(0, 203, 255);
+        }
+    }
+    &[data-is-active="false"] {
+        .bbr-icon {
+            color: rgb(0, 203, 255);
+        }
+    }
+}

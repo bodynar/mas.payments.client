@@ -1,28 +1,22 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import { ModalState } from './modal/types';
-import { NotificatorState } from './notificator/types';
-import { AppState } from './app/types';
+import { CompositeAppState } from "@app/redux";
 
-import modalBoxReducer from './modal/reducer';
-import notificatorReducer from './notificator/reducer';
-import appReducer from './app/reducer';
-
-/** Global application state */
-export type CompositeAppState = {
-    /** Modal box state */
-    modal: ModalState;
-
-    /** Notifications module state */
-    notificator: NotificatorState;
-
-    /** Is browser tab with app is in focus */
-    app: AppState;
-};
+import modalBoxReducer from "@app/redux/modal/reducer";
+import notificatorReducer from "@app/redux/notificator/reducer";
+import appReducer from "@app/redux/app/reducer";
+import userReducer from "@app/redux/user/reducer";
+import paymentReducer from "@app/redux/payments/reducer";
+import measurementReducer from "@app/redux/measurements/reducer";
+import statsReducer from "@app/redux/stats/reducer";
 
 /** Global application redux store reducer */
 export default combineReducers<CompositeAppState>({
     modal: modalBoxReducer,
     notificator: notificatorReducer,
     app: appReducer,
+    user: userReducer,
+    payments: paymentReducer,
+    measurements: measurementReducer,
+    stats: statsReducer,
 });

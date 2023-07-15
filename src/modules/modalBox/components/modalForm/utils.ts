@@ -1,6 +1,6 @@
-import { isNullOrEmpty, isNullOrUndefined, isStringEmpty } from "@bodynarf/utils/common";
+import { isNullOrEmpty, isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
 
-import { ModalFormItemValidation } from "./types";
+import { ModalFormItemValidation } from "@app/models/modal";
 
 /**
  * Validate field value
@@ -9,19 +9,17 @@ import { ModalFormItemValidation } from "./types";
  * @returns Validation error if field value is not valid; otherwise undefuned
  */
 export const getFieldValueValidationError = (value: string, validationCfg?: ModalFormItemValidation): string | undefined => {
-    let validationError = 'Value is required';
+    let validationError = "Value is required";
     let validator: (value: string) => string | undefined =
         (value: string): string | undefined => isStringEmpty(value) ? validationError : undefined;
 
     if (!isNullOrUndefined(validationCfg)) {
-        const cfg = validationCfg as ModalFormItemValidation;
-
-        if (!isNullOrEmpty(cfg.customRequiredvalidationError)) {
-            validationError = cfg.customRequiredvalidationError as string;
+        if (!isNullOrEmpty(validationCfg!.customRequiredvalidationError)) {
+            validationError = validationCfg!.customRequiredvalidationError as string;
         }
 
-        if (!isNullOrUndefined(cfg.customValidation)) {
-            validator = cfg.customValidation as (value: string) => string | undefined;
+        if (!isNullOrUndefined(validationCfg!.customValidation)) {
+            validator = validationCfg!.customValidation as (value: string) => string | undefined;
         }
     }
 

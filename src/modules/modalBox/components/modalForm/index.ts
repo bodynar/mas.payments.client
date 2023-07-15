@@ -1,8 +1,1 @@
-export { ModalForm } from './component/modalForm';
-export type {
-    ModalFormConfiguration,
-    ModalFormItem,
-    ModalFormItemData,
-    ModalFormItemType,
-    ModalFormItemValidation,
-} from "./types";
+export { default } from "./component";
