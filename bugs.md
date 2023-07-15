@@ -12,5 +12,5 @@
 
 #### All
 1. [**DONE**] On cards with year-month selection - auto select current date
-2. After initial app load - gather notifications (user/notifications) and display it
+2. [**DONE**] After initial app load - gather notifications (user/notifications) and display it
 3. [**DONE**] Add color pick for type

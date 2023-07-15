@@ -2,8 +2,11 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { post } from "@app/utils";
 
+import { getUserNotifications } from "@app/core/user";
+
 import { CompositeAppState, Action } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { getSetNotificationsAction } from "@app/redux/user";
 import { getHideNotificationsAction, getNotifications } from "@app/redux/notificator";
 
 /**
@@ -33,22 +36,26 @@ export const hideNotifications = (ids: Array<string>): ThunkAction<void, Composi
     post<Array<number>>(`api/user/hideNotifications`,
         notifications.map(({ entityId }) => entityId)
     )
-        .then((notHiddenIds) => {
-            if (notHiddenIds.length > 0) {
-                const notHiddenNotifications =
-                    notifications
-                        .filter(({ entityId }) => notHiddenIds.includes(entityId!))
-                        .map(({ id }) => id);
+        .then(notHiddenIds => {
+            getUserNotifications()
+                .then(loadedNotifications => {
+                    if (notHiddenIds.length > 0) {
+                        const notHiddenNotifications =
+                            notifications
+                                .filter(({ entityId }) => notHiddenIds.includes(entityId!))
+                                .map(({ id }) => id);
 
-                ids = ids.filter(x => notHiddenNotifications.includes(x));
+                        ids = ids.filter(x => !notHiddenNotifications.includes(x));
 
-                displayError(
-                    "Not all notifications was hidden. Please, contact system administrator", true
-                );
-            }
+                        displayError(
+                            "Not all notifications was hidden. Please, contact system administrator", true
+                        );
+                    }
 
-            dispatch(getHideNotificationsAction(ids));
-            dispatch(getSetAppIsLoadingAction(false));
+                    dispatch(getSetNotificationsAction(loadedNotifications));
+                    dispatch(getHideNotificationsAction(ids));
+                    dispatch(getSetAppIsLoadingAction(false));
+                });
         })
         .catch(displayError);
 };

@@ -1,17 +1,12 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import moment from "moment";
-
-import { isNullOrUndefined } from "@bodynarf/utils";
-
-import { get } from "@app/utils";
-
 import { UserNotification } from "@app/models/user";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { getSetAppIsLoadingAction } from "@app/redux/app";
 import { getSetNotificationsAction } from "@app/redux/user";
 import { getNotifications, getWarningNotificationAction } from "@app/redux/notificator";
+import { getUserNotifications } from "@app/core/user";
 
 /**
  * Get user notifications
@@ -27,20 +22,11 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
 
     const [_, displayError] = getNotifications(dispatch, getState);
 
-    return get<Array<UserNotification>>(`api/user/getUserNotifications`)
+    return getUserNotifications()
         .then((notifications: Array<UserNotification>) => {
-            const mapped: Array<UserNotification> =
-                notifications.map(x => ({
-                    ...x,
-                    createdAt: new Date(x.createdAt),
-                    hiddenAt: isNullOrUndefined(x.hiddenAt) ? undefined : new Date(x.hiddenAt!)
-                })).map(x => ({
-                    ...x,
-                    createdAtMoment: moment(x.createdAt),
-                    hiddenAtMoment: isNullOrUndefined(x.hiddenAt) ? undefined : moment(x.hiddenAt!)
-                }));
+            dispatch(getSetNotificationsAction(notifications));
 
-            mapped
+            notifications
                 .filter(({ isHidden, id }) =>
                     !isHidden && !notificator.notifications.some(x => x.entityId === id)
                 )
@@ -52,7 +38,6 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
                     )
                 );
 
-            dispatch(getSetNotificationsAction(mapped));
             dispatch(getSetAppIsLoadingAction(false));
         })
         .catch(displayError);

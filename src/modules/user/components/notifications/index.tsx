@@ -89,7 +89,7 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                                         {isNullOrUndefined(x.hiddenAt)
                                             ?
                                             <>
-                                                <div className="column ">
+                                                <div className="column">
                                                     <span className="is-italic">
                                                         Created on {x.createdAtMoment.format("DD.MM.YYYY")}
                                                     </span>
