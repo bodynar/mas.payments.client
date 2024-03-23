@@ -15,10 +15,10 @@ export const getChartData = ({ from, to, type }: ChartConfig): Promise<Array<Cha
     const queryParams = new URLSearchParams();
 
     if (!isNullOrUndefined(fromDate)) {
-        queryParams.set("from", new Date(fromDate!.year, fromDate!.month).toDateString());
+        queryParams.set("from", new Date(fromDate!.year, --fromDate!.month).toDateString());
     }
     if (!isNullOrUndefined(toDate)) {
-        queryParams.set("to", new Date(toDate!.year, toDate!.month).toDateString());
+        queryParams.set("to", new Date(toDate!.year, --toDate!.month).toDateString());
     }
     if (!isNullOrUndefined(type)) {
         queryParams.set("measurementTypeId", type!.value);
