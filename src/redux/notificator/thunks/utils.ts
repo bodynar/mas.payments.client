@@ -7,7 +7,7 @@ import { displaySuccess } from "./displaySuccess";
 import { displayError } from "./displayError";
 
 /**
- * Get success or error notification 
+ * Get success or error notification
  * @param dispatch Redux store dispatcher
  * @param getState Function that provides current redux store
  * @returns Pair of functions that can display notifications in success or error state

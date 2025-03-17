@@ -52,7 +52,7 @@ const PaymentTypeCard = ({
 
 
     if (!initialized) {
-        return <></>; // TODO: add skeleton
+        return <></>;
     }
 
     return (

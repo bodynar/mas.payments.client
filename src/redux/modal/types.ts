@@ -29,7 +29,7 @@ export interface ModalParams {
     /** Modal type */
     modalType: ModalType;
 
-    /** 
+    /**
      * Modal box form configuration.
      * Applies only to form modal type
     */
@@ -71,7 +71,7 @@ export interface ModalCallback {
 
 /** Modal close data params */
 export interface ModalCloseData {
-    /** 
+    /**
      * Close reason.
      * Cross sign (x on the top right) will be evaluated as cancel
      */

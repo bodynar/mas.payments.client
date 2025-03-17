@@ -44,8 +44,6 @@ const Settings = ({
     const [updatedSettings, setUpdatedSettings] = useState<Map<string, string>>(new Map([]));
 
     useEffect(() => {
-        // TODO: on error there's 2 notification
-        // on init must be one (store init state in redux)
         if (!loaded && settings.length === 0) {
             loadSettings().then(() => setIsLoaded(true));
         }
@@ -86,7 +84,7 @@ const Settings = ({
             }
         }, [settings, updatedSettings]);
 
-    const onRecalcClick = useCallback(() => {
+    const onRecalculateClick = useCallback(() => {
         recalculateDiff()
             .then((result: boolean) => {
                 if (result) {
@@ -121,7 +119,7 @@ const Settings = ({
                             <Button
                                 caption="Recalculate"
                                 type="success"
-                                onClick={onRecalcClick}
+                                onClick={onRecalculateClick}
                             />
                         </div>
                     </div>

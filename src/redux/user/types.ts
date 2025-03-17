@@ -8,7 +8,7 @@ export interface UserModuleState {
     /** User notifications */
     notificationHistory: Array<UserNotification>;
 
-    /** Is notifications sorted ascendely by CreatedAt field */
+    /** Is notifications sorted ascendant by CreatedAt field */
     isNotificationSortOrderAsc: boolean;
 
     /** Custom settings */

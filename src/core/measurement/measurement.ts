@@ -17,6 +17,7 @@ export const getMeasurements = async (): Promise<Array<Measurement>> => {
         month: x["dateMonth"],
         year: x["dateYear"],
         value: x["measurement"],
+        diff: x["diff"],
         typeId: x["meterMeasurementTypeId"],
         typeCaption: x["measurementTypeName"],
         typeColor: x["measurementTypeColor"],
@@ -69,7 +70,7 @@ export const filterMeasurementList = (items: Array<Measurement>, filterValue?: M
  * @returns Promise of sending request to API
  */
 export const deleteMeasurement = (id: number): Promise<void> => {
-    return post("/api/measurement/deleteMeasurement", { id }); // TODO: update API
+    return post("/api/measurement/deleteMeasurement", { id });
 };
 
 /**

@@ -16,7 +16,7 @@ import { getNotifications } from "@app/redux/notificator";
 export const loadSettings = (): ThunkAction<Promise<void>, CompositeAppState, unknown, ActionWithPayload> => (
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState,
-): Promise<void> => { // TODO: promise?
+): Promise<void> => {
     dispatch(getSetAppIsLoadingAction(true));
 
     const [_, displayError] = getNotifications(dispatch, getState);

@@ -5,7 +5,7 @@ export interface AddPaymentType {
 
     /** Provider name */
     company?: string;
-    
+
     /** Background color of badge */
     color?: string;
 

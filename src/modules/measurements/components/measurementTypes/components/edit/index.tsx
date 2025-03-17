@@ -58,7 +58,7 @@ const MeasurementTypeCard = ({
 
 
     if (!initialized) {
-        return <></>; // TODO: add skeleton
+        return <></>;
     }
 
     return (

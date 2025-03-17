@@ -14,8 +14,8 @@ export const getFieldValueValidationError = (value: string, validationCfg?: Moda
         (value: string): string | undefined => isStringEmpty(value) ? validationError : undefined;
 
     if (!isNullOrUndefined(validationCfg)) {
-        if (!isNullOrEmpty(validationCfg!.customRequiredvalidationError)) {
-            validationError = validationCfg!.customRequiredvalidationError as string;
+        if (!isNullOrEmpty(validationCfg!.customRequiredValidationError)) {
+            validationError = validationCfg!.customRequiredValidationError as string;
         }
 
         if (!isNullOrUndefined(validationCfg!.customValidation)) {

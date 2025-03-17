@@ -56,7 +56,7 @@ const PaymentCard = ({
     }, [id, saveCard, navigate]);
 
     if (!initialized) {
-        return <></>; // TODO: add skeleton
+        return <></>;
     }
     if (initialized && !isNullOrUndefined(id) && isNullOrUndefined(payment)) {
         return <>ERROR: Payment not found</>;

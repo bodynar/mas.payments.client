@@ -9,8 +9,6 @@ export interface FilterValue<TModel> {
 
     /** Comparison value */
     value: any;
-
-    // TODO: add comparison operator
 }
 
 /**

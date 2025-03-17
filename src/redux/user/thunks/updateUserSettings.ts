@@ -13,13 +13,15 @@ import { getNotifications } from "@app/redux/notificator";
 export const updateUserSettings = (updatedSettings: Array<UpdatedUserSetting>): ThunkAction<Promise<void>, CompositeAppState, unknown, ActionWithPayload> =>
     (dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
         getState: () => CompositeAppState
-    ): Promise<void> => { // TODO: promise?
+    ): Promise<void> => {
         dispatch(getSetAppIsLoadingAction(true));
-        // TODO: Add success notification
-        const [_, displayError] = getNotifications(dispatch, getState);
+
+        const [showSuccess, displayError] = getNotifications(dispatch, getState);
 
         return post(`api/user/updateUserSettings`, updatedSettings)
-            .then(_ => undefined)
+            .then(_ => {
+                showSuccess("Settings updated successfully");
+            })
             .catch(displayError);
     };
 

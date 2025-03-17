@@ -19,7 +19,6 @@ export default function (state: NotificatorState = defaultState, action: ActionW
             let addingNotifications: Array<NotificationItem> = getPropertyValueWithCheck(action.payload, "notifications", false);
 
             if (addingNotifications.length === 0) {
-                // TODO: v2 log warning
                 return state;
             }
 
@@ -49,7 +48,6 @@ export default function (state: NotificatorState = defaultState, action: ActionW
             const notifications: Array<string> = getPropertyValueWithCheck(action.payload, "notificationIds", false);
 
             if (notifications.length === 0) {
-                // TODO: v2 log warning
                 return state;
             }
 

@@ -10,7 +10,7 @@ export interface MeasurementType extends Lookup {
 
     /** Parent payment type caption */
     paymentTypeCaption: string;
-    
+
     /** Parent payment type color */
     paymentTypeColor?: string;
 }

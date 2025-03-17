@@ -12,6 +12,9 @@ export interface Measurement {
     /** Measurement value */
     value: number;
 
+    /** Diff with previous item */
+    diff: number;
+
     /** Number of measurement type */
     typeId: number;
 

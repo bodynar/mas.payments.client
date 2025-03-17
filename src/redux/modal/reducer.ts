@@ -15,7 +15,6 @@ export default function (state = initialState, action: ActionWithPayload): Modal
             const modalParams: ModalParams = getPropertyValueWithCheck(action.payload, "params", false);
 
             if (isNullOrUndefined(modalParams)) {
-                // TODO: v2 log warning
                 return state;
             }
 

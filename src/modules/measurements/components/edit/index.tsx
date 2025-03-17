@@ -56,7 +56,7 @@ const MeasurementEditCard = ({
     }, [id, saveCard, navigate]);
 
     if (!initialized) {
-        return <></>; // TODO: add skeleton
+        return <></>;
     }
     if (initialized && !isNullOrUndefined(id) && isNullOrUndefined(measurement)) {
         return <>ERROR: Measurement not found</>;

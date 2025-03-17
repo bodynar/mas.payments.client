@@ -177,7 +177,7 @@ const MeasurementCreateCard = ({
     );
 
     if (!initialized) {
-        return <></>; // TODO: add skeleton
+        return <></>;
     }
 
     return (

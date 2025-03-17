@@ -5,7 +5,6 @@ import { MenuItem } from "@app/models";
 import ApplicationInfo from "./appInfo";
 import Notifications from "./notifications";
 import Settings from "./settings/component";
-import EmailTest from "./emailTest";
 
 /** User module sub-routes */
 export const routes: Array<MenuItem> = [
@@ -33,11 +32,5 @@ export const routes: Array<MenuItem> = [
         link: "/user/settings",
         name: "settings",
         component: <Settings />,
-    },
-    {
-        caption: "Email test",
-        link: "/user/emailTest",
-        name: "emailTest",
-        component: <EmailTest />,
     },
 ];

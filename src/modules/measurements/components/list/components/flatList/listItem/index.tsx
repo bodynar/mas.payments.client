@@ -69,6 +69,7 @@ const MeasurementListItem = ({
                 />
             </td>
             <td className="has-text-centered is-vertical-align--center">{item.value}</td>
+            <td className="has-text-centered is-vertical-align--center">{item.diff}</td>
             <td>{item.description}</td>
             <td className="is-vertical-align--center">
                 <div className="field is-grouped is-justify-content-space-evenly">

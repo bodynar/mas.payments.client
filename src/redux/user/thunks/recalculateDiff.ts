@@ -16,17 +16,17 @@ import { getNotifications } from "@app/redux/notificator";
 export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppState, unknown, ActionWithPayload> => (
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState,
-): Promise<boolean> => { // TODO: promise?
+): Promise<boolean> => {
     dispatch(getSetAppIsLoadingAction(true));
 
-    const [_, displayError] = getNotifications(dispatch, getState);
+    const [showSuccess, displayError] = getNotifications(dispatch, getState);
 
     return post<Array<string>>(`api/measurement/updateDiff`, {})
         .then((result: Array<string> | undefined) => {
             dispatch(getSetAppIsLoadingAction(false));
 
             if (isNullOrUndefined(result)) {
-                // TODO: Add success notification
+                showSuccess("Diff successfully re-calculated");
                 return true;
             }
 

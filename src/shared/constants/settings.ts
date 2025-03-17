@@ -9,5 +9,5 @@ export const NotificationCountToShowHideAll = cfg.Notification.ItemsRequiredToSh
 /** Delay before loading state gif will be hidden */
 export const LoadingStateHideDelay: number = cfg.Request.LoaderMinSecondsLife * 1000;
 
-/** Max lenght of performing request before aborting (in seconds) */
+/** Max length of performing request before aborting (in seconds) */
 export const RequestTimeout: number = cfg.Request.Timeout * 1000;
