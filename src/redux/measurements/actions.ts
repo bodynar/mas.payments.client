@@ -27,3 +27,6 @@ export const TOGGLE_GROUP_VIEW = "mas.payments/measurement/toggleGroupView";
 
 /** Save measurements grouped by type */
 export const SET_GROUPED_BY_TYPE = "mas.payments/measurement/setGroupedByType";
+
+/** Save current page in pagination */
+export const SET_CURRENT_PAGE = "mas.payments/measurement/setCurrentPage";

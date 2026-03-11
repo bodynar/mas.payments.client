@@ -3,7 +3,8 @@ import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
 import { get, post, getMonthName } from "@app/utils";
-import { AddPayment, Payment, PaymentGroup, UpdatePayment } from "@app/models/payments";
+import { getRequiredFieldValue } from "@app/core";
+import { AddPayment, Payment, PaymentGroup, PaymentResponse, UpdatePayment } from "@app/models/payments";
 
 /**
  * Save payment card with data
@@ -13,10 +14,10 @@ import { AddPayment, Payment, PaymentGroup, UpdatePayment } from "@app/models/pa
  */
 export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> => {
     let paymentApiModel: AddPayment | UpdatePayment = {
-        amount: +values.find(({ key }) => key === "amount")!.value,
-        month: +(values.find(({ key }) => key === "month")!.value as SelectableItem).value,
-        year: +(values.find(({ key }) => key === "year")!.value as SelectableItem).value,
-        paymentTypeId: +(values.find(({ key }) => key === "type")!.value as SelectableItem).value,
+        amount: +getRequiredFieldValue(values, "amount").value,
+        month: +(getRequiredFieldValue(values, "month").value as SelectableItem).value,
+        year: +(getRequiredFieldValue(values, "year").value as SelectableItem).value,
+        paymentTypeId: +(getRequiredFieldValue(values, "type").value as SelectableItem).value,
         description: values.find(({ key }) => key === "description")?.value,
     };
 
@@ -50,18 +51,18 @@ export const deleteRecord = (id: number): Promise<void> => {
  * @returns Promise with array of loaded payments
  */
 export const getPaymentRecords = async (): Promise<Array<Payment>> => {
-    const payments = await get<Array<any>>(`api/payment/getPayments`);
+    const payments = await get<Array<PaymentResponse>>(`api/payment/getPayments`);
 
     return payments.map(x => ({
-        id: x["id"],
-        month: x["dateMonth"],
-        year: x["dateYear"],
-        price: x["amount"],
-        typeId: x["paymentTypeId"],
-        typeCaption: x["paymentTypeName"],
-        typeColor: x["paymentTypeColor"],
-        description: x["description"],
-    }) as Payment);
+        id: x.id,
+        month: x.dateMonth,
+        year: x.dateYear,
+        price: x.amount,
+        typeId: x.paymentTypeId,
+        typeCaption: x.paymentTypeName,
+        typeColor: x.paymentTypeColor,
+        description: x.description,
+    }));
 };
 
 /**
@@ -87,7 +88,7 @@ export const groupPayments = (
                 items: [payment],
             });
         } else {
-            group!.items = [...group!.items, payment].sort((left, right) => left.month - right.month);
+            group.items = [...group.items, payment].sort((left, right) => left.month - right.month);
         }
     });
 

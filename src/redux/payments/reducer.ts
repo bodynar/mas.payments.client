@@ -8,7 +8,7 @@ import { SortColumn } from "@app/models";
 import { sort } from "@app/utils";
 
 import { ActionWithPayload } from "@app/redux";
-import { FILTER_PAYMENTS, SET_PAYMENT_FILTER_VALUE, SET_MODULE_INITIALIZED_STATE, SET_PAYMENTS, SET_PAYMENT_TYPES, SET_PAYMENT_SORT_COLUMN, PaymentModuleState, filterPaymentList, SET_TYPE_SORT_COLUMN, FILTER_PAYMENT_TYPES, TOGGLE_GROUP_VIEW } from "@app/redux/payments";
+import { FILTER_PAYMENTS, SET_PAYMENT_FILTER_VALUE, SET_MODULE_INITIALIZED_STATE, SET_PAYMENTS, SET_PAYMENT_TYPES, SET_PAYMENT_SORT_COLUMN, PaymentModuleState, filterPaymentList, SET_TYPE_SORT_COLUMN, FILTER_PAYMENT_TYPES, TOGGLE_GROUP_VIEW, SET_CURRENT_PAGE } from "@app/redux/payments";
 
 /** Initial module state */
 const defaultState: PaymentModuleState = {
@@ -135,6 +135,14 @@ export default function (state: PaymentModuleState = defaultState, action: Actio
             return {
                 ...state,
                 useGroupedView: !state.useGroupedView,
+            };
+        }
+        case SET_CURRENT_PAGE: {
+            const page = getPropertyValueWithCheck<number>(action.payload, "page", true);
+
+            return {
+                ...state,
+                lastPage: page,
             };
         }
         default: {

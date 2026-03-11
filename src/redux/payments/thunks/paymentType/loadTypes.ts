@@ -28,7 +28,7 @@ export const loadTypes = (): ThunkAction<void, CompositeAppState, unknown, Actio
 
     const [_, displayError] = getNotifications(dispatch, getState);
 
-    paymentTypeProvider
+    return void paymentTypeProvider
         .then((types) => {
             dispatch(getSetPaymentTypesAction(types));
             dispatch(getSetAppIsLoadingAction(false));

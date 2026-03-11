@@ -39,7 +39,7 @@ export default function Notification({ item, onHideClick }: NotificationProps): 
     }, [hide, item.important]);
 
     return (
-        <div className={`app-notification notification ${typeClassNameMap.get(item.type)}`}>
+        <div className={`app-notificator__item notification ${typeClassNameMap.get(item.type)}`}>
             <button
                 className="delete"
                 onClick={hide}

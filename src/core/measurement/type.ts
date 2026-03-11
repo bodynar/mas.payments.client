@@ -4,7 +4,8 @@ import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
 import { get, post } from "@app/utils/delayedApi";
-import { AddMeasurementType, MeasurementType, UpdateMeasurementType } from "@app/models/measurements";
+import { getRequiredFieldValue } from "@app/core";
+import { AddMeasurementType, MeasurementType, MeasurementTypeResponse, UpdateMeasurementType } from "@app/models/measurements";
 
 /**
  * Save measurement type card with data
@@ -14,8 +15,8 @@ import { AddMeasurementType, MeasurementType, UpdateMeasurementType } from "@app
  */
 export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<void> => {
     let apiRequestModel: AddMeasurementType | UpdateMeasurementType = {
-        name: values.find(({ key }) => key === "caption")!.value,
-        paymentTypeId: +(values.find(({ key }) => key === "paymentType")!.value as SelectableItem).value,
+        name: getRequiredFieldValue(values, "caption").value,
+        paymentTypeId: +(getRequiredFieldValue(values, "paymentType").value as SelectableItem).value,
         description: values.find(({ key }) => key === "description")?.value,
     };
 
@@ -55,18 +56,18 @@ export const deleteTypeRecord = (id: number): Promise<void> => {
  * @returns Promise with array of loaded measurement types
  */
 export const getMeasurementTypes = async (): Promise<Array<MeasurementType>> => {
-    const items = await get<Array<any>>("api/measurement/getMeasurementTypes");
+    const items = await get<Array<MeasurementTypeResponse>>("api/measurement/getMeasurementTypes");
 
     return items.map(x => ({
-        id: x["id"],
-        name: x["systemName"],
-        caption: x["name"],
-        hasRelatedMeasurements: x["hasRelatedMeasurements"],
-        paymentTypeId: x["paymentTypeId"],
-        paymentTypeCaption: x["paymentTypeName"],
-        paymentTypeColor: x["paymentTypeColor"],
+        id: x.id,
+        name: x.systemName,
+        caption: x.name,
+        hasRelatedMeasurements: x.hasRelatedMeasurements,
+        paymentTypeId: x.paymentTypeId,
+        paymentTypeCaption: x.paymentTypeName,
+        paymentTypeColor: x.paymentTypeColor,
 
-        color: x["color"],
-        description: x["description"],
-    }) as MeasurementType);
+        color: x.color,
+        description: x.description,
+    }));
 };

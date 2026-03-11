@@ -6,3 +6,4 @@ export * from "./setPaymentTypes";
 export * from "./setPayments";
 export * from "./setSortColumn";
 export * from "./toggleGroupView";
+export * from "./setCurrentPage";

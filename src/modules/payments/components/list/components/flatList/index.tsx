@@ -10,7 +10,7 @@ import { Payment, PaymentFilter } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
-import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@app/redux/payments";
+import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction, getSetCurrentPageAction } from "@app/redux/payments";
 
 import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
@@ -46,17 +46,28 @@ interface PaymentFlatListProps {
 
     /** Save current payment type filter value */
     setType: (selectedType: SelectableItem) => void;
+
+    /** Last visited page number */
+    lastPage?: number;
+
+    /** Save current page to Redux */
+    setCurrentPage: (page: number) => void;
 }
 
 const PaymentFlatList: FC<PaymentFlatListProps> = ({
     filteredItems, sortColumn, initialized,
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
-    setSortColumn, deletePayment,
+    setSortColumn, deletePayment, lastPage, setCurrentPage,
 }) => {
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
-    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
+    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, lastPage ?? 1, [filteredItems]);
     const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems) as Array<Payment>, [paginate, filteredItems]);
+
+    const handlePageChange = useCallback((page: number) => {
+        onPageChange(page);
+        setCurrentPage(page);
+    }, [onPageChange, setCurrentPage]);
 
     const onPaymentTypeClick = useCallback((paymentTypeId: number) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, paymentTypeId);
@@ -100,7 +111,7 @@ const PaymentFlatList: FC<PaymentFlatListProps> = ({
                     <Paginator
                         count={pagesCount}
                         currentPage={currentPage}
-                        onPageChange={onPageChange}
+                        onPageChange={handlePageChange}
                     />
                 </section>
             }
@@ -125,10 +136,12 @@ export default connect(
         availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
         lastFilter: payments.lastFilter,
         sortColumn: payments.paymentSortColumn,
+        lastPage: payments.lastPage,
     }),
     ({
         setSortColumn: getSetSortColumnAction,
         deletePayment: deleteRecord,
         setFilterValue: getSetFilterValueAction,
+        setCurrentPage: getSetCurrentPageAction,
     })
 )(PaymentFlatList);

@@ -10,7 +10,7 @@ import { sort } from "@app/utils";
 import { filterMeasurementList } from "@app/core/measurement";
 
 import { ActionWithPayload } from "@app/redux";
-import { FILTER_MEASUREMENTS, FILTER_MEASUREMENT_TYPES, MeasurementModuleState, SET_GROUPED_BY_TYPE, SET_MEASUREMENTS, SET_MEASUREMENT_FILTER_VALUE, SET_MEASUREMENT_SORT_COLUMN, SET_MEASUREMENT_TYPES, SET_MODULE_INITIALIZED_STATE, SET_TYPE_SORT_COLUMN, TOGGLE_GROUP_VIEW } from ".";
+import { FILTER_MEASUREMENTS, FILTER_MEASUREMENT_TYPES, MeasurementModuleState, SET_CURRENT_PAGE, SET_GROUPED_BY_TYPE, SET_MEASUREMENTS, SET_MEASUREMENT_FILTER_VALUE, SET_MEASUREMENT_SORT_COLUMN, SET_MEASUREMENT_TYPES, SET_MODULE_INITIALIZED_STATE, SET_TYPE_SORT_COLUMN, TOGGLE_GROUP_VIEW } from ".";
 
 /** Initial module state */
 const defaultState: MeasurementModuleState = {
@@ -145,6 +145,14 @@ export default function (state: MeasurementModuleState = defaultState, action: A
             return {
                 ...state,
                 groupedByType: groups,
+            };
+        }
+        case SET_CURRENT_PAGE: {
+            const page = getPropertyValueWithCheck<number>(action.payload, "page", true);
+
+            return {
+                ...state,
+                lastPage: page,
             };
         }
         default: {

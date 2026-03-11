@@ -1,6 +1,4 @@
-import { combineReducers } from "redux";
-
-import { CompositeAppState } from "@app/redux";
+import { combineReducers } from "@reduxjs/toolkit";
 
 import modalBoxReducer from "@app/redux/modal/reducer";
 import notificatorReducer from "@app/redux/notificator/reducer";
@@ -11,7 +9,7 @@ import measurementReducer from "@app/redux/measurements/reducer";
 import statsReducer from "@app/redux/stats/reducer";
 
 /** Global application redux store reducer */
-export default combineReducers<CompositeAppState>({
+export default combineReducers({
     modal: modalBoxReducer,
     notificator: notificatorReducer,
     app: appReducer,

@@ -10,7 +10,7 @@ import { Measurement, MeasurementFilter } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
-import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@app/redux/measurements";
+import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction, getSetCurrentPageAction } from "@app/redux/measurements";
 
 import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
@@ -46,17 +46,28 @@ interface MeasurementFlatListProps {
 
     /** Save current measurement type filter value */
     setType: (selectedType: SelectableItem) => void;
+
+    /** Last visited page number */
+    lastPage?: number;
+
+    /** Save current page to Redux */
+    setCurrentPage: (page: number) => void;
 }
 
 const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
     filteredItems, sortColumn, initialized,
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
-    setSortColumn, deleteMeasurement,
+    setSortColumn, deleteMeasurement, lastPage, setCurrentPage,
 }) => {
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
-    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
+    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, lastPage ?? 1, [filteredItems]);
     const pageItems: Array<Measurement> = useMemo(() => paginate(filteredItems) as Array<Measurement>, [paginate, filteredItems]);
+
+    const handlePageChange = useCallback((page: number) => {
+        onPageChange(page);
+        setCurrentPage(page);
+    }, [onPageChange, setCurrentPage]);
 
     const onTypeClick = useCallback((typeId: number) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, typeId);
@@ -100,7 +111,7 @@ const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
                     <Paginator
                         count={pagesCount}
                         currentPage={currentPage}
-                        onPageChange={onPageChange}
+                        onPageChange={handlePageChange}
                     />
                 </section>
             }
@@ -125,10 +136,12 @@ export default connect(
         availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
         lastFilter: measurements.lastFilter,
         sortColumn: measurements.measurementSortColumn,
+        lastPage: measurements.lastPage,
     }),
     ({
         setSortColumn: getSetSortColumnAction,
         deleteMeasurement: deleteRecord,
         setFilterValue: getSetFilterValueAction,
+        setCurrentPage: getSetCurrentPageAction,
     })
 )(MeasurementFlatList);

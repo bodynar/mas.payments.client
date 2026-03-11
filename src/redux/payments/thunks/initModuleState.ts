@@ -27,7 +27,7 @@ export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown,
 
     const [_, displayError] = getNotifications(dispatch, getState);
 
-    Promise.all([
+    return void Promise.all([
         paymentTypeProvider,
         getPaymentRecords(),
     ])

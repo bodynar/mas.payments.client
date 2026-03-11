@@ -1,4 +1,4 @@
-import { Action as ReduxAction } from "redux";
+import { Action as ReduxAction } from "@reduxjs/toolkit";
 
 import { AppState } from "@app/redux/app";
 import { NotificatorState } from "@app/redux/notificator";

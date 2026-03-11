@@ -25,7 +25,7 @@ export const loadChartData = (config: ChartConfig): ThunkAction<Promise<void>, C
 
     const [_, displayError] = getNotifications(dispatch, getState);
 
-    dataProvider(config)
+    return dataProvider(config)
         .then(chartSeries => {
             dispatch(getSaveChartSeriesAction(config.chart, chartSeries));
 

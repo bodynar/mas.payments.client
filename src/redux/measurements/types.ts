@@ -44,4 +44,7 @@ export interface MeasurementModuleState {
 
     /** All measurements grouped by type */
     groupedByType?: Array<Group<Measurement>>;
+
+    /** Last page number for flat list pagination */
+    lastPage?: number;
 }

@@ -15,28 +15,28 @@ export const filterPaymentList = (payments: Array<Payment>, filterValue?: Paymen
         return payments;
     }
 
-    const { month, year, typeId } = filterValue!;
+    const { month, year, typeId } = filterValue;
 
     const filters: Array<FilterValue<Payment>> = [];
 
-    if (isNotNullish(month) && !isNaN(month)) {
+    if (isNotNullish(month) && !isNaN(month!)) {
         filters.push({
             key: "month",
-            value: month!
+            value: month
         });
     }
 
-    if (isNotNullish(year) && !isNaN(year)) {
+    if (isNotNullish(year) && !isNaN(year!)) {
         filters.push({
             key: "year",
-            value: year!
+            value: year
         });
     }
 
-    if (isNotNullish(typeId) && !isNaN(typeId)) {
+    if (isNotNullish(typeId) && !isNaN(typeId!)) {
         filters.push({
             key: "typeId",
-            value: typeId!
+            value: typeId
         });
     }
 

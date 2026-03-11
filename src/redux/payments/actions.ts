@@ -24,3 +24,6 @@ export const SET_TYPE_SORT_COLUMN = "mas.payments/paymentTypes/setSortColumn";
 
 /** Toggle group view flag */
 export const TOGGLE_GROUP_VIEW = "mas.payments/payment/toggleGroupView";
+
+/** Save current page in pagination */
+export const SET_CURRENT_PAGE = "mas.payments/payment/setCurrentPage";

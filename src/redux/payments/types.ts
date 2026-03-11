@@ -40,4 +40,7 @@ export interface PaymentModuleState {
 
     /** Last payment type list caption filter */
     typeFilterCaption?: string;
+
+    /** Last page number for flat list pagination */
+    lastPage?: number;
 }

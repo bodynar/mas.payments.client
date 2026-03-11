@@ -13,6 +13,28 @@ const defaultState: StatisticsModuleState = {
 };
 
 /**
+ * Create a new Map with an updated entry, preserving immutability
+ * @param charts Current charts map
+ * @param key Chart key to update
+ * @param updater Function that returns updated chart data
+ * @returns New Map instance
+ */
+const updateChart = (
+    charts: Map<Chart, import("./types").ModuleChart>,
+    key: Chart,
+    updater: (existing: import("./types").ModuleChart) => import("./types").ModuleChart,
+): Map<Chart, import("./types").ModuleChart> => {
+    const newCharts = new Map(charts);
+    const existing = newCharts.get(key);
+
+    if (existing) {
+        newCharts.set(key, updater(existing));
+    }
+
+    return newCharts;
+};
+
+/**
  * Update module state depending on dispatched action
  * @param state Current state
  * @param action Dispatched action
@@ -22,59 +44,73 @@ export default function (state: StatisticsModuleState = defaultState, action: Ac
     switch (action.type) {
         case SAVE_CHART_CONFIG: {
             const chartConfig = getPropertyValueWithCheck<ChartConfig>(action.payload, "chartConfig", true);
+            const newCharts = new Map(state.charts);
 
-            if (state.charts.has(chartConfig.chart)) {
-                const chartData = state.charts.get(chartConfig.chart)!;
-
-                chartData.lastConfig = {
-                    ...chartData.lastConfig,
-                    ...chartConfig
-                };
+            if (newCharts.has(chartConfig.chart)) {
+                const existing = newCharts.get(chartConfig.chart)!;
+                newCharts.set(chartConfig.chart, {
+                    ...existing,
+                    lastConfig: {
+                        ...existing.lastConfig,
+                        ...chartConfig
+                    },
+                });
             } else {
-                state.charts.set(chartConfig.chart, {
+                newCharts.set(chartConfig.chart, {
                     key: chartConfig.chart,
                     lastConfig: chartConfig,
                 });
             }
 
-            return state;
+            return { ...state, charts: newCharts };
         }
         case SAVE_CHART_SERIES: {
             const chartKey = getPropertyValueWithCheck<Chart>(action.payload, "chartKey", true);
-
             const chartSeries = getPropertyValueWithCheck<Array<ChartData>>(action.payload, "chartData", true);
 
-            if (state.charts.has(chartKey)) {
-                const chartData = state.charts.get(chartKey)!;
-
-                chartData.lastData = chartSeries;
-            } else {
+            if (!state.charts.has(chartKey)) {
                 throw new Error(`Chart "${chartKey}" is processed, but it wasn't initialized.`);
             }
 
-            return state;
+            return {
+                ...state,
+                charts: updateChart(state.charts, chartKey, (existing) => ({
+                    ...existing,
+                    lastData: chartSeries,
+                })),
+            };
         }
         case CLEAR_CHART_SERIES: {
             const chartKey = getPropertyValueWithCheck<Chart>(action.payload, "chartKey", true);
 
-            if (state.charts.has(chartKey)) {
-                const chartData = state.charts.get(chartKey)!;
-
-                chartData.lastData = undefined;
+            if (!state.charts.has(chartKey)) {
+                return state;
             }
 
-            return state;
+            return {
+                ...state,
+                charts: updateChart(state.charts, chartKey, (existing) => ({
+                    ...existing,
+                    lastData: undefined,
+                })),
+            };
         }
         case SAVE_CONFIG_PANEL_VISIBILITY: {
             const chartKey = getPropertyValueWithCheck<Chart>(action.payload, "chartKey", true);
             const collapsed = getPropertyValueWithCheck<boolean>(action.payload, "collapsed", true);
+            const newCharts = new Map(state.charts);
 
-            if (state.charts.has(chartKey)) {
-                const chartData = state.charts.get(chartKey)!;
-
-                chartData.lastConfig.configIsCollapsed = collapsed;
+            if (newCharts.has(chartKey)) {
+                const existing = newCharts.get(chartKey)!;
+                newCharts.set(chartKey, {
+                    ...existing,
+                    lastConfig: {
+                        ...existing.lastConfig,
+                        configIsCollapsed: collapsed,
+                    },
+                });
             } else {
-                state.charts.set(chartKey, {
+                newCharts.set(chartKey, {
                     key: chartKey,
                     lastConfig: {
                         chart: chartKey,
@@ -83,7 +119,7 @@ export default function (state: StatisticsModuleState = defaultState, action: Ac
                 });
             }
 
-            return state;
+            return { ...state, charts: newCharts };
         }
         default: {
             return state;

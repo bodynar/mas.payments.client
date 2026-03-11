@@ -1,11 +1,15 @@
-.app-notification,
+@use "src/shared/style/variables";
+
 .app-notificator__item {
-    max-height: 25vh;
+    max-height: 12.5rem;
     overflow: auto;
+    max-width: 17.5rem;
     font-size: 0.95rem;
 
-    transition: 0.15s ease-in-out;
+    transition: variables.$transition_15;
     transition-property: color, background-color;
+
+    white-space: pre-line;
 
     &-enter {
         opacity: 0;
@@ -14,25 +18,20 @@
     &-enter-active {
         opacity: 1;
         right: 0;
-        transition: opacity 0.5s ease-in, right 0.2s ease-in;
+        transition:
+            opacity variables.$transition_15,
+            right variables.$transition_15;
     }
     &-exit {
         opacity: 1;
         right: 0;
-        color: transparent !important;
     }
     &-exit-active {
         opacity: 0;
         right: -110%;
 
-        overflow: hidden !important;
-        max-height: 1 !important;
-        padding: 0 !important;
-        line-height: 0 !important;
-        margin-bottom: 0 !important;
-        color: transparent !important;
-
-        transition: opacity 0.3s ease-in-out, right 0.3s ease-in-out, max-height 0.25s ease-in-out,
-            line-height 0.25s ease-in-out;
+        transition:
+            opacity variables.$transition_15,
+            right variables.$transition_15;
     }
 }

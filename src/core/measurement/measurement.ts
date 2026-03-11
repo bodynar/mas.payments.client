@@ -3,26 +3,27 @@ import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
 import { filter, FilterValue, get, post, getMonthName } from "@app/utils";
-import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, UpdateMeasurement } from "@app/models/measurements";
+import { getRequiredFieldValue } from "@app/core";
+import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, MeasurementResponse, UpdateMeasurement } from "@app/models/measurements";
 
 /**
  * Load all available measurement records
  * @returns Promise with array of loaded measurements
  */
 export const getMeasurements = async (): Promise<Array<Measurement>> => {
-    const items = await get<Array<any>>("api/measurement/getMeasurements");
+    const items = await get<Array<MeasurementResponse>>("api/measurement/getMeasurements");
 
     return items.map(x => ({
-        id: x["id"],
-        month: x["dateMonth"],
-        year: x["dateYear"],
-        value: x["measurement"],
-        diff: x["diff"],
-        typeId: x["meterMeasurementTypeId"],
-        typeCaption: x["measurementTypeName"],
-        typeColor: x["measurementTypeColor"],
-        description: x["comment"],
-    }) as Measurement);
+        id: x.id,
+        month: x.dateMonth,
+        year: x.dateYear,
+        value: x.measurement,
+        diff: x.diff,
+        typeId: x.meterMeasurementTypeId,
+        typeCaption: x.measurementTypeName,
+        typeColor: x.measurementTypeColor,
+        description: x.comment,
+    }));
 };
 
 /**
@@ -36,28 +37,28 @@ export const filterMeasurementList = (items: Array<Measurement>, filterValue?: M
         return items;
     }
 
-    const { month, year, typeId } = filterValue!;
+    const { month, year, typeId } = filterValue;
 
     const filters: Array<FilterValue<Measurement>> = [];
 
-    if (isNotNullish(month) && !isNaN(month)) {
+    if (isNotNullish(month) && !isNaN(month!)) {
         filters.push({
             key: "month",
-            value: month!
+            value: month
         });
     }
 
-    if (isNotNullish(year) && !isNaN(year)) {
+    if (isNotNullish(year) && !isNaN(year!)) {
         filters.push({
             key: "year",
-            value: year!
+            value: year
         });
     }
 
-    if (isNotNullish(typeId) && !isNaN(typeId)) {
+    if (isNotNullish(typeId) && !isNaN(typeId!)) {
         filters.push({
             key: "typeId",
-            value: typeId!
+            value: typeId
         });
     }
 
@@ -96,7 +97,7 @@ export const groupMeasurements = (
                 items: [item],
             });
         } else {
-            group!.items = [...group!.items, item].sort((left, right) => left.month - right.month);
+            group.items = [...group.items, item].sort((left, right) => left.month - right.month);
         }
     });
 
@@ -129,10 +130,10 @@ export const createMeasurements = (measurementsData: AddMeasurements): Promise<v
 export const updateMeasurement = (values: Array<FieldValue>, id: string): Promise<void> => {
     const apiModel: UpdateMeasurement = {
         id: +id,
-        value: +values.find(({ key }) => key === "value")!.value,
-        month: +(values.find(({ key }) => key === "month")!.value as SelectableItem).value,
-        year: +(values.find(({ key }) => key === "year")!.value as SelectableItem).value,
-        typeId: +(values.find(({ key }) => key === "type")!.value as SelectableItem).value,
+        value: +getRequiredFieldValue(values, "value").value,
+        month: +(getRequiredFieldValue(values, "month").value as SelectableItem).value,
+        year: +(getRequiredFieldValue(values, "year").value as SelectableItem).value,
+        typeId: +(getRequiredFieldValue(values, "type").value as SelectableItem).value,
         comment: values.find(({ key }) => key === "comment")?.value,
     };
 
@@ -166,7 +167,7 @@ export const validateMeasurementCreateData = (
             return "Value cannot be less than previous value";
         }
 
-        if (previousValue! === value!) {
+        if (previousValue === value) {
             return "Value is not changed";
         }
     }

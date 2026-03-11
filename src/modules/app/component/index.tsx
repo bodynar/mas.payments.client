@@ -11,6 +11,7 @@ import { getSetTabIsFocusedAction } from "@app/redux/app";
 import { loadNotifications } from "@app/redux/user";
 
 import { UserNotification } from "@app/models/user";
+import ErrorBoundary from "@app/sharedComponents/errorBoundary";
 import ModalBox from "@app/modules/modalBox";
 
 import Notificator from "../components/notificator";
@@ -74,9 +75,11 @@ function App({
             <Navbar className="app__navbar" />
             <ModalBox />
             <Notificator />
-            <section className="app__content container my-4">
-                <AppContent isLoading={isLoading} />
-            </section>
+            <ErrorBoundary>
+                <section className="app__content container my-4">
+                    <AppContent isLoading={isLoading} />
+                </section>
+            </ErrorBoundary>
         </main>
     );
 }

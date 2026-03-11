@@ -1,6 +1,6 @@
 import { isNotNullish, isStringEmpty } from "@bodynarf/utils";
 
-import { ChartConfig, ChartData } from "@app/models/stats";
+import { ChartConfig, ChartData, StatisticsResponse, TypeStatistics, StatisticsDataPoint } from "@app/models/stats";
 import { getDateIfDefined, get, getShortMonthName } from "@app/utils";
 
 /**
@@ -15,10 +15,10 @@ export const getChartData = ({ from, to, type }: ChartConfig): Promise<Array<Cha
     const queryParams = new URLSearchParams();
 
     if (isNotNullish(fromDate)) {
-        queryParams.set("from", new Date(fromDate!.year, --fromDate!.month).toDateString());
+        queryParams.set("from", new Date(fromDate!.year, fromDate!.month - 1).toDateString());
     }
     if (isNotNullish(toDate)) {
-        queryParams.set("to", new Date(toDate!.year, toDate!.month).toDateString());
+        queryParams.set("to", new Date(toDate!.year, toDate!.month - 1).toDateString());
     }
     if (isNotNullish(type)) {
         queryParams.set("measurementTypeId", type!.value);
@@ -30,24 +30,24 @@ export const getChartData = ({ from, to, type }: ChartConfig): Promise<Array<Cha
         ? "api/stats/getMeasurementStatistics"
         : `api/stats/getMeasurementStatistics?${queryString}`;
 
-    return get<Array<any>>(apiUri)
-        .then(({ typeStatistics }: any) => {
+    return get<StatisticsResponse>(apiUri)
+        .then(({ typeStatistics }) => {
             const isSameYear = new Set(
-                typeStatistics.map((x: any) => x['statisticsData'].map((y: any) => y['year'])).flat()
+                typeStatistics.map((x: TypeStatistics) => x.statisticsData.map((y: StatisticsDataPoint) => y.year)).flat()
             ).size === 1;
 
-            return typeStatistics.map((x: any) => ({
-                key: x.measurementTypeName,
+            return typeStatistics.map((x: TypeStatistics) => ({
+                key: x.measurementTypeName ?? "",
                 data: new Map<string, number>(
-                    x['statisticsData']
-                        .trimNotDefinedValuesBy((y: any) => y['measurementDiff'])
+                    (x.statisticsData as Array<StatisticsDataPoint & { trimNotDefinedValuesBy: (fn: (y: StatisticsDataPoint) => number | undefined) => Array<StatisticsDataPoint> }>)
+                        .trimNotDefinedValuesBy((y: StatisticsDataPoint) => y.measurementDiff)
                         .map(
-                            (y: any) =>
+                            (y: StatisticsDataPoint) =>
                                 [
                                     isSameYear
-                                        ? getShortMonthName(y['month'])
-                                        : getShortMonthName(y['month']) + ' ' + y['year'],
-                                    y['measurementDiff']
+                                        ? getShortMonthName(y.month)
+                                        : getShortMonthName(y.month) + ' ' + y.year,
+                                    y.measurementDiff ?? 0
                                 ]
                         )
                 )

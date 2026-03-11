@@ -25,7 +25,7 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
         .then((result: Array<string> | undefined) => {
             dispatch(getSetAppIsLoadingAction(false));
 
-            if (isNullish(result)) {
+            if (isNullish(result) || result.length === 0) {
                 showSuccess("Diff successfully recalculated");
                 return true;
             }
@@ -33,7 +33,7 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
             dispatch(getOpenModalAction({
                 modalType: ModalType.Info,
                 title: "Recalculate error",
-                message: (result as Array<string>).join("\n")
+                message: result.join("\n")
             }));
 
             return false;
