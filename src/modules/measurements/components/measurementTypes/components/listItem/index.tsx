@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { getFontColorFromString, isNullOrUndefined } from "@bodynarf/utils";
@@ -19,10 +19,10 @@ interface MeasurementTypeListItemProps {
 }
 
 /** Measurement type list item */
-const MeasurementTypeListItem = ({
+const MeasurementTypeListItem: FC<MeasurementTypeListItemProps> = ({
     item,
     deleteMeasurementType,
-}: MeasurementTypeListItemProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);

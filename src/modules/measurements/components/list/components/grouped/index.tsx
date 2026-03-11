@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
@@ -31,11 +31,11 @@ interface MeasurementGroupedViewProps {
     deleteMeasurement: (id: number) => void;
 }
 
-const MeasurementGroupedView = ({
+const MeasurementGroupedView: FC<MeasurementGroupedViewProps> = ({
     isAscOrder, filteredItems, initialized,
     lastFilter,
     deleteMeasurement,
-}: MeasurementGroupedViewProps): JSX.Element => {
+}) => {
     const groupedItems = useMemo(() => groupMeasurements(filteredItems, isAscOrder), [filteredItems, isAscOrder]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(groupedItems.length, 10, 1, [groupedItems]);

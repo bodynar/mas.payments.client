@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
@@ -48,11 +48,11 @@ interface MeasurementFlatListProps {
     setType: (selectedType: SelectableItem) => void;
 }
 
-const MeasurementFlatList = ({
+const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
     filteredItems, sortColumn, initialized,
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
     setSortColumn, deleteMeasurement,
-}: MeasurementFlatListProps): JSX.Element => {
+}) => {
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);

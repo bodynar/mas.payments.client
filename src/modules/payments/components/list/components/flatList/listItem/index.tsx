@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { getFontColorFromString, isNullOrUndefined } from "@bodynarf/utils";
@@ -30,10 +30,10 @@ interface PaymentListItemProps {
 }
 
 /** Payment list item */
-const PaymentListItem = ({
+const PaymentListItem: FC<PaymentListItemProps> = ({
     item, useInGroupView,
     deletePayment, onPaymentTypeClick,
-}: PaymentListItemProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);

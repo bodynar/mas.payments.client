@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Outlet } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -7,7 +8,7 @@ interface MeasurementTypeSubModuleProps {
 
 }
 
-const MeasurementTypeSubModule = (_: MeasurementTypeSubModuleProps): JSX.Element => {
+const MeasurementTypeSubModule: FC<MeasurementTypeSubModuleProps> = (_) => {
     return (
         <Outlet />
     );

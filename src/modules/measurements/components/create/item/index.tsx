@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
@@ -30,11 +30,11 @@ interface MeasurementCreateCardItemProps {
     updateItem: (id: string, newValues: AddMeasurementRecordData) => void;
 }
 
-const MeasurementCreateCardItem = ({
+const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
     item, availableTypesAsDropdownItems,
     validationError,
     deleteItem, updateItem,
-}: MeasurementCreateCardItemProps): JSX.Element => {
+}) => {
     const onDeleteClick = useCallback(() => deleteItem(item.id), [deleteItem, item]);
 
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, item.typeId));

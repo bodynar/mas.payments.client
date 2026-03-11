@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Outlet } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -7,7 +8,7 @@ interface PaymentTypeSubModuleProps {
 
 }
 
-const PaymentTypeSubModule = (_: PaymentTypeSubModuleProps): JSX.Element => {
+const PaymentTypeSubModule: FC<PaymentTypeSubModuleProps> = (_) => {
     return (
         <Outlet />
     );

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 
 import { TabItem } from "@bodynarf/react.components";
 import Tabs from "@bodynarf/react.components/components/tabs";
@@ -13,11 +13,11 @@ interface StatsModuleProps {
 }
 
 /** Stats module container component */
-const StatsModule = ({
+const StatsModule: FC<StatsModuleProps> = ({
     firstItem, configuration,
-}: StatsModuleProps): JSX.Element => {
+}) => {
     const firstTab: TabItem = useMemo(
-        () => firstItem ?? configuration.keys().next().value,
+        () => firstItem ?? configuration.keys().next().value!,
         [configuration, firstItem]
     );
 

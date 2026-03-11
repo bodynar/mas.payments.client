@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { ModalParams, ModalType } from "@app/redux/modal";
 
 import ModalForm from "@app/modules/modalBox/components/modalForm";
@@ -11,11 +12,11 @@ interface ModalBodyProps extends ModalParams {
 /** 
  * Modal body component
  */
-const ModalBody = ({
+const ModalBody: FC<ModalBodyProps> = ({
     modalType,
     formData, message,
     setSaveButtonDisabled,
-}: ModalBodyProps): JSX.Element => {
+}) => {
     if (modalType === ModalType.Form) {
         return (
             <ModalForm

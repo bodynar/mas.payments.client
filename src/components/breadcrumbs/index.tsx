@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Link } from "react-router-dom";
 
 import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
@@ -24,11 +25,11 @@ interface BreadcrumbsProps {
 }
 
 /** Breadcrumbs navigation panel */
-const BreadCrumbs = ({
+const BreadCrumbs: FC<BreadcrumbsProps> = ({
     items,
     size, position, separator,
     className,
-}: BreadcrumbsProps): JSX.Element => {
+}) => {
     if (items.length <= 1) {
         return <></>;
     }

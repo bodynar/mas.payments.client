@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -22,7 +22,7 @@ interface PaymentModuleProps {
     initModuleState: () => void;
 }
 
-const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JSX.Element => {
+const PaymentModule: FC<PaymentModuleProps> = ({ initialized, initModuleState }) => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 

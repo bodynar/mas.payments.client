@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 
@@ -30,7 +30,7 @@ interface FormFieldValidationState {
  * Modal form container component
  * @throws Form configuration does not contain any field
  */
-const ModalForm = ({ formConfig, setSaveButtonDisabled }: ModalFormProps): JSX.Element => {
+const ModalForm: FC<ModalFormProps> = ({ formConfig, setSaveButtonDisabled }) => {
     if (formConfig.fields.length === 0) {
         throw new Error("No field provided for ModalForm");
     }

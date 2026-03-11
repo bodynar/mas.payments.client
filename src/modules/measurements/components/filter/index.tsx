@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
@@ -37,12 +37,12 @@ interface MeasurementFiltersProps {
 }
 
 /** Measurement list filter */
-const MeasurementFilters = ({
+const MeasurementFilters: FC<MeasurementFiltersProps> = ({
     filterValue,
     setFilterValue, filter,
     currentType, onTypeChange,
     availableTypesAsDropdownItems,
-}: MeasurementFiltersProps): JSX.Element => {
+}) => {
     const [selectedMonth, setMonth] = useState<SelectableItem | undefined>(getDropdownItem(monthsAsDropdownItems(), filterValue?.month));
     const [selectedYear, setYear] = useState<SelectableItem | undefined>(getDropdownItem(yearsAsDropdownItems(), filterValue?.year));
 

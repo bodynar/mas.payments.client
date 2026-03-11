@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
@@ -26,7 +26,7 @@ interface NotificationsProps {
     toggleSort: () => void;
 }
 
-const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }: NotificationsProps): JSX.Element => {
+const Notifications: FC<NotificationsProps> = ({ notifications, loadNotifications, ascSort, toggleSort }) => {
     const onReloadClick = useCallback(() => loadNotifications(), [loadNotifications]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(notifications.length, 15);

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -32,11 +32,11 @@ interface PaymentListProps {
     toggleUseGrouping: () => void;
 }
 
-const PaymentList = ({
+const PaymentList: FC<PaymentListProps> = ({
     lastFilter, useGroupedView,
     availableTypesAsDropdownItems,
     toggleUseGrouping,
-}: PaymentListProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);

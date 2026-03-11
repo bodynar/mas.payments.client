@@ -1,4 +1,4 @@
-import { useCallback, useId, useState } from "react";
+import { FC, useCallback, useId, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -25,10 +25,10 @@ interface PaymentTypeCardProps {
     saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
 }
 
-const PaymentTypeCard = ({
+const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
     availableTypes, initialized,
     saveCard,
-}: PaymentTypeCardProps): JSX.Element => {
+}) => {
     const { id } = useParams();
 
     const name = useId();

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
@@ -18,7 +18,7 @@ interface ApplicationInfoProps {
     getAppInfo: () => void;
 }
 
-const ApplicationInfo = ({ appInfo, getAppInfo }: ApplicationInfoProps): JSX.Element => {
+const ApplicationInfo: FC<ApplicationInfoProps> = ({ appInfo, getAppInfo }) => {
 
     useEffect(() => {
         if (isNullOrUndefined(appInfo)) {

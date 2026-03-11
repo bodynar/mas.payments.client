@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -58,10 +58,10 @@ const validateItems = (
     ];
 };
 
-const MeasurementCreateCard = ({
+const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
     initialized, groupedByType, availableTypes,
     saveCard, groupByType,
-}: MeasurementCreateCardProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     useEffect(() => {

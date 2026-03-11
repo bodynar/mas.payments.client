@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -32,11 +32,11 @@ interface MeasurementListProps {
     toggleUseGrouping: () => void;
 }
 
-const MeasurementList = ({
+const MeasurementList: FC<MeasurementListProps> = ({
     lastFilter, useGroupedView,
     availableTypesAsDropdownItems,
     toggleUseGrouping,
-}: MeasurementListProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/measurement/create", { replace: true }), [navigate]);

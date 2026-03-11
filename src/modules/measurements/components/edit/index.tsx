@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo, useState } from "react";
+import { FC, useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -30,10 +30,10 @@ interface MeasurementEditCardProps {
     saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
 }
 
-const MeasurementEditCard = ({
+const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
     measurements, initialized, availableTypesAsDropdownItems,
     saveCard,
-}: MeasurementEditCardProps): JSX.Element => {
+}) => {
     const { id } = useParams();
 
     const name = useId();

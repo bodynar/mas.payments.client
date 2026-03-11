@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 
@@ -23,12 +23,12 @@ import ChartContainer from "../chart";
 interface PaymentsChartProps extends ChartComponentProps { }
 
 /** Payments chart component */
-const PaymentsChart = ({
+const PaymentsChart: FC<PaymentsChartProps> = ({
     availableTypesAsDropdownItems,
     loadTypes, loadChartData, saveConfig,
     chartSeriesData, lastConfig,
     saveChartConfigPanelVisibility,
-}: PaymentsChartProps): JSX.Element => {
+}) => {
     useEffect(() => {
         if (availableTypesAsDropdownItems.length === 0) { // TODO: if no items exists - display warning
             loadTypes();

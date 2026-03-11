@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo, useState } from "react";
+import { FC, useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -29,10 +29,10 @@ interface MeasurementTypeCardProps {
     saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
 }
 
-const MeasurementTypeCard = ({
+const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
     availableTypes, initialized, paymentTypesAsDropdownItems,
     saveCard,
-}: MeasurementTypeCardProps): JSX.Element => {
+}) => {
     const { id } = useParams();
 
     const name = useId();

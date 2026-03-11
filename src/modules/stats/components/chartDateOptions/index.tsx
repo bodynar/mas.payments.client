@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
@@ -21,10 +21,10 @@ interface ChartDateOptionsProps {
 }
 
 /** Chart date range border select component */
-const ChartDateOptions = ({
+const ChartDateOptions: FC<ChartDateOptionsProps> = ({
     caption, onValueChange,
     defaultValue,
-}: ChartDateOptionsProps): JSX.Element => {
+}) => {
     const isFirstRun = useRef(true);
     const [todayIsActive, setTodayIsActive] = useState(getDateIsToday(defaultValue));
 

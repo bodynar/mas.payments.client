@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
@@ -37,10 +37,10 @@ interface SettingsProps {
     recalculateDiff: () => Promise<boolean>;
 }
 
-const Settings = ({
+const Settings: FC<SettingsProps> = ({
     settings, loadSettings, updateUserSettings,
     getMeasurementsWithoutDiff, options, recalculateDiff
-}: SettingsProps): JSX.Element => {
+}) => {
     const [loaded, setIsLoaded] = useState(false);
     const [updatedSettings, setUpdatedSettings] = useState<Map<string, string>>(new Map([]));
 

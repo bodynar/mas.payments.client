@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -23,10 +23,10 @@ interface MeasurementModuleProps {
     initModuleState: () => void;
 }
 
-const MeasurementModule = ({
+const MeasurementModule: FC<MeasurementModuleProps> = ({
     initialized,
     initModuleState,
-}: MeasurementModuleProps): JSX.Element => {
+}) => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 

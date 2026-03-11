@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
@@ -48,11 +48,11 @@ interface PaymentFlatListProps {
     setType: (selectedType: SelectableItem) => void;
 }
 
-const PaymentFlatList = ({
+const PaymentFlatList: FC<PaymentFlatListProps> = ({
     filteredItems, sortColumn, initialized,
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
     setSortColumn, deletePayment,
-}: PaymentFlatListProps): JSX.Element => {
+}) => {
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -43,11 +43,11 @@ interface MeasurementTypeListProps {
     filterTypes: (value?: string) => void;
 }
 
-const MeasurementTypeList = ({
+const MeasurementTypeList: FC<MeasurementTypeListProps> = ({
     filteredTypes, sortColumn, initialized,
     filterTypes, typeFilterCaption,
     setSortColumn, deleteMeasurementType,
-}: MeasurementTypeListProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/measurement/types/create", { replace: true }), [navigate]);

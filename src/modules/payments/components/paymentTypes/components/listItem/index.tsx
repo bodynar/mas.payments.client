@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
@@ -17,10 +17,10 @@ interface PaymentTypeListItemProps {
 }
 
 /** Payment type list item */
-const PaymentTypeListItem = ({
+const PaymentTypeListItem: FC<PaymentTypeListItemProps> = ({
     item,
     deletePaymentType,
-}: PaymentTypeListItemProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);

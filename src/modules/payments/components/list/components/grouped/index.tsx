@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
@@ -30,11 +30,11 @@ interface PaymentGroupedViewProps {
     deletePayment: (id: number) => void;
 }
 
-const PaymentGroupedView = ({
+const PaymentGroupedView: FC<PaymentGroupedViewProps> = ({
     isAscOrder, filteredItems, initialized,
     lastFilter,
     deletePayment,
-}: PaymentGroupedViewProps): JSX.Element => {
+}) => {
     const groupedItems = useMemo(() => groupPayments(filteredItems, isAscOrder), [filteredItems, isAscOrder]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(groupedItems.length, 10, 1, [groupedItems]);

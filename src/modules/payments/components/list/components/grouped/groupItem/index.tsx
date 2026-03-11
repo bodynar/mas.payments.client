@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 
 import { ElementColor, ElementSize, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
@@ -24,10 +24,10 @@ interface PaymentGroupItemProps {
 }
 
 /** Payment group item */
-const PaymentGroupItem = ({
+const PaymentGroupItem: FC<PaymentGroupItemProps> = ({
     item: group,
     deletePayment,
-}: PaymentGroupItemProps): JSX.Element => {
+}) => {
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(group.items.length, 20, 1, [group.items]);
     const pageItems: Array<Payment> = useMemo(() => paginate(group.items) as Array<Payment>, [paginate, group.items]);
 

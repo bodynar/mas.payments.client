@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -43,11 +43,11 @@ interface PaymentTypeListProps {
     filterTypes: (value?: string) => void;
 }
 
-const PaymentTypeList = ({
+const PaymentTypeList: FC<PaymentTypeListProps> = ({
     filteredTypes, sortColumn, initialized,
     filterTypes, typeFilterCaption,
     setSortColumn, deletePaymentType,
-}: PaymentTypeListProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/payment/types/create", { replace: true }), [navigate]);

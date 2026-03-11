@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
@@ -37,12 +37,12 @@ interface PaymentFiltersProps {
 }
 
 /** Payments module filter */
-const PaymentFilters = ({
+const PaymentFilters: FC<PaymentFiltersProps> = ({
     filterValue,
     setFilterValue, filter,
     currentType, onTypeChange,
     availableTypesAsDropdownItems,
-}: PaymentFiltersProps): JSX.Element => {
+}) => {
     const [selectedMonth, setMonth] = useState<SelectableItem | undefined>(getDropdownItem(monthsAsDropdownItems(), filterValue?.month));
     const [selectedYear, setYear] = useState<SelectableItem | undefined>(getDropdownItem(yearsAsDropdownItems(), filterValue?.year));
 

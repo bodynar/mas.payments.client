@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 
 import { ElementColor, ElementSize, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
@@ -24,10 +24,10 @@ interface MeasurementGroupItemProps {
 }
 
 /** Payment group item */
-const MeasurementGroupItem = ({
+const MeasurementGroupItem: FC<MeasurementGroupItemProps> = ({
     item: group,
     deleteItem,
-}: MeasurementGroupItemProps): JSX.Element => {
+}) => {
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(group.items.length, 20, 1, [group.items]);
     const pageItems: Array<Measurement> = useMemo(() => paginate(group.items) as Array<Measurement>, [paginate, group.items]);
 

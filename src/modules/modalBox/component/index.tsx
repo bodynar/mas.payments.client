@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
@@ -29,10 +29,10 @@ interface ModalBoxProps {
  * Modal window component
  * @throws Modal params is invalid
  */
-const ModalBox = ({
+const ModalBox: FC<ModalBoxProps> = ({
     isOpen, params,
     closeModal
-}: ModalBoxProps): JSX.Element => {
+}) => {
     const validationError =
         isOpen && !isNullOrUndefined(params)
             ? validateModalParams(params!)

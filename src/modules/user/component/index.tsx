@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import { isNullOrUndefined } from "@bodynarf/utils";
 import { routes } from "../components";
 
 /** User module main component */
-const UserModule = (): JSX.Element => {
+const UserModule: FC = () => {
     const { pathname } = useLocation();
 
     const menu = useMemo(() => routes.filter(({ display }) => display != false), []);

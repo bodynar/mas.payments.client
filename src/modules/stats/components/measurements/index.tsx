@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 
@@ -23,12 +23,12 @@ import ChartContainer from "../chart";
 interface MeasurementsChartProps extends ChartComponentProps { }
 
 /** Measurements chart component */
-const MeasurementsChart = ({
+const MeasurementsChart: FC<MeasurementsChartProps> = ({
     availableTypesAsDropdownItems,
     loadTypes, loadChartData, saveConfig,
     chartSeriesData, lastConfig,
     saveChartConfigPanelVisibility,
-}: MeasurementsChartProps): JSX.Element => {
+}) => {
     useEffect(() => {
         if (availableTypesAsDropdownItems.length === 0) { // TODO: if no items exists - display warning
             loadTypes();
@@ -75,7 +75,7 @@ const MeasurementsChart = ({
                 caption="Configuration"
                 style={ElementColor.Info}
                 onToggle={onConfigPanelVisibilityToggle}
-                defaultExpanded={!lastConfig?.configIsCollapsed}
+                defaultExpanded={!(lastConfig?.configIsCollapsed ?? false)}
             >
                 <nav className="block">
                     <div className="block is-italic	">
