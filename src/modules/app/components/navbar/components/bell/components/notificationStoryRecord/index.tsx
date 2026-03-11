@@ -24,10 +24,12 @@ export default function NotificationStoryRecord({
     }).format(item.createdAt);
 
     return (
-        <li className="notification-story-item">
+        <li
+            className="notification-story-item"
+            style={{ borderLeftColor: typeColorMap.get(item.type) }}
+        >
             <div
                 className="notification-story-item__description"
-                style={{ borderColor: typeColorMap.get(item.type) }}
             >
                 <span>{createdAt}</span>
                 <p>

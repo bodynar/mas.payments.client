@@ -4,22 +4,22 @@ import NotificationStoryRecord from "../notificationStoryRecord";
 
 /** Bell notification list component */
 export default function BellList({ notifications }: { notifications: Array<NotificationHistoryItem>; }): JSX.Element {
-    if (notifications.length > 0) {
+    if (notifications.length === 0) {
         return (
-            <ul>
-                {notifications.map(x =>
-                    <NotificationStoryRecord
-                        key={x.id}
-                        item={x}
-                    />
-                )}
-            </ul>
+            <span className="app-bell__empty-list is-italic">
+                You haven&apos;t received any notifications yet
+            </span>
         );
     }
 
     return (
-        <span className="app-bell__empty-list">
-            You haven&apos;t received any notifications yet
-        </span>
+        <ul>
+            {notifications.map(x =>
+                <NotificationStoryRecord
+                    key={x.id}
+                    item={x}
+                />
+            )}
+        </ul>
     );
 }
