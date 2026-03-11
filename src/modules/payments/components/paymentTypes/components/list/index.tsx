@@ -15,7 +15,8 @@ import { CompositeAppState } from "@app/redux";
 import { getSetTypeSortColumnAction, deleteTypeRecord, getFilterPaymentTypesAction } from "@app/redux/payments";
 import { useSortColumn } from "@app/hooks";
 
-import Table, { TableHeading } from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
+import { TableHeading } from "@bodynarf/react.components/components/table";
 
 import PaymentTypeListItem from "../listItem";
 
@@ -135,7 +136,7 @@ export default connect(
 
 
 /** Pre-defined payment type table headings */
-const headings: Array<TableHeading<PaymentType>> = [
+const headings: Array<TableHeading> = [
     { name: "color", caption: "Color", sortable: false, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
     { name: "caption", caption: "Name", sortable: true, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
     { name: "company", caption: "Provider", sortable: true, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },

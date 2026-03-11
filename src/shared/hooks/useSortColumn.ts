@@ -1,9 +1,9 @@
 import { DependencyList, useCallback } from "react";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
+import { TableHeading } from "@bodynarf/react.components/components/table";
 
 import { SortColumn } from "@app/models";
-import { TableHeading } from "@app/sharedComponents/table";
 
 /**
  * Create a hook to get saving sort column function
@@ -16,9 +16,9 @@ export const useSortColumn = <TModel>(
     saveSortColumn: (column: SortColumn<TModel>) => void,
     currentSortColumn?: SortColumn<TModel>,
     dependencies?: DependencyList,
-): (column: TableHeading<TModel>) => void => {
+): (column: TableHeading) => void => {
     const callback = useCallback(
-        (column: TableHeading<TModel>) => {
+        (column: TableHeading) => {
             const isAsc = isNullOrUndefined(currentSortColumn)
                 ? true
                 : currentSortColumn!.columnName === column.name!
@@ -27,7 +27,7 @@ export const useSortColumn = <TModel>(
 
             saveSortColumn({
                 ascending: isAsc,
-                columnName: column.name!
+                columnName: column.name! as keyof TModel
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

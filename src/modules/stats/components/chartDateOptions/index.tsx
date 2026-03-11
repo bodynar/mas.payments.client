@@ -1,7 +1,7 @@
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useState } from "react";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
-import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, SelectableItem, useUpdateEffect } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 
@@ -25,18 +25,12 @@ const ChartDateOptions: FC<ChartDateOptionsProps> = ({
     caption, onValueChange,
     defaultValue,
 }) => {
-    const isFirstRun = useRef(true);
     const [todayIsActive, setTodayIsActive] = useState(getDateIsToday(defaultValue));
 
     const [date, setDate] = useState<LookupDate>(defaultValue ?? {});
 
-    useEffect(
+    useUpdateEffect(
         () => {
-            if (isFirstRun.current) {
-                isFirstRun.current = false;
-                return;
-            }
-
             onValueChange(date);
 
             setTodayIsActive(

@@ -14,7 +14,7 @@ import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@
 
 import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
-import Table from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
 
 import PaymentListItem from "./listItem";
 

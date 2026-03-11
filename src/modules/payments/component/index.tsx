@@ -1,12 +1,11 @@
 import { FC, useCallback, useEffect, useMemo } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 
-import BreadCrumbs from "@app/sharedComponents/breadcrumbs";
-import { BreadCrumb } from "@app/sharedComponents/breadcrumbs/types";
+import BreadCrumbs, { BreadCrumb } from "@bodynarf/react.components/components/breadcrumbs";
 
 import { CompositeAppState } from "@app/redux";
 import { initModuleState } from "@app/redux/payments";
@@ -51,14 +50,13 @@ const PaymentModule: FC<PaymentModuleProps> = ({ initialized, initModuleState })
 
                     return pathNameWithoutParams === withoutParams;
                 })
-                .map((x, i, a) => ({
-                    path: x.link,
-                    title: x.name,
-                    active: a.length - 1 === i,
+                .map((x) => ({
+                    href: x.link,
+                    caption: x.name,
                 })
                 ), [pathname]);
 
-    const onBackButtonClick = useCallback(() => navigate(breadcrumbs[breadcrumbs.length - 2].path), [breadcrumbs, navigate]);
+    const onBackButtonClick = useCallback(() => navigate(breadcrumbs[breadcrumbs.length - 2].href), [breadcrumbs, navigate]);
 
     useEffect(() => {
         if (!initialized) {
@@ -71,6 +69,7 @@ const PaymentModule: FC<PaymentModuleProps> = ({ initialized, initModuleState })
             <BreadCrumbs
                 items={breadcrumbs}
                 className="mb-3"
+                elementGenerator={(bc) => <Link to={bc.href}>{bc.caption}</Link>}
             />
             {breadcrumbs.length > 1 &&
                 <>

@@ -17,7 +17,7 @@ import { validateMeasurementCreateData } from "@app/core/measurement";
 import { CompositeAppState } from "@app/redux";
 import { groupByType, saveCard } from "@app/redux/measurements";
 
-import Table from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
 import MeasurementCreateCardItem from "./item";
 
 /** Measurement card props types */

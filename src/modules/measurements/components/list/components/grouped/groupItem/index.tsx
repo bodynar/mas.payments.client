@@ -10,7 +10,7 @@ import { SortColumn } from "@app/models";
 import { sort } from "@app/utils/array";
 
 import { useSortColumn } from "@app/hooks";
-import Table from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
 
 import ListItem from "../../flatList/listItem";
 
