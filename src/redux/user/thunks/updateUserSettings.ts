@@ -3,7 +3,7 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { post } from "@app/utils";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { setAppIsLoading } from "@app/redux/app";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -14,7 +14,7 @@ export const updateUserSettings = (updatedSettings: Array<UpdatedUserSetting>): 
     (dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
         getState: () => CompositeAppState
     ): Promise<void> => {
-        dispatch(getSetAppIsLoadingAction(true));
+        dispatch(setAppIsLoading(true));
 
         const [showSuccess, displayError] = getNotifications(dispatch, getState);
 

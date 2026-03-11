@@ -3,7 +3,7 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { isNullish, isNotNullish } from "@bodynarf/utils";
 
 import { Action } from "@app/redux";
-import { ModalCloseData, ModalCallback, ModalState, getCloseModalAction } from "@app/redux/modal";
+import { ModalCloseData, ModalCallback, ModalState, closeModalAction } from "@app/redux/modal";
 
 /**
  * Close modal via redux dispatched action
@@ -13,7 +13,7 @@ import { ModalCloseData, ModalCallback, ModalState, getCloseModalAction } from "
  */
 export const closeModal = (closeModalData: ModalCloseData, modalCallback?: ModalCallback): ThunkAction<void, ModalState, unknown, Action> =>
     (dispatch: ThunkDispatch<ModalState, unknown, Action>): void => {
-        dispatch(getCloseModalAction());
+        dispatch(closeModalAction());
 
         if (isNullish(modalCallback)) {
             return;

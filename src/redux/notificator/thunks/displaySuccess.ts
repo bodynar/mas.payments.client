@@ -1,7 +1,7 @@
 import { ThunkDispatch } from "redux-thunk";
 
 import { Action, CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { setAppIsLoading } from "@app/redux/app";
 import { ShowSuccessFn, getSuccessNotificationAction } from "@app/redux/notificator";
 
 /**
@@ -22,7 +22,7 @@ export const displaySuccess = (
         );
 
         if (removeLoadingState) {
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setAppIsLoading(false));
         }
     };
 };

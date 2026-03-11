@@ -9,7 +9,7 @@ import "./style.scss";
 import { NotificationHistoryItem } from "@app/models/notification";
 
 import { CompositeAppState } from "@app/redux";
-import { setNotificationsBadgeToZero } from "@app/redux/notificator/";
+import { setBadgeToZero } from "@app/redux/notificator/";
 
 import BellList from "../components/bellList";
 
@@ -87,5 +87,5 @@ export default connect(
         notifications: notificator.history,
         notificationBadge: notificator.historyBadgeCount
     }),
-    { onListOpened: setNotificationsBadgeToZero }
+    { onListOpened: setBadgeToZero }
 )(Bell);

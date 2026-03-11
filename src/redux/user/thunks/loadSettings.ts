@@ -5,8 +5,8 @@ import { get } from "@app/utils";
 import { UserSetting } from "@app/models/user";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetSettingsAction } from "@app/redux/user";
+import { setAppIsLoading } from "@app/redux/app";
+import { setSettings } from "@app/redux/user";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -17,14 +17,14 @@ export const loadSettings = (): ThunkAction<Promise<void>, CompositeAppState, un
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState,
 ): Promise<void> => {
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const [_, displayError] = getNotifications(dispatch, getState);
 
     return get<Array<UserSetting>>(`api/user/getSettings`)
         .then((settings: Array<any>) => {
             dispatch(
-                getSetSettingsAction(
+                setSettings(
                     settings.map(x => ({
                         displayName: x["displayName"],
                         id: x["id"],
@@ -35,7 +35,7 @@ export const loadSettings = (): ThunkAction<Promise<void>, CompositeAppState, un
                 )
             );
 
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
 };

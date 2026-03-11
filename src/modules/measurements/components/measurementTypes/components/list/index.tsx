@@ -12,7 +12,7 @@ import { MeasurementType } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetTypeSortColumnAction, deleteTypeRecord, getFilterMeasurementTypesAction } from "@app/redux/measurements";
+import { setTypeSortColumn, deleteTypeRecord, filterMeasurementTypes } from "@app/redux/measurements";
 import { useSortColumn } from "@app/hooks";
 
 import Table from "@bodynarf/react.components/components/table";
@@ -128,9 +128,9 @@ export default connect(
         typeFilterCaption: measurements.typeFilterCaption
     }),
     ({
-        setSortColumn: getSetTypeSortColumnAction,
+        setSortColumn: setTypeSortColumn,
         deleteMeasurementType: deleteTypeRecord,
-        filterTypes: getFilterMeasurementTypesAction,
+        filterTypes: filterMeasurementTypes,
     })
 )(MeasurementTypeList);
 

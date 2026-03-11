@@ -1,11 +1,11 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { isNullish } from "@bodynarf/utils";
-import { ActionWithPayload, FieldValue } from "@bodynarf/react.components.form";
+import { FieldValue } from "@bodynarf/react.components.form";
 
-import { CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetMeasurementsAction } from "@app/redux/measurements";
+import { CompositeAppState, ActionWithPayload } from "@app/redux";
+import { setAppIsLoading } from "@app/redux/app";
+import { setMeasurements } from "@app/redux/measurements";
 import { getNotifications } from "@app/redux/notificator";
 
 import { getMeasurements, createMeasurements, updateMeasurement } from "@app/core/measurement";
@@ -19,7 +19,7 @@ export const saveCard = (values: Array<FieldValue> | AddMeasurements, id?: strin
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState
 ): Promise<void> => {
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const action: () => Promise<void> =
         isNullish(id)
@@ -34,8 +34,8 @@ export const saveCard = (values: Array<FieldValue> | AddMeasurements, id?: strin
         })
         .then(getMeasurements)
         .then(items => {
-            dispatch(getSetMeasurementsAction(items));
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setMeasurements(items));
+            dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
 };

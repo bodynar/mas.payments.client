@@ -10,7 +10,7 @@ import { Payment, PaymentFilter } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
-import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction, getSetCurrentPageAction } from "@app/redux/payments";
+import { deleteRecord, setFilterValue, setSortColumn, setCurrentPage } from "@app/redux/payments";
 
 import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
@@ -139,9 +139,9 @@ export default connect(
         lastPage: payments.lastPage,
     }),
     ({
-        setSortColumn: getSetSortColumnAction,
+        setSortColumn: setSortColumn,
         deletePayment: deleteRecord,
-        setFilterValue: getSetFilterValueAction,
-        setCurrentPage: getSetCurrentPageAction,
+        setFilterValue: setFilterValue,
+        setCurrentPage: setCurrentPage,
     })
 )(PaymentFlatList);

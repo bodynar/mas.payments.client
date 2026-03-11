@@ -14,9 +14,7 @@ export interface Action extends ReduxAction<string> { }
 /** Redux action with some extra payload */
 export interface ActionWithPayload extends Action {
     /** Action payload data */
-    payload: {
-        [extraProps: string]: unknown;
-    };
+    payload: unknown;
 }
 
 /** Global application state */

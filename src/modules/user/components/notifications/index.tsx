@@ -9,7 +9,7 @@ import Paginator from "@bodynarf/react.components/components/paginator";
 import { ButtonStyle, ElementPosition, ElementSize, usePagination } from "@bodynarf/react.components";
 
 import { CompositeAppState } from "@app/redux";
-import { loadNotifications, getToggleNotificationsSortOrderAction } from "@app/redux/user/";
+import { loadNotifications, toggleNotificationsSortOrder } from "@app/redux/user/";
 
 import { UserNotification } from "@app/models/user";
 
@@ -134,6 +134,6 @@ export default connect(
     }),
     {
         loadNotifications,
-        toggleSort: getToggleNotificationsSortOrderAction
+        toggleSort: toggleNotificationsSortOrder
     }
 )(Notifications);

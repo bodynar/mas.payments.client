@@ -4,9 +4,9 @@ import { deleteRecord as deleteRecordAction, getPaymentRecords } from "@app/core
 import { getMonthName } from "@app/utils";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getOpenModalAction, ModalType } from "@app/redux/modal";
-import { getSetPaymentsAction } from "@app/redux/payments";
+import { setAppIsLoading } from "@app/redux/app";
+import { openModal, ModalType } from "@app/redux/modal";
+import { setPayments } from "@app/redux/payments";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -22,14 +22,14 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
     const payment = payments.payments.find((x) => x.id === id)!;
 
     dispatch(
-        getOpenModalAction({
+        openModal({
             modalType: ModalType.Confirm,
             title: "Confirm deleting payment",
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure you want to delete payment record for ${getMonthName(payment.month)} ${payment.year}?`,
             callback: {
                 saveCallback: (): void => {
-                    dispatch(getSetAppIsLoadingAction(true));
+                    dispatch(setAppIsLoading(true));
 
                     const [displaySuccess, displayError] = getNotifications(dispatch, getState);
 
@@ -39,8 +39,8 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
                         })
                         .then(getPaymentRecords)
                         .then(payments => {
-                            dispatch(getSetPaymentsAction(payments));
-                            dispatch(getSetAppIsLoadingAction(false));
+                            dispatch(setPayments(payments));
+                            dispatch(setAppIsLoading(false));
                         })
                         .catch(displayError);
                 },

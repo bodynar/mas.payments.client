@@ -3,8 +3,8 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { ChartConfig } from "@app/models/stats";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getClearChartSeriesAction, getSaveChartConfigAction, getSaveChartSeriesAction } from "@app/redux/stats";
+import { setAppIsLoading } from "@app/redux/app";
+import { clearChartSeries, saveChartConfig, saveChartSeries } from "@app/redux/stats";
 import { getNotifications } from "@app/redux/notificator";
 
 import { getChartDataProvider } from "@app/core/stats";
@@ -17,9 +17,9 @@ export const loadChartData = (config: ChartConfig): ThunkAction<Promise<void>, C
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState
 ): Promise<void> => {
-    dispatch(getSetAppIsLoadingAction(true));
-    dispatch(getSaveChartConfigAction(config));
-    dispatch(getClearChartSeriesAction(config.chart));
+    dispatch(setAppIsLoading(true));
+    dispatch(saveChartConfig(config));
+    dispatch(clearChartSeries(config.chart));
 
     const dataProvider = getChartDataProvider(config.chart);
 
@@ -27,9 +27,9 @@ export const loadChartData = (config: ChartConfig): ThunkAction<Promise<void>, C
 
     return dataProvider(config)
         .then(chartSeries => {
-            dispatch(getSaveChartSeriesAction(config.chart, chartSeries));
+            dispatch(saveChartSeries({ chartKey: config.chart, chartData: chartSeries }));
 
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
 };

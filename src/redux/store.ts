@@ -1,7 +1,10 @@
 import { configureStore, Middleware } from "@reduxjs/toolkit";
+import { enableMapSet } from "immer";
 import { createLogger } from "redux-logger";
 
 import rootReducer from "./rootReducer";
+
+enableMapSet();
 
 /** Global application store */
 const store = configureStore({

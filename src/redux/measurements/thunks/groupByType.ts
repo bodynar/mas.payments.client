@@ -3,7 +3,7 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { groupMeasurementsByType } from "@app/core/measurement";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { getSetGroupedByTypeAction } from "@app/redux/measurements";
+import { setGroupedByType } from "@app/redux/measurements";
 
 /**
  * Group all measurements by type
@@ -24,7 +24,7 @@ export const groupByType = (): ThunkAction<void, CompositeAppState, unknown, Act
     );
 
     dispatch(
-        getSetGroupedByTypeAction(
+        setGroupedByType(
             groupedByType.map(({ items, key }) => ({ key: +key!, items }))
         )
     );

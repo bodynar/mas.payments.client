@@ -9,7 +9,7 @@ import CheckBox from "@bodynarf/react.components/components/primitives/checkbox"
 import { MeasurementFilter as MeasurementFilterModel } from "@app/models/measurements";
 
 import { CompositeAppState } from "@app/redux";
-import { getToggleGroupViewAction } from "@app/redux/measurements";
+import { toggleGroupView } from "@app/redux/measurements";
 
 import { getDropdownItem } from "@app/core";
 
@@ -114,5 +114,5 @@ const MeasurementList: FC<MeasurementListProps> = ({
 /** Measurement list */
 export default connect(
     ({ measurements }: CompositeAppState) => ({ ...measurements, }),
-    ({ toggleUseGrouping: getToggleGroupViewAction })
+    ({ toggleUseGrouping: toggleGroupView })
 )(MeasurementList);

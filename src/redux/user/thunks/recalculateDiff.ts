@@ -5,8 +5,8 @@ import { isNullish } from "@bodynarf/utils";
 import { post } from "@app/utils";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getOpenModalAction, ModalType } from "@app/redux/modal/";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { openModal, ModalType } from "@app/redux/modal/";
+import { setAppIsLoading } from "@app/redux/app";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -17,20 +17,20 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState,
 ): Promise<boolean> => {
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const [showSuccess, displayError] = getNotifications(dispatch, getState);
 
     return post<Array<string>>(`api/measurement/updateDiff`, {})
         .then((result: Array<string> | undefined) => {
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setAppIsLoading(false));
 
             if (isNullish(result) || result.length === 0) {
                 showSuccess("Diff successfully recalculated");
                 return true;
             }
 
-            dispatch(getOpenModalAction({
+            dispatch(openModal({
                 modalType: ModalType.Info,
                 title: "Recalculate error",
                 message: result.join("\n")

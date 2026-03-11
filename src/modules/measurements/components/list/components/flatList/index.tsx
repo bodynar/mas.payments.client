@@ -10,7 +10,7 @@ import { Measurement, MeasurementFilter } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
-import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction, getSetCurrentPageAction } from "@app/redux/measurements";
+import { deleteRecord, setFilterValue, setSortColumn, setCurrentPage } from "@app/redux/measurements";
 
 import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
@@ -139,9 +139,9 @@ export default connect(
         lastPage: measurements.lastPage,
     }),
     ({
-        setSortColumn: getSetSortColumnAction,
+        setSortColumn: setSortColumn,
         deleteMeasurement: deleteRecord,
-        setFilterValue: getSetFilterValueAction,
-        setCurrentPage: getSetCurrentPageAction,
+        setFilterValue: setFilterValue,
+        setCurrentPage: setCurrentPage,
     })
 )(MeasurementFlatList);

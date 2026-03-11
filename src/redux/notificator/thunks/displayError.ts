@@ -2,7 +2,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { Action, CompositeAppState } from "@app/redux";
 import { ShowErrorFn, getErrorNotificationAction } from "@app/redux/notificator";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
+import { setAppIsLoading } from "@app/redux/app";
 
 /**
  * Create dispatch-based action to display error message
@@ -24,7 +24,7 @@ export const displayError = (
         dispatch(getErrorNotificationAction(errorMessage, app.isCurrentTabFocused, important));
 
         if (removeLoadingState) {
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setAppIsLoading(false));
         }
     };
 };

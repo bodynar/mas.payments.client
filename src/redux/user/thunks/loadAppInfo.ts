@@ -7,8 +7,8 @@ import { get } from "@app/utils";
 import { ApplicationInfo } from "@app/models/user";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetAppInfoAction } from "@app/redux/user";
+import { setAppIsLoading } from "@app/redux/app";
+import { setAppInfo } from "@app/redux/user";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -19,19 +19,19 @@ export const getAppInfo = (): ThunkAction<void, CompositeAppState, unknown, Acti
     (dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
         getState: () => CompositeAppState
     ): void => {
-        dispatch(getSetAppIsLoadingAction(true));
+        dispatch(setAppIsLoading(true));
 
         const [_, displayError] = getNotifications(dispatch, getState);
 
         get<AppInfoResponse>(`api/user/getAppInfo`)
             .then((appInfo: AppInfoResponse) => {
 
-                dispatch(getSetAppInfoAction({
+                dispatch(setAppInfo({
                     ...appInfo,
                     clientAppVersion: version
                 }));
 
-                dispatch(getSetAppIsLoadingAction(false));
+                dispatch(setAppIsLoading(false));
             })
             .catch(displayError);
     };

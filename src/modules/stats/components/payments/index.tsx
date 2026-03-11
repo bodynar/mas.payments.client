@@ -13,7 +13,7 @@ import { Chart } from "@app/models/stats";
 
 import { CompositeAppState } from "@app/redux";
 import { loadTypes } from "@app/redux/payments";
-import { getSaveChartConfigAction, getSaveChartConfigPanelVisibilityAction, loadChartData } from "@app/redux/stats";
+import { saveChartConfig, saveConfigPanelVisibility, loadChartData } from "@app/redux/stats";
 
 import ChartDateOptions from "../chartDateOptions";
 import { ChartComponentProps } from "../types";
@@ -39,7 +39,7 @@ const PaymentsChart: FC<PaymentsChartProps> = ({
     const [toDate, setToDate] = useState<LookupDate>(lastConfig?.to ?? {});
     const [type, setType] = useState<SelectableItem | undefined>(lastConfig?.type);
 
-    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => { saveChartConfigPanelVisibility(Chart.Payments, collapsed); }, [saveChartConfigPanelVisibility]);
+    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => { saveChartConfigPanelVisibility({ chartKey: Chart.Payments, collapsed }); }, [saveChartConfigPanelVisibility]);
     const onShowDataClick = useCallback(
         () =>
             loadChartData({
@@ -153,7 +153,7 @@ export default
         {
             loadTypes: loadTypes,
             loadChartData: loadChartData,
-            saveConfig: getSaveChartConfigAction,
-            saveChartConfigPanelVisibility: getSaveChartConfigPanelVisibilityAction,
+            saveConfig: saveChartConfig,
+            saveChartConfigPanelVisibility: saveConfigPanelVisibility,
         }
     )(PaymentsChart);

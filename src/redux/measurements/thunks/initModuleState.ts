@@ -4,9 +4,9 @@ import { getMeasurements, getMeasurementTypes } from "@app/core/measurement";
 import { getPaymentTypes } from "@app/core/payment";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetMeasurementTypesAction, getSetModuleInitializedStateAction, getSetMeasurementsAction } from "@app/redux/measurements";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetPaymentTypesAction } from "@app/redux/payments";
+import { setMeasurementTypes, setModuleInitializedState, setMeasurements } from "@app/redux/measurements";
+import { setAppIsLoading } from "@app/redux/app";
+import { setPaymentTypes } from "@app/redux/payments";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -17,7 +17,7 @@ export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown,
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState
 ): void => {
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const [_, displayError] = getNotifications(dispatch, getState);
 
@@ -27,12 +27,12 @@ export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown,
         getPaymentTypes(),
     ])
         .then(([types, measurements, paymentTypes]) => {
-            dispatch(getSetMeasurementTypesAction(types));
-            dispatch(getSetMeasurementsAction(measurements));
-            dispatch(getSetPaymentTypesAction(paymentTypes));
+            dispatch(setMeasurementTypes(types));
+            dispatch(setMeasurements(measurements));
+            dispatch(setPaymentTypes(paymentTypes));
 
-            dispatch(getSetModuleInitializedStateAction(true));
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setModuleInitializedState(true));
+            dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
 };

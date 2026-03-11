@@ -9,7 +9,7 @@ import Button from "@bodynarf/react.components/components/button";
 import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { CompositeAppState } from "@app/redux";
-import { getFilterPaymentsAction, getSetFilterValueAction } from "@app/redux/payments";
+import { filterPayments, setFilterValue } from "@app/redux/payments";
 
 import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { getDropdownItem } from "@app/core";
@@ -168,7 +168,7 @@ export default connect(
         availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
     }),
     ({
-        setFilterValue: getSetFilterValueAction,
-        filter: getFilterPaymentsAction
+        setFilterValue: setFilterValue,
+        filter: filterPayments
     })
 )(PaymentFilters);

@@ -1,8 +1,8 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetPaymentTypesAction, getSetModuleInitializedStateAction, getSetPaymentsAction } from "@app/redux/payments";
-import { getSetAppIsLoadingAction } from "@app/redux/app/";
+import { setPaymentTypes, setModuleInitializedState, setPayments } from "@app/redux/payments";
+import { setAppIsLoading } from "@app/redux/app/";
 import { getNotifications } from "@app/redux/notificator";
 
 import { getPaymentRecords, getPaymentTypes } from "@app/core/payment";
@@ -16,7 +16,7 @@ export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown,
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState
 ): void => {
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const { payments } = getState();
 
@@ -32,11 +32,11 @@ export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown,
         getPaymentRecords(),
     ])
         .then(([types, payments]) => {
-            dispatch(getSetPaymentTypesAction(types));
-            dispatch(getSetPaymentsAction(payments));
+            dispatch(setPaymentTypes(types));
+            dispatch(setPayments(payments));
 
-            dispatch(getSetModuleInitializedStateAction(true));
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setModuleInitializedState(true));
+            dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
 };

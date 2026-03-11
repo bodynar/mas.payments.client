@@ -1,7 +1,7 @@
 import { generateGuid } from "@bodynarf/utils";
 
 import { ActionWithPayload } from "@app/redux";
-import { getAddNotificationAction } from "@app/redux/notificator";
+import { addNotifications } from "@app/redux/notificator";
 import { NotificationType } from "@app/models/notification";
 
 /**
@@ -18,10 +18,10 @@ export const getSuccessNotificationAction = (
     important: boolean = false,
     entityId?: number,
 ): ActionWithPayload =>
-    getAddNotificationAction(
-        { type: NotificationType.success, message, id: generateGuid(), createdAt: new Date(), important, entityId, },
-        shouldDisplay
-    );
+    addNotifications({
+        notifications: [{ type: NotificationType.success, message, id: generateGuid(), createdAt: new Date(), important, entityId, }],
+        displayDismissibleNotification: shouldDisplay
+    });
 
 /**
  * Get notifications module action which adding warning notification
@@ -37,10 +37,10 @@ export const getWarningNotificationAction = (
     important: boolean = false,
     entityId?: number,
 ): ActionWithPayload =>
-    getAddNotificationAction(
-        { type: NotificationType.warn, message, id: generateGuid(), createdAt: new Date(), important, entityId, },
-        shouldDisplay
-    );
+    addNotifications({
+        notifications: [{ type: NotificationType.warn, message, id: generateGuid(), createdAt: new Date(), important, entityId, }],
+        displayDismissibleNotification: shouldDisplay
+    });
 
 /**
  * Get notifications module action which adding error notification
@@ -56,7 +56,7 @@ export const getErrorNotificationAction = (
     important: boolean = false,
     entityId?: number,
 ): ActionWithPayload =>
-    getAddNotificationAction(
-        { type: NotificationType.error, message, id: generateGuid(), createdAt: new Date(), important, entityId, },
-        shouldDisplay
-    );
+    addNotifications({
+        notifications: [{ type: NotificationType.error, message, id: generateGuid(), createdAt: new Date(), important, entityId, }],
+        displayDismissibleNotification: shouldDisplay
+    });

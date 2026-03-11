@@ -5,8 +5,8 @@ import { MeasurementType } from "@app/models/measurements";
 import { getMeasurementTypes } from "@app/core/measurement";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetMeasurementTypesAction } from "@app/redux/measurements";
+import { setAppIsLoading } from "@app/redux/app";
+import { setMeasurementTypes } from "@app/redux/measurements";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -17,7 +17,7 @@ export const loadTypes = (): ThunkAction<void, CompositeAppState, unknown, Actio
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState
 ): void => {
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const { measurements } = getState();
 
@@ -30,8 +30,8 @@ export const loadTypes = (): ThunkAction<void, CompositeAppState, unknown, Actio
 
     return void paymentTypeProvider
         .then((types) => {
-            dispatch(getSetMeasurementTypesAction(types));
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setMeasurementTypes(types));
+            dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
 };

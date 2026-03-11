@@ -9,7 +9,7 @@ import CheckBox from "@bodynarf/react.components/components/primitives/checkbox"
 import { PaymentFilter as PaymentFilterModel } from "@app/models/payments";
 
 import { CompositeAppState } from "@app/redux";
-import { getToggleGroupViewAction } from "@app/redux/payments";
+import { toggleGroupView } from "@app/redux/payments";
 
 import { getDropdownItem } from "@app/core";
 
@@ -117,6 +117,6 @@ export default connect(
         ...payments,
     }),
     ({
-        toggleUseGrouping: getToggleGroupViewAction
+        toggleUseGrouping: toggleGroupView
     })
 )(PaymentList);

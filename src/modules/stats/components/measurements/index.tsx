@@ -13,7 +13,7 @@ import { Chart } from "@app/models/stats";
 
 import { CompositeAppState } from "@app/redux";
 import { loadTypes } from "@app/redux/measurements";
-import { getSaveChartConfigAction, getSaveChartConfigPanelVisibilityAction, loadChartData } from "@app/redux/stats";
+import { saveChartConfig, saveConfigPanelVisibility, loadChartData } from "@app/redux/stats";
 
 import ChartDateOptions from "../chartDateOptions";
 import { ChartComponentProps } from "../types";
@@ -39,7 +39,7 @@ const MeasurementsChart: FC<MeasurementsChartProps> = ({
     const [toDate, setToDate] = useState<LookupDate>(lastConfig?.to ?? {});
     const [type, setType] = useState<SelectableItem | undefined>(lastConfig?.type);
 
-    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => { saveChartConfigPanelVisibility(Chart.Measurements, collapsed); }, [saveChartConfigPanelVisibility]);
+    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => { saveChartConfigPanelVisibility({ chartKey: Chart.Measurements, collapsed }); }, [saveChartConfigPanelVisibility]);
     const onShowDataClick = useCallback(
         () =>
             loadChartData({
@@ -154,7 +154,7 @@ export default
         {
             loadTypes: loadTypes,
             loadChartData: loadChartData,
-            saveConfig: getSaveChartConfigAction,
-            saveChartConfigPanelVisibility: getSaveChartConfigPanelVisibilityAction,
+            saveConfig: saveChartConfig,
+            saveChartConfigPanelVisibility: saveConfigPanelVisibility,
         }
     )(MeasurementsChart);

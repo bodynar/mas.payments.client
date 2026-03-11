@@ -12,7 +12,7 @@ import { PaymentType } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetTypeSortColumnAction, deleteTypeRecord, getFilterPaymentTypesAction } from "@app/redux/payments";
+import { setTypeSortColumn, deleteTypeRecord, filterPaymentTypes } from "@app/redux/payments";
 import { useSortColumn } from "@app/hooks";
 
 import Table from "@bodynarf/react.components/components/table";
@@ -128,9 +128,9 @@ export default connect(
         typeFilterCaption: payments.typeFilterCaption
     }),
     ({
-        setSortColumn: getSetTypeSortColumnAction,
+        setSortColumn: setTypeSortColumn,
         deletePaymentType: deleteTypeRecord,
-        filterTypes: getFilterPaymentTypesAction,
+        filterTypes: filterPaymentTypes,
     })
 )(PaymentTypeList);
 

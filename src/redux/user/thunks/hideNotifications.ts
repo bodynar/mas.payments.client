@@ -5,9 +5,9 @@ import { post } from "@app/utils";
 import { getUserNotifications } from "@app/core/user";
 
 import { CompositeAppState, Action } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetNotificationsAction } from "@app/redux/user";
-import { getHideNotificationsAction, getNotifications } from "@app/redux/notificator";
+import { setAppIsLoading } from "@app/redux/app";
+import { setNotifications } from "@app/redux/user";
+import { hideNotifications as hideNotificationsAction, getNotifications } from "@app/redux/notificator";
 
 /**
  * Get "Hide important notifications" redux action thunk
@@ -25,11 +25,11 @@ export const hideNotifications = (ids: Array<string>): ThunkAction<void, Composi
     const notifications = notificator.notifications.filter(({ important, id }) => important && ids.includes(id));
 
     if (notifications.length === 0) {
-        dispatch(getHideNotificationsAction(ids));
+        dispatch(hideNotificationsAction(ids));
         return;
     }
 
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const [_, displayError] = getNotifications(dispatch, getState);
 
@@ -52,9 +52,9 @@ export const hideNotifications = (ids: Array<string>): ThunkAction<void, Composi
                         );
                     }
 
-                    dispatch(getSetNotificationsAction(loadedNotifications));
-                    dispatch(getHideNotificationsAction(ids));
-                    dispatch(getSetAppIsLoadingAction(false));
+                    dispatch(setNotifications(loadedNotifications));
+                    dispatch(hideNotificationsAction(ids));
+                    dispatch(setAppIsLoading(false));
                 });
         })
         .catch(displayError);

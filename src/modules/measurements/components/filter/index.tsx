@@ -9,7 +9,7 @@ import Button from "@bodynarf/react.components/components/button";
 import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { CompositeAppState } from "@app/redux";
-import { getFilterMeasurementsAction, getSetFilterValueAction } from "@app/redux/measurements";
+import { filterMeasurements, setFilterValue } from "@app/redux/measurements";
 
 import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { getDropdownItem } from "@app/core";
@@ -168,7 +168,7 @@ export default connect(
         availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
     }),
     ({
-        setFilterValue: getSetFilterValueAction,
-        filter: getFilterMeasurementsAction
+        setFilterValue: setFilterValue,
+        filter: filterMeasurements
     })
 )(MeasurementFilters);

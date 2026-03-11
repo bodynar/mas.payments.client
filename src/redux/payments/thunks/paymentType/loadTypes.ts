@@ -5,8 +5,8 @@ import { PaymentType } from "@app/models/payments";
 import { getPaymentTypes } from "@app/core/payment";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetPaymentTypesAction } from "@app/redux/payments";
+import { setAppIsLoading } from "@app/redux/app";
+import { setPaymentTypes } from "@app/redux/payments";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -17,7 +17,7 @@ export const loadTypes = (): ThunkAction<void, CompositeAppState, unknown, Actio
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState
 ): void => {
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const { payments } = getState();
 
@@ -30,8 +30,8 @@ export const loadTypes = (): ThunkAction<void, CompositeAppState, unknown, Actio
 
     return void paymentTypeProvider
         .then((types) => {
-            dispatch(getSetPaymentTypesAction(types));
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setPaymentTypes(types));
+            dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
 };

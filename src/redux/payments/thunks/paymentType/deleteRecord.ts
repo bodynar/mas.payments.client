@@ -1,9 +1,9 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getOpenModalAction, ModalType } from "@app/redux/modal";
-import { getSetPaymentTypesAction } from "@app/redux/payments";
+import { setAppIsLoading } from "@app/redux/app";
+import { openModal, ModalType } from "@app/redux/modal";
+import { setPaymentTypes } from "@app/redux/payments";
 import { getNotifications } from "@app/redux/notificator";
 
 import { deleteTypeRecord as deleteRecordAction, getPaymentTypes } from "@app/core/payment";
@@ -22,14 +22,14 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
     const paymentType = payments.availableTypes.find((x) => x.id === id)!;
 
     dispatch(
-        getOpenModalAction({
+        openModal({
             modalType: ModalType.Confirm,
             title: "Confirm deleting payment type",
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure you want to delete payment type ${paymentType.caption}?`,
             callback: {
                 saveCallback: (): void => {
-                    dispatch(getSetAppIsLoadingAction(true));
+                    dispatch(setAppIsLoading(true));
 
                     const [displaySuccess, displayError] = getNotifications(dispatch, getState);
 
@@ -39,8 +39,8 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
                         })
                         .then(getPaymentTypes)
                         .then(items => {
-                            dispatch(getSetPaymentTypesAction(items));
-                            dispatch(getSetAppIsLoadingAction(false));
+                            dispatch(setPaymentTypes(items));
+                            dispatch(setAppIsLoading(false));
                         })
                         .catch(displayError);
                 },

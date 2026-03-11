@@ -1,9 +1,9 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getOpenModalAction, ModalType } from "@app/redux/modal";
-import { getSetMeasurementsAction } from "@app/redux/measurements";
+import { setAppIsLoading } from "@app/redux/app";
+import { openModal, ModalType } from "@app/redux/modal";
+import { setMeasurements } from "@app/redux/measurements";
 import { getNotifications } from "@app/redux/notificator";
 
 import { getMonthName } from "@app/utils";
@@ -22,14 +22,14 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
     const item = measurements.measurements.find((x) => x.id === id)!;
 
     dispatch(
-        getOpenModalAction({
+        openModal({
             modalType: ModalType.Confirm,
             title: "Confirm deleting measurement",
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure you want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${item.typeCaption}]?`,
             callback: {
                 saveCallback: (): void => {
-                    dispatch(getSetAppIsLoadingAction(true));
+                    dispatch(setAppIsLoading(true));
 
                     const [displaySuccess, displayError] = getNotifications(dispatch, getState);
 
@@ -39,8 +39,8 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
                         })
                         .then(getMeasurements)
                         .then(measurements => {
-                            dispatch(getSetMeasurementsAction(measurements));
-                            dispatch(getSetAppIsLoadingAction(false));
+                            dispatch(setMeasurements(measurements));
+                            dispatch(setAppIsLoading(false));
                         })
                         .catch(displayError);
                 },

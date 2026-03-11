@@ -3,8 +3,8 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { UserNotification } from "@app/models/user";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetNotificationsAction } from "@app/redux/user";
+import { setAppIsLoading } from "@app/redux/app";
+import { setNotifications } from "@app/redux/user";
 import { getNotifications, getWarningNotificationAction } from "@app/redux/notificator";
 import { getUserNotifications } from "@app/core/user";
 
@@ -16,7 +16,7 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
     dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
     getState: () => CompositeAppState,
 ): Promise<void> => {
-    dispatch(getSetAppIsLoadingAction(true));
+    dispatch(setAppIsLoading(true));
 
     const { notificator } = getState();
 
@@ -24,7 +24,7 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
 
     return getUserNotifications()
         .then((notifications: Array<UserNotification>) => {
-            dispatch(getSetNotificationsAction(notifications));
+            dispatch(setNotifications(notifications));
 
             notifications
                 .filter(({ isHidden, id }) =>
@@ -38,7 +38,7 @@ export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppStat
                     )
                 );
 
-            dispatch(getSetAppIsLoadingAction(false));
+            dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
 };

@@ -7,7 +7,7 @@ import { getClassName } from "@bodynarf/utils";
 import "./style.scss";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetTabIsFocusedAction } from "@app/redux/app";
+import { setTabIsFocused } from "@app/redux/app";
 import { loadNotifications } from "@app/redux/user";
 
 import { UserNotification } from "@app/models/user";
@@ -92,6 +92,6 @@ export default connect(
     }),
     {
         loadNotifications,
-        setTabIsFocused: getSetTabIsFocusedAction,
+        setTabIsFocused,
     }
 )(App);

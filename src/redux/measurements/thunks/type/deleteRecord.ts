@@ -1,9 +1,9 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getOpenModalAction, ModalType } from "@app/redux/modal";
-import { getSetMeasurementTypesAction } from "@app/redux/measurements";
+import { setAppIsLoading } from "@app/redux/app";
+import { openModal, ModalType } from "@app/redux/modal";
+import { setMeasurementTypes } from "@app/redux/measurements";
 import { getNotifications } from "@app/redux/notificator";
 
 import { deleteTypeRecord as deleteRecordAction, getMeasurementTypes } from "@app/core/measurement";
@@ -22,14 +22,14 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
     const measurementType = measurements.availableTypes.find((x) => x.id === id)!;
 
     dispatch(
-        getOpenModalAction({
+        openModal({
             modalType: ModalType.Confirm,
             title: "Confirm deleting measurement type",
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure you want to delete measurement type ${measurementType.caption}?`,
             callback: {
                 saveCallback: (): void => {
-                    dispatch(getSetAppIsLoadingAction(true));
+                    dispatch(setAppIsLoading(true));
 
                     const [displaySuccess, displayError] = getNotifications(dispatch, getState);
 
@@ -39,8 +39,8 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
                         })
                         .then(getMeasurementTypes)
                         .then(items => {
-                            dispatch(getSetMeasurementTypesAction(items));
-                            dispatch(getSetAppIsLoadingAction(false));
+                            dispatch(setMeasurementTypes(items));
+                            dispatch(setAppIsLoading(false));
                         })
                         .catch(displayError);
                 },

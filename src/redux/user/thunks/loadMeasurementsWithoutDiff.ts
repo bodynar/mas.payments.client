@@ -3,8 +3,8 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { get } from "@app/utils";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetMeasurementsWithoutDiffAction } from "@app/redux/user";
+import { setAppIsLoading } from "@app/redux/app";
+import { setMeasurementsWithoutDiff } from "@app/redux/user";
 import { getNotifications } from "@app/redux/notificator";
 
 /**
@@ -15,15 +15,15 @@ export const getMeasurementsWithoutDiff = (): ThunkAction<void, CompositeAppStat
     (dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
         getState: () => CompositeAppState
     ): void => {
-        dispatch(getSetAppIsLoadingAction(true));
+        dispatch(setAppIsLoading(true));
 
         const [_, displayError] = getNotifications(dispatch, getState);
 
         get<number>(`api/measurement/withoutDiff`)
             .then((count: number) => {
-                dispatch(getSetMeasurementsWithoutDiffAction(count));
+                dispatch(setMeasurementsWithoutDiff(count));
 
-                dispatch(getSetAppIsLoadingAction(false));
+                dispatch(setAppIsLoading(false));
             })
             .catch(displayError);
     };
