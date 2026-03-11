@@ -39,7 +39,7 @@ const PaymentsChart: FC<PaymentsChartProps> = ({
     const [toDate, setToDate] = useState<LookupDate>(lastConfig?.to ?? {});
     const [type, setType] = useState<SelectableItem | undefined>(lastConfig?.type);
 
-    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => saveChartConfigPanelVisibility(Chart.Payments, collapsed), [saveChartConfigPanelVisibility]);
+    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => { saveChartConfigPanelVisibility(Chart.Payments, collapsed); }, [saveChartConfigPanelVisibility]);
     const onShowDataClick = useCallback(
         () =>
             loadChartData({

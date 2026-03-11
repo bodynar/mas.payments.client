@@ -39,7 +39,7 @@ const MeasurementsChart: FC<MeasurementsChartProps> = ({
     const [toDate, setToDate] = useState<LookupDate>(lastConfig?.to ?? {});
     const [type, setType] = useState<SelectableItem | undefined>(lastConfig?.type);
 
-    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => saveChartConfigPanelVisibility(Chart.Measurements, collapsed), [saveChartConfigPanelVisibility]);
+    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => { saveChartConfigPanelVisibility(Chart.Measurements, collapsed); }, [saveChartConfigPanelVisibility]);
     const onShowDataClick = useCallback(
         () =>
             loadChartData({
