@@ -26,7 +26,7 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
             modalType: ModalType.Confirm,
             title: "Confirm deleting measurement",
             buttonCaption: { saveCaption: "Delete" },
-            message: `Are you sure want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${item.typeCaption}]?`,
+            message: `Are you sure you want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${item.typeCaption}]?`,
             callback: {
                 saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));

@@ -64,7 +64,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
                         <div className="column is-3">
                             <Button
                                 style={ButtonStyle.Ghost}
-                                caption="Order by CreatedOn"
+                                caption="Order by creation date"
                                 size={ElementSize.Small}
                                 icon={{
                                     position: ElementPosition.Left,

@@ -102,7 +102,7 @@ const ChartDateOptions: FC<ChartDateOptionsProps> = ({
                     caption="Clear"
                     className="is-inverted"
                     onClick={onClearButtonClick}
-                    title="Delete selected date"
+                    title="Clear selected date"
                     disabled={isNullish(date.month) && isNullish(date.year)}
                 />
             </div>

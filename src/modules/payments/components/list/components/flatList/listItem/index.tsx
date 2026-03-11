@@ -64,7 +64,7 @@ const PaymentListItem: FC<PaymentListItemProps> = ({
                     title={
                         isNullish(onPaymentTypeClick)
                             ? undefined
-                            : `Filter by type "${item.typeCaption}" additionaly`
+                            : `Filter by type "${item.typeCaption}" additionally`
                     }
                 />
             </td>

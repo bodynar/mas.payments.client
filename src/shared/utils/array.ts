@@ -8,7 +8,7 @@ export interface FilterValue<TModel> {
     key: keyof TModel;
 
     /** Comparison value */
-    value: any;
+    value: TModel[keyof TModel];
 }
 
 /**

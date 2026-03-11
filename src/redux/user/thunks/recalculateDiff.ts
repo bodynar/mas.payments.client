@@ -26,7 +26,7 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
             dispatch(getSetAppIsLoadingAction(false));
 
             if (isNullish(result)) {
-                showSuccess("Diff successfully re-calculated");
+                showSuccess("Diff successfully recalculated");
                 return true;
             }
 

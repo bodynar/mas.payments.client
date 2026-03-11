@@ -112,7 +112,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
         changeItems(validatedItems);
 
         if (!isValid) {
-            setValidationError("Measurement items contains errors. See description below");
+            setValidationError("Measurement items contain errors. See description below");
             return;
         }
 

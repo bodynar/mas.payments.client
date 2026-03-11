@@ -26,7 +26,7 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
             modalType: ModalType.Confirm,
             title: "Confirm deleting payment",
             buttonCaption: { saveCaption: "Delete" },
-            message: `Are you sure want to delete payment record for ${getMonthName(payment.month)} ${payment.year}?`,
+            message: `Are you sure you want to delete payment record for ${getMonthName(payment.month)} ${payment.year}?`,
             callback: {
                 saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));

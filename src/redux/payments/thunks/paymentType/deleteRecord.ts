@@ -26,7 +26,7 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
             modalType: ModalType.Confirm,
             title: "Confirm deleting payment type",
             buttonCaption: { saveCaption: "Delete" },
-            message: `Are you sure want to delete payment type ${paymentType.caption}?`,
+            message: `Are you sure you want to delete payment type ${paymentType.caption}?`,
             callback: {
                 saveCallback: (): void => {
                     dispatch(getSetAppIsLoadingAction(true));

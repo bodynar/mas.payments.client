@@ -48,7 +48,7 @@ export const hideNotifications = (ids: Array<string>): ThunkAction<void, Composi
                         ids = ids.filter(x => !notHiddenNotifications.includes(x));
 
                         displayError(
-                            "Not all notifications was hidden. Please, contact system administrator", true
+                            "Not all notifications were hidden. Please, contact system administrator", true
                         );
                     }
 
