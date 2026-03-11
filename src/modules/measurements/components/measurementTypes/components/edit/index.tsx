@@ -11,7 +11,7 @@ import { MeasurementType } from "@app/models/measurements";
 
 import { CompositeAppState } from "@app/redux";
 import { saveTypeCard } from "@app/redux/measurements";
-import { SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { getDropdownItem } from "@app/core";
 
 /** Measurement card props types */
@@ -72,6 +72,7 @@ const MeasurementTypeCard = ({
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
+                    style: ButtonStyle.Success,
                     caption: "Save",
                     disabled: isSubmitAvailable
                 }}

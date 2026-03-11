@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
-import { ElementSize, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Number from "@bodynarf/react.components/components/primitives/number";
@@ -118,9 +118,9 @@ const MeasurementCreateCardItem = ({
                         &&
                         <div className="control">
                             <Button
-                                type="default"
-                                static={true}
+                                static
                                 caption={`+${diff}`}
+                                style={ButtonStyle.Default}
                             />
                         </div>
                     }
@@ -136,7 +136,7 @@ const MeasurementCreateCardItem = ({
                 <div className="field is-grouped is-justify-content-space-evenly">
                     <div className="control">
                         <Button
-                            type="danger"
+                            style={ButtonStyle.Danger}
                             icon={{ name: "trash", size: ElementSize.Medium }}
                             onClick={onDeleteClick}
                             title="Delete record"

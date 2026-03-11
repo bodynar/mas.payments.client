@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
 
-import { ElementColor, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Button from "@bodynarf/react.components/components/button";
 import Accordion from "@bodynarf/react.components/components/accordion";
@@ -142,14 +142,14 @@ const PaymentFilters = ({
             <div className="field is-grouped mt-4">
                 <p className="control">
                     <Button
-                        type="success"
+                        style={ButtonStyle.Success}
                         caption="Filter"
                         onClick={filter}
                     />
                 </p>
                 <p className="control">
                     <Button
-                        type="info"
+                        style={ButtonStyle.Info}
                         caption="Clear"
                         outlined={true}
                         onClick={onClearClick}

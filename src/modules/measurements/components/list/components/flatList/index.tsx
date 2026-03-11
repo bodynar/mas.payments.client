@@ -56,7 +56,7 @@ const MeasurementFlatList = ({
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
-    const pageItems: Array<Measurement> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
+    const pageItems: Array<Measurement> = useMemo(() => paginate(filteredItems) as Array<Measurement>, [paginate, filteredItems]);
 
     const onTypeClick = useCallback((typeId: number) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, typeId);
@@ -80,7 +80,7 @@ const MeasurementFlatList = ({
                     <Table
                         headings={flatListTableHeadings}
                         hasBorder={true}
-                        narrow={true}
+                        narrow
                         hoverable={true}
                         fullWidth={true}
                         hasStickyHeader={true}

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { hexToRgb, isNullOrUndefined } from "@bodynarf/utils";
 
+import { ButtonStyle } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
 
@@ -66,6 +67,7 @@ const PaymentTypeCard = ({
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
+                    style: ButtonStyle.Success,
                     caption: "Save",
                     disabled: isSubmitAvailable
                 }}

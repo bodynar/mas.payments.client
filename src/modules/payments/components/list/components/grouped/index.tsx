@@ -38,7 +38,7 @@ const PaymentGroupedView = ({
     const groupedItems = useMemo(() => groupPayments(filteredItems, isAscOrder), [filteredItems, isAscOrder]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(groupedItems.length, 10, 1, [groupedItems]);
-    const pageItems: Array<PaymentGroup> = useMemo(() => paginate(groupedItems), [paginate, groupedItems]);
+    const pageItems: Array<PaymentGroup> = useMemo(() => paginate(groupedItems) as Array<PaymentGroup>, [paginate, groupedItems]);
 
     return (
         <section>

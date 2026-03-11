@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { ElementSize, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, ElementPosition, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import CheckBox from "@bodynarf/react.components/components/primitives/checkbox";
 
@@ -51,7 +51,7 @@ const PaymentList = ({
             <nav className="field is-grouped">
                 <p className="control">
                     <Button
-                        type="primary"
+                        style={ButtonStyle.Primary}
                         caption="Create"
                         onClick={onCreateClick}
                         title="Create new payment record"
@@ -59,7 +59,7 @@ const PaymentList = ({
                 </p>
                 <p className="control">
                     <Button
-                        type="info"
+                        style={ButtonStyle.Info}
                         caption="Manage types"
                         outlined={true}
                         onClick={onTypeManageClick}
@@ -86,11 +86,11 @@ const PaymentList = ({
                     &&
                     <div className="column is-3">
                         <Button
-                            type="ghost"
+                            style={ButtonStyle.Ghost}
                             caption="Order by Date"
                             size={ElementSize.Small}
                             icon={{
-                                position: "left",
+                                position: ElementPosition.Left,
                                 name: ascSortGroups ? "sort-down" : "sort-up",
                                 size: ElementSize.Medium,
                             }}

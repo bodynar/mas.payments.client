@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { getFontColorFromString, isNullOrUndefined } from "@bodynarf/utils";
 
-import { ElementSize } from "@bodynarf/react.components";
+import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Tag from "@bodynarf/react.components/components/tag";
 
@@ -64,7 +64,7 @@ const MeasurementListItem = ({
                     title={
                         isNullOrUndefined(onTypeClick)
                             ? undefined
-                            : `Filter by type "${item.typeCaption}" additionaly`
+                            : `Filter by type "${item.typeCaption}" additionally`
                     }
                 />
             </td>
@@ -75,7 +75,7 @@ const MeasurementListItem = ({
                 <div className="field is-grouped is-justify-content-space-evenly">
                     <div className="control">
                         <Button
-                            type="warning"
+                            style={ButtonStyle.Warning}
                             icon={{ name: "pencil", size: ElementSize.Medium }}
                             onClick={onEditClick}
                             title="Edit record"
@@ -83,7 +83,7 @@ const MeasurementListItem = ({
                     </div>
                     <div className="control">
                         <Button
-                            type="danger"
+                            style={ButtonStyle.Danger}
                             icon={{ name: "trash", size: ElementSize.Medium }}
                             onClick={onDeleteClick}
                             title="Delete record"

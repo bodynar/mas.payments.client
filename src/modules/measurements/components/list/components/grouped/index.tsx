@@ -15,7 +15,7 @@ import MeasurementGroupItem from "./groupItem";
 
 /** Measurement grouped list props type */
 interface MeasurementGroupedViewProps {
-    /** Is groups sorted ascendingly */
+    /** Is groups sorted ascending */
     isAscOrder: boolean;
 
     /** Is module state initialized */
@@ -39,7 +39,7 @@ const MeasurementGroupedView = ({
     const groupedItems = useMemo(() => groupMeasurements(filteredItems, isAscOrder), [filteredItems, isAscOrder]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(groupedItems.length, 10, 1, [groupedItems]);
-    const pageItems: Array<MeasurementGroup> = useMemo(() => paginate(groupedItems), [paginate, groupedItems]);
+    const pageItems: Array<MeasurementGroup> = useMemo(() => paginate(groupedItems) as Array<MeasurementGroup>, [paginate, groupedItems]);
 
     return (
         <section>

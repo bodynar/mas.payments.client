@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 import { ElementSize } from "@bodynarf/react.components";
-import Button from "@bodynarf/react.components/components/button";
+import Button, { ButtonStyle } from "@bodynarf/react.components/components/button";
 
 import { CompositeAppState } from "@app/redux";
 import { initModuleState } from "@app/redux/measurements";
@@ -79,9 +79,9 @@ const MeasurementModule = ({
             {breadcrumbs.length > 1 &&
                 <>
                     <Button
+                        outlined
                         caption="Back"
-                        type="info"
-                        outlined={true}
+                        style={ButtonStyle.Info}
                         size={ElementSize.Small}
                         onClick={onBackButtonClick}
                     />

@@ -5,7 +5,7 @@ import { isNullOrUndefined } from "@bodynarf/utils";
 
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
-import { ElementSize, usePagination } from "@bodynarf/react.components";
+import { ButtonStyle, ElementPosition, ElementSize, usePagination } from "@bodynarf/react.components";
 
 import { CompositeAppState } from "@app/redux";
 import { loadNotifications, getToggleNotificationsSortOrderAction } from "@app/redux/user/";
@@ -35,7 +35,7 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
             notifications.sort(({ createdAt }, y) =>
                 (createdAt.getTime() - y.createdAt.getTime()) * (ascSort ? -1 : 1)
             )
-        ),
+        ) as Array<UserNotification>,
         [ascSort, paginate, notifications]
     );
 
@@ -49,12 +49,12 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                         </div>
                         <div className="column is-2">
                             <Button
-                                type="success"
+                                style={ButtonStyle.Success}
                                 caption="Reload"
                                 size={ElementSize.Small}
                                 rounded={true}
                                 outlined={true}
-                                icon={{ name: "arrow-clockwise", position: "left", size: ElementSize.Medium, }}
+                                icon={{ name: "arrow-clockwise", position: ElementPosition.Left, size: ElementSize.Medium, }}
                                 onClick={onReloadClick}
                             />
                         </div>
@@ -62,11 +62,11 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                     <div className="block columns">
                         <div className="column is-3">
                             <Button
-                                type="ghost"
+                                style={ButtonStyle.Ghost}
                                 caption="Order by CreatedOn"
                                 size={ElementSize.Small}
                                 icon={{
-                                    position: "left",
+                                    position: ElementPosition.Left,
                                     name: ascSort ? "sort-down" : "sort-up",
                                     size: ElementSize.Medium,
                                 }}
@@ -112,7 +112,7 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                             </div>
                         )}
                         <Paginator
-                            position="right"
+                            position={ElementPosition.Right}
                             showNextButtons={true}
                             nearPagesCount={2}
                             count={pagesCount}

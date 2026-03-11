@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 
-import { SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
 
@@ -73,6 +73,7 @@ const MeasurementEditCard = ({
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
+                    style: ButtonStyle.Success,
                     caption: "Save",
                     disabled: isSubmitAvailable
                 }}

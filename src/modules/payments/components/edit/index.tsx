@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
 
-import { SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
 
@@ -73,6 +73,7 @@ const PaymentCard = ({
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
+                    style: ButtonStyle.Success,
                     caption: "Save",
                     disabled: isSubmitAvailable
                 }}
@@ -165,3 +166,4 @@ export default connect(
     ({ payments }: CompositeAppState) => ({ ...payments }),
     ({ saveCard })
 )(PaymentCard);
+

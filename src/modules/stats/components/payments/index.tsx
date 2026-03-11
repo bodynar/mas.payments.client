@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 
-import { ElementColor, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Icon from "@bodynarf/react.components/components/icon";
@@ -30,7 +30,7 @@ const PaymentsChart = ({
     saveChartConfigPanelVisibility,
 }: PaymentsChartProps): JSX.Element => {
     useEffect(() => {
-        if (availableTypesAsDropdownItems.length === 0) {
+        if (availableTypesAsDropdownItems.length === 0) { // TODO: if no items exists - display warning
             loadTypes();
         }
     }, [loadTypes, availableTypesAsDropdownItems]);
@@ -75,7 +75,7 @@ const PaymentsChart = ({
                 caption="Configuration"
                 style={ElementColor.Info}
                 onToggle={onConfigPanelVisibilityToggle}
-                defaultExpanded={!lastConfig?.configIsCollapsed ?? true}
+                defaultExpanded={!lastConfig?.configIsCollapsed}
             >
                 <nav className="block">
                     <div className="block is-italic	">
@@ -117,7 +117,7 @@ const PaymentsChart = ({
                     <div className="columns">
                         <div className="column">
                             <Button
-                                type="primary"
+                                style={ButtonStyle.Primary}
                                 caption="Show data"
                                 onClick={onShowDataClick}
                             />

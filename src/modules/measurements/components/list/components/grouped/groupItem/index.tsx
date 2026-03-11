@@ -29,7 +29,7 @@ const MeasurementGroupItem = ({
     deleteItem,
 }: MeasurementGroupItemProps): JSX.Element => {
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(group.items.length, 20, 1, [group.items]);
-    const pageItems: Array<Measurement> = useMemo(() => paginate(group.items), [paginate, group.items]);
+    const pageItems: Array<Measurement> = useMemo(() => paginate(group.items) as Array<Measurement>, [paginate, group.items]);
 
     const [sortColumn, setSortColumn] = useState<SortColumn<Measurement> | undefined>(undefined);
 
@@ -51,7 +51,7 @@ const MeasurementGroupItem = ({
                 <Table
                     headings={groupedViewTableHeadings}
                     hasBorder={true}
-                    narrow={true}
+                    narrow
                     hoverable={true}
                     fullWidth={true}
                     hasStickyHeader={true}

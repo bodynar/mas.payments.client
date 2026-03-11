@@ -56,7 +56,7 @@ const PaymentFlatList = ({
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
-    const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
+    const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems) as Array<Payment>, [paginate, filteredItems]);
 
     const onPaymentTypeClick = useCallback((paymentTypeId: number) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, paymentTypeId);
@@ -80,7 +80,7 @@ const PaymentFlatList = ({
                     <Table
                         headings={flatListTableHeadings}
                         hasBorder={true}
-                        narrow={true}
+                        narrow
                         hoverable={true}
                         fullWidth={true}
                         hasStickyHeader={true}

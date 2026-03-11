@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
+import { ButtonStyle } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 
 import "./style.scss";
@@ -97,14 +98,14 @@ const ModalBox = ({
                         &&
                         <Button
                             key="modal-success-btn"
-                            type="success"
+                            style={ButtonStyle.Success}
                             caption={saveBtnCaption}
                             onClick={onSaveClick}
                             disabled={isSaveButtonDisabled}
                         />
                     }
                     <Button
-                        type="default"
+                        style={ButtonStyle.Default}
                         caption={cancelBtnCaption}
                         onClick={onCloseClick}
                     />

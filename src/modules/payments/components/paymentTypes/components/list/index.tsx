@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { isNullOrEmpty } from "@bodynarf/utils";
-import { usePagination } from "@bodynarf/react.components";
+import { ButtonStyle, usePagination } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
 import Search from "@bodynarf/react.components/components/search";
@@ -52,7 +52,7 @@ const PaymentTypeList = ({
 
     const onCreateClick = useCallback(() => navigate("/payment/types/create", { replace: true }), [navigate]);
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredTypes.length, 20, 1, [filteredTypes]);
-    const pageItems: Array<PaymentType> = useMemo(() => paginate(filteredTypes), [paginate, filteredTypes]);
+    const pageItems: Array<PaymentType> = useMemo(() => paginate(filteredTypes) as Array<PaymentType>, [paginate, filteredTypes]);
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     return (
@@ -60,7 +60,7 @@ const PaymentTypeList = ({
             <nav className="field is-grouped">
                 <p className="control">
                     <Button
-                        type="primary"
+                        style={ButtonStyle.Primary}
                         caption="Create"
                         title="Create new payment type"
                         onClick={onCreateClick}
@@ -83,7 +83,7 @@ const PaymentTypeList = ({
                     <Table
                         headings={headings}
                         hasBorder={true}
-                        narrow={true}
+                        narrow
                         hoverable={true}
                         fullWidth={true}
                         hasStickyHeader={true}

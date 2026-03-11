@@ -1,4 +1,4 @@
-import { getPropertyValueWithCheck, removeByKey } from "@bodynarf/utils";
+import { getPropertyValueWithCheck } from "@bodynarf/utils";
 
 import { NotificationItem } from "@app/models/notification";
 
@@ -53,7 +53,7 @@ export default function (state: NotificatorState = defaultState, action: ActionW
 
             return {
                 ...state,
-                notifications: removeByKey(state.notifications, x => x.id, notifications),
+                notifications: state.notifications.filter(n => !notifications.includes(n.id)),
             };
         }
         case HideAllNotifications: {

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { generateGuid, isNullOrEmpty, isNullOrUndefined } from "@bodynarf/utils";
-import { ElementSize, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Button from "@bodynarf/react.components/components/button";
 
@@ -224,10 +224,10 @@ const MeasurementCreateCard = ({
             <div className="field is-grouped">
                 <p className="control">
                     <Button
-                        type="primary"
                         outlined={true}
                         caption="Add"
                         size={ElementSize.Small}
+                        style={ButtonStyle.Primary}
                         onClick={onAddMeasurementClick}
                         title="Add new measurement record"
                     />
@@ -236,7 +236,7 @@ const MeasurementCreateCard = ({
                     &&
                     <p className="control">
                         <Button
-                            type="info"
+                            style={ButtonStyle.Info}
                             outlined={true}
                             size={ElementSize.Small}
                             caption="Add for all types"
@@ -249,7 +249,7 @@ const MeasurementCreateCard = ({
                     &&
                     <p className="control">
                         <Button
-                            type="danger"
+                            style={ButtonStyle.Danger}
                             outlined={true}
                             size={ElementSize.Small}
                             caption="Remove all"
@@ -282,7 +282,7 @@ const MeasurementCreateCard = ({
                     <div className="field is-grouped">
                         <p className="control">
                             <Button
-                                type="primary"
+                                style={ButtonStyle.Primary}
                                 caption="Create"
                                 onClick={onSubmit}
                                 title="Create measurements"

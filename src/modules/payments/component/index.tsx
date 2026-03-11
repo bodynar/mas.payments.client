@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { ElementSize } from "@bodynarf/react.components";
+import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 
 import BreadCrumbs from "@app/sharedComponents/breadcrumbs";
@@ -76,7 +76,7 @@ const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JS
                 <>
                     <Button
                         caption="Back"
-                        type="info"
+                        style={ButtonStyle.Info}
                         outlined={true}
                         size={ElementSize.Small}
                         onClick={onBackButtonClick}

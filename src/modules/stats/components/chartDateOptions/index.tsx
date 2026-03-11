@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { isNullOrUndefined } from "@bodynarf/utils";
-import { SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 
@@ -94,7 +94,7 @@ const ChartDateOptions = ({
             </div>
             <div className="column is-1">
                 <Button
-                    type="success"
+                    style={ButtonStyle.Success}
                     caption="Today"
                     outlined={true}
                     onClick={onTodayClick}
@@ -104,7 +104,7 @@ const ChartDateOptions = ({
             </div>
             <div className="column">
                 <Button
-                    type="danger"
+                    style={ButtonStyle.Danger}
                     caption="Clear"
                     className="is-inverted"
                     onClick={onClearButtonClick}

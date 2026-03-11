@@ -1,7 +1,7 @@
 import moment from "moment";
 
-import { isNullOrUndefined, delayResolve, delayReject, RequestData, isNullOrEmpty, ApiResult } from "@bodynarf/utils";
-import { safeFetch } from "@bodynarf/utils/api/v2";
+import { isNullOrUndefined, delayResolve, delayReject } from "@bodynarf/utils";
+import { fetchAsync, HttpError } from "@bodynarf/utils/api";
 
 import { LoadingStateHideDelay, RequestTimeout } from "@app/static";
 
@@ -11,7 +11,7 @@ import { LoadingStateHideDelay, RequestTimeout } from "@app/static";
  * @param requestData Request data
  * @returns Promise with api processing result
  */
-export const post = async <TResult>(uri: string, requestData: RequestData): Promise<TResult> => {
+export const post = async <TResult>(uri: string, requestData: object): Promise<TResult> => {
     const requestParams: RequestInit = {
         method: "POST",
         headers: {
@@ -30,7 +30,7 @@ export const post = async <TResult>(uri: string, requestData: RequestData): Prom
  * @param requestData Request data
  * @returns {Promise<TResult>} Promise with api get result
  */
-export const get = async <TResult>(uri: string, requestData?: RequestData): Promise<TResult> => {
+export const get = async <TResult>(uri: string, requestData?: object): Promise<TResult> => {
     const requestParams: RequestInit = {
         method: "GET",
         headers: {
@@ -47,19 +47,12 @@ export const get = async <TResult>(uri: string, requestData?: RequestData): Prom
 
 const fetchWithApiErrorHandling = async <TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
     try {
-        const { responseObject } = await fetchWithDelay<TResult>(uri, requestParams);
-        return responseObject!;
-    } catch ({ response, error, code, status }: any) {
-        let errorMessage = error as string;
+        return await fetchWithDelay<TResult>(uri, requestParams);
+    } catch (e: any) {
+        let errorMessage: string = e?.message ?? String(e);
 
-        if (!isNullOrUndefined(response) && !isNullOrEmpty(response)) {
-            const errorResponseMessage = JSON.parse((response as any)!)?.Message ?? "";
-
-            if (!isNullOrEmpty(errorResponseMessage)) {
-                errorMessage = errorResponseMessage;
-            }
-        } else {
-            errorMessage += ` (${status}: ${code})`;
+        if (e instanceof HttpError) {
+            errorMessage = `${e.statusText} (${e.status})`;
         }
 
         throw new Error(errorMessage);
@@ -72,20 +65,20 @@ const fetchWithApiErrorHandling = async <TResult>(uri: string, requestParams: Re
  * @param requestParams Request data
  * @returns {Promise<TResult>} Promise with api get result
  */
-const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): Promise<ApiResult<TResult>> => {
+const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
     const start = moment();
 
-    return safeFetch<TResult>(uri, requestParams, {
+    return fetchAsync<TResult>(uri, requestParams, {
         timeout: RequestTimeout
     })
-        .then((result: ApiResult<TResult>) => {
+        .then((result: TResult) => {
             const end = moment();
 
             const duration = moment.duration(end.diff(start)).asSeconds();
 
             return duration > LoadingStateHideDelay
-                ? new Promise<ApiResult<TResult>>(resolve => resolve(result))
-                : delayResolve<ApiResult<TResult>>(Math.abs(LoadingStateHideDelay - duration), result);
+                ? new Promise<TResult>(resolve => resolve(result))
+                : delayResolve<TResult>(Math.abs(LoadingStateHideDelay - duration), result);
         })
         .catch(error => {
             const end = moment();

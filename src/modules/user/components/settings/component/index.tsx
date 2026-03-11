@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
 
+import { ButtonStyle } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Text from "@bodynarf/react.components/components/primitives/text";
 
@@ -118,7 +119,7 @@ const Settings = ({
                         <div className="column">
                             <Button
                                 caption="Recalculate"
-                                type="success"
+                                style={ButtonStyle.Success}
                                 onClick={onRecalculateClick}
                             />
                         </div>
@@ -146,7 +147,7 @@ const Settings = ({
                     </div>
                     <div className="block">
                         <Button
-                            type="primary"
+                            style={ButtonStyle.Primary}
                             caption="Save"
                             onClick={onSaveClick}
                             disabled={updatedSettings.size === 0}
