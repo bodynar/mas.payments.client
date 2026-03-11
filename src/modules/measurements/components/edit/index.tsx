@@ -2,7 +2,7 @@ import { FC, useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish, isNotNullish } from "@bodynarf/utils";
 
 import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
@@ -58,7 +58,7 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
     if (!initialized) {
         return <></>;
     }
-    if (initialized && !isNullOrUndefined(id) && isNullOrUndefined(measurement)) {
+    if (initialized && isNotNullish(id) && isNullish(measurement)) {
         return <>ERROR: Measurement not found</>;
     }
 
@@ -66,7 +66,7 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(measurement)
+                caption={isNullish(measurement)
                     ? "Create new measurement record"
                     : `Edit measurement for ${getMonthName(measurement!.month)} ${measurement!.year} [${measurement!.typeCaption}]`
                 }

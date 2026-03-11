@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { ActionWithPayload, FieldValue } from "@bodynarf/react.components.form";
 
 import { CompositeAppState } from "@app/redux";
@@ -22,7 +22,7 @@ export const saveCard = (values: Array<FieldValue> | AddMeasurements, id?: strin
     dispatch(getSetAppIsLoadingAction(true));
 
     const action: () => Promise<void> =
-        isNullOrUndefined(id)
+        isNullish(id)
             ? () => createMeasurements(values as AddMeasurements)
             : () => updateMeasurement(values as Array<FieldValue>, id!);
 

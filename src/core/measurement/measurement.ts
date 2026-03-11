@@ -1,9 +1,9 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish, isNotNullish, Group } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
 import { filter, FilterValue, get, post, getMonthName } from "@app/utils";
-import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, MeasurementGroupedByType, UpdateMeasurement } from "@app/models/measurements";
+import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, UpdateMeasurement } from "@app/models/measurements";
 
 /**
  * Load all available measurement records
@@ -32,7 +32,7 @@ export const getMeasurements = async (): Promise<Array<Measurement>> => {
  * @returns Filtered array
  */
 export const filterMeasurementList = (items: Array<Measurement>, filterValue?: MeasurementFilter): Array<Measurement> => {
-    if (isNullOrUndefined(filterValue)) {
+    if (isNullish(filterValue)) {
         return items;
     }
 
@@ -40,21 +40,21 @@ export const filterMeasurementList = (items: Array<Measurement>, filterValue?: M
 
     const filters: Array<FilterValue<Measurement>> = [];
 
-    if (!isNullOrUndefined(month) && !isNaN(month!)) {
+    if (isNotNullish(month) && !isNaN(month)) {
         filters.push({
             key: "month",
             value: month!
         });
     }
 
-    if (!isNullOrUndefined(year) && !isNaN(year!)) {
+    if (isNotNullish(year) && !isNaN(year)) {
         filters.push({
             key: "year",
             value: year!
         });
     }
 
-    if (!isNullOrUndefined(typeId) && !isNaN(typeId!)) {
+    if (isNotNullish(typeId) && !isNaN(typeId)) {
         filters.push({
             key: "typeId",
             value: typeId!
@@ -88,7 +88,7 @@ export const groupMeasurements = (
     items.forEach(item => {
         const group = result.find(({ year, month }) => year === item.year && month === item.month);
 
-        if (isNullOrUndefined(group)) {
+        if (isNullish(group)) {
             result.push({
                 caption: `${item.year} ${getMonthName(item.month)}`,
                 month: item.month,
@@ -147,11 +147,11 @@ export const updateMeasurement = (values: Array<FieldValue>, id: string): Promis
 export const validateMeasurementCreateData = (
     { typeId, value, previousValues }: AddMeasurementRecordData
 ): string | undefined => {
-    if (isNullOrUndefined(typeId)) {
+    if (isNullish(typeId)) {
         return "Type is not selected";
     }
 
-    if (isNullOrUndefined(value)) {
+    if (isNullish(value)) {
         return "Value is not valid";
     }
 
@@ -161,7 +161,7 @@ export const validateMeasurementCreateData = (
 
     const previousValue = previousValues.find(previous => previous.typeId === typeId)?.value;
 
-    if (!isNullOrUndefined(previousValue)) {
+    if (isNotNullish(previousValue)) {
         if (previousValue! > value!) {
             return "Value cannot be less than previous value";
         }
@@ -179,6 +179,6 @@ export const validateMeasurementCreateData = (
  * @param items Measurement items
  * @returns Measurements grouped by type
  */
-export const groupMeasurementsByType = (items: Array<Measurement>): Array<MeasurementGroupedByType> => {
+export const groupMeasurementsByType = (items: Array<Measurement>): Array<Group<Measurement>> => {
     return items.groupBy('typeId');
 };

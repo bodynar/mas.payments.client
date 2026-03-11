@@ -2,7 +2,7 @@ import { FC, useCallback, useId, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { hexToRgb, isNullOrUndefined } from "@bodynarf/utils";
+import { hexToRgb, isNullish, isNotNullish } from "@bodynarf/utils";
 
 import { ButtonStyle } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
@@ -37,7 +37,7 @@ const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
     const item = availableTypes.find(x => x.id === +id!);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
 
-    const defaultColor = !isNullOrUndefined(item) && !isNullOrUndefined(item!.color)
+    const defaultColor = isNotNullish(item) && isNotNullish(item!.color)
         ? hexToRgb(item!.color!)
         : undefined;
 
@@ -60,7 +60,7 @@ const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(item)
+                caption={isNullish(item)
                     ? "Create new payment type"
                     : "Edit payment type"
                 }

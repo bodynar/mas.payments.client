@@ -1,8 +1,8 @@
-import { isUndefined, getPropertyValueWithCheck, isNullOrUndefined, getPropertyValue, isNullOrEmpty } from "@bodynarf/utils";
+import { isUndefined, getPropertyValueWithCheck, isNullish, getPropertyValue, isNullOrEmpty, Group } from "@bodynarf/utils";
 
 import { SelectableItem } from "@bodynarf/react.components";
 
-import { MeasurementType, Measurement, MeasurementFilter, MeasurementGroupedByType } from "@app/models/measurements";
+import { MeasurementType, Measurement, MeasurementFilter } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
 import { sort } from "@app/utils";
@@ -34,7 +34,7 @@ export default function (state: MeasurementModuleState = defaultState, action: A
         case SET_MEASUREMENTS: {
             const items = getPropertyValueWithCheck<Array<Measurement>>(action.payload, "measurements", true);
 
-            const filteredItems = isNullOrUndefined(state.lastFilter) ? items : filterMeasurementList(items, state.lastFilter);
+            const filteredItems = isNullish(state.lastFilter) ? items : filterMeasurementList(items, state.lastFilter);
 
             return {
                 ...state,
@@ -140,7 +140,7 @@ export default function (state: MeasurementModuleState = defaultState, action: A
             };
         }
         case SET_GROUPED_BY_TYPE: {
-            const groups = getPropertyValue<Array<MeasurementGroupedByType>>(action.payload, "groups");
+            const groups = getPropertyValue<Array<Group<Measurement>>>(action.payload, "groups");
 
             return {
                 ...state,

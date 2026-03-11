@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
+import { getClassName, isNullish, isNotNullish } from "@bodynarf/utils";
 import { ButtonStyle, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
@@ -40,7 +40,7 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, item.typeId));
     const [diff, setDiff] = useState<number | undefined>();
     const [lastMeasurement, setLastMeasurement] = useState<number | undefined>(
-        isNullOrUndefined(item.typeId)
+        isNullish(item.typeId)
             ? undefined
             : item.previousValues
                 .filter(({ typeId }) => typeId === item.typeId!)
@@ -49,7 +49,7 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
 
     useEffect(
         () =>
-            setDiff(!isNullOrUndefined(lastMeasurement) && !isNullOrUndefined(item.value)
+            setDiff(isNotNullish(lastMeasurement) && isNotNullish(item.value)
                 ? +item.value! - lastMeasurement!
                 : undefined
             ),
@@ -60,14 +60,14 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
         (type?: SelectableItem) => {
             updateItem(item.id, {
                 ...item,
-                typeId: isNullOrUndefined(type) ? undefined : +type!.value,
-                value: !isNullOrUndefined(type)
+                typeId: isNullish(type) ? undefined : +type!.value,
+                value: isNotNullish(type)
                     ? item.previousValues.find(({ typeId }) => typeId === +type!.value)?.value ?? undefined
                     : undefined,
             });
             setType(type);
 
-            if (isNullOrUndefined(type)) {
+            if (isNullish(type)) {
                 setLastMeasurement(undefined);
             } else {
                 const lastItem = item.previousValues
@@ -92,7 +92,7 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
 
     const className = getClassName([
         "measurements_table__item",
-        !isNullOrUndefined(validationError) ? "measurements_table__item--has-error" : "",
+        isNotNullish(validationError) ? "measurements_table__item--has-error" : "",
     ]);
 
     return (
@@ -114,7 +114,7 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
                         onValueChange={onValueChange}
                         defaultValue={item.value}
                     />
-                    {!isNullOrUndefined(diff) && diff! > 0
+                    {isNotNullish(diff) && diff! > 0
                         &&
                         <div className="control">
                             <Button
@@ -144,7 +144,7 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
                     </div>
                 </div>
             </td>
-            {!isNullOrUndefined(validationError)
+            {isNotNullish(validationError)
                 &&
                 <td className="is-vertical-align--center width--is-15rem has-text-weight-bold">
                     {validationError}

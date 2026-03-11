@@ -1,6 +1,6 @@
 import { DependencyList, useCallback } from "react";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { TableHeading } from "@bodynarf/react.components/components/table";
 
 import { SortColumn } from "@app/models";
@@ -19,7 +19,7 @@ export const useSortColumn = <TModel>(
 ): (column: TableHeading) => void => {
     const callback = useCallback(
         (column: TableHeading) => {
-            const isAsc = isNullOrUndefined(currentSortColumn)
+            const isAsc = isNullish(currentSortColumn)
                 ? true
                 : currentSortColumn!.columnName === column.name!
                     ? !currentSortColumn!.ascending

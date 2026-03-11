@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 
 import { SelectableItem } from "@bodynarf/react.components";
 
@@ -12,7 +12,7 @@ export const getDropdownItem = (
     dropdownItems: Array<SelectableItem>,
     item?: number
 ): SelectableItem | undefined => {
-    if (isNullOrUndefined(item)) {
+    if (isNullish(item)) {
         return undefined;
     }
 

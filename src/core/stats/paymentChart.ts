@@ -1,4 +1,4 @@
-import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
+import { isNotNullish, isStringEmpty } from "@bodynarf/utils";
 
 import { ChartConfig, ChartData } from "@app/models/stats";
 import { getDateIfDefined, get, getShortMonthName } from "@app/utils";
@@ -14,13 +14,13 @@ export const getChartData = ({ from, to, type }: ChartConfig): Promise<Array<Cha
 
     const queryParams = new URLSearchParams();
 
-    if (!isNullOrUndefined(fromDate)) {
+    if (isNotNullish(fromDate)) {
         queryParams.set("from", new Date(fromDate!.year, --fromDate!.month).toDateString());
     }
-    if (!isNullOrUndefined(toDate)) {
+    if (isNotNullish(toDate)) {
         queryParams.set("to", new Date(toDate!.year, toDate!.month).toDateString());
     }
-    if (!isNullOrUndefined(type)) {
+    if (isNotNullish(type)) {
         queryParams.set("paymentTypeId", type!.value);
     }
 

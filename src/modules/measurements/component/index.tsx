@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useMemo } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { ElementSize } from "@bodynarf/react.components";
 import Button, { ButtonStyle } from "@bodynarf/react.components/components/button";
 
@@ -32,7 +32,7 @@ const MeasurementModule: FC<MeasurementModuleProps> = ({
     const breadcrumbs: Array<BreadCrumb> = useMemo(
         () =>
             routes
-                .flatMap(x => isNullOrUndefined(x.children) ? [x] : x.children!)
+                .flatMap(x => isNullish(x.children) ? [x] : x.children!)
                 .filter(({ link }) => {
                     if (pathname.startsWith(link)) {
                         return true;

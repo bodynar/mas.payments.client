@@ -2,7 +2,7 @@ import { FC, useMemo } from "react";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNotNullish } from "@bodynarf/utils";
 
 import { routes } from "../components";
 
@@ -27,7 +27,7 @@ const UserModule: FC = () => {
                                         key={menuItem.name}
                                         to={menuItem.link}
                                         className={
-                                            !isNullOrUndefined(activeMenuItem) && activeMenuItem?.name === menuItem.name
+                                            isNotNullish(activeMenuItem) && activeMenuItem?.name === menuItem.name
                                                 ? "is-active"
                                                 : ""
                                         }

@@ -1,4 +1,4 @@
-import { isNullOrEmpty, isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
+import { isNullOrEmpty, isNullish, isNotNullish, isStringEmpty } from "@bodynarf/utils";
 
 import { ModalFormItem } from "@app/models/modal";
 
@@ -21,7 +21,7 @@ export const getButtonCaptions = (modalParams: ModalParams): {
         cancelBtnCaption: modalParams.modalType === ModalType.Confirm ? "Cancel" : "Close"
     };
 
-    if (!isNullOrUndefined(modalParams.buttonCaption)) {
+    if (isNotNullish(modalParams.buttonCaption)) {
         if (!isNullOrEmpty(modalParams.buttonCaption!.saveCaption)) {
             result.saveBtnCaption = modalParams.buttonCaption!.saveCaption!;
         }
@@ -61,7 +61,7 @@ export const validateModalParams = (modalParams: ModalParams): string | undefine
  */
 export const getInitIsSaveButtonDisabled = (params: ModalParams): boolean => {
     if (params.modalType === ModalType.Form
-        && !isNullOrUndefined(params.formData)
+        && isNotNullish(params.formData)
     ) {
         return params.formData!
             .fields
@@ -77,7 +77,7 @@ export const getInitIsSaveButtonDisabled = (params: ModalParams): boolean => {
  * @returns Error message if config isn't correct; otherwise - `undefined`
  */
 const validateFormModalType = (modalConfig: ModalParams): string | undefined => {
-    if (isNullOrUndefined(modalConfig.formData)) {
+    if (isNullish(modalConfig.formData)) {
         return "Form data is not defined.";
     }
     if (modalConfig.formData!.fields.length === 0) {
@@ -93,8 +93,8 @@ const validateFormModalType = (modalConfig: ModalParams): string | undefined => 
         return `Form configuration contains invalid fields: [${invalidItems.map(({ name }) => name).join(", ")}].`;
     }
 
-    if (isNullOrUndefined(modalConfig.callback)
-        || isNullOrUndefined(modalConfig.callback!.saveCallback)
+    if (isNullish(modalConfig.callback)
+        || isNullish(modalConfig.callback!.saveCallback)
     ) {
         return "Callback is not defined.";
     }
@@ -112,8 +112,8 @@ const validateConfirmModalType = (modalConfig: ModalParams): string | undefined 
         return "Message is not defined or empty.";
     }
 
-    if (isNullOrUndefined(modalConfig.callback)
-        || (isNullOrUndefined(modalConfig.callback!.saveCallback) && isNullOrUndefined(modalConfig.callback!.cancelCallback))
+    if (isNullish(modalConfig.callback)
+        || (isNullish(modalConfig.callback!.saveCallback) && isNullish(modalConfig.callback!.cancelCallback))
     ) {
         return "Callbacks are not defined.";
     }

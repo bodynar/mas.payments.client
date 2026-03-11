@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 
 import { post } from "@app/utils";
 
@@ -25,7 +25,7 @@ export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppSta
         .then((result: Array<string> | undefined) => {
             dispatch(getSetAppIsLoadingAction(false));
 
-            if (isNullOrUndefined(result)) {
+            if (isNullish(result)) {
                 showSuccess("Diff successfully re-calculated");
                 return true;
             }

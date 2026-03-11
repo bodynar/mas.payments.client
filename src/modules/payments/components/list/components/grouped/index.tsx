@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
@@ -62,7 +62,7 @@ const PaymentGroupedView: FC<PaymentGroupedViewProps> = ({
             {initialized && pageItems.length === 0
                 &&
                 <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
-                    {isNullOrUndefined(lastFilter)
+                    {isNullish(lastFilter)
                         ? `No payments were loaded\r\nTry refreshing page`
                         : "No payments were found by specified filter"
                     }

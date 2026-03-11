@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish, isNotNullish } from "@bodynarf/utils";
 
 import { Payment, PaymentFilter } from "@app/models/payments";
 
@@ -11,7 +11,7 @@ import { filter, FilterValue } from "@app/utils/array";
  * @returns Filtered payments
  */
 export const filterPaymentList = (payments: Array<Payment>, filterValue?: PaymentFilter): Array<Payment> => {
-    if (isNullOrUndefined(filterValue)) {
+    if (isNullish(filterValue)) {
         return payments;
     }
 
@@ -19,21 +19,21 @@ export const filterPaymentList = (payments: Array<Payment>, filterValue?: Paymen
 
     const filters: Array<FilterValue<Payment>> = [];
 
-    if (!isNullOrUndefined(month) && !isNaN(month!)) {
+    if (isNotNullish(month) && !isNaN(month)) {
         filters.push({
             key: "month",
             value: month!
         });
     }
 
-    if (!isNullOrUndefined(year) && !isNaN(year!)) {
+    if (isNotNullish(year) && !isNaN(year)) {
         filters.push({
             key: "year",
             value: year!
         });
     }
 
-    if (!isNullOrUndefined(typeId) && !isNaN(typeId!)) {
+    if (isNotNullish(typeId) && !isNaN(typeId)) {
         filters.push({
             key: "typeId",
             value: typeId!

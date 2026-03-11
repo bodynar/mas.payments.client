@@ -2,15 +2,17 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { generateGuid, isNullOrEmpty, isNullOrUndefined } from "@bodynarf/utils";
+import { generateGuid, isNullOrEmpty, isNullish } from "@bodynarf/utils";
 import { ButtonStyle, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Button from "@bodynarf/react.components/components/button";
 
 import "./style.scss";
 
+import { Group } from "@bodynarf/utils";
+
 import { LookupDate } from "@app/models";
-import { AddMeasurementRecordData, AddMeasurements, MeasurementGroupedByType, MeasurementType } from "@app/models/measurements";
+import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementType } from "@app/models/measurements";
 import { getNowDate, getNowDateLookup, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { validateMeasurementCreateData } from "@app/core/measurement";
 
@@ -29,7 +31,7 @@ interface MeasurementCreateCardProps {
     initialized: boolean;
 
     /** All measurements grouped by type */
-    groupedByType?: Array<MeasurementGroupedByType>;
+    groupedByType?: Array<Group<Measurement>>;
 
     /** Save current card values */
     saveCard: (values: AddMeasurements, id?: string) => Promise<void>;
@@ -65,7 +67,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (initialized && isNullOrUndefined(groupedByType)) {
+        if (initialized && isNullish(groupedByType)) {
             groupByType();
         }
 
@@ -114,7 +116,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
             return;
         }
 
-        if (isNullOrUndefined(date) || isNullOrUndefined(date!.year) || isNullOrUndefined(date!.month)) {
+        if (isNullish(date) || isNullish(date!.year) || isNullish(date!.month)) {
             setValidationError("Date is not set");
             return;
         }
@@ -159,7 +161,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
 
             setModel(x => ({
                 ...x,
-                year: isNullOrUndefined(year) ? undefined : +year!.value,
+                year: isNullish(year) ? undefined : +year!.value,
             }));
         },
         []
@@ -170,7 +172,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
             setDate(date => ({ ...date, month }));
             setModel(x => ({
                 ...x,
-                month: isNullOrUndefined(month) ? undefined : +month!.value,
+                month: isNullish(month) ? undefined : +month!.value,
             }));
         },
         []

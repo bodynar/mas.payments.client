@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 
 import { DateModel, LookupDate } from "@app/models";
 import { getDropdownItem } from "@app/core";
@@ -11,7 +11,7 @@ import { monthsAsDropdownItems, yearsAsDropdownItems } from ".";
  * @returns Date object if date is defined; otherwise - `undefined`
  */
 export const getDateIfDefined = ({ month, year }: LookupDate): DateModel | undefined => {
-    if (isNullOrUndefined(month) || isNullOrUndefined(year)) {
+    if (isNullish(month) || isNullish(year)) {
         return undefined;
     }
 
@@ -55,7 +55,7 @@ export const getNowDateLookup = (): LookupDate => {
  * @returns Lookup values for date controls
  */
 export const getDateOrNowLookup = (model?: ModelWithDate): LookupDate => {
-    if (isNullOrUndefined(model)) {
+    if (isNullish(model)) {
         return getNowDateLookup();
     }
 

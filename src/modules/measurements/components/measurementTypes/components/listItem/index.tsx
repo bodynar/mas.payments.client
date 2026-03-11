@@ -1,7 +1,7 @@
 import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getFontColorFromString, isNullOrUndefined } from "@bodynarf/utils";
+import { getFontColorFromString, isNullish } from "@bodynarf/utils";
 import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Tag from "@bodynarf/react.components/components/tag";
@@ -37,7 +37,7 @@ const MeasurementTypeListItem: FC<MeasurementTypeListItemProps> = ({
             <td className="has-text-centered is-vertical-align--center">
                 <Tag
                     content={item.paymentTypeCaption}
-                    customColor={isNullOrUndefined(item.paymentTypeColor) ? undefined : {
+                    customColor={isNullish(item.paymentTypeColor) ? undefined : {
                         color: getFontColorFromString(item.paymentTypeColor!),
                         backgroundColor: item.paymentTypeColor!
                     }}

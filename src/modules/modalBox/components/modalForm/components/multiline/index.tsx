@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
+import { getClassName, isNullish } from "@bodynarf/utils";
 import { ValidationStatus } from "@bodynarf/react.components";
 import Multiline from "@bodynarf/react.components/components/primitives/multiline";
 
@@ -20,7 +20,7 @@ export default function ModalFormMultiline({ fieldConfig, setFieldValidState }: 
 				const error: string | undefined = getFieldValueValidationError(value, fieldConfig.validationConfiguration);
 
 				setValidationError(error);
-				setFieldValidState(fieldConfig.name, isNullOrUndefined(error));
+				setFieldValidState(fieldConfig.name, isNullish(error));
 			}
 		}, [fieldConfig.isRequired, fieldConfig.name, fieldConfig.validationConfiguration, setFieldValidState]);
 
@@ -43,7 +43,7 @@ export default function ModalFormMultiline({ fieldConfig, setFieldValidState }: 
 		fieldConfig.isRequired === true ? "is-required" : "",
 	]);
 
-	const validationState = isNullOrUndefined(validationError)
+	const validationState = isNullish(validationError)
 		? { status: ValidationStatus.None, messages: [] }
 		: { status: ValidationStatus.Invalid, messages: [validationError!] };
 

@@ -1,6 +1,4 @@
-import moment from "moment";
-
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 
 import { get } from "@app/utils";
 import { UserNotification } from "@app/models/user";
@@ -15,10 +13,6 @@ export const getUserNotifications = async (): Promise<Array<UserNotification>> =
     return notifications.map(x => ({
         ...x,
         createdAt: new Date(x.createdAt),
-        hiddenAt: isNullOrUndefined(x.hiddenAt) ? undefined : new Date(x.hiddenAt!)
-    })).map(x => ({
-        ...x,
-        createdAtMoment: moment(x.createdAt),
-        hiddenAtMoment: isNullOrUndefined(x.hiddenAt) ? undefined : moment(x.hiddenAt!)
+        hiddenAt: isNullish(x.hiddenAt) ? undefined : new Date(x.hiddenAt!),
     }));
 };

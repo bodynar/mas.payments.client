@@ -1,7 +1,7 @@
 import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { SelectableItem, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
@@ -61,7 +61,7 @@ const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
     const onTypeClick = useCallback((typeId: number) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, typeId);
 
-        if (isNullOrUndefined(dropdownItem)) {
+        if (isNullish(dropdownItem)) {
             return;
         }
 
@@ -107,7 +107,7 @@ const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
             {initialized && pageItems.length === 0
                 &&
                 <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
-                    {isNullOrUndefined(lastFilter)
+                    {isNullish(lastFilter)
                         ? `No measurements were loaded\r\nTry refreshing page`
                         : "No measurements were found by specified filter"
                     }

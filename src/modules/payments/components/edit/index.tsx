@@ -2,7 +2,7 @@ import { FC, useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish, isNotNullish } from "@bodynarf/utils";
 
 import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
@@ -58,7 +58,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
     if (!initialized) {
         return <></>;
     }
-    if (initialized && !isNullOrUndefined(id) && isNullOrUndefined(payment)) {
+    if (initialized && isNotNullish(id) && isNullish(payment)) {
         return <>ERROR: Payment not found</>;
     }
 
@@ -66,7 +66,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(payment)
+                caption={isNullish(payment)
                     ? "Create new payment record"
                     : `Edit payment for ${getMonthName(payment!.month)} ${payment!.year}`
                 }

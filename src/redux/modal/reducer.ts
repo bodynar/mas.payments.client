@@ -1,4 +1,4 @@
-import { isNullOrUndefined, getPropertyValueWithCheck } from "@bodynarf/utils";
+import { isNullish, getPropertyValueWithCheck } from "@bodynarf/utils";
 
 import { ActionWithPayload } from "@app/redux";
 import { ModalParams, ModalState, OPEN_MODAL, CLOSE_MODAL } from "@app/redux/modal";
@@ -14,7 +14,7 @@ export default function (state = initialState, action: ActionWithPayload): Modal
         case OPEN_MODAL: {
             const modalParams: ModalParams = getPropertyValueWithCheck(action.payload, "params", false);
 
-            if (isNullOrUndefined(modalParams)) {
+            if (isNullish(modalParams)) {
                 return state;
             }
 

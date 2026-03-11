@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNotNullish } from "@bodynarf/utils";
 import { ButtonStyle } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 
@@ -34,11 +34,11 @@ const ModalBox: FC<ModalBoxProps> = ({
     closeModal
 }) => {
     const validationError =
-        isOpen && !isNullOrUndefined(params)
+        isOpen && isNotNullish(params)
             ? validateModalParams(params!)
             : undefined;
 
-    if (!isNullOrUndefined(validationError)) {
+    if (isNotNullish(validationError)) {
         throw new Error(`Modal configuration error: ${validationError}`);
     }
 

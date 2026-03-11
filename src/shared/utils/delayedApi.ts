@@ -1,5 +1,5 @@
-import { isNullOrUndefined, delayResolve, delayReject } from "@bodynarf/utils";
-import { fetchAsync, HttpError } from "@bodynarf/utils/api";
+import { isNotNullish, delayResolve, delayReject } from "@bodynarf/utils";
+import { plainFetchAsync, HttpError } from "@bodynarf/utils/api";
 
 import { LoadingStateHideDelay, RequestTimeout } from "@app/static";
 
@@ -36,7 +36,7 @@ export const get = async <TResult>(uri: string, requestData?: object): Promise<T
         }
     };
 
-    if (!isNullOrUndefined(requestData)) {
+    if (isNotNullish(requestData)) {
         requestParams.body = JSON.stringify(requestData);
     }
 
@@ -66,10 +66,12 @@ const fetchWithApiErrorHandling = async <TResult>(uri: string, requestParams: Re
 const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
     const start = Date.now();
 
-    return fetchAsync<TResult>(uri, requestParams, {
+    return plainFetchAsync(uri, requestParams, {
         timeout: RequestTimeout
     })
-        .then((result: TResult) => {
+        .then(async (response: Response) => {
+            const text = await response.text();
+            const result: TResult = text.length > 0 ? JSON.parse(text) : undefined;
             const duration = (Date.now() - start) / 1000;
 
             return duration > LoadingStateHideDelay

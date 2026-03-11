@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 
 import { SortColumn } from "@app/models";
 
@@ -20,7 +20,7 @@ export interface FilterValue<TModel> {
 export const filter = <TModel>(items: Array<TModel>, filters: Array<FilterValue<TModel>>): Array<TModel> => {
     let result = [...items];
 
-    if (isNullOrUndefined(filters)) {
+    if (isNullish(filters)) {
         return result;
     }
 
@@ -36,7 +36,7 @@ export const filter = <TModel>(items: Array<TModel>, filters: Array<FilterValue<
  * @returns Sorted array of items
  */
 export const sort = <TModel>(items: Array<TModel>, sortColumn: SortColumn<TModel>): Array<TModel> => {
-    if (isNullOrUndefined(sortColumn)) {
+    if (isNullish(sortColumn)) {
         return items;
     }
 
@@ -61,15 +61,15 @@ export const sort = <TModel>(items: Array<TModel>, sortColumn: SortColumn<TModel
  * @returns `1` if previous value is greater than next, `-1` otherwise, `0` if values are equal
  */
 const compare = (left: any, right: any): number => {
-    if (isNullOrUndefined(left) && isNullOrUndefined(right)) {
+    if (isNullish(left) && isNullish(right)) {
         return 0;
     }
 
-    if (isNullOrUndefined(left)) {
+    if (isNullish(left)) {
         return 1;
     }
 
-    if (isNullOrUndefined(right)) {
+    if (isNullish(right)) {
         return -1;
     }
 

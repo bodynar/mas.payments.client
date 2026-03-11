@@ -1,6 +1,6 @@
 import { FC, useCallback, useState } from "react";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNotNullish } from "@bodynarf/utils";
 
 import "./style.scss";
 
@@ -62,7 +62,7 @@ const ModalForm: FC<ModalFormProps> = ({ formConfig, setSaveButtonDisabled }) =>
 
     return (
         <>
-            {!isNullOrUndefined(formConfig.caption)
+            {isNotNullish(formConfig.caption)
                 && <h3>{formConfig.caption}</h3>
             }
             {formConfig.fields.map(fieldConfig => {

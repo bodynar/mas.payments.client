@@ -2,7 +2,7 @@ import { FC, useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { hexToRgb, isNullOrUndefined } from "@bodynarf/utils";
+import { hexToRgb, isNullish, isNotNullish } from "@bodynarf/utils";
 
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
@@ -42,7 +42,7 @@ const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
     const selectedType = useMemo(() => getDropdownItem(paymentTypesAsDropdownItems, item?.paymentTypeId), [paymentTypesAsDropdownItems, item?.paymentTypeId]);
 
-    const defaultColor = !isNullOrUndefined(item) && !isNullOrUndefined(item!.color)
+    const defaultColor = isNotNullish(item) && isNotNullish(item!.color)
         ? hexToRgb(item!.color!)
         : undefined;
 
@@ -65,7 +65,7 @@ const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(item)
+                caption={isNullish(item)
                     ? "Create new measurement type"
                     : "Edit measurement type"
                 }

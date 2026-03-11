@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
+import { emptyFn, isNullish } from "@bodynarf/utils";
 
 import Text from "@bodynarf/react.components/components/primitives/text";
 
@@ -21,7 +21,7 @@ interface ApplicationInfoProps {
 const ApplicationInfo: FC<ApplicationInfoProps> = ({ appInfo, getAppInfo }) => {
 
     useEffect(() => {
-        if (isNullOrUndefined(appInfo)) {
+        if (isNullish(appInfo)) {
             getAppInfo();
         }
     }, [appInfo, getAppInfo]);

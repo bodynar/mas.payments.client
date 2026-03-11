@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
@@ -20,7 +20,7 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
         description: values.find(({ key }) => key === "description")?.value,
     };
 
-    const isNewRecord = isNullOrUndefined(id);
+    const isNewRecord = isNullish(id);
 
     if (!isNewRecord) {
         paymentApiModel = {
@@ -79,7 +79,7 @@ export const groupPayments = (
     payments.forEach(payment => {
         const group = result.find(({ year, month }) => year === payment.year && month === payment.month);
 
-        if (isNullOrUndefined(group)) {
+        if (isNullish(group)) {
             result.push({
                 caption: `${payment.year} ${getMonthName(payment.month)}`,
                 month: payment.month,

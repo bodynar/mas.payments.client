@@ -1,4 +1,6 @@
-import { MeasurementGroupedByType } from "@app/models/measurements";
+import { Group } from "@bodynarf/utils";
+
+import { Measurement } from "@app/models/measurements";
 
 import { ActionWithPayload } from "@app/redux";
 import { SET_GROUPED_BY_TYPE } from "@app/redux/measurements";
@@ -8,7 +10,7 @@ import { SET_GROUPED_BY_TYPE } from "@app/redux/measurements";
  * @param groups Grouped items
  * @returns Redux action to update state
  */
-export const getSetGroupedByTypeAction = (groups: Array<MeasurementGroupedByType>): ActionWithPayload => ({
+export const getSetGroupedByTypeAction = (groups: Array<Group<Measurement>>): ActionWithPayload => ({
     type: SET_GROUPED_BY_TYPE,
     payload: { groups },
 });

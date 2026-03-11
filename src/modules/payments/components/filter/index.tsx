@@ -1,7 +1,7 @@
 import { FC, useCallback, useMemo, useState } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
+import { isNullish, isNotNullish, isObjectEmpty } from "@bodynarf/utils";
 
 import { ButtonStyle, ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
@@ -55,7 +55,7 @@ const PaymentFilters: FC<PaymentFiltersProps> = ({
 
             const newValue = {
                 ...filterValue,
-                [propertyName]: isNullOrUndefined(item) ? undefined : +item!.value,
+                [propertyName]: isNullish(item) ? undefined : +item!.value,
             };
 
             setFilterValue(isObjectEmpty(newValue) ? undefined : newValue);
@@ -70,7 +70,7 @@ const PaymentFilters: FC<PaymentFiltersProps> = ({
     const accordionCaption = useMemo(() => {
         const appliedFiltersCount =
             [selectedMonth, selectedYear, currentType]
-                .filter(x => !isNullOrUndefined(x))
+                .filter(x => isNotNullish(x))
                 .length;
 
         return appliedFiltersCount > 0 ? `Filters (${appliedFiltersCount})` : "Filters";
@@ -153,7 +153,7 @@ const PaymentFilters: FC<PaymentFiltersProps> = ({
                         caption="Clear"
                         outlined={true}
                         onClick={onClearClick}
-                        disabled={isNullOrUndefined(filterValue)}
+                        disabled={isNullish(filterValue)}
                     />
                 </p>
             </div>

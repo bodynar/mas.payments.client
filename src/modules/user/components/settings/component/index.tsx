@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
+import { emptyFn, isNullish } from "@bodynarf/utils";
 
 import { ButtonStyle } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
@@ -48,7 +48,7 @@ const Settings: FC<SettingsProps> = ({
         if (!loaded && settings.length === 0) {
             loadSettings().then(() => setIsLoaded(true));
         }
-        if (isNullOrUndefined(options)) {
+        if (isNullish(options)) {
             getMeasurementsWithoutDiff();
         }
     }, [settings, loadSettings, loaded, options, getMeasurementsWithoutDiff]);

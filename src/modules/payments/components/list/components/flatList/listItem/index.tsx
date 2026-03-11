@@ -1,7 +1,7 @@
 import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getFontColorFromString, isNullOrUndefined } from "@bodynarf/utils";
+import { getFontColorFromString, isNullish } from "@bodynarf/utils";
 
 import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
@@ -52,17 +52,17 @@ const PaymentListItem: FC<PaymentListItemProps> = ({
             <td className="has-text-centered is-vertical-align--center">
                 <Tag
                     content={item.typeCaption}
-                    customColor={isNullOrUndefined(item.typeColor) ? undefined : {
+                    customColor={isNullish(item.typeColor) ? undefined : {
                         color: getFontColorFromString(item.typeColor!),
                         backgroundColor: item.typeColor!
                     }}
                     onClick={
-                        isNullOrUndefined(onPaymentTypeClick)
+                        isNullish(onPaymentTypeClick)
                             ? undefined
                             : onTypeClick
                     }
                     title={
-                        isNullOrUndefined(onPaymentTypeClick)
+                        isNullish(onPaymentTypeClick)
                             ? undefined
                             : `Filter by type "${item.typeCaption}" additionaly`
                     }

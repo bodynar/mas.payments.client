@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish, isNotNullish } from "@bodynarf/utils";
 
 import { Action } from "@app/redux";
 import { ModalCloseData, ModalCallback, ModalState, getCloseModalAction } from "@app/redux/modal";
@@ -15,14 +15,14 @@ export const closeModal = (closeModalData: ModalCloseData, modalCallback?: Modal
     (dispatch: ThunkDispatch<ModalState, unknown, Action>): void => {
         dispatch(getCloseModalAction());
 
-        if (isNullOrUndefined(modalCallback)) {
+        if (isNullish(modalCallback)) {
             return;
         }
 
-        if (closeModalData.closeCode === "cancel" && !isNullOrUndefined(modalCallback!.cancelCallback)) {
+        if (closeModalData.closeCode === "cancel" && isNotNullish(modalCallback!.cancelCallback)) {
             modalCallback!.cancelCallback!(closeModalData);
         }
-        else if (closeModalData.closeCode === "save" && !isNullOrUndefined(modalCallback!.saveCallback)) {
+        else if (closeModalData.closeCode === "save" && isNotNullish(modalCallback!.saveCallback)) {
             modalCallback!.saveCallback!(closeModalData);
         }
     };

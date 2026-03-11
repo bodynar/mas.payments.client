@@ -1,6 +1,6 @@
 import { FC, useCallback, useState } from "react";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { ButtonStyle, SelectableItem, useUpdateEffect } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
@@ -103,7 +103,7 @@ const ChartDateOptions: FC<ChartDateOptionsProps> = ({
                     className="is-inverted"
                     onClick={onClearButtonClick}
                     title="Delete selected date"
-                    disabled={isNullOrUndefined(date.month) && isNullOrUndefined(date.year)}
+                    disabled={isNullish(date.month) && isNullish(date.year)}
                 />
             </div>
         </div>
@@ -120,7 +120,7 @@ export default ChartDateOptions;
 const getDateIsToday = (date?: LookupDate): boolean => {
     const { month, year } = getNowDate();
 
-    return isNullOrUndefined(date?.month) || isNullOrUndefined(date?.year)
+    return isNullish(date?.month) || isNullish(date?.year)
         ? true
         : +date!.month!.value! !== month
         || +date!.year!.value! !== year;

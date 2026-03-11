@@ -1,4 +1,4 @@
-import { Color, isNullOrUndefined, rgbToHex } from "@bodynarf/utils";
+import { Color, isNullish, isNotNullish, rgbToHex } from "@bodynarf/utils";
 
 import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
@@ -21,11 +21,11 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
 
     const color = values.find(({ key }) => key === "color");
 
-    if (!isNullOrUndefined(color)) {
+    if (isNotNullish(color)) {
         apiRequestModel.color = rgbToHex(color!.value as Color);
     }
 
-    const isNewRecord = isNullOrUndefined(id);
+    const isNewRecord = isNullish(id);
 
     if (!isNewRecord) {
         apiRequestModel = {

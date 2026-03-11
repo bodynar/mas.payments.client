@@ -1,7 +1,8 @@
 import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
+import { formatDate } from "@bodynarf/utils/date";
 
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
@@ -32,7 +33,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(notifications.length, 15);
     const pageItems: Array<UserNotification> = useMemo(
         () => paginate(
-            notifications.sort(({ createdAt }, y) =>
+            [...notifications].sort(({ createdAt }, y) =>
                 (createdAt.getTime() - y.createdAt.getTime()) * (ascSort ? -1 : 1)
             )
         ) as Array<UserNotification>,
@@ -86,20 +87,20 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
                                                 {x.title}
                                             </h4>
                                         </div>
-                                        {isNullOrUndefined(x.hiddenAt)
+                                        {isNullish(x.hiddenAt)
                                             ?
                                             <>
                                                 <div className="column">
                                                     <span className="is-italic">
-                                                        Created on {x.createdAtMoment.format("DD.MM.YYYY")}
+                                                        Created on {formatDate(x.createdAt, "dd.MM.yyyy")}
                                                     </span>
                                                 </div>
                                             </>
                                             :
                                             <>
                                                 <div className="column">
-                                                    <span className="is-italic has-title" title={`Mark as read on ${x.hiddenAtMoment!.format("DD.MM.YYYY")}`}>
-                                                        Created on {x.createdAtMoment.format("DD.MM.YYYY")}
+                                                    <span className="is-italic has-title" title={`Mark as read on ${formatDate(x.hiddenAt!, "dd.MM.yyyy")}`}>
+                                                        Created on {formatDate(x.createdAt, "dd.MM.yyyy")}
                                                     </span>
                                                 </div>
                                             </>

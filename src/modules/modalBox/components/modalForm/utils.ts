@@ -1,4 +1,4 @@
-import { isNullOrEmpty, isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
+import { isNullOrEmpty, isNotNullish, isStringEmpty } from "@bodynarf/utils";
 
 import { ModalFormItemValidation } from "@app/models/modal";
 
@@ -13,12 +13,12 @@ export const getFieldValueValidationError = (value: string, validationCfg?: Moda
     let validator: (value: string) => string | undefined =
         (value: string): string | undefined => isStringEmpty(value) ? validationError : undefined;
 
-    if (!isNullOrUndefined(validationCfg)) {
+    if (isNotNullish(validationCfg)) {
         if (!isNullOrEmpty(validationCfg!.customRequiredValidationError)) {
             validationError = validationCfg!.customRequiredValidationError as string;
         }
 
-        if (!isNullOrUndefined(validationCfg!.customValidation)) {
+        if (isNotNullish(validationCfg!.customValidation)) {
             validator = validationCfg!.customValidation as (value: string) => string | undefined;
         }
     }
