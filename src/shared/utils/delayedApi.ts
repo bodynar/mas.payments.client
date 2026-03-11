@@ -1,5 +1,3 @@
-import moment from "moment";
-
 import { isNullOrUndefined, delayResolve, delayReject } from "@bodynarf/utils";
 import { fetchAsync, HttpError } from "@bodynarf/utils/api";
 
@@ -66,24 +64,20 @@ const fetchWithApiErrorHandling = async <TResult>(uri: string, requestParams: Re
  * @returns {Promise<TResult>} Promise with api get result
  */
 const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
-    const start = moment();
+    const start = Date.now();
 
     return fetchAsync<TResult>(uri, requestParams, {
         timeout: RequestTimeout
     })
         .then((result: TResult) => {
-            const end = moment();
-
-            const duration = moment.duration(end.diff(start)).asSeconds();
+            const duration = (Date.now() - start) / 1000;
 
             return duration > LoadingStateHideDelay
                 ? new Promise<TResult>(resolve => resolve(result))
                 : delayResolve<TResult>(Math.abs(LoadingStateHideDelay - duration), result);
         })
         .catch(error => {
-            const end = moment();
-
-            const duration = moment.duration(end.diff(start)).asSeconds();
+            const duration = (Date.now() - start) / 1000;
 
             if (duration > LoadingStateHideDelay) {
                 throw error;

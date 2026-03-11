@@ -1,8 +1,4 @@
-import { isNullOrEmpty } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
-
-import { Month } from "@app/models";
-import { months } from "@app/static";
 
 /**
  * Get month name by its number
@@ -15,9 +11,7 @@ export const getMonthName = (monthNumber: number): string => {
         throw new Error("Month number must be in (0, 12) range.");
     }
 
-    const month: Month = months.find(x => x.id === monthNumber)!;
-
-    return month?.name;
+    return new Intl.DateTimeFormat(undefined, { month: "long" }).format(new Date(2000, monthNumber - 1, 1));
 };
 
 /**
@@ -27,9 +21,7 @@ export const getMonthName = (monthNumber: number): string => {
  * @throws Month number isn"t in (0, 12) range
  */
 export const getShortMonthName = (monthNumber: number): string => {
-    const monthName: string = getMonthName(monthNumber);
-
-    return isNullOrEmpty(monthName) ? monthName : monthName.substring(0, 3);
+    return getMonthName(monthNumber).substring(0, 3);
 };
 
 /**
@@ -44,10 +36,10 @@ let _monthsAsDropdownItems: Array<SelectableItem> = [];
  */
 export const monthsAsDropdownItems = (): Array<SelectableItem> => {
     if (_monthsAsDropdownItems.length === 0) {
-        _monthsAsDropdownItems = months.map(x => ({
-            displayValue: x.name,
-            id: x.id.toString(),
-            value: x.id.toString(),
+        _monthsAsDropdownItems = Array.from({ length: 12 }, (_, i) => ({
+            displayValue: getMonthName(i + 1),
+            id: (i + 1).toString(),
+            value: (i + 1).toString(),
         }));
     }
 

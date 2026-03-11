@@ -1,5 +1,3 @@
-import moment from "moment";
-
 import { isNullOrUndefined } from "@bodynarf/utils";
 
 import { DateModel, LookupDate } from "@app/models";
@@ -29,12 +27,12 @@ export const getDateIfDefined = ({ month, year }: LookupDate): DateModel | undef
  * @returns Date object
  */
 export const getNowDate = (): DateModel => {
-    const { date, months, years } = moment().toObject();
+    const now = new Date();
 
     return {
-        day: date,
-        month: months + 1,
-        year: years,
+        day: now.getDate(),
+        month: now.getMonth() + 1,
+        year: now.getFullYear(),
     };
 };
 

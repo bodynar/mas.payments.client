@@ -29,10 +29,10 @@
 		"baseUrl": "./", /* Base directory to resolve non-absolute module names. */
 		"paths": {
 			"@app/models/*": [
-				"src/shared/models/*"
+				"src/models/*"
 			],
 			"@app/models": [
-				"src/shared/models"
+				"src/models"
 			],
 			"@app/utils/*": [
 				"src/shared/utils/*"
