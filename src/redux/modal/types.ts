@@ -34,26 +34,17 @@ export interface ModalParams {
          * Button visible only in confirm modal type
         */
         saveCaption?: string;
-
-        /** Cancel button caption */
-        cancelCaption?: string;
     };
 
     /**
      * Callback modal configuration.
-     * Will be invoked after modal close
+     * Will be invoked after modal close on clicking Save button
     */
     callback?: ModalCallback;
 }
 
 /** Modal callback after close configuration */
-export interface ModalCallback {
-    /** Callback for closing modal on clicking Save button */
-    saveCallback?: (modalData: ModalCloseData) => void;
-
-    /** Callback for closing modal on clicking Cancel button */
-    cancelCallback?: (modalData: ModalCloseData) => void;
-}
+export type ModalCallback = (modalData: ModalCloseData) => void;
 
 /** Modal close data params */
 export interface ModalCloseData {

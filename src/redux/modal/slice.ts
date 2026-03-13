@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { isNullish } from "@bodynarf/utils";
-
 import { ModalParams, ModalState } from "./types";
 
 const initialState: ModalState = {
@@ -13,10 +11,6 @@ const modalSlice = createSlice({
     initialState,
     reducers: {
         openModal(state, action: PayloadAction<ModalParams>) {
-            if (isNullish(action.payload)) {
-                return;
-            }
-
             state.isOpen = true;
             state.modalParams = action.payload;
         },

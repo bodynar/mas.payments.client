@@ -27,8 +27,7 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
             title: "Confirm deleting measurement",
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure you want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${item.typeCaption}]?`,
-            callback: {
-                saveCallback: (): void => {
+            callback: (): void => {
                     dispatch(setAppIsLoading(true));
 
                     const [displaySuccess, displayError] = getNotifications(dispatch, getState);
@@ -44,6 +43,5 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
                         })
                         .catch(displayError);
                 },
-            }
         }));
 };

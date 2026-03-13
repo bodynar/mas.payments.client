@@ -19,13 +19,8 @@ export const getButtonCaptions = (modalParams: ModalParams): {
         cancelBtnCaption: modalParams.modalType === ModalType.Confirm ? "Cancel" : "Close"
     };
 
-    if (isNotNullish(modalParams.buttonCaption)) {
-        if (!isNullOrEmpty(modalParams.buttonCaption!.saveCaption)) {
-            result.saveBtnCaption = modalParams.buttonCaption!.saveCaption!;
-        }
-        if (!isNullOrEmpty(modalParams.buttonCaption!.cancelCaption)) {
-            result.cancelBtnCaption = modalParams.buttonCaption!.cancelCaption!;
-        }
+    if (isNotNullish(modalParams.buttonCaption) && !isNullOrEmpty(modalParams.buttonCaption!.saveCaption)) {
+        result.saveBtnCaption = modalParams.buttonCaption!.saveCaption!;
     }
 
     return result;
@@ -41,15 +36,14 @@ export const validateModalParams = (modalParams: ModalParams): string | undefine
         return "Title is empty.";
     }
 
-    const isValidatorDeclared = modalTypeToValidateParamFuncMap.has(modalParams.modalType);
-
-    if (isValidatorDeclared) {
-        const errorFromValidator = modalTypeToValidateParamFuncMap.get(modalParams.modalType)!(modalParams);
-
-        return errorFromValidator;
+    switch (modalParams.modalType) {
+        case ModalType.Confirm:
+            return validateConfirmModalType(modalParams);
+        case ModalType.Info:
+            return validateInfoModalType(modalParams);
+        default:
+            return undefined;
     }
-
-    return undefined;
 };
 
 /**
@@ -62,10 +56,8 @@ const validateConfirmModalType = (modalConfig: ModalParams): string | undefined 
         return "Message is not defined or empty.";
     }
 
-    if (isNullish(modalConfig.callback)
-        || (isNullish(modalConfig.callback!.saveCallback) && isNullish(modalConfig.callback!.cancelCallback))
-    ) {
-        return "Callbacks are not defined.";
+    if (isNullish(modalConfig.callback)) {
+        return "Callback is not defined.";
     }
 
     return undefined;
@@ -83,12 +75,3 @@ const validateInfoModalType = (modalConfig: ModalParams): string | undefined => 
 
     return undefined;
 };
-
-/**
- * Map for modal type to validator params.
- * Contains custom validators of modal params for specific modal types
- */
-const modalTypeToValidateParamFuncMap = new Map<ModalType, (modalParams: ModalParams) => string | undefined>([
-    [ModalType.Confirm, validateConfirmModalType],
-    [ModalType.Info, validateInfoModalType],
-]);

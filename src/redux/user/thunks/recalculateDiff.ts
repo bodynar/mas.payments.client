@@ -5,7 +5,7 @@ import { isNullish } from "@bodynarf/utils";
 import { post } from "@app/utils";
 
 import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { openModal, ModalType } from "@app/redux/modal/";
+import { openModal, ModalType } from "@app/redux/modal";
 import { setAppIsLoading } from "@app/redux/app";
 import { getNotifications } from "@app/redux/notificator";
 

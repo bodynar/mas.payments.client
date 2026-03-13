@@ -27,8 +27,7 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
             title: "Confirm deleting measurement type",
             buttonCaption: { saveCaption: "Delete" },
             message: `Are you sure you want to delete measurement type ${measurementType.caption}?`,
-            callback: {
-                saveCallback: (): void => {
+            callback: (): void => {
                     dispatch(setAppIsLoading(true));
 
                     const [displaySuccess, displayError] = getNotifications(dispatch, getState);
@@ -44,6 +43,5 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
                         })
                         .catch(displayError);
                 },
-            }
         }));
 };

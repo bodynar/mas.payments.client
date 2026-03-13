@@ -34,30 +34,28 @@ const ModalBox: FC<ModalBoxProps> = ({
     isOpen, params,
     closeModal
 }) => {
-    const validationError =
-        isOpen && isNotNullish(params)
-            ? validateModalParams(params!)
-            : undefined;
+    if (!isOpen || !isNotNullish(params)) {
+        return <></>;
+    }
+
+    const validationError = validateModalParams(params);
 
     if (isNotNullish(validationError)) {
         throw new Error(`Modal configuration error: ${validationError}`);
     }
 
-    const onCloseClick = useCallback(() => closeModal({ closeCode: "cancel" }, params!.callback), [closeModal, params]);
+    const onCloseClick = useCallback(() => closeModal({ closeCode: "cancel" }, params.callback), [closeModal, params]);
 
     const onSaveClick = useCallback(() => {
-        closeModal({ closeCode: "save" }, params!.callback);
+        closeModal({ closeCode: "save" }, params.callback);
     }, [closeModal, params]);
 
-    const actions = useMemo<Array<ButtonProps>>(() => {
-        if (!isOpen) {
-            return [];
-        }
+    const { saveBtnCaption, cancelBtnCaption } = getButtonCaptions(params);
 
-        const { saveBtnCaption, cancelBtnCaption } = getButtonCaptions(params!);
+    const actions = useMemo<Array<ButtonProps>>(() => {
         const result: Array<ButtonProps> = [];
 
-        if (params!.modalType !== ModalType.Info) {
+        if (params.modalType !== ModalType.Info) {
             result.push({
                 style: ButtonStyle.Success,
                 caption: saveBtnCaption,
@@ -72,21 +70,17 @@ const ModalBox: FC<ModalBoxProps> = ({
         });
 
         return result;
-    }, [isOpen, params, onSaveClick, onCloseClick]);
-
-    if (!isOpen) {
-        return <></>;
-    }
+    }, [params, saveBtnCaption, cancelBtnCaption, onSaveClick, onCloseClick]);
 
     return (
         <ModalWrapper
             className="app-modal"
-            title={params!.title}
+            title={params.title}
             actions={actions}
             onCloseClick={onCloseClick}
         >
             <ModalBody
-                message={params!.message}
+                message={params.message}
             />
         </ModalWrapper>
     );
