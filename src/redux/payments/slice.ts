@@ -16,7 +16,6 @@ const initialState: PaymentModuleState = {
     useGroupedView: false,
     payments: [],
     filteredItems: [],
-    availableTypes: [],
     typesMap: new Map(),
     availableTypesAsDropdownItems: [],
     filteredTypes: [],
@@ -59,7 +58,6 @@ const paymentsSlice = createSlice({
                 value: id.toString(),
             }) as SelectableItem);
 
-            state.availableTypes = types;
             state.typesMap = new Map(types.map(t => [t.id, t]));
             state.availableTypesAsDropdownItems = mappedToDropdownItems;
             state.filteredTypes = types;
@@ -79,21 +77,24 @@ const paymentsSlice = createSlice({
         setTypeSortColumn(state, action: PayloadAction<SortColumn<PaymentType>>) {
             const sortColumn = action.payload;
             state.paymentTypeSortColumn = sortColumn;
-            state.availableTypes = sort(state.availableTypes, sortColumn);
-            state.filteredTypes = state.availableTypes.filter(
+            const allTypes = sort([...state.typesMap.values()], sortColumn);
+            state.filteredTypes = allTypes.filter(
                 ({ caption }) => caption.toLocaleLowerCase().includes(state.typeFilterCaption?.toLocaleLowerCase() ?? "")
             );
         },
         filterPaymentTypes(state, action: PayloadAction<string | undefined>) {
             const filterValue = action.payload;
+            const allTypes = state.paymentTypeSortColumn
+                ? sort([...state.typesMap.values()], state.paymentTypeSortColumn)
+                : [...state.typesMap.values()];
 
             if (isNullOrEmpty(filterValue)) {
-                state.filteredTypes = state.availableTypes;
+                state.filteredTypes = allTypes;
                 return;
             }
 
             const lowered = filterValue!.toLocaleLowerCase();
-            state.filteredTypes = state.availableTypes.filter(
+            state.filteredTypes = allTypes.filter(
                 ({ caption }) => caption.toLocaleLowerCase().includes(lowered)
             );
             state.typeFilterCaption = filterValue!;

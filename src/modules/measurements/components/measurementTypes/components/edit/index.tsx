@@ -16,8 +16,8 @@ import { getDropdownItem } from "@app/core";
 
 /** Measurement card props types */
 interface MeasurementTypeCardProps {
-    /** All measurements */
-    availableTypes: Array<MeasurementType>;
+    /** Measurement types indexed by id */
+    typesMap: Map<number, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
@@ -30,7 +30,7 @@ interface MeasurementTypeCardProps {
 }
 
 const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
-    availableTypes, initialized, paymentTypesAsDropdownItems,
+    typesMap, initialized, paymentTypesAsDropdownItems,
     saveCard,
 }) => {
     const { id } = useParams();
@@ -38,7 +38,7 @@ const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
     const name = useId();
     const navigate = useNavigate();
 
-    const item = availableTypes.find(x => x.id === +id!);
+    const item = typesMap.get(+id!);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
     const selectedType = useMemo(() => getDropdownItem(paymentTypesAsDropdownItems, item?.paymentTypeId), [paymentTypesAsDropdownItems, item?.paymentTypeId]);
 
@@ -144,7 +144,7 @@ const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
 /** Measurement type card */
 export default connect(
     ({ measurements, payments }: CompositeAppState) => ({
-        availableTypes: measurements.availableTypes,
+        typesMap: measurements.typesMap,
         initialized: measurements.initialized,
         paymentTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
     }),

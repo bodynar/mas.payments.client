@@ -15,9 +15,6 @@ export interface MeasurementModuleState {
     /** Measurements thats satisfy last filter */
     filteredItems: Array<Measurement>;
 
-    /** All measurement types */
-    availableTypes: Array<MeasurementType>;
-
     /** Measurement types indexed by id */
     typesMap: Map<number, MeasurementType>;
 

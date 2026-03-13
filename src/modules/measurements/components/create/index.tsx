@@ -24,8 +24,8 @@ import MeasurementCreateCardItem from "./item";
 
 /** Measurement card props types */
 interface MeasurementCreateCardProps {
-    /** All measurement types */
-    availableTypes: Array<MeasurementType>;
+    /** Measurement types indexed by id */
+    typesMap: Map<number, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
@@ -61,7 +61,7 @@ const validateItems = (
 };
 
 const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
-    initialized, groupedByType, availableTypes,
+    initialized, groupedByType, typesMap,
     saveCard, groupByType,
 }) => {
     const navigate = useNavigate();
@@ -139,7 +139,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
             const previousValues = getPreviousValues();
 
             changeItems(
-                availableTypes.map(type => ({
+                [...typesMap.values()].map(type => ({
                     id: generateGuid(),
                     typeId: type.id,
                     previousValues: previousValues,
@@ -147,7 +147,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
                 }))
             );
         },
-        [availableTypes, changeItems, getPreviousValues]
+        [typesMap, changeItems, getPreviousValues]
     );
 
     const onDeleteItemClick = useCallback(
@@ -304,7 +304,7 @@ export default connect(
     ({ measurements: state }: CompositeAppState) => ({
         initialized: state.initialized,
         groupedByType: state.groupedByType,
-        availableTypes: state.availableTypes,
+        typesMap: state.typesMap,
     }),
     ({
         saveCard,

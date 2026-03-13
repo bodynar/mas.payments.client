@@ -22,8 +22,8 @@ export const loadTypes = (): ThunkAction<void, CompositeAppState, unknown, Actio
     const { measurements } = getState();
 
     const paymentTypeProvider: Promise<Array<MeasurementType>> =
-        measurements.availableTypesAsDropdownItems.length > 0
-            ? new Promise(x => x(measurements.availableTypes))
+        measurements.typesMap.size > 0
+            ? new Promise(x => x([...measurements.typesMap.values()]))
             : getMeasurementTypes();
 
     const [_, displayError] = getNotifications(dispatch, getState);

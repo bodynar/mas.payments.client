@@ -19,7 +19,7 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
 ): void => {
     const { measurements } = getState();
 
-    const measurementType = measurements.availableTypes.find((x) => x.id === id)!;
+    const measurementType = measurements.typesMap.get(id)!;
 
     dispatch(
         openModal({

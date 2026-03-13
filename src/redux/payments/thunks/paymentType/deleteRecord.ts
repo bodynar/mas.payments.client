@@ -19,7 +19,7 @@ export const deleteTypeRecord = (id: number): ThunkAction<void, CompositeAppStat
 ): void => {
     const { payments } = getState();
 
-    const paymentType = payments.availableTypes.find((x) => x.id === id)!;
+    const paymentType = payments.typesMap.get(id)!;
 
     dispatch(
         openModal({

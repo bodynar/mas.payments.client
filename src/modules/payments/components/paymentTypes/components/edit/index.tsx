@@ -15,8 +15,8 @@ import { saveTypeCard } from "@app/redux/payments";
 
 /** Payment card props types */
 interface PaymentTypeCardProps {
-    /** All payments */
-    availableTypes: Array<PaymentType>;
+    /** Payment types indexed by id */
+    typesMap: Map<number, PaymentType>;
 
     /** Is payment module state initialized */
     initialized: boolean;
@@ -26,7 +26,7 @@ interface PaymentTypeCardProps {
 }
 
 const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
-    availableTypes, initialized,
+    typesMap, initialized,
     saveCard,
 }) => {
     const { id } = useParams();
@@ -34,7 +34,7 @@ const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
     const name = useId();
     const navigate = useNavigate();
 
-    const item = availableTypes.find(x => x.id === +id!);
+    const item = typesMap.get(+id!);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
 
     const defaultColor = isNotNullish(item) && isNotNullish(item!.color)
