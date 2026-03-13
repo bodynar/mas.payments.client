@@ -7,7 +7,7 @@ import { ModalParams, ModalType } from "@app/redux/modal";
  * @param modalParams Params of modal box
  * @returns Object with modal box button captions
  */
-export const getButtonCaptions = (modalParams: ModalParams): {
+export const getButtonCaptions = (modalParams?: ModalParams): {
     saveBtnCaption: string,
     cancelBtnCaption: string;
 } => {
@@ -16,11 +16,11 @@ export const getButtonCaptions = (modalParams: ModalParams): {
         cancelBtnCaption: string;
     } = {
         saveBtnCaption: "Save",
-        cancelBtnCaption: modalParams.modalType === ModalType.Confirm ? "Cancel" : "Close"
+        cancelBtnCaption: modalParams?.modalType === ModalType.Confirm ? "Cancel" : "Close"
     };
 
-    if (isNotNullish(modalParams.buttonCaption) && !isNullOrEmpty(modalParams.buttonCaption!.saveCaption)) {
-        result.saveBtnCaption = modalParams.buttonCaption!.saveCaption!;
+    if (isNotNullish(modalParams?.buttonCaption) && !isNullOrEmpty(modalParams!.buttonCaption!.saveCaption)) {
+        result.saveBtnCaption = modalParams!.buttonCaption!.saveCaption!;
     }
 
     return result;

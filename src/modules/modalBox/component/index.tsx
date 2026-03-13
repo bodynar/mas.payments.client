@@ -34,25 +34,19 @@ const ModalBox: FC<ModalBoxProps> = ({
     isOpen, params,
     closeModal
 }) => {
-    if (!isOpen || !isNotNullish(params)) {
-        return <></>;
-    }
-
-    const validationError = validateModalParams(params);
-
-    if (isNotNullish(validationError)) {
-        throw new Error(`Modal configuration error: ${validationError}`);
-    }
-
-    const onCloseClick = useCallback(() => closeModal({ closeCode: "cancel" }, params.callback), [closeModal, params]);
+    const onCloseClick = useCallback(() => closeModal({ closeCode: "cancel" }, params?.callback), [closeModal, params]);
 
     const onSaveClick = useCallback(() => {
-        closeModal({ closeCode: "save" }, params.callback);
+        closeModal({ closeCode: "save" }, params?.callback);
     }, [closeModal, params]);
 
     const { saveBtnCaption, cancelBtnCaption } = getButtonCaptions(params);
 
     const actions = useMemo<Array<ButtonProps>>(() => {
+        if (!params) {
+            return [];
+        }
+
         const result: Array<ButtonProps> = [];
 
         if (params.modalType !== ModalType.Info) {
@@ -71,6 +65,16 @@ const ModalBox: FC<ModalBoxProps> = ({
 
         return result;
     }, [params, saveBtnCaption, cancelBtnCaption, onSaveClick, onCloseClick]);
+
+    if (!isOpen || !isNotNullish(params)) {
+        return <></>;
+    }
+
+    const validationError = validateModalParams(params);
+
+    if (isNotNullish(validationError)) {
+        throw new Error(`Modal configuration error: ${validationError}`);
+    }
 
     return (
         <ModalWrapper
