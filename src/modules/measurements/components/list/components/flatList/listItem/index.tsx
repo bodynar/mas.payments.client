@@ -7,7 +7,7 @@ import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Tag from "@bodynarf/react.components/components/tag";
 
-import { Measurement } from "@app/models/measurements";
+import { Measurement, MeasurementType } from "@app/models/measurements";
 
 import { getMonthName } from "@app/utils";
 
@@ -15,6 +15,9 @@ import { getMonthName } from "@app/utils";
 interface MeasurementListItemProps {
     /** Measurement information */
     item: Measurement;
+
+    /** Measurement types map */
+    typesMap: Map<number, MeasurementType>;
 
     /** Delete specified item */
     deleteMeasurement: (id: number) => void;
@@ -31,10 +34,14 @@ interface MeasurementListItemProps {
 
 /** Measurement list item */
 const MeasurementListItem: FC<MeasurementListItemProps> = ({
-    item, useInGroupView,
+    item, typesMap, useInGroupView,
     deleteMeasurement, onTypeClick,
 }) => {
     const navigate = useNavigate();
+
+    const measurementType = typesMap.get(item.typeId);
+    const typeCaption = measurementType?.caption ?? "";
+    const typeColor = measurementType?.color;
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
     const onDeleteClick = useCallback(() => deleteMeasurement(item.id), [deleteMeasurement, item]);
@@ -51,10 +58,10 @@ const MeasurementListItem: FC<MeasurementListItemProps> = ({
             }
             <td className="has-text-centered is-vertical-align--center">
                 <Tag
-                    content={item.typeCaption}
-                    customColor={isNullish(item.typeColor) ? undefined : {
-                        color: getFontColorFromString(item.typeColor!),
-                        backgroundColor: item.typeColor!
+                    content={typeCaption}
+                    customColor={isNullish(typeColor) ? undefined : {
+                        color: getFontColorFromString(typeColor!),
+                        backgroundColor: typeColor!
                     }}
                     onClick={
                         isNullish(onTypeClick)
@@ -64,7 +71,7 @@ const MeasurementListItem: FC<MeasurementListItemProps> = ({
                     title={
                         isNullish(onTypeClick)
                             ? undefined
-                            : `Filter by type "${item.typeCaption}" additionally`
+                            : `Filter by type "${typeCaption}" additionally`
                     }
                 />
             </td>

@@ -17,6 +17,7 @@ const initialState: PaymentModuleState = {
     payments: [],
     filteredItems: [],
     availableTypes: [],
+    typesMap: new Map(),
     availableTypesAsDropdownItems: [],
     filteredTypes: [],
 };
@@ -59,6 +60,7 @@ const paymentsSlice = createSlice({
             }) as SelectableItem);
 
             state.availableTypes = types;
+            state.typesMap = new Map(types.map(t => [t.id, t]));
             state.availableTypesAsDropdownItems = mappedToDropdownItems;
             state.filteredTypes = types;
         },

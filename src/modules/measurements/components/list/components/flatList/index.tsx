@@ -6,7 +6,7 @@ import { SelectableItem, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
 import { flatListTableHeadings } from "@app/static/measurement";
-import { Measurement, MeasurementFilter } from "@app/models/measurements";
+import { Measurement, MeasurementFilter, MeasurementType } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
@@ -25,6 +25,9 @@ interface MeasurementFlatListProps {
 
     /** Items that was filtered by last filter */
     filteredItems: Array<Measurement>;
+
+    /** Measurement types map */
+    typesMap: Map<number, MeasurementType>;
 
     /** Measurement types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
@@ -55,7 +58,7 @@ interface MeasurementFlatListProps {
 }
 
 const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
-    filteredItems, sortColumn, initialized,
+    filteredItems, sortColumn, initialized, typesMap,
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
     setSortColumn, deleteMeasurement, lastPage, setCurrentPage,
 }) => {
@@ -103,6 +106,7 @@ const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
                             <MeasurementListItem
                                 key={x.id}
                                 item={x}
+                                typesMap={typesMap}
                                 deleteMeasurement={deleteMeasurement}
                                 onTypeClick={onTypeClick}
                             />
@@ -133,6 +137,7 @@ export default connect(
     ({ measurements }: CompositeAppState) => ({
         initialized: measurements.initialized,
         filteredItems: measurements.filteredItems,
+        typesMap: measurements.typesMap,
         availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
         lastFilter: measurements.lastFilter,
         sortColumn: measurements.measurementSortColumn,

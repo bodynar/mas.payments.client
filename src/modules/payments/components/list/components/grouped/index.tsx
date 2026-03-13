@@ -6,7 +6,7 @@ import { usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
 import { deleteRecord, groupPayments } from "@app/core/payment";
-import { Payment, PaymentFilter, PaymentGroup } from "@app/models/payments";
+import { Payment, PaymentFilter, PaymentGroup, PaymentType } from "@app/models/payments";
 
 import { CompositeAppState } from "@app/redux/types";
 
@@ -26,13 +26,16 @@ interface PaymentGroupedViewProps {
     /** Last applied filter */
     lastFilter?: PaymentFilter;
 
+    /** Payment types map */
+    typesMap: Map<number, PaymentType>;
+
     /** Delete specified payment */
     deletePayment: (id: number) => void;
 }
 
 const PaymentGroupedView: FC<PaymentGroupedViewProps> = ({
     isAscOrder, filteredItems, initialized,
-    lastFilter,
+    lastFilter, typesMap,
     deletePayment,
 }) => {
     const groupedItems = useMemo(() => groupPayments(filteredItems, isAscOrder), [filteredItems, isAscOrder]);
@@ -49,6 +52,7 @@ const PaymentGroupedView: FC<PaymentGroupedViewProps> = ({
                         <PaymentGroupItem
                             key={x.caption}
                             item={x}
+                            typesMap={typesMap}
                             deletePayment={deletePayment}
                         />
                     )}
@@ -78,6 +82,7 @@ export default connect(
         initialized: payments.initialized,
         filteredItems: payments.filteredItems,
         lastFilter: payments.lastFilter,
+        typesMap: payments.typesMap,
     }),
     ({
         deletePayment: deleteRecord,

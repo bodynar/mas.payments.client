@@ -15,12 +15,6 @@ export interface Payment {
     /** Number of payment type */
     typeId: number;
 
-    /** Related payment type caption */
-    typeCaption: string;
-
-    /** Related payment type color */
-    typeColor?: string;
-
     /** Description */
     description?: string;
 }

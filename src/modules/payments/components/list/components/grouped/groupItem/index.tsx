@@ -5,7 +5,7 @@ import Paginator from "@bodynarf/react.components/components/paginator";
 import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { groupedViewTableHeadings } from "@app/static/payment";
-import { Payment, PaymentGroup } from "@app/models/payments";
+import { Payment, PaymentGroup, PaymentType } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 import { sort } from "@app/utils";
 
@@ -19,6 +19,9 @@ interface PaymentGroupItemProps {
     /** Payment information */
     item: PaymentGroup;
 
+    /** Payment types map */
+    typesMap: Map<number, PaymentType>;
+
     /** Delete specified payment */
     deletePayment: (id: number) => void;
 }
@@ -26,6 +29,7 @@ interface PaymentGroupItemProps {
 /** Payment group item */
 const PaymentGroupItem: FC<PaymentGroupItemProps> = ({
     item: group,
+    typesMap,
     deletePayment,
 }) => {
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(group.items.length, 20, 1, [group.items]);
@@ -63,6 +67,7 @@ const PaymentGroupItem: FC<PaymentGroupItemProps> = ({
                         <PaymentListItem
                             key={x.id}
                             item={x}
+                            typesMap={typesMap}
                             deletePayment={deletePayment}
                             useInGroupView={true}
                         />

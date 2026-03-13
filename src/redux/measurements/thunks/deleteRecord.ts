@@ -20,13 +20,14 @@ export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, u
     const { measurements } = getState();
 
     const item = measurements.measurements.find((x) => x.id === id)!;
+    const typeCaption = measurements.typesMap.get(item.typeId)?.caption ?? "";
 
     dispatch(
         openModal({
             modalType: ModalType.Confirm,
             title: "Confirm deleting measurement",
             buttonCaption: { saveCaption: "Delete" },
-            message: `Are you sure you want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${item.typeCaption}]?`,
+            message: `Are you sure you want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${typeCaption}]?`,
             callback: (): void => {
                     dispatch(setAppIsLoading(true));
 

@@ -26,8 +26,8 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): ThunkActio
             displaySuccess("Measurement type successfully saved", false);
         })
         .then(getMeasurementTypes)
-        .then(items => {
-            dispatch(setMeasurementTypes(items));
+        .then(types => {
+            dispatch(setMeasurementTypes(types));
             dispatch(setAppIsLoading(false));
         })
         .catch(displayError);

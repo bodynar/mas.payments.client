@@ -6,7 +6,7 @@ import { usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
 import { groupMeasurements } from "@app/core/measurement";
-import { Measurement, MeasurementFilter, MeasurementGroup } from "@app/models/measurements";
+import { Measurement, MeasurementFilter, MeasurementGroup, MeasurementType } from "@app/models/measurements";
 
 import { deleteRecord } from "@app/redux/measurements";
 import { CompositeAppState } from "@app/redux/types";
@@ -27,13 +27,16 @@ interface MeasurementGroupedViewProps {
     /** Last applied filter */
     lastFilter?: MeasurementFilter;
 
+    /** Measurement types map */
+    typesMap: Map<number, MeasurementType>;
+
     /** Delete specified measurement */
     deleteMeasurement: (id: number) => void;
 }
 
 const MeasurementGroupedView: FC<MeasurementGroupedViewProps> = ({
     isAscOrder, filteredItems, initialized,
-    lastFilter,
+    lastFilter, typesMap,
     deleteMeasurement,
 }) => {
     const groupedItems = useMemo(() => groupMeasurements(filteredItems, isAscOrder), [filteredItems, isAscOrder]);
@@ -50,6 +53,7 @@ const MeasurementGroupedView: FC<MeasurementGroupedViewProps> = ({
                         <MeasurementGroupItem
                             key={x.caption}
                             item={x}
+                            typesMap={typesMap}
                             deleteItem={deleteMeasurement}
                         />
                     )}
@@ -79,6 +83,7 @@ export default connect(
         initialized: measurements.initialized,
         filteredItems: measurements.filteredItems,
         lastFilter: measurements.lastFilter,
+        typesMap: measurements.typesMap,
     }),
     ({
         deleteMeasurement: deleteRecord,

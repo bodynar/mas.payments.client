@@ -5,7 +5,7 @@ import Paginator from "@bodynarf/react.components/components/paginator";
 import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { groupedViewTableHeadings } from "@app/static/measurement";
-import { Measurement, MeasurementGroup } from "@app/models/measurements";
+import { Measurement, MeasurementGroup, MeasurementType } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 import { sort } from "@app/utils/array";
 
@@ -19,6 +19,9 @@ interface MeasurementGroupItemProps {
     /** Group information */
     item: MeasurementGroup;
 
+    /** Measurement types map */
+    typesMap: Map<number, MeasurementType>;
+
     /** Delete specified item */
     deleteItem: (id: number) => void;
 }
@@ -26,6 +29,7 @@ interface MeasurementGroupItemProps {
 /** Payment group item */
 const MeasurementGroupItem: FC<MeasurementGroupItemProps> = ({
     item: group,
+    typesMap,
     deleteItem,
 }) => {
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(group.items.length, 20, 1, [group.items]);
@@ -63,6 +67,7 @@ const MeasurementGroupItem: FC<MeasurementGroupItemProps> = ({
                         <ListItem
                             key={x.id}
                             item={x}
+                            typesMap={typesMap}
                             deleteMeasurement={deleteItem}
                             useInGroupView={true}
                         />

@@ -9,7 +9,7 @@ import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
 
 import { getDropdownItem } from "@app/core";
-import { Measurement } from "@app/models/measurements";
+import { Measurement, MeasurementType } from "@app/models/measurements";
 import { getDateOrNowLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 
 import { CompositeAppState } from "@app/redux";
@@ -19,6 +19,9 @@ import { saveCard } from "@app/redux/measurements";
 interface MeasurementEditCardProps {
     /** All measurements */
     measurements: Array<Measurement>;
+
+    /** Measurement types map */
+    typesMap: Map<number, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
@@ -31,7 +34,7 @@ interface MeasurementEditCardProps {
 }
 
 const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
-    measurements, initialized, availableTypesAsDropdownItems,
+    measurements, typesMap, initialized, availableTypesAsDropdownItems,
     saveCard,
 }) => {
     const { id } = useParams();
@@ -68,7 +71,7 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
                 name={name}
                 caption={isNullish(measurement)
                     ? "Create new measurement record"
-                    : `Edit measurement for ${getMonthName(measurement!.month)} ${measurement!.year} [${measurement!.typeCaption}]`
+                    : `Edit measurement for ${getMonthName(measurement!.month)} ${measurement!.year} [${typesMap.get(measurement!.typeId)?.caption ?? ""}]`
                 }
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{

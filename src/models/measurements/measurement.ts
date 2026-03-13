@@ -18,12 +18,6 @@ export interface Measurement {
     /** Number of measurement type */
     typeId: number;
 
-    /** Related measurement type caption */
-    typeCaption: string;
-
-    /** Related measurement type color */
-    typeColor?: string;
-
     /** Description */
     description?: string;
 }

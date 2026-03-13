@@ -20,8 +20,6 @@ export const getMeasurements = async (): Promise<Array<Measurement>> => {
         value: x.measurement,
         diff: x.diff,
         typeId: x.meterMeasurementTypeId,
-        typeCaption: x.measurementTypeName,
-        typeColor: x.measurementTypeColor,
         description: x.comment,
     }));
 };

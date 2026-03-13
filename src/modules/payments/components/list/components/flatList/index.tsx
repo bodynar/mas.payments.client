@@ -6,7 +6,7 @@ import { SelectableItem, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
 import { flatListTableHeadings } from "@app/static/payment";
-import { Payment, PaymentFilter } from "@app/models/payments";
+import { Payment, PaymentFilter, PaymentType } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
@@ -25,6 +25,9 @@ interface PaymentFlatListProps {
 
     /** Items that was filtered by last filter */
     filteredItems: Array<Payment>;
+
+    /** Payment types map */
+    typesMap: Map<number, PaymentType>;
 
     /** Payment types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
@@ -55,7 +58,7 @@ interface PaymentFlatListProps {
 }
 
 const PaymentFlatList: FC<PaymentFlatListProps> = ({
-    filteredItems, sortColumn, initialized,
+    filteredItems, sortColumn, initialized, typesMap,
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
     setSortColumn, deletePayment, lastPage, setCurrentPage,
 }) => {
@@ -103,6 +106,7 @@ const PaymentFlatList: FC<PaymentFlatListProps> = ({
                             <PaymentListItem
                                 key={x.id}
                                 item={x}
+                                typesMap={typesMap}
                                 deletePayment={deletePayment}
                                 onPaymentTypeClick={onPaymentTypeClick}
                             />
@@ -133,6 +137,7 @@ export default connect(
     ({ payments }: CompositeAppState) => ({
         initialized: payments.initialized,
         filteredItems: payments.filteredItems,
+        typesMap: payments.typesMap,
         availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
         lastFilter: payments.lastFilter,
         sortColumn: payments.paymentSortColumn,

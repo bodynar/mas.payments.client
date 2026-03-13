@@ -59,8 +59,6 @@ export const getPaymentRecords = async (): Promise<Array<Payment>> => {
         year: x.dateYear,
         price: x.amount,
         typeId: x.paymentTypeId,
-        typeCaption: x.paymentTypeName,
-        typeColor: x.paymentTypeColor,
         description: x.description,
     }));
 };

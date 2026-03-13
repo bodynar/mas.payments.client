@@ -7,7 +7,7 @@ import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Tag from "@bodynarf/react.components/components/tag";
 
-import { Payment } from "@app/models/payments";
+import { Payment, PaymentType } from "@app/models/payments";
 
 import { getMonthName } from "@app/utils";
 
@@ -15,6 +15,9 @@ import { getMonthName } from "@app/utils";
 interface PaymentListItemProps {
     /** Payment information */
     item: Payment;
+
+    /** Payment types map */
+    typesMap: Map<number, PaymentType>;
 
     /** Delete specified payment */
     deletePayment: (id: number) => void;
@@ -31,10 +34,14 @@ interface PaymentListItemProps {
 
 /** Payment list item */
 const PaymentListItem: FC<PaymentListItemProps> = ({
-    item, useInGroupView,
+    item, typesMap, useInGroupView,
     deletePayment, onPaymentTypeClick,
 }) => {
     const navigate = useNavigate();
+
+    const paymentType = typesMap.get(item.typeId);
+    const typeCaption = paymentType?.caption ?? "";
+    const typeColor = paymentType?.color;
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
     const onDeleteClick = useCallback(() => deletePayment(item.id), [deletePayment, item]);
@@ -51,10 +58,10 @@ const PaymentListItem: FC<PaymentListItemProps> = ({
             }
             <td className="has-text-centered is-vertical-align--center">
                 <Tag
-                    content={item.typeCaption}
-                    customColor={isNullish(item.typeColor) ? undefined : {
-                        color: getFontColorFromString(item.typeColor!),
-                        backgroundColor: item.typeColor!
+                    content={typeCaption}
+                    customColor={isNullish(typeColor) ? undefined : {
+                        color: getFontColorFromString(typeColor!),
+                        backgroundColor: typeColor!
                     }}
                     onClick={
                         isNullish(onPaymentTypeClick)
@@ -64,7 +71,7 @@ const PaymentListItem: FC<PaymentListItemProps> = ({
                     title={
                         isNullish(onPaymentTypeClick)
                             ? undefined
-                            : `Filter by type "${item.typeCaption}" additionally`
+                            : `Filter by type "${typeCaption}" additionally`
                     }
                 />
             </td>

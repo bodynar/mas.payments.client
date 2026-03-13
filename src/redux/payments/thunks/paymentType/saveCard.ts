@@ -26,8 +26,8 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): ThunkActio
             displaySuccess("Payment type successfully saved", false);
         })
         .then(getPaymentTypes)
-        .then(items => {
-            dispatch(setPaymentTypes(items));
+        .then(types => {
+            dispatch(setPaymentTypes(types));
             dispatch(setAppIsLoading(false));
         })
         .catch(displayError);
