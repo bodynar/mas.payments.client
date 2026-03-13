@@ -1,7 +1,5 @@
 import { isNullOrEmpty, isNullish, isNotNullish, isStringEmpty } from "@bodynarf/utils";
 
-import { ModalFormItem } from "@app/models/modal";
-
 import { ModalParams, ModalType } from "@app/redux/modal";
 
 /**
@@ -55,54 +53,6 @@ export const validateModalParams = (modalParams: ModalParams): string | undefine
 };
 
 /**
- * Get initial value for save button disabled flag
- * @param params Modal window configuration params
- * @returns Initial disabled flag value for save button
- */
-export const getInitIsSaveButtonDisabled = (params: ModalParams): boolean => {
-    if (params.modalType === ModalType.Form
-        && isNotNullish(params.formData)
-    ) {
-        return params.formData!
-            .fields
-            .some(field => field.isRequired === true && isNullOrEmpty(field.value));
-    }
-
-    return false;
-};
-
-/**
- * Validate modal configuration for `ModalType.Form` type
- * @param modalConfig Modal open configuration
- * @returns Error message if config isn't correct; otherwise - `undefined`
- */
-const validateFormModalType = (modalConfig: ModalParams): string | undefined => {
-    if (isNullish(modalConfig.formData)) {
-        return "Form data is not defined.";
-    }
-    if (modalConfig.formData!.fields.length === 0) {
-        return "Form data fields array is empty.";
-    }
-
-    const invalidItems: Array<ModalFormItem> =
-        modalConfig.formData!.fields
-            .map((x, index) => ({ ...x, position: index }))
-            .filter(item => isStringEmpty(item.name) || isStringEmpty(item.caption));
-
-    if (invalidItems.length !== 0) {
-        return `Form configuration contains invalid fields: [${invalidItems.map(({ name }) => name).join(", ")}].`;
-    }
-
-    if (isNullish(modalConfig.callback)
-        || isNullish(modalConfig.callback!.saveCallback)
-    ) {
-        return "Callback is not defined.";
-    }
-
-    return undefined;
-};
-
-/**
  * Validate modal configuration for `ModalType.Confirm` type
  * @param modalConfig Modal open configuration
  * @returns Error message if config isn't correct; otherwise - `undefined`
@@ -139,7 +89,6 @@ const validateInfoModalType = (modalConfig: ModalParams): string | undefined => 
  * Contains custom validators of modal params for specific modal types
  */
 const modalTypeToValidateParamFuncMap = new Map<ModalType, (modalParams: ModalParams) => string | undefined>([
-    [ModalType.Form, validateFormModalType],
     [ModalType.Confirm, validateConfirmModalType],
     [ModalType.Info, validateInfoModalType],
 ]);
