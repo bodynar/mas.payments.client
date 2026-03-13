@@ -100,8 +100,8 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
             <td className="is-vertical-align--center">
                 <Dropdown
                     placeholder="Type"
-                    deselectable={true}
-                    hideOnOuterClick={true}
+                    deselectable
+                    hideOnOuterClick
                     onSelect={onTypeSelect}
                     value={selectedType}
                     items={availableTypesAsDropdownItems}

@@ -76,7 +76,7 @@ const PaymentModule: FC<PaymentModuleProps> = ({ initialized, initModuleState })
                     <Button
                         caption="Back"
                         style={ButtonStyle.Info}
-                        outlined={true}
+                        outlined
                         size={ElementSize.Small}
                         onClick={onBackButtonClick}
                     />

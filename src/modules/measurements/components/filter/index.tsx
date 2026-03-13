@@ -91,8 +91,8 @@ const MeasurementFilters: FC<MeasurementFiltersProps> = ({
                     <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Year"
-                            hideOnOuterClick={true}
-                            deselectable={true}
+                            hideOnOuterClick
+                            deselectable
                             items={yearsAsDropdownItems()}
                             value={selectedYear}
                             onSelect={onYearSelect}
@@ -110,8 +110,8 @@ const MeasurementFilters: FC<MeasurementFiltersProps> = ({
                     <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Month"
-                            hideOnOuterClick={true}
-                            deselectable={true}
+                            hideOnOuterClick
+                            deselectable
                             items={monthsAsDropdownItems()}
                             value={selectedMonth}
                             onSelect={onMonthSelect}
@@ -129,8 +129,8 @@ const MeasurementFilters: FC<MeasurementFiltersProps> = ({
                     <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Type"
-                            hideOnOuterClick={true}
-                            deselectable={true}
+                            hideOnOuterClick
+                            deselectable
                             items={availableTypesAsDropdownItems}
                             value={currentType}
                             onSelect={onTypeSelect}
@@ -151,7 +151,7 @@ const MeasurementFilters: FC<MeasurementFiltersProps> = ({
                     <Button
                         style={ButtonStyle.Info}
                         caption="Clear"
-                        outlined={true}
+                        outlined
                         onClick={onClearClick}
                         disabled={isNullish(filterValue)}
                     />

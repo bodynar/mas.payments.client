@@ -20,7 +20,7 @@ const UserIcon: FC = () => {
         return (
             <div
                 className="app-user-icon is-flex is-align-items-center"
-                data-is-active={true}
+                data-is-active
             >
                 <Link to="/user/appInfo">
                     <span className="icon">

@@ -42,7 +42,7 @@ const SettingComponent: FC<SettingProps> = ({ setting, onUpdate }) => {
                 onValueChange={onValueChange}
                 defaultValue={value.toLocaleLowerCase() === "true"}
                 label={{ caption: setting.displayName, horizontal: true }}
-                isFormLabel={true}
+                isFormLabel
             />
         );
     }

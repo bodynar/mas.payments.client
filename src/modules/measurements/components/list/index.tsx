@@ -61,7 +61,7 @@ const MeasurementList: FC<MeasurementListProps> = ({
                     <Button
                         style={ButtonStyle.Info}
                         caption="Manage types"
-                        outlined={true}
+                        outlined
                         onClick={onTypeManageClick}
                         title="Open measurement types list"
                     />

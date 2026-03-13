@@ -54,12 +54,12 @@ const MeasurementGroupItem: FC<MeasurementGroupItemProps> = ({
             <section>
                 <Table
                     headings={groupedViewTableHeadings}
-                    hasBorder={true}
+                    hasBorder
                     narrow
-                    hoverable={true}
-                    fullWidth={true}
-                    hasStickyHeader={true}
-                    headerWithBorder={true}
+                    hoverable
+                    fullWidth
+                    hasStickyHeader
+                    headerWithBorder
                     currentSortColumn={sortColumn}
                     onHeaderClick={onHeaderCellClick}
                 >
@@ -69,7 +69,7 @@ const MeasurementGroupItem: FC<MeasurementGroupItemProps> = ({
                             item={x}
                             typesMap={typesMap}
                             deleteMeasurement={deleteItem}
-                            useInGroupView={true}
+                            useInGroupView
                         />
                     )}
                 </Table>

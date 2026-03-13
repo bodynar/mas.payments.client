@@ -61,7 +61,7 @@ const PaymentList: FC<PaymentListProps> = ({
                     <Button
                         style={ButtonStyle.Info}
                         caption="Manage types"
-                        outlined={true}
+                        outlined
                         onClick={onTypeManageClick}
                         title="Open payment types list"
                     />

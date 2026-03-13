@@ -83,12 +83,12 @@ const PaymentTypeList: FC<PaymentTypeListProps> = ({
                 <section>
                     <Table
                         headings={headings}
-                        hasBorder={true}
+                        hasBorder
                         narrow
-                        hoverable={true}
-                        fullWidth={true}
-                        hasStickyHeader={true}
-                        headerWithBorder={true}
+                        hoverable
+                        fullWidth
+                        hasStickyHeader
+                        headerWithBorder
                         currentSortColumn={sortColumn}
                         onHeaderClick={onHeaderCellClick}
                     >

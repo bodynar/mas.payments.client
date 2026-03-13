@@ -189,7 +189,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
                     <Dropdown
                         value={date?.year}
                         placeholder="Year"
-                        hideOnOuterClick={true}
+                        hideOnOuterClick
                         onSelect={onYearSelect}
                         items={yearsAsDropdownItems()}
                         label={{
@@ -203,7 +203,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
                     <Dropdown
                         value={date?.month}
                         placeholder="Month"
-                        hideOnOuterClick={true}
+                        hideOnOuterClick
                         onSelect={onMonthSelect}
                         items={monthsAsDropdownItems()}
                         label={{
@@ -226,7 +226,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
             <div className="field is-grouped">
                 <p className="control">
                     <Button
-                        outlined={true}
+                        outlined
                         caption="Add"
                         size={ElementSize.Small}
                         style={ButtonStyle.Primary}
@@ -239,7 +239,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
                     <p className="control">
                         <Button
                             style={ButtonStyle.Info}
-                            outlined={true}
+                            outlined
                             size={ElementSize.Small}
                             caption="Add for all types"
                             onClick={onAddForAllTypesClick}
@@ -252,7 +252,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
                     <p className="control">
                         <Button
                             style={ButtonStyle.Danger}
-                            outlined={true}
+                            outlined
                             size={ElementSize.Small}
                             caption="Remove all"
                             onClick={onRemoveAllClick}
@@ -265,10 +265,10 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
                 &&
                 <>
                     <Table
-                        zebra={true}
-                        fullWidth={true}
+                        zebra
+                        fullWidth
                         headings={tableHeadings}
-                        headerBorderless={true}
+                        headerBorderless
                     >
                         {items.map(x =>
                             <MeasurementCreateCardItem

@@ -102,9 +102,9 @@ const PaymentsChart: FC<PaymentsChartProps> = ({
                             <Dropdown
                                 value={type}
                                 placeholder="Type"
-                                deselectable={true}
+                                deselectable
                                 onSelect={setType}
-                                hideOnOuterClick={true}
+                                hideOnOuterClick
                                 items={availableTypesAsDropdownItems}
                                 label={{
                                     caption: "Type",

@@ -54,12 +54,12 @@ const PaymentGroupItem: FC<PaymentGroupItemProps> = ({
             <section>
                 <Table
                     headings={groupedViewTableHeadings}
-                    hasBorder={true}
+                    hasBorder
                     narrow
-                    hoverable={true}
-                    fullWidth={true}
-                    hasStickyHeader={true}
-                    headerWithBorder={true}
+                    hoverable
+                    fullWidth
+                    hasStickyHeader
+                    headerWithBorder
                     currentSortColumn={sortColumn}
                     onHeaderClick={onHeaderCellClick}
                 >
@@ -69,7 +69,7 @@ const PaymentGroupItem: FC<PaymentGroupItemProps> = ({
                             item={x}
                             typesMap={typesMap}
                             deletePayment={deletePayment}
-                            useInGroupView={true}
+                            useInGroupView
                         />
                     )}
                 </Table>

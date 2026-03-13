@@ -53,8 +53,8 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
                                 style={ButtonStyle.Success}
                                 caption="Reload"
                                 size={ElementSize.Small}
-                                rounded={true}
-                                outlined={true}
+                                rounded
+                                outlined
                                 icon={{ name: "arrow-clockwise", position: ElementPosition.Left, size: ElementSize.Medium, }}
                                 onClick={onReloadClick}
                             />
@@ -114,7 +114,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
                         )}
                         <Paginator
                             position={ElementPosition.Right}
-                            showNextButtons={true}
+                            showNextButtons
                             nearPagesCount={2}
                             count={pagesCount}
                             currentPage={currentPage}

@@ -31,19 +31,19 @@ const ApplicationInfo: FC<ApplicationInfoProps> = ({ appInfo, getAppInfo }) => {
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.dataBaseName || ""}
-                disabled={true}
+                disabled
                 label={{ caption: "Database name", horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.serverAppVersion || ""}
-                disabled={true}
+                disabled
                 label={{ caption: "Server app version", horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.clientAppVersion || ""}
-                disabled={true}
+                disabled
                 label={{ caption: "Client app version", horizontal: true }}
             />
         </div>

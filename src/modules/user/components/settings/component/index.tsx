@@ -106,7 +106,7 @@ const Settings: FC<SettingsProps> = ({
                     <div className="block columns">
                         <div className="column is-10">
                             <Text
-                                disabled={true}
+                                disabled
                                 onValueChange={emptyFn}
                                 defaultValue={options.measurementsWithoutDiff.toString()}
                                 label={{

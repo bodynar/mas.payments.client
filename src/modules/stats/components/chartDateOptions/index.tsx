@@ -66,8 +66,8 @@ const ChartDateOptions: FC<ChartDateOptionsProps> = ({
                 <Dropdown
                     placeholder="Month"
                     value={date.month}
-                    deselectable={true}
-                    hideOnOuterClick={true}
+                    deselectable
+                    hideOnOuterClick
                     onSelect={onMonthSelect}
                     items={monthsAsDropdownItems()}
                     label={{
@@ -80,9 +80,9 @@ const ChartDateOptions: FC<ChartDateOptionsProps> = ({
                 <Dropdown
                     placeholder="Year"
                     value={date.year}
-                    deselectable={true}
+                    deselectable
                     onSelect={onYearSelect}
-                    hideOnOuterClick={true}
+                    hideOnOuterClick
                     items={yearsAsDropdownItems()}
                 />
             </div>
@@ -90,7 +90,7 @@ const ChartDateOptions: FC<ChartDateOptionsProps> = ({
                 <Button
                     style={ButtonStyle.Success}
                     caption="Today"
-                    outlined={true}
+                    outlined
                     onClick={onTodayClick}
                     disabled={!todayIsActive}
                     title="Select current date"
