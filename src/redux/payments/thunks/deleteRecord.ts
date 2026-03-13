@@ -1,4 +1,4 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 import { deleteRecord as deleteRecordAction, getPaymentRecords } from "@app/core/payment";
 import { getMonthName } from "@app/utils";

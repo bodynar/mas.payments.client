@@ -2,8 +2,8 @@ import { isNullish, isNotNullish, Group } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
-import { filter, FilterValue, get, post, getMonthName } from "@app/utils";
-import { getRequiredFieldValue } from "@app/core";
+import { get, post } from "@app/utils";
+import { getRequiredFieldValue, groupByYearMonth, filterEntities } from "@app/core";
 import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, MeasurementResponse, UpdateMeasurement } from "@app/models/measurements";
 
 /**
@@ -32,38 +32,8 @@ export const getMeasurements = async (): Promise<Array<Measurement>> => {
  * @param filterValue Filter object with values
  * @returns Filtered array
  */
-export const filterMeasurementList = (items: Array<Measurement>, filterValue?: MeasurementFilter): Array<Measurement> => {
-    if (isNullish(filterValue)) {
-        return items;
-    }
-
-    const { month, year, typeId } = filterValue;
-
-    const filters: Array<FilterValue<Measurement>> = [];
-
-    if (isNotNullish(month) && !isNaN(month!)) {
-        filters.push({
-            key: "month",
-            value: month
-        });
-    }
-
-    if (isNotNullish(year) && !isNaN(year!)) {
-        filters.push({
-            key: "year",
-            value: year
-        });
-    }
-
-    if (isNotNullish(typeId) && !isNaN(typeId!)) {
-        filters.push({
-            key: "typeId",
-            value: typeId
-        });
-    }
-
-    return filter([...items], filters);
-};
+export const filterMeasurementList = (items: Array<Measurement>, filterValue?: MeasurementFilter): Array<Measurement> =>
+    filterEntities(items, filterValue);
 
 /**
  * Delete specified measurement type
@@ -83,34 +53,7 @@ export const deleteMeasurement = (id: number): Promise<void> => {
 export const groupMeasurements = (
     items: Array<Measurement>,
     isAscOrder: boolean
-): Array<MeasurementGroup> => {
-    let result: Array<MeasurementGroup> = [];
-
-    items.forEach(item => {
-        const group = result.find(({ year, month }) => year === item.year && month === item.month);
-
-        if (isNullish(group)) {
-            result.push({
-                caption: `${item.year} ${getMonthName(item.month)}`,
-                month: item.month,
-                year: item.year,
-                items: [item],
-            });
-        } else {
-            group.items = [...group.items, item].sort((left, right) => left.month - right.month);
-        }
-    });
-
-    result = result.sort((left, right) => {
-        if (left.year === right.year) {
-            return (left.month - right.month) * (isAscOrder ? -1 : 1);
-        }
-
-        return (left.year - right.year) * (isAscOrder ? -1 : 1);
-    });
-
-    return result;
-};
+): Array<MeasurementGroup> => groupByYearMonth(items, isAscOrder);
 
 /**
  * Save create measurement card with several possible measurements

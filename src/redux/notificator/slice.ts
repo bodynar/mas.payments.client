@@ -42,9 +42,6 @@ const notificatorSlice = createSlice({
 
             state.notifications = state.notifications.filter(n => !action.payload.includes(n.id));
         },
-        hideAllNotifications(state) {
-            state.notifications = [];
-        },
         setBadgeToZero(state) {
             state.historyBadgeCount = 0;
         },
@@ -54,7 +51,6 @@ const notificatorSlice = createSlice({
 export const {
     addNotifications,
     hideNotifications,
-    hideAllNotifications,
     setBadgeToZero,
 } = notificatorSlice.actions;
 

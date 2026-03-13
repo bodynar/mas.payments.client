@@ -2,8 +2,8 @@ import { isNullish } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
-import { get, post, getMonthName } from "@app/utils";
-import { getRequiredFieldValue } from "@app/core";
+import { get, post } from "@app/utils";
+import { getRequiredFieldValue, groupByYearMonth } from "@app/core";
 import { AddPayment, Payment, PaymentGroup, PaymentResponse, UpdatePayment } from "@app/models/payments";
 
 /**
@@ -74,31 +74,4 @@ export const getPaymentRecords = async (): Promise<Array<Payment>> => {
 export const groupPayments = (
     payments: Array<Payment>,
     isAscOrder: boolean,
-): Array<PaymentGroup> => {
-    let result: Array<PaymentGroup> = [];
-
-    payments.forEach(payment => {
-        const group = result.find(({ year, month }) => year === payment.year && month === payment.month);
-
-        if (isNullish(group)) {
-            result.push({
-                caption: `${payment.year} ${getMonthName(payment.month)}`,
-                month: payment.month,
-                year: payment.year,
-                items: [payment],
-            });
-        } else {
-            group.items = [...group.items, payment].sort((left, right) => left.month - right.month);
-        }
-    });
-
-    result = result.sort((left, right) => {
-        if (left.year === right.year) {
-            return (left.month - right.month) * (isAscOrder ? -1 : 1);
-        }
-
-        return (left.year - right.year) * (isAscOrder ? -1 : 1);
-    });
-
-    return result;
-};
+): Array<PaymentGroup> => groupByYearMonth(payments, isAscOrder);

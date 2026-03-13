@@ -1,4 +1,4 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 import { FieldValue } from "@bodynarf/react.components.form";
 

@@ -1,4 +1,4 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 import { getMeasurements, getMeasurementTypes } from "@app/core/measurement";
 import { getPaymentTypes } from "@app/core/payment";

@@ -1,4 +1,4 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 import { groupMeasurementsByType } from "@app/core/measurement";
 
@@ -16,7 +16,7 @@ export const groupByType = (): ThunkAction<void, CompositeAppState, unknown, Act
     const { measurements: state } = getState();
 
     const groupedByType = groupMeasurementsByType(
-        state.measurements
+        [...state.measurements]
             .sort((l, r) =>
                 new Date(l.year, l.month - 1, 1).getTime()
                 - new Date(r.year, r.month - 1, 1).getTime()

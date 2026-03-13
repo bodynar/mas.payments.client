@@ -73,12 +73,12 @@ const Settings: FC<SettingsProps> = ({
                 const setting = settings.find(({ name }) => name === key)!;
 
                 if (setting.rawValue === value) {
-                    updatedSettings.delete(key);
-                    setUpdatedSettings(new Map(updatedSettings));
+                    const next = new Map(updatedSettings);
+                    next.delete(key);
+                    setUpdatedSettings(next);
                 }
                 else {
-                    updatedSettings.set(key, value);
-                    setUpdatedSettings(updatedSettings);
+                    setUpdatedSettings(new Map([...updatedSettings, [key, value]]));
                 }
             } else {
                 setUpdatedSettings(x => new Map([...x, [key, value]]));

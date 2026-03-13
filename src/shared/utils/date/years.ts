@@ -19,7 +19,7 @@ export const yearsAsDropdownItems = (): Array<SelectableItem> => {
                 id: x,
                 value: x,
             }))
-            .sort(_ => -1);
+            .reverse();
     }
 
     return _yearsAsDropdownItems;

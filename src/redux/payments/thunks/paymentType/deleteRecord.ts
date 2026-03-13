@@ -1,4 +1,4 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 import { ActionWithPayload, CompositeAppState } from "@app/redux";
 import { setAppIsLoading } from "@app/redux/app";
