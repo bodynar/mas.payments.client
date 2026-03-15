@@ -35,6 +35,3 @@ const store = configureStore({
 });
 
 export default store;
-
-/** Application dispatch type */
-export type AppDispatch = typeof store.dispatch;

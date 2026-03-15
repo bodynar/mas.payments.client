@@ -12,7 +12,7 @@ export type AppThunkDispatch = ThunkDispatch<CompositeAppState, unknown, Unknown
 export type AppThunkAction<TResult = void> = ThunkAction<TResult, CompositeAppState, unknown, UnknownAction>;
 
 /** Context provided to every app thunk */
-export interface ThunkContext {
+interface ThunkContext {
     /** Typed Redux dispatch function */
     dispatch: AppThunkDispatch;
 
