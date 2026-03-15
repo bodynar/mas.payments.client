@@ -166,6 +166,11 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
 
 /** Measurement card */
 export default connect(
-    ({ measurements }: CompositeAppState) => ({ ...measurements }),
+    ({ measurements }: CompositeAppState) => ({
+        measurements: measurements.measurements,
+        typesMap: measurements.typesMap,
+        initialized: measurements.initialized,
+        availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
+    }),
     ({ saveCard })
 )(MeasurementEditCard);

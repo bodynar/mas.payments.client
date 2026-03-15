@@ -46,11 +46,15 @@ export const get = async <TResult>(uri: string, requestData?: object): Promise<T
 const fetchWithApiErrorHandling = async <TResult>(uri: string, requestParams: RequestInit): Promise<TResult> => {
     try {
         return await fetchWithDelay<TResult>(uri, requestParams);
-    } catch (e: any) {
-        let errorMessage: string = e?.message ?? String(e);
+    } catch (e: unknown) {
+        let errorMessage: string;
 
         if (e instanceof HttpError) {
             errorMessage = `${e.statusText} (${e.status})`;
+        } else if (e instanceof Error) {
+            errorMessage = e.message;
+        } else {
+            errorMessage = String(e);
         }
 
         throw new Error(errorMessage);

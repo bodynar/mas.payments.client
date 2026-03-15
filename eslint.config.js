@@ -42,7 +42,6 @@ export default tseslint.config([
 		},
 		rules: {
 			"react/react-in-jsx-scope": 0,
-			"react/react-in-jsx-scope": 0,
 			"no-unused-vars": 0,
 			"react/jsx-indent": 0,
 			"react/jsx-no-literals": 0,

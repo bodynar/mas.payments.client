@@ -35,8 +35,8 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
     }
 
     const url = isNewRecord
-        ? "/api/payment/addPaymentType"
-        : "/api/payment/updatePaymentType";
+        ? "api/payment/addPaymentType"
+        : "api/payment/updatePaymentType";
 
     return post(url, apiRequestModel);
 };
@@ -47,7 +47,7 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
  * @returns Promise of sending request to API
  */
 export const deleteTypeRecord = (id: number): Promise<void> => {
-    return post("/api/payment/deletePaymentType", { id });
+    return post("api/payment/deletePaymentType", { id });
 };
 
 /**

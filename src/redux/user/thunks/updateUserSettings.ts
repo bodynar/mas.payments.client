@@ -1,29 +1,16 @@
-import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
-
 import { post } from "@app/utils";
 
-import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { setAppIsLoading } from "@app/redux/app";
-import { getNotifications } from "@app/redux/notificator";
+import { createAppAsyncThunk } from "@app/redux";
 
 /**
  * Save user settings
- * @returns Action function that can be called with redux dispatcher
  */
-export const updateUserSettings = (updatedSettings: Array<UpdatedUserSetting>): ThunkAction<Promise<void>, CompositeAppState, unknown, ActionWithPayload> =>
-    (dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
-        getState: () => CompositeAppState
-    ): Promise<void> => {
-        dispatch(setAppIsLoading(true));
-
-        const [showSuccess, displayError] = getNotifications(dispatch, getState);
-
-        return post(`api/user/updateUserSettings`, updatedSettings)
-            .then(_ => {
-                showSuccess("Settings updated successfully");
-            })
-            .catch(displayError);
-    };
+export const updateUserSettings = createAppAsyncThunk(
+    async ({ showSuccess }, updatedSettings: Array<UpdatedUserSetting>) => {
+        await post(`api/user/updateUserSettings`, updatedSettings);
+        showSuccess("Settings updated successfully", false);
+    }
+);
 
 /** Updated user setting */
 export interface UpdatedUserSetting {

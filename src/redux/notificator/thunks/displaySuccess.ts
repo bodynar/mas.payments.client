@@ -1,6 +1,6 @@
-import { ThunkDispatch } from "@reduxjs/toolkit";
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
-import { Action, CompositeAppState } from "@app/redux";
+import { CompositeAppState } from "@app/redux";
 import { setAppIsLoading } from "@app/redux/app";
 import { ShowSuccessFn, getSuccessNotificationAction } from "@app/redux/notificator";
 

@@ -60,7 +60,7 @@ export const sort = <TModel>(items: Array<TModel>, sortColumn: SortColumn<TModel
  * @param right Next value
  * @returns `1` if previous value is greater than next, `-1` otherwise, `0` if values are equal
  */
-const compare = (left: any, right: any): number => {
+const compare = (left: unknown, right: unknown): number => {
     if (isNullish(left) && isNullish(right)) {
         return 0;
     }
@@ -73,11 +73,11 @@ const compare = (left: any, right: any): number => {
         return -1;
     }
 
-    if (right < left) {
+    if ((right as number) < (left as number)) {
         return -1;
     }
 
-    if (right > left) {
+    if ((right as number) > (left as number)) {
         return 1;
     }
 

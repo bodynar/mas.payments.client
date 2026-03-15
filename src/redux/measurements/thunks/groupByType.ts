@@ -1,16 +1,15 @@
-import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
-
 import { groupMeasurementsByType } from "@app/core/measurement";
 
-import { ActionWithPayload, CompositeAppState } from "@app/redux";
+import { AppThunkAction, AppThunkDispatch } from "@app/redux/createAppAsyncThunk";
+import { CompositeAppState } from "@app/redux";
 import { setGroupedByType } from "@app/redux/measurements";
 
 /**
  * Group all measurements by type
  * @returns Action function that can be called with redux dispatcher
  */
-export const groupByType = (): ThunkAction<void, CompositeAppState, unknown, ActionWithPayload> => (
-    dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
+export const groupByType = (): AppThunkAction => (
+    dispatch: AppThunkDispatch,
     getState: () => CompositeAppState
 ): void => {
     const { measurements: state } = getState();

@@ -36,8 +36,8 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
     }
 
     const url = isNewRecord
-        ? "/api/measurement/addMeasurementType"
-        : "/api/measurement/updateMeasurementType";
+        ? "api/measurement/addMeasurementType"
+        : "api/measurement/updateMeasurementType";
 
     return post(url, apiRequestModel);
 };
@@ -48,7 +48,7 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
  * @returns Promise of sending request to API
  */
 export const deleteTypeRecord = (id: number): Promise<void> => {
-    return post("/api/measurement/deleteMeasurementType", { id });
+    return post("api/measurement/deleteMeasurementType", { id });
 };
 
 /**

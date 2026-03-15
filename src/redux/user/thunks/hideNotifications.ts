@@ -1,10 +1,10 @@
-import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { Action, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 import { post } from "@app/utils";
 
 import { getUserNotifications } from "@app/core/user";
 
-import { CompositeAppState, Action } from "@app/redux";
+import { CompositeAppState } from "@app/redux";
 import { setAppIsLoading } from "@app/redux/app";
 import { setNotifications } from "@app/redux/user";
 import { hideNotifications as hideNotificationsAction, getNotifications } from "@app/redux/notificator";

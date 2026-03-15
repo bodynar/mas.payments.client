@@ -23,7 +23,7 @@ interface NotificatorProps {
 }
 
 /** Container component for notifications */
-function Notificator({ notifications, hideNotifications }: NotificatorProps): JSX.Element {
+const Notificator = ({ notifications, hideNotifications }: NotificatorProps): JSX.Element => {
     const hideNotification = useCallback(
         (notificationId: string): void => {
             if (!isStringEmpty(notificationId)) {
@@ -69,7 +69,9 @@ function Notificator({ notifications, hideNotifications }: NotificatorProps): JS
 
 /** Container component for notifications */
 export default connect(
-    ({ notificator }: CompositeAppState) => ({ ...notificator }),
+    ({ notificator }: CompositeAppState) => ({
+        notifications: notificator.notifications,
+    }),
     {
         hideNotifications: hideNotifications,
     }

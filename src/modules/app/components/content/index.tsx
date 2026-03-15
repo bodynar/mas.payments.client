@@ -18,7 +18,7 @@ interface AppContentProps {
 /**
  * Block of application main content
  */
-function AppContent({ isLoading }: AppContentProps): JSX.Element {
+const AppContent = ({ isLoading }: AppContentProps): JSX.Element => {
     return (
         <div className="app-loading-cover">
             {isLoading &&

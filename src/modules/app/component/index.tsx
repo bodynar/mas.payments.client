@@ -39,11 +39,11 @@ interface AppProps {
 }
 
 /** Root app component */
-function App({
+const App = ({
     isLoading, isModalDisplaying,
     setTabIsFocused,
     notifications, loadNotifications,
-}: AppProps): JSX.Element {
+}: AppProps): JSX.Element => {
     const onFocus = useCallback(() => setTabIsFocused(true), [setTabIsFocused]);
     const onBlur = useCallback(() => setTabIsFocused(false), [setTabIsFocused]);
 

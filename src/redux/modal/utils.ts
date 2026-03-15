@@ -1,8 +1,6 @@
-import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { Action, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 import { isNullish } from "@bodynarf/utils";
-
-import { Action } from "@app/redux";
 import { ModalCloseData, ModalCallback, ModalState, closeModalAction } from "@app/redux/modal";
 
 /**

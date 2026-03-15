@@ -114,7 +114,9 @@ const PaymentList: FC<PaymentListProps> = ({
 /** Payments list */
 export default connect(
     ({ payments }: CompositeAppState) => ({
-        ...payments,
+        useGroupedView: payments.useGroupedView,
+        availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
+        lastFilter: payments.lastFilter,
     }),
     ({
         toggleUseGrouping: toggleGroupView

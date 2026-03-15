@@ -39,7 +39,7 @@ export const filterMeasurementList = (items: Array<Measurement>, filterValue?: M
  * @returns Promise of sending request to API
  */
 export const deleteMeasurement = (id: number): Promise<void> => {
-    return post("/api/measurement/deleteMeasurement", { id });
+    return post("api/measurement/deleteMeasurement", { id });
 };
 
 /**

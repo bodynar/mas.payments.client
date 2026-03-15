@@ -1,6 +1,6 @@
-import { ThunkDispatch } from "@reduxjs/toolkit";
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
-import { Action, CompositeAppState } from "@app/redux";
+import { CompositeAppState } from "@app/redux";
 import { ShowErrorFn, ShowSuccessFn } from "@app/redux/notificator";
 
 import { displaySuccess } from "./displaySuccess";

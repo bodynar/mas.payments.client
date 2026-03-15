@@ -1,44 +1,25 @@
-import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
-
-import { UserNotification } from "@app/models/user";
-
-import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { setAppIsLoading } from "@app/redux/app";
-import { setNotifications } from "@app/redux/user";
-import { getNotifications, getWarningNotificationAction } from "@app/redux/notificator";
 import { getUserNotifications } from "@app/core/user";
+
+import { createAppAsyncThunk } from "@app/redux";
+import { setNotifications } from "@app/redux/user";
+import { getWarningNotificationAction } from "@app/redux/notificator";
 
 /**
  * Get user notifications
- * @returns Action function that can be called with redux dispatcher
  */
-export const loadNotifications = (): ThunkAction<Promise<void>, CompositeAppState, unknown, ActionWithPayload> => (
-    dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
-    getState: () => CompositeAppState,
-): Promise<void> => {
-    dispatch(setAppIsLoading(true));
+export const loadNotifications = createAppAsyncThunk(
+    async ({ dispatch, getState }) => {
+        const { notificator } = getState();
+        const notifications = await getUserNotifications();
 
-    const { notificator } = getState();
+        dispatch(setNotifications(notifications));
 
-    const [_, displayError] = getNotifications(dispatch, getState);
-
-    return getUserNotifications()
-        .then((notifications: Array<UserNotification>) => {
-            dispatch(setNotifications(notifications));
-
-            notifications
-                .filter(({ isHidden, id }) =>
-                    !isHidden && !notificator.notifications.some(x => x.entityId === id)
-                )
-                .forEach(({ text, id }) =>
-                    dispatch(
-                        getWarningNotificationAction(
-                            text, false, true, id
-                        )
-                    )
-                );
-
-            dispatch(setAppIsLoading(false));
-        })
-        .catch(displayError);
-};
+        notifications
+            .filter(({ isHidden, id }) =>
+                !isHidden && !notificator.notifications.some(x => x.entityId === id)
+            )
+            .forEach(({ text, id }) =>
+                dispatch(getWarningNotificationAction(text, false, true, id))
+            );
+    }
+);

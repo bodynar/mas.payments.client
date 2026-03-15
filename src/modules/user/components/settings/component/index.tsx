@@ -34,7 +34,7 @@ interface SettingsProps {
     };
 
     /** Recalculate measurements diff */
-    recalculateDiff: () => Promise<boolean>;
+    recalculateDiff: () => Promise<boolean | undefined>;
 }
 
 const Settings: FC<SettingsProps> = ({
@@ -87,7 +87,7 @@ const Settings: FC<SettingsProps> = ({
 
     const onRecalculateClick = useCallback(() => {
         recalculateDiff()
-            .then((result: boolean) => {
+            .then((result) => {
                 if (result) {
                     getMeasurementsWithoutDiff();
                 }
@@ -163,7 +163,10 @@ const Settings: FC<SettingsProps> = ({
  * User settings component
  */
 export default connect(
-    ({ user }: CompositeAppState) => ({ ...user }),
+    ({ user }: CompositeAppState) => ({
+        settings: user.settings,
+        options: user.options,
+    }),
     {
         loadSettings, updateUserSettings,
         getMeasurementsWithoutDiff, recalculateDiff

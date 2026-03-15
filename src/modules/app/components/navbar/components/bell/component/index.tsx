@@ -25,9 +25,9 @@ interface BellProps {
 }
 
 /** Bell with notifications component */
-function Bell({
+const Bell = ({
     notificationBadge, notifications, onListOpened
-}: BellProps): JSX.Element {
+}: BellProps): JSX.Element => {
     const [isListVisible, setListVisibility] = useState<boolean>(false);
 
     const onBellClick = useCallback(

@@ -11,10 +11,22 @@ const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => {
         const middleware = getDefaultMiddleware({
-            serializableCheck: false,
+            serializableCheck: {
+                ignoredPaths: [
+                    "payments.typesMap",
+                    "measurements.typesMap",
+                    "stats.charts",
+                    "notificator.notifications",
+                    "notificator.history",
+                ],
+                ignoredActions: [
+                    "mas.payments/notification/addNotifications",
+                    "mas.payments/modal/openModal",
+                ],
+            },
         });
 
-        if (!import.meta.env.PRODUCTION) {
+        if (import.meta.env.DEV) {
             middleware.push(createLogger() as Middleware);
         }
 

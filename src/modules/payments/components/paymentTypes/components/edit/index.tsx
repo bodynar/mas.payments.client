@@ -136,7 +136,10 @@ const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
 
 /** Payment type card */
 export default connect(
-    ({ payments }: CompositeAppState) => ({ ...payments }),
+    ({ payments }: CompositeAppState) => ({
+        typesMap: payments.typesMap,
+        initialized: payments.initialized,
+    }),
     ({
         saveCard: saveTypeCard,
     })
