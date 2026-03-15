@@ -117,3 +117,19 @@ export const validateMeasurementCreateData = (
 export const groupMeasurementsByType = (items: Array<Measurement>): Array<Group<Measurement>> => {
     return items.groupBy('typeId');
 };
+
+/**
+ * Get count of measurements without calculated diff
+ * @returns Promise with count
+ */
+export const getMeasurementsWithoutDiffCount = async (): Promise<number> => {
+    return get<number>("api/measurement/withoutDiff");
+};
+
+/**
+ * Recalculate measurement diff values
+ * @returns Promise with array of error messages (empty if successful)
+ */
+export const recalculateMeasurementDiff = async (): Promise<Array<string>> => {
+    return post<Array<string>>("api/measurement/updateDiff", {});
+};

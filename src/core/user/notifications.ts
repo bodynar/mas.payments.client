@@ -1,6 +1,6 @@
 import { isNullish } from "@bodynarf/utils";
 
-import { get } from "@app/utils";
+import { get, post } from "@app/utils";
 import { UserNotification } from "@app/models/user";
 
 /**
@@ -15,4 +15,13 @@ export const getUserNotifications = async (): Promise<Array<UserNotification>> =
         createdAt: new Date(x.createdAt),
         hiddenAt: isNullish(x.hiddenAt) ? undefined : new Date(x.hiddenAt!),
     }));
+};
+
+/**
+ * Hide user notifications by their entity ids
+ * @param entityIds Array of notification entity identifiers
+ * @returns Promise with array of entity ids that were NOT hidden
+ */
+export const hideUserNotifications = async (entityIds: Array<number | undefined>): Promise<Array<number>> => {
+    return post<Array<number>>("api/user/hideNotifications", entityIds);
 };

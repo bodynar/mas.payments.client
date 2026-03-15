@@ -7,10 +7,10 @@ import { ButtonStyle } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Text from "@bodynarf/react.components/components/primitives/text";
 
-import { UserSetting } from "@app/models/user";
+import { UpdatedUserSetting, UserSetting } from "@app/models/user";
 
 import { CompositeAppState } from "@app/redux";
-import { loadSettings, UpdatedUserSetting, updateUserSettings, getMeasurementsWithoutDiff, recalculateDiff } from "@app/redux/user/";
+import { loadSettings, updateUserSettings, getMeasurementsWithoutDiff, recalculateDiff } from "@app/redux/user/";
 
 import Setting from "../components/setting";
 

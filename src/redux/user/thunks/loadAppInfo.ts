@@ -1,18 +1,16 @@
 import { version } from "package.json";
 
-import { get } from "@app/utils";
-
-import { ApplicationInfo } from "@app/models/user";
-
 import { createAppAsyncThunk } from "@app/redux";
 import { setAppInfo } from "@app/redux/user";
+
+import { getAppInfo as getAppInfoApi } from "@app/core/user";
 
 /**
  * Get application info
  */
 export const getAppInfo = createAppAsyncThunk(
     async ({ dispatch }) => {
-        const appInfo = await get<AppInfoResponse>(`api/user/getAppInfo`);
+        const appInfo = await getAppInfoApi();
 
         dispatch(setAppInfo({
             ...appInfo,
@@ -20,5 +18,3 @@ export const getAppInfo = createAppAsyncThunk(
         }));
     }
 );
-
-type AppInfoResponse = Pick<ApplicationInfo, "dataBaseName" | "serverAppVersion">;

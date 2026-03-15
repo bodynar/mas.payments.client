@@ -1,16 +1,16 @@
 import { isNullish } from "@bodynarf/utils";
 
-import { post } from "@app/utils";
-
 import { createAppAsyncThunk } from "@app/redux";
 import { openModal, ModalType } from "@app/redux/modal";
+
+import { recalculateMeasurementDiff } from "@app/core/measurement";
 
 /**
  * Recalculate measurements diff
  */
 export const recalculateDiff = createAppAsyncThunk(
     async ({ dispatch, showSuccess }): Promise<boolean> => {
-        const result = await post<Array<string>>(`api/measurement/updateDiff`, {});
+        const result = await recalculateMeasurementDiff();
 
         if (isNullish(result) || result.length === 0) {
             showSuccess("Diff successfully recalculated", false);
