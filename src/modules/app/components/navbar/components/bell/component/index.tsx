@@ -80,7 +80,7 @@ const Bell = ({
             </div>
         </div>
     );
-}
+};
 
 export default connect(
     ({ notificator }: CompositeAppState) => ({

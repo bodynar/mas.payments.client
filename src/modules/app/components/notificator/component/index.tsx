@@ -65,7 +65,7 @@ const Notificator = ({ notifications, hideNotifications }: NotificatorProps): JS
             )}
         </TransitionGroup>
     );
-}
+};
 
 /** Container component for notifications */
 export default connect(

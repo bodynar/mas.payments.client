@@ -19,7 +19,7 @@ import Navbar from "../components/navbar";
 import AppContent from "../components/content";
 
 interface AppProps {
-    /** 
+    /**
      * Is app currently loading something important.
      * If so - covers content with loading gif block
     */
@@ -82,7 +82,7 @@ const App = ({
             </ErrorBoundary>
         </main>
     );
-}
+};
 
 export default connect(
     ({ app, modal, user }: CompositeAppState) => ({

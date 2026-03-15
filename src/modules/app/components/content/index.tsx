@@ -36,7 +36,7 @@ const AppContent = ({ isLoading }: AppContentProps): JSX.Element => {
             </div>
         </div>
     );
-}
+};
 
 /**
  * Get module routing table as tree of react-router components.

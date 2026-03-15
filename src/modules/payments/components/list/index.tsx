@@ -9,7 +9,7 @@ import CheckBox from "@bodynarf/react.components/components/primitives/checkbox"
 import { PaymentFilter as PaymentFilterModel } from "@app/models/payments";
 
 import { CompositeAppState } from "@app/redux";
-import { toggleGroupView } from "@app/redux/payments";
+import { toggleGroupView, loadPayments } from "@app/redux/payments";
 
 import { getDropdownItem } from "@app/core";
 
@@ -30,17 +30,22 @@ interface PaymentListProps {
 
     /** Toggle grouping view */
     toggleUseGrouping: () => void;
+
+    /** Reload payments from server */
+    reloadPayments: () => void;
 }
 
 const PaymentList: FC<PaymentListProps> = ({
     lastFilter, useGroupedView,
     availableTypesAsDropdownItems,
     toggleUseGrouping,
+    reloadPayments,
 }) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
+    const onReloadClick = useCallback(() => reloadPayments(), [reloadPayments]);
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId));
     const [ascSortGroups, setAscSortGroups] = useState(false);
 
@@ -64,6 +69,15 @@ const PaymentList: FC<PaymentListProps> = ({
                         outlined
                         onClick={onTypeManageClick}
                         title="Open payment types list"
+                    />
+                </p>
+                <p className="control">
+                    <Button
+                        style={ButtonStyle.Success}
+                        outlined
+                        icon={{ name: "arrow-clockwise", position: ElementPosition.Left, size: ElementSize.Medium }}
+                        onClick={onReloadClick}
+                        title="Reload payments"
                     />
                 </p>
             </nav>
@@ -119,6 +133,7 @@ export default connect(
         lastFilter: payments.lastFilter,
     }),
     ({
-        toggleUseGrouping: toggleGroupView
+        toggleUseGrouping: toggleGroupView,
+        reloadPayments: loadPayments,
     })
 )(PaymentList);

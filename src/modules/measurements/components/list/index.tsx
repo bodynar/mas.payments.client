@@ -9,7 +9,7 @@ import CheckBox from "@bodynarf/react.components/components/primitives/checkbox"
 import { MeasurementFilter as MeasurementFilterModel } from "@app/models/measurements";
 
 import { CompositeAppState } from "@app/redux";
-import { toggleGroupView } from "@app/redux/measurements";
+import { toggleGroupView, loadMeasurements } from "@app/redux/measurements";
 
 import { getDropdownItem } from "@app/core";
 
@@ -30,17 +30,22 @@ interface MeasurementListProps {
 
     /** Toggle grouping view */
     toggleUseGrouping: () => void;
+
+    /** Reload measurements from server */
+    reloadMeasurements: () => void;
 }
 
 const MeasurementList: FC<MeasurementListProps> = ({
     lastFilter, useGroupedView,
     availableTypesAsDropdownItems,
     toggleUseGrouping,
+    reloadMeasurements,
 }) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/measurement/create", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/measurement/types", { replace: true }), [navigate]);
+    const onReloadClick = useCallback(() => reloadMeasurements(), [reloadMeasurements]);
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId));
     const [ascSortGroups, setAscSortGroups] = useState(false);
 
@@ -64,6 +69,15 @@ const MeasurementList: FC<MeasurementListProps> = ({
                         outlined
                         onClick={onTypeManageClick}
                         title="Open measurement types list"
+                    />
+                </p>
+                <p className="control">
+                    <Button
+                        style={ButtonStyle.Success}
+                        outlined
+                        icon={{ name: "arrow-clockwise", position: ElementPosition.Left, size: ElementSize.Medium }}
+                        onClick={onReloadClick}
+                        title="Reload measurements"
                     />
                 </p>
             </nav>
@@ -114,5 +128,5 @@ const MeasurementList: FC<MeasurementListProps> = ({
 /** Measurement list */
 export default connect(
     ({ measurements }: CompositeAppState) => ({ ...measurements, }),
-    ({ toggleUseGrouping: toggleGroupView })
+    ({ toggleUseGrouping: toggleGroupView, reloadMeasurements: loadMeasurements })
 )(MeasurementList);
