@@ -7,9 +7,9 @@ import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
 import { sort } from "@app/utils";
+import { filterEntities } from "@app/core";
 
 import { PaymentModuleState } from "./types";
-import { filterPaymentList } from "./utils";
 
 const initialState: PaymentModuleState = {
     initialized: false,
@@ -30,7 +30,7 @@ const paymentsSlice = createSlice({
             state.payments = payments;
             state.filteredItems = isNullish(state.lastFilter)
                 ? payments
-                : filterPaymentList(payments, state.lastFilter);
+                : filterEntities(payments, state.lastFilter);
         },
         setFilterValue: {
             reducer(state, action: PayloadAction<{ filter?: PaymentFilter; applyFilter: boolean }>) {
@@ -42,7 +42,7 @@ const paymentsSlice = createSlice({
                 } else {
                     state.lastFilter = filter;
                     if (applyFilter) {
-                        state.filteredItems = filterPaymentList(state.payments, filter);
+                        state.filteredItems = filterEntities(state.payments, filter);
                     }
                 }
             },
@@ -68,7 +68,7 @@ const paymentsSlice = createSlice({
             }
         },
         filterPayments(state) {
-            state.filteredItems = filterPaymentList(state.payments, state.lastFilter);
+            state.filteredItems = filterEntities(state.payments, state.lastFilter);
         },
         setSortColumn(state, action: PayloadAction<SortColumn<Payment>>) {
             state.paymentSortColumn = action.payload;

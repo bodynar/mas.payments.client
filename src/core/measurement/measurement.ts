@@ -3,8 +3,8 @@ import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
 import { get, post } from "@app/utils";
-import { getRequiredFieldValue, groupByYearMonth, filterEntities } from "@app/core";
-import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementFilter, MeasurementGroup, MeasurementResponse, UpdateMeasurement } from "@app/models/measurements";
+import { getRequiredFieldValue, groupByYearMonth } from "@app/core";
+import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementGroup, MeasurementResponse, UpdateMeasurement } from "@app/models/measurements";
 
 /**
  * Load all available measurement records
@@ -24,14 +24,7 @@ export const getMeasurements = async (): Promise<Array<Measurement>> => {
     }));
 };
 
-/**
- * Filter measurement items array by specified filter
- * @param items Measurement items
- * @param filterValue Filter object with values
- * @returns Filtered array
- */
-export const filterMeasurementList = (items: Array<Measurement>, filterValue?: MeasurementFilter): Array<Measurement> =>
-    filterEntities(items, filterValue);
+
 
 /**
  * Delete specified measurement type

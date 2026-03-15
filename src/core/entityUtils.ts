@@ -4,16 +4,12 @@ import { EntityFilter, EntityGroup } from "@app/models";
 import { filter, FilterValue, getMonthName } from "@app/utils";
 
 /** Entity with date fields required for grouping/filtering */
-interface DateBasedEntity {
-    month: number;
-    year: number;
-    typeId: number;
-}
+type DateBasedEntity = Required<EntityFilter>;
 
 /**
  * Group date-based entities by year and month
  * @param items Entity records
- * @param isAscOrder Sort groups ascendingly by month&year
+ * @param isAscOrder Sort groups ascending by month&year
  * @returns Array of grouped entities
  */
 export const groupByYearMonth = <T extends DateBasedEntity>(
@@ -54,7 +50,10 @@ export const groupByYearMonth = <T extends DateBasedEntity>(
  * @param filterValue Filter object with values
  * @returns Filtered array
  */
-export const filterEntities = <T extends DateBasedEntity>(items: Array<T>, filterValue?: EntityFilter): Array<T> => {
+export const filterEntities = <T extends DateBasedEntity>(
+    items: Array<T>,
+    filterValue?: EntityFilter,
+): Array<T> => {
     if (isNullish(filterValue)) {
         return items;
     }

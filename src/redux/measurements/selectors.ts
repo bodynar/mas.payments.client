@@ -1,15 +1,15 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import { CompositeAppState } from "@app/redux";
+import { filterEntities } from "@app/core";
 import { sort } from "@app/utils";
-import { filterMeasurementList } from "@app/core/measurement";
 
 const selectMeasurementsState = (state: CompositeAppState) => state.measurements;
 
 /** Select measurements filtered by current filter */
 export const selectFilteredMeasurements = createSelector(
     [selectMeasurementsState],
-    ({ measurements, lastFilter }) => filterMeasurementList(measurements, lastFilter)
+    ({ measurements, lastFilter }) => filterEntities(measurements, lastFilter)
 );
 
 /** Select measurements filtered and sorted by current config */

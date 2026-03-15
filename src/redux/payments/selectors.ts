@@ -1,16 +1,15 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import { CompositeAppState } from "@app/redux";
+import { filterEntities } from "@app/core";
 import { sort } from "@app/utils";
-
-import { filterPaymentList } from "./utils";
 
 const selectPaymentsState = (state: CompositeAppState) => state.payments;
 
 /** Select payments filtered by current filter */
 export const selectFilteredPayments = createSelector(
     [selectPaymentsState],
-    ({ payments, lastFilter }) => filterPaymentList(payments, lastFilter)
+    ({ payments, lastFilter }) => filterEntities(payments, lastFilter)
 );
 
 /** Select payments filtered and sorted by current config */

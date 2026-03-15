@@ -7,7 +7,7 @@ import { MeasurementType, Measurement, MeasurementFilter } from "@app/models/mea
 import { SortColumn } from "@app/models";
 
 import { sort } from "@app/utils";
-import { filterMeasurementList } from "@app/core/measurement";
+import { filterEntities } from "@app/core";
 
 import { MeasurementModuleState } from "./types";
 
@@ -30,7 +30,7 @@ const measurementsSlice = createSlice({
             state.measurements = items;
             state.filteredItems = isNullish(state.lastFilter)
                 ? items
-                : filterMeasurementList(items, state.lastFilter);
+                : filterEntities(items, state.lastFilter);
         },
         setFilterValue: {
             reducer(state, action: PayloadAction<{ filter?: MeasurementFilter; applyFilter: boolean }>) {
@@ -42,7 +42,7 @@ const measurementsSlice = createSlice({
                 } else {
                     state.lastFilter = filter;
                     if (applyFilter) {
-                        state.filteredItems = filterMeasurementList(state.measurements, filter);
+                        state.filteredItems = filterEntities(state.measurements, filter);
                     }
                 }
             },
@@ -68,7 +68,7 @@ const measurementsSlice = createSlice({
             }
         },
         filterMeasurements(state) {
-            state.filteredItems = filterMeasurementList(state.measurements, state.lastFilter);
+            state.filteredItems = filterEntities(state.measurements, state.lastFilter);
         },
         setSortColumn(state, action: PayloadAction<SortColumn<Measurement>>) {
             state.measurementSortColumn = action.payload;
