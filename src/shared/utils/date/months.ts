@@ -4,11 +4,11 @@ import { SelectableItem } from "@bodynarf/react.components";
  * Get month name by its number
  * @param monthNumber Number of month
  * @returns Name of month
- * @throws Month number isn"t in (0, 12) range
+ * @throws Month number isn"t in [1, 12] range
  */
 export const getMonthName = (monthNumber: number): string => {
-    if (monthNumber < 0 || monthNumber > 12) {
-        throw new Error("Month number must be in (0, 12) range.");
+    if (monthNumber < 1 || monthNumber > 12) {
+        throw new Error("Month number must be in [1, 12] range.");
     }
 
     return new Intl.DateTimeFormat(undefined, { month: "long" }).format(new Date(2000, monthNumber - 1, 1));
@@ -17,11 +17,15 @@ export const getMonthName = (monthNumber: number): string => {
 /**
  * Get short month name by its number
  * @param monthNumber Number of month
- * @returns Short name of month in 3 characters length
- * @throws Month number isn"t in (0, 12) range
+ * @returns Localized short name of month
+ * @throws Month number isn"t in [1, 12] range
  */
 export const getShortMonthName = (monthNumber: number): string => {
-    return getMonthName(monthNumber).substring(0, 3);
+    if (monthNumber < 1 || monthNumber > 12) {
+        throw new Error("Month number must be in [1, 12] range.");
+    }
+
+    return new Intl.DateTimeFormat(undefined, { month: "short" }).format(new Date(2000, monthNumber - 1, 1));
 };
 
 /**

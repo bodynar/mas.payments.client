@@ -73,13 +73,16 @@ const compare = (left: unknown, right: unknown): number => {
         return -1;
     }
 
-    if ((right as number) < (left as number)) {
-        return -1;
+    if (typeof left === "number" && typeof right === "number") {
+        return left < right ? -1 : left > right ? 1 : 0;
     }
 
-    if ((right as number) > (left as number)) {
-        return 1;
+    if (typeof left === "string" && typeof right === "string") {
+        return left.localeCompare(right);
     }
 
-    return 0;
+    const leftStr = String(left);
+    const rightStr = String(right);
+
+    return leftStr.localeCompare(rightStr);
 };
