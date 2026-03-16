@@ -45,13 +45,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                                 <span className="icon mr-2">
                                     <i className="bi bi-exclamation-triangle" />
                                 </span>
-                                Не удалось загрузить страницу
+                                Unable to load the page
                             </p>
                         </div>
                         <div className="message-body">
                             <p className="mb-4">
-                                Произошла непредвиденная ошибка при отображении содержимого.
-                                Попробуйте обновить страницу.
+                                An unexpected error occurred while rendering the content.
+                                Please try refreshing the page.
                             </p>
                             {this.state.error && (
                                 <p className="is-size-7 has-text-grey mb-4">
@@ -65,7 +65,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                                 <span className="icon">
                                     <i className="bi bi-arrow-clockwise" />
                                 </span>
-                                <span>Обновить страницу</span>
+                                <span>Reload page</span>
                             </button>
                         </div>
                     </article>
