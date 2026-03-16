@@ -22,6 +22,6 @@ export const getUserNotifications = async (): Promise<Array<UserNotification>> =
  * @param entityIds Array of notification entity identifiers
  * @returns Promise with array of entity ids that were NOT hidden
  */
-export const hideUserNotifications = async (entityIds: Array<number | undefined>): Promise<Array<number>> => {
+export const hideUserNotifications = async (entityIds: Array<number>): Promise<Array<number>> => {
     return post<Array<number>>("api/user/hideNotifications", entityIds);
 };

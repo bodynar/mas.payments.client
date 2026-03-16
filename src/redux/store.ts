@@ -18,10 +18,12 @@ const store = configureStore({
                     "stats.charts",
                     "notificator.notifications",
                     "notificator.history",
+                    "user.notificationHistory",
                 ],
                 ignoredActions: [
                     "mas.payments/notification/addNotifications",
                     "mas.payments/modal/openModal",
+                    "mas.payments/user/setNotifications",
                 ],
             },
         });

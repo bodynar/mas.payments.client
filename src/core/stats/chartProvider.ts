@@ -23,7 +23,7 @@ interface ChartProviderConfig {
  * @returns Function that loads chart series data
  */
 export const createChartDataProvider = (providerConfig: ChartProviderConfig) =>
-    ({ from, to, type }: ChartConfig): Promise<Array<ChartData>> => {
+    async ({ from, to, type }: ChartConfig): Promise<Array<ChartData>> => {
         const fromDate = getDateIfDefined(from ?? {});
         const toDate = getDateIfDefined(to ?? {});
 
@@ -45,27 +45,25 @@ export const createChartDataProvider = (providerConfig: ChartProviderConfig) =>
             ? providerConfig.apiUri
             : `${providerConfig.apiUri}?${queryString}`;
 
-        return get<StatisticsResponse>(apiUri)
-            .then(({ typeStatistics }) => {
-                const isSameYear = new Set(
-                    typeStatistics.map((x: TypeStatistics) => x.statisticsData.map((y: StatisticsDataPoint) => y.year)).flat()
-                ).size === 1;
+        const { typeStatistics } = await get<StatisticsResponse>(apiUri);
 
-                return typeStatistics.map((x: TypeStatistics) => ({
-                    key: (x[providerConfig.typeNameKey] as string) ?? "",
-                    data: new Map<string, number>(
-                        (x.statisticsData as Array<StatisticsDataPoint & { trimNotDefinedValuesBy: (fn: (y: StatisticsDataPoint) => number | undefined) => Array<StatisticsDataPoint> }>)
-                            .trimNotDefinedValuesBy((y: StatisticsDataPoint) => y[providerConfig.valueKey] as number | undefined)
-                            .map(
-                                (y: StatisticsDataPoint) =>
-                                    [
-                                        isSameYear
-                                            ? getShortMonthName(y.month)
-                                            : getShortMonthName(y.month) + ' ' + y.year,
-                                        (y[providerConfig.valueKey] as number) ?? 0
-                                    ]
-                            )
-                    )
-                }) as ChartData);
-            });
+        const isSameYear = new Set(
+            typeStatistics.flatMap((x) => x.statisticsData.map((y) => y.year))
+        ).size === 1;
+
+        return typeStatistics.map((x): ChartData => {
+            const trimmed = x.statisticsData.filter((y) => isNotNullish(y[providerConfig.valueKey]));
+
+            return {
+                key: (x[providerConfig.typeNameKey] as string) ?? "",
+                data: new Map(
+                    trimmed.map((y) => [
+                        isSameYear
+                            ? getShortMonthName(y.month)
+                            : getShortMonthName(y.month) + " " + y.year,
+                        (y[providerConfig.valueKey] as number) ?? 0,
+                    ])
+                ),
+            };
+        });
     };

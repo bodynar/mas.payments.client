@@ -1,3 +1,5 @@
+import { isNotNullish } from "@bodynarf/utils";
+
 import { getUserNotifications, hideUserNotifications } from "@app/core/user";
 
 import { createAppAsyncThunk } from "@app/redux";
@@ -16,13 +18,15 @@ export const hideNotifications = createAppAsyncThunk(
 
         const notifications = notificator.notifications.filter(({ important, id }) => important && ids.includes(id));
 
-        if (notifications.length === 0) {
+        const withEntityIds = notifications.filter(n => isNotNullish(n.entityId));
+
+        if (withEntityIds.length === 0) {
             dispatch(hideNotificationsAction(ids));
             return;
         }
 
         const notHiddenIds = await hideUserNotifications(
-            notifications.map(({ entityId }) => entityId)
+            withEntityIds.map(({ entityId }) => entityId!)
         );
 
         const loadedNotifications = await getUserNotifications();
