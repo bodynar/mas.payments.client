@@ -3,12 +3,12 @@ import { isNullish } from "@bodynarf/utils";
 import { SortColumn } from "@app/models";
 
 /** Filter value */
-export interface FilterValue<TModel> {
+export interface FilterValue<TModel, TKey extends keyof TModel = keyof TModel> {
     /** Name of column */
-    key: keyof TModel;
+    key: TKey;
 
     /** Comparison value */
-    value: TModel[keyof TModel];
+    value: TModel[TKey];
 }
 
 /**

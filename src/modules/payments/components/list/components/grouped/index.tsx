@@ -5,16 +5,17 @@ import { isNullish } from "@bodynarf/utils";
 import { usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
-import { deleteRecord, groupPayments } from "@app/core/payment";
+import { groupPayments } from "@app/core/payment";
 import { Payment, PaymentFilter, PaymentGroup, PaymentType } from "@app/models/payments";
 
 import { CompositeAppState } from "@app/redux/types";
+import { deleteRecord } from "@app/redux/payments";
 
 import PaymentGroupItem from "./groupItem";
 
 /** Payment list props type */
 interface PaymentGroupedViewProps {
-    /** Is groups sorted ascendingly */
+    /** Is groups sorted ascending */
     isAscOrder: boolean;
 
     /** Is module state initialized */
