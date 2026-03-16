@@ -35,10 +35,10 @@ export const groupByYearMonth = <T extends DateBasedEntity>(
 
     result = result.sort((left, right) => {
         if (left.year === right.year) {
-            return (left.month - right.month) * (isAscOrder ? -1 : 1);
+            return (left.month - right.month) * (isAscOrder ? 1 : -1);
         }
 
-        return (left.year - right.year) * (isAscOrder ? -1 : 1);
+        return (left.year - right.year) * (isAscOrder ? 1 : -1);
     });
 
     return result;
