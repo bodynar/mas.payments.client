@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
-import { isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
+import { isNotNullish, isStringEmpty } from "@bodynarf/utils";
 
 import "./style.scss";
 
@@ -39,7 +39,7 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
                         <NavbarMenuItem
                             key={menuItem.name}
                             item={menuItem}
-                            isActive={!isNullOrUndefined(activeItem) && menuItem.name === activeItem}
+                            isActive={isNotNullish(activeItem) && menuItem.name === activeItem}
                         />
                     )}
                 </div>

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 
-import { ElementColor, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Icon from "@bodynarf/react.components/components/icon";
@@ -13,24 +13,24 @@ import { Chart } from "@app/models/stats";
 
 import { CompositeAppState } from "@app/redux";
 import { loadTypes } from "@app/redux/measurements";
-import { getSaveChartConfigAction, getSaveChartConfigPanelVisibilityAction, loadChartData } from "@app/redux/stats";
+import { saveChartConfig, saveConfigPanelVisibility, loadChartData } from "@app/redux/stats";
 
 import ChartDateOptions from "../chartDateOptions";
 import { ChartComponentProps } from "../types";
 import ChartContainer from "../chart";
 
-/** Payments chart component props type */
+/** Measurements chart component props type */
 interface MeasurementsChartProps extends ChartComponentProps { }
 
-/** Payments chart component */
-const MeasurementsChart = ({
+/** Measurements chart component */
+const MeasurementsChart: FC<MeasurementsChartProps> = ({
     availableTypesAsDropdownItems,
     loadTypes, loadChartData, saveConfig,
     chartSeriesData, lastConfig,
     saveChartConfigPanelVisibility,
-}: MeasurementsChartProps): JSX.Element => {
+}) => {
     useEffect(() => {
-        if (availableTypesAsDropdownItems.length === 0) {
+        if (availableTypesAsDropdownItems.length === 0) { // TODO: if no items exists - display warning
             loadTypes();
         }
     }, [loadTypes, availableTypesAsDropdownItems]);
@@ -39,7 +39,7 @@ const MeasurementsChart = ({
     const [toDate, setToDate] = useState<LookupDate>(lastConfig?.to ?? {});
     const [type, setType] = useState<SelectableItem | undefined>(lastConfig?.type);
 
-    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => saveChartConfigPanelVisibility(Chart.Measurements, collapsed), [saveChartConfigPanelVisibility]);
+    const onConfigPanelVisibilityToggle = useCallback((collapsed: boolean) => { saveChartConfigPanelVisibility({ chartKey: Chart.Measurements, collapsed }); }, [saveChartConfigPanelVisibility]);
     const onShowDataClick = useCallback(
         () =>
             loadChartData({
@@ -75,7 +75,7 @@ const MeasurementsChart = ({
                 caption="Configuration"
                 style={ElementColor.Info}
                 onToggle={onConfigPanelVisibilityToggle}
-                defaultExpanded={!lastConfig?.configIsCollapsed ?? true}
+                defaultExpanded={!(lastConfig?.configIsCollapsed ?? false)}
             >
                 <nav className="block">
                     <div className="block is-italic	">
@@ -103,9 +103,9 @@ const MeasurementsChart = ({
                             <Dropdown
                                 value={type}
                                 placeholder="Type"
-                                deselectable={true}
+                                deselectable
                                 onSelect={setType}
-                                hideOnOuterClick={true}
+                                hideOnOuterClick
                                 items={availableTypesAsDropdownItems}
                                 label={{
                                     caption: "Type",
@@ -118,7 +118,7 @@ const MeasurementsChart = ({
                     <div className="columns">
                         <div className="column">
                             <Button
-                                type="primary"
+                                style={ButtonStyle.Primary}
                                 caption="Show data"
                                 onClick={onShowDataClick}
                             />
@@ -154,7 +154,7 @@ export default
         {
             loadTypes: loadTypes,
             loadChartData: loadChartData,
-            saveConfig: getSaveChartConfigAction,
-            saveChartConfigPanelVisibility: getSaveChartConfigPanelVisibilityAction,
+            saveConfig: saveChartConfig,
+            saveChartConfigPanelVisibility: saveConfigPanelVisibility,
         }
     )(MeasurementsChart);

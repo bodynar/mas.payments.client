@@ -1,42 +1,24 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
-
-import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getSetPaymentTypesAction, getSetModuleInitializedStateAction, getSetPaymentsAction } from "@app/redux/payments";
-import { getSetAppIsLoadingAction } from "@app/redux/app/";
-import { getNotifications } from "@app/redux/notificator";
+import { createAppAsyncThunk } from "@app/redux";
+import { setPaymentTypes, setModuleInitializedState, setPayments } from "@app/redux/payments";
 
 import { getPaymentRecords, getPaymentTypes } from "@app/core/payment";
-import { PaymentType } from "@app/models/payments";
 
 /**
  * Init payments module state
- * @returns Action function that can be called with redux dispatcher
  */
-export const initModuleState = (): ThunkAction<void, CompositeAppState, unknown, ActionWithPayload> => (
-    dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
-    getState: () => CompositeAppState
-): void => {
-    dispatch(getSetAppIsLoadingAction(true));
+export const initModuleState = createAppAsyncThunk(
+    async ({ dispatch, getState }) => {
+        const { payments } = getState();
 
-    const { payments } = getState();
+        const typesPromise =
+            payments.typesMap.size > 0
+                ? Promise.resolve([...payments.typesMap.values()])
+                : getPaymentTypes();
 
-    const paymentTypeProvider: Promise<Array<PaymentType>> =
-        payments.availableTypesAsDropdownItems.length > 0
-            ? new Promise(x => x(payments.availableTypes))
-            : getPaymentTypes();
+        const [types, records] = await Promise.all([typesPromise, getPaymentRecords()]);
 
-    const [_, displayError] = getNotifications(dispatch, getState);
-
-    Promise.all([
-        paymentTypeProvider,
-        getPaymentRecords(),
-    ])
-        .then(([types, payments]) => {
-            dispatch(getSetPaymentTypesAction(types));
-            dispatch(getSetPaymentsAction(payments));
-
-            dispatch(getSetModuleInitializedStateAction(true));
-            dispatch(getSetAppIsLoadingAction(false));
-        })
-        .catch(displayError);
-};
+        dispatch(setPaymentTypes(types));
+        dispatch(setPayments(records));
+        dispatch(setModuleInitializedState(true));
+    }
+);

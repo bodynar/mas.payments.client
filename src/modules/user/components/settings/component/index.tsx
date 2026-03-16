@@ -1,15 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
+import { emptyFn, isNullish } from "@bodynarf/utils";
 
+import { ButtonStyle } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Text from "@bodynarf/react.components/components/primitives/text";
 
-import { UserSetting } from "@app/models/user";
+import { UpdatedUserSetting, UserSetting } from "@app/models/user";
 
 import { CompositeAppState } from "@app/redux";
-import { loadSettings, UpdatedUserSetting, updateUserSettings, getMeasurementsWithoutDiff, recalculateDiff } from "@app/redux/user/";
+import { loadSettings, updateUserSettings, getMeasurementsWithoutDiff, recalculateDiff } from "@app/redux/user/";
 
 import Setting from "../components/setting";
 
@@ -33,13 +34,13 @@ interface SettingsProps {
     };
 
     /** Recalculate measurements diff */
-    recalculateDiff: () => Promise<boolean>;
+    recalculateDiff: () => Promise<boolean | undefined>;
 }
 
-const Settings = ({
+const Settings: FC<SettingsProps> = ({
     settings, loadSettings, updateUserSettings,
     getMeasurementsWithoutDiff, options, recalculateDiff
-}: SettingsProps): JSX.Element => {
+}) => {
     const [loaded, setIsLoaded] = useState(false);
     const [updatedSettings, setUpdatedSettings] = useState<Map<string, string>>(new Map([]));
 
@@ -47,7 +48,7 @@ const Settings = ({
         if (!loaded && settings.length === 0) {
             loadSettings().then(() => setIsLoaded(true));
         }
-        if (isNullOrUndefined(options)) {
+        if (isNullish(options)) {
             getMeasurementsWithoutDiff();
         }
     }, [settings, loadSettings, loaded, options, getMeasurementsWithoutDiff]);
@@ -72,12 +73,12 @@ const Settings = ({
                 const setting = settings.find(({ name }) => name === key)!;
 
                 if (setting.rawValue === value) {
-                    updatedSettings.delete(key);
-                    setUpdatedSettings(new Map(updatedSettings));
+                    const next = new Map(updatedSettings);
+                    next.delete(key);
+                    setUpdatedSettings(next);
                 }
                 else {
-                    updatedSettings.set(key, value);
-                    setUpdatedSettings(updatedSettings);
+                    setUpdatedSettings(new Map([...updatedSettings, [key, value]]));
                 }
             } else {
                 setUpdatedSettings(x => new Map([...x, [key, value]]));
@@ -86,7 +87,7 @@ const Settings = ({
 
     const onRecalculateClick = useCallback(() => {
         recalculateDiff()
-            .then((result: boolean) => {
+            .then((result) => {
                 if (result) {
                     getMeasurementsWithoutDiff();
                 }
@@ -105,7 +106,7 @@ const Settings = ({
                     <div className="block columns">
                         <div className="column is-10">
                             <Text
-                                disabled={true}
+                                disabled
                                 onValueChange={emptyFn}
                                 defaultValue={options.measurementsWithoutDiff.toString()}
                                 label={{
@@ -118,7 +119,7 @@ const Settings = ({
                         <div className="column">
                             <Button
                                 caption="Recalculate"
-                                type="success"
+                                style={ButtonStyle.Success}
                                 onClick={onRecalculateClick}
                             />
                         </div>
@@ -146,7 +147,7 @@ const Settings = ({
                     </div>
                     <div className="block">
                         <Button
-                            type="primary"
+                            style={ButtonStyle.Primary}
                             caption="Save"
                             onClick={onSaveClick}
                             disabled={updatedSettings.size === 0}
@@ -162,7 +163,10 @@ const Settings = ({
  * User settings component
  */
 export default connect(
-    ({ user }: CompositeAppState) => ({ ...user }),
+    ({ user }: CompositeAppState) => ({
+        settings: user.settings,
+        options: user.options,
+    }),
     {
         loadSettings, updateUserSettings,
         getMeasurementsWithoutDiff, recalculateDiff

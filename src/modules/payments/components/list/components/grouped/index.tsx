@@ -1,20 +1,21 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
-import { deleteRecord, groupPayments } from "@app/core/payment";
-import { Payment, PaymentFilter, PaymentGroup } from "@app/models/payments";
+import { groupPayments } from "@app/core/payment";
+import { Payment, PaymentFilter, PaymentGroup, PaymentType } from "@app/models/payments";
 
 import { CompositeAppState } from "@app/redux/types";
+import { deleteRecord } from "@app/redux/payments";
 
 import PaymentGroupItem from "./groupItem";
 
 /** Payment list props type */
 interface PaymentGroupedViewProps {
-    /** Is groups sorted ascendingly */
+    /** Is groups sorted ascending */
     isAscOrder: boolean;
 
     /** Is module state initialized */
@@ -26,19 +27,22 @@ interface PaymentGroupedViewProps {
     /** Last applied filter */
     lastFilter?: PaymentFilter;
 
+    /** Payment types map */
+    typesMap: Map<number, PaymentType>;
+
     /** Delete specified payment */
     deletePayment: (id: number) => void;
 }
 
-const PaymentGroupedView = ({
+const PaymentGroupedView: FC<PaymentGroupedViewProps> = ({
     isAscOrder, filteredItems, initialized,
-    lastFilter,
+    lastFilter, typesMap,
     deletePayment,
-}: PaymentGroupedViewProps): JSX.Element => {
+}) => {
     const groupedItems = useMemo(() => groupPayments(filteredItems, isAscOrder), [filteredItems, isAscOrder]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(groupedItems.length, 10, 1, [groupedItems]);
-    const pageItems: Array<PaymentGroup> = useMemo(() => paginate(groupedItems), [paginate, groupedItems]);
+    const pageItems: Array<PaymentGroup> = useMemo(() => paginate(groupedItems) as Array<PaymentGroup>, [paginate, groupedItems]);
 
     return (
         <section>
@@ -49,6 +53,7 @@ const PaymentGroupedView = ({
                         <PaymentGroupItem
                             key={x.caption}
                             item={x}
+                            typesMap={typesMap}
                             deletePayment={deletePayment}
                         />
                     )}
@@ -62,7 +67,7 @@ const PaymentGroupedView = ({
             {initialized && pageItems.length === 0
                 &&
                 <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
-                    {isNullOrUndefined(lastFilter)
+                    {isNullish(lastFilter)
                         ? `No payments were loaded\r\nTry refreshing page`
                         : "No payments were found by specified filter"
                     }
@@ -78,6 +83,7 @@ export default connect(
         initialized: payments.initialized,
         filteredItems: payments.filteredItems,
         lastFilter: payments.lastFilter,
+        typesMap: payments.typesMap,
     }),
     ({
         deletePayment: deleteRecord,

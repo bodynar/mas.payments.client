@@ -1,8 +1,8 @@
-import { useCallback, useId, useMemo, useState } from "react";
+import { FC, useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { hexToRgb, isNullOrUndefined } from "@bodynarf/utils";
+import { hexToRgb, isNullish, isNotNullish } from "@bodynarf/utils";
 
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
@@ -11,13 +11,13 @@ import { MeasurementType } from "@app/models/measurements";
 
 import { CompositeAppState } from "@app/redux";
 import { saveTypeCard } from "@app/redux/measurements";
-import { SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { getDropdownItem } from "@app/core";
 
 /** Measurement card props types */
 interface MeasurementTypeCardProps {
-    /** All measurements */
-    availableTypes: Array<MeasurementType>;
+    /** Measurement types indexed by id */
+    typesMap: Map<number, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
@@ -29,20 +29,20 @@ interface MeasurementTypeCardProps {
     saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
 }
 
-const MeasurementTypeCard = ({
-    availableTypes, initialized, paymentTypesAsDropdownItems,
+const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
+    typesMap, initialized, paymentTypesAsDropdownItems,
     saveCard,
-}: MeasurementTypeCardProps): JSX.Element => {
+}) => {
     const { id } = useParams();
 
     const name = useId();
     const navigate = useNavigate();
 
-    const item = availableTypes.find(x => x.id === +id!);
+    const item = typesMap.get(+id!);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
     const selectedType = useMemo(() => getDropdownItem(paymentTypesAsDropdownItems, item?.paymentTypeId), [paymentTypesAsDropdownItems, item?.paymentTypeId]);
 
-    const defaultColor = !isNullOrUndefined(item) && !isNullOrUndefined(item!.color)
+    const defaultColor = isNotNullish(item) && isNotNullish(item!.color)
         ? hexToRgb(item!.color!)
         : undefined;
 
@@ -65,13 +65,14 @@ const MeasurementTypeCard = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(item)
+                caption={isNullish(item)
                     ? "Create new measurement type"
                     : "Edit measurement type"
                 }
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
+                    style: ButtonStyle.Success,
                     caption: "Save",
                     disabled: isSubmitAvailable
                 }}
@@ -143,7 +144,7 @@ const MeasurementTypeCard = ({
 /** Measurement type card */
 export default connect(
     ({ measurements, payments }: CompositeAppState) => ({
-        availableTypes: measurements.availableTypes,
+        typesMap: measurements.typesMap,
         initialized: measurements.initialized,
         paymentTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
     }),

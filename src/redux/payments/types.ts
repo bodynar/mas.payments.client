@@ -14,8 +14,8 @@ export interface PaymentModuleState {
     /** Payments thats satisfy last filter */
     filteredItems: Array<Payment>;
 
-    /** All payment types */
-    availableTypes: Array<PaymentType>;
+    /** Payment types indexed by id */
+    typesMap: Map<number, PaymentType>;
 
     /** Payment types filtered by caption */
     filteredTypes: Array<PaymentType>;
@@ -40,4 +40,7 @@ export interface PaymentModuleState {
 
     /** Last payment type list caption filter */
     typeFilterCaption?: string;
+
+    /** Last page number for flat list pagination */
+    lastPage?: number;
 }

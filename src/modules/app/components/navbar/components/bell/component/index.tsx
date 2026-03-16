@@ -9,7 +9,7 @@ import "./style.scss";
 import { NotificationHistoryItem } from "@app/models/notification";
 
 import { CompositeAppState } from "@app/redux";
-import { setNotificationsBadgeToZero } from "@app/redux/notificator/";
+import { setBadgeToZero } from "@app/redux/notificator/";
 
 import BellList from "../components/bellList";
 
@@ -25,19 +25,20 @@ interface BellProps {
 }
 
 /** Bell with notifications component */
-function Bell({
-    notificationBadge, notifications,
-    onListOpened,
-}: BellProps): JSX.Element {
+const Bell = ({
+    notificationBadge, notifications, onListOpened
+}: BellProps): JSX.Element => {
     const [isListVisible, setListVisibility] = useState<boolean>(false);
 
     const onBellClick = useCallback(
-        () => {
+        (event: React.MouseEvent<HTMLElement>) => {
             setListVisibility(!isListVisible);
 
             if (notificationBadge !== 0) {
                 onListOpened();
             }
+
+            event.stopPropagation();
         }, [isListVisible, notificationBadge, onListOpened]
     );
 
@@ -50,9 +51,9 @@ function Bell({
     const shouldBadgeBeVisible: boolean = notificationBadge > 0;
     const badgeNumber: string = notificationBadge > 9 ? "9+" : `${notificationBadge}`;
     const title: string = shouldBadgeBeVisible ? `${badgeNumber} new notifications` : "No new notifications";
-    const listClassName: string = !shouldBadgeBeVisible
-        ? "app-bell__list app-bell__list--empty"
-        : "app-bell__list";
+    const listClassName: string = notifications.length > 0
+        ? "app-bell__list"
+        : "app-bell__list app-bell__list--empty";
 
     return (
         <div className="app-bell">
@@ -61,7 +62,10 @@ function Bell({
                 onClick={onBellClick}
                 title={title}
             >
-                <Icon name="bell" size={ElementSize.Medium} />
+                <Icon
+                    name="bell"
+                    size={ElementSize.Medium}
+                />
                 <span
                     className="app-bell__badge"
                     aria-hidden={!shouldBadgeBeVisible}
@@ -76,12 +80,12 @@ function Bell({
             </div>
         </div>
     );
-}
+};
 
 export default connect(
     ({ notificator }: CompositeAppState) => ({
         notifications: notificator.history,
         notificationBadge: notificator.historyBadgeCount
     }),
-    { onListOpened: setNotificationsBadgeToZero }
+    { onListOpened: setBadgeToZero }
 )(Bell);

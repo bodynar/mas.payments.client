@@ -1,12 +1,12 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
 import { groupMeasurements } from "@app/core/measurement";
-import { Measurement, MeasurementFilter, MeasurementGroup } from "@app/models/measurements";
+import { Measurement, MeasurementFilter, MeasurementGroup, MeasurementType } from "@app/models/measurements";
 
 import { deleteRecord } from "@app/redux/measurements";
 import { CompositeAppState } from "@app/redux/types";
@@ -15,7 +15,7 @@ import MeasurementGroupItem from "./groupItem";
 
 /** Measurement grouped list props type */
 interface MeasurementGroupedViewProps {
-    /** Is groups sorted ascendingly */
+    /** Is groups sorted ascending */
     isAscOrder: boolean;
 
     /** Is module state initialized */
@@ -27,19 +27,22 @@ interface MeasurementGroupedViewProps {
     /** Last applied filter */
     lastFilter?: MeasurementFilter;
 
+    /** Measurement types map */
+    typesMap: Map<number, MeasurementType>;
+
     /** Delete specified measurement */
     deleteMeasurement: (id: number) => void;
 }
 
-const MeasurementGroupedView = ({
+const MeasurementGroupedView: FC<MeasurementGroupedViewProps> = ({
     isAscOrder, filteredItems, initialized,
-    lastFilter,
+    lastFilter, typesMap,
     deleteMeasurement,
-}: MeasurementGroupedViewProps): JSX.Element => {
+}) => {
     const groupedItems = useMemo(() => groupMeasurements(filteredItems, isAscOrder), [filteredItems, isAscOrder]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(groupedItems.length, 10, 1, [groupedItems]);
-    const pageItems: Array<MeasurementGroup> = useMemo(() => paginate(groupedItems), [paginate, groupedItems]);
+    const pageItems: Array<MeasurementGroup> = useMemo(() => paginate(groupedItems) as Array<MeasurementGroup>, [paginate, groupedItems]);
 
     return (
         <section>
@@ -50,6 +53,7 @@ const MeasurementGroupedView = ({
                         <MeasurementGroupItem
                             key={x.caption}
                             item={x}
+                            typesMap={typesMap}
                             deleteItem={deleteMeasurement}
                         />
                     )}
@@ -63,7 +67,7 @@ const MeasurementGroupedView = ({
             {initialized && pageItems.length === 0
                 &&
                 <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
-                    {isNullOrUndefined(lastFilter)
+                    {isNullish(lastFilter)
                         ? `No measurements were loaded\r\nTry refreshing page`
                         : "No measurements were found by specified filter"
                     }
@@ -79,6 +83,7 @@ export default connect(
         initialized: measurements.initialized,
         filteredItems: measurements.filteredItems,
         lastFilter: measurements.lastFilter,
+        typesMap: measurements.typesMap,
     }),
     ({
         deleteMeasurement: deleteRecord,

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import { getClassName, isNullOrUndefined } from "@bodynarf/utils";
-import { ElementSize, SelectableItem } from "@bodynarf/react.components";
+import { getClassName, isNullish, isNotNullish } from "@bodynarf/utils";
+import { ButtonStyle, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Number from "@bodynarf/react.components/components/primitives/number";
@@ -30,17 +30,17 @@ interface MeasurementCreateCardItemProps {
     updateItem: (id: string, newValues: AddMeasurementRecordData) => void;
 }
 
-const MeasurementCreateCardItem = ({
+const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
     item, availableTypesAsDropdownItems,
     validationError,
     deleteItem, updateItem,
-}: MeasurementCreateCardItemProps): JSX.Element => {
+}) => {
     const onDeleteClick = useCallback(() => deleteItem(item.id), [deleteItem, item]);
 
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, item.typeId));
     const [diff, setDiff] = useState<number | undefined>();
     const [lastMeasurement, setLastMeasurement] = useState<number | undefined>(
-        isNullOrUndefined(item.typeId)
+        isNullish(item.typeId)
             ? undefined
             : item.previousValues
                 .filter(({ typeId }) => typeId === item.typeId!)
@@ -49,7 +49,7 @@ const MeasurementCreateCardItem = ({
 
     useEffect(
         () =>
-            setDiff(!isNullOrUndefined(lastMeasurement) && !isNullOrUndefined(item.value)
+            setDiff(isNotNullish(lastMeasurement) && isNotNullish(item.value)
                 ? +item.value! - lastMeasurement!
                 : undefined
             ),
@@ -60,14 +60,14 @@ const MeasurementCreateCardItem = ({
         (type?: SelectableItem) => {
             updateItem(item.id, {
                 ...item,
-                typeId: isNullOrUndefined(type) ? undefined : +type!.value,
-                value: !isNullOrUndefined(type)
+                typeId: isNullish(type) ? undefined : +type!.value,
+                value: isNotNullish(type)
                     ? item.previousValues.find(({ typeId }) => typeId === +type!.value)?.value ?? undefined
                     : undefined,
             });
             setType(type);
 
-            if (isNullOrUndefined(type)) {
+            if (isNullish(type)) {
                 setLastMeasurement(undefined);
             } else {
                 const lastItem = item.previousValues
@@ -92,7 +92,7 @@ const MeasurementCreateCardItem = ({
 
     const className = getClassName([
         "measurements_table__item",
-        !isNullOrUndefined(validationError) ? "measurements_table__item--has-error" : "",
+        isNotNullish(validationError) ? "measurements_table__item--has-error" : "",
     ]);
 
     return (
@@ -100,8 +100,8 @@ const MeasurementCreateCardItem = ({
             <td className="is-vertical-align--center">
                 <Dropdown
                     placeholder="Type"
-                    deselectable={true}
-                    hideOnOuterClick={true}
+                    deselectable
+                    hideOnOuterClick
                     onSelect={onTypeSelect}
                     value={selectedType}
                     items={availableTypesAsDropdownItems}
@@ -114,13 +114,13 @@ const MeasurementCreateCardItem = ({
                         onValueChange={onValueChange}
                         defaultValue={item.value}
                     />
-                    {!isNullOrUndefined(diff) && diff! > 0
+                    {isNotNullish(diff) && diff! > 0
                         &&
                         <div className="control">
                             <Button
-                                type="default"
-                                static={true}
+                                static
                                 caption={`+${diff}`}
+                                style={ButtonStyle.Default}
                             />
                         </div>
                     }
@@ -136,7 +136,7 @@ const MeasurementCreateCardItem = ({
                 <div className="field is-grouped is-justify-content-space-evenly">
                     <div className="control">
                         <Button
-                            type="danger"
+                            style={ButtonStyle.Danger}
                             icon={{ name: "trash", size: ElementSize.Medium }}
                             onClick={onDeleteClick}
                             title="Delete record"
@@ -144,7 +144,7 @@ const MeasurementCreateCardItem = ({
                     </div>
                 </div>
             </td>
-            {!isNullOrUndefined(validationError)
+            {isNotNullish(validationError)
                 &&
                 <td className="is-vertical-align--center width--is-15rem has-text-weight-bold">
                     {validationError}

@@ -1,7 +1,7 @@
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ElementSize } from "@bodynarf/react.components";
+import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 
 import { PaymentType } from "@app/models/payments";
@@ -17,10 +17,10 @@ interface PaymentTypeListItemProps {
 }
 
 /** Payment type list item */
-const PaymentTypeListItem = ({
+const PaymentTypeListItem: FC<PaymentTypeListItemProps> = ({
     item,
     deletePaymentType,
-}: PaymentTypeListItemProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
@@ -38,7 +38,7 @@ const PaymentTypeListItem = ({
                 <div className="field is-grouped is-justify-content-space-evenly">
                     <div className="control">
                         <Button
-                            type="warning"
+                            style={ButtonStyle.Warning}
                             icon={{ name: "pencil", size: ElementSize.Medium }}
                             onClick={onEditClick}
                             title="Edit record"
@@ -46,7 +46,7 @@ const PaymentTypeListItem = ({
                     </div>
                     <div className="control">
                         <Button
-                            type="danger"
+                            style={ButtonStyle.Danger}
                             icon={{ name: "trash", size: ElementSize.Medium }}
                             onClick={onDeleteClick}
                             title="Delete record"

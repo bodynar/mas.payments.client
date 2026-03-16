@@ -1,7 +1,8 @@
+@use "src/shared/style/variables";
+
 .app-notificator {
-    width: 20vw;
     margin: 0.5rem;
-    position: absolute;
+    position: fixed;
     z-index: 100;
     right: 1.5rem;
     top: 3.5rem;
@@ -13,17 +14,17 @@
         padding: 0.25rem 0.5rem;
         margin-bottom: 0.75rem;
 
-        transition: 0.15s ease-in-out;
-        transition-property: color, border-color, background-color, box-shadow;
+        transition: variables.$transition_15;
+        transition-property: color, border-color, background-color;
 
-        border: 1px solid #000;
+        border: 1px solid #7a7a7a;
         border-radius: 4px;
         background-color: #fff;
 
         cursor: pointer;
 
         &:hover {
-            box-shadow: inset rgba(255, 0, 0, 0.75) 0px 0px 2px 1px;
+            border-color: #000;
         }
 
         &-enter {
@@ -31,14 +32,14 @@
         }
         &-enter-active {
             opacity: 1;
-            transition: right 0.2s ease-in;
+            transition: right variables.$transition_15;
         }
         &-exit {
             opacity: 1;
         }
         &-exit-active {
             opacity: 0;
-            transition: right 0.3s ease-in-out;
+            transition: right variables.$transition_15;
         }
     }
 }

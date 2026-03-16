@@ -1,3 +1,4 @@
+import { FC } from "react";
 import "./style.scss";
 
 /** Color preview component props type */
@@ -7,9 +8,9 @@ interface ColorSquareProps {
 }
 
 /** Color preview in square */
-export const ColorSquare = ({
+export const ColorSquare: FC<ColorSquareProps> = ({
     color
-}: ColorSquareProps): JSX.Element => {
+}) => {
     return (
         <span
             className="app-color-preview-square"

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
 
 import { isStringEmpty } from "@bodynarf/utils";
@@ -6,22 +7,22 @@ import { MenuItem } from "@app/models";
 
 import Payments from "@app/modules/payments";
 import Measurements from "@app/modules/measurements";
-import Stats from "@app/modules/stats";
 import User from "@app/modules/user";
 
 import { routes as userRoutes } from "@app/modules/user/components";
 import { routes as paymentRoutes } from "@app/modules/payments/components";
 import { routes as measurementRoutes } from "@app/modules/measurements/components";
 
-import PaymentsChart from "@app/modules/stats/components/payments";
-import MeasurementsChart from "@app/modules/stats/components/measurements";
-
 import { tabsConfig } from "./charts";
+
+const Stats = lazy(() => import("@app/modules/stats"));
+const PaymentsChart = lazy(() => import("@app/modules/stats/components/payments"));
+const MeasurementsChart = lazy(() => import("@app/modules/stats/components/measurements"));
 
 /** Stats chart tab config to component map */
 const statsTabsConfig = new Map([
-	[tabsConfig[0], <PaymentsChart key={tabsConfig[0].id} />],
-	[tabsConfig[1], <MeasurementsChart key={tabsConfig[1].id} />],
+	[tabsConfig[0], <Suspense fallback={<div className="has-text-centered p-6">Loading chart...</div>} key={tabsConfig[0].id}><PaymentsChart /></Suspense>],
+	[tabsConfig[1], <Suspense fallback={<div className="has-text-centered p-6">Loading chart...</div>} key={tabsConfig[1].id}><MeasurementsChart /></Suspense>],
 ]);
 
 /** Static navbar menu */
@@ -51,7 +52,11 @@ export const menuItems: Array<MenuItem> = [
 		name: "Stats",
 		caption: "Statistics",
 		link: "/stats",
-		component: <Stats firstItem={tabsConfig[0]} configuration={statsTabsConfig} />,
+		component: (
+			<Suspense fallback={<div className="has-text-centered p-6">Loading statistics...</div>}>
+				<Stats firstItem={tabsConfig[0]} configuration={statsTabsConfig} />
+			</Suspense>
+		),
 	},
 	{
 		name: "User",

@@ -1,5 +1,3 @@
-import moment from "moment";
-
 import "./style.scss";
 
 import { NotificationHistoryItem, NotificationType } from "@app/models/notification";
@@ -21,13 +19,17 @@ const typeColorMap: Map<NotificationType, string> = new Map([
 export default function NotificationStoryRecord({
     item,
 }: NotificationStoryRecordProps): JSX.Element {
-    const createdAt: string = moment(item.createdAt).format("DD MMMM HH:mm");
+    const createdAt: string = new Intl.DateTimeFormat(undefined, {
+        day: "2-digit", month: "long", hour: "2-digit", minute: "2-digit",
+    }).format(item.createdAt);
 
     return (
-        <li className="notification-story-item">
+        <li
+            className="notification-story-item"
+            style={{ borderLeftColor: typeColorMap.get(item.type) }}
+        >
             <div
                 className="notification-story-item__description"
-                style={{ borderColor: typeColorMap.get(item.type) }}
             >
                 <span>{createdAt}</span>
                 <p>

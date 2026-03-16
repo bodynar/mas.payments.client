@@ -1,14 +1,15 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
+import { formatDate } from "@bodynarf/utils/date";
 
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
-import { ElementSize, usePagination } from "@bodynarf/react.components";
+import { ButtonStyle, ElementPosition, ElementSize, usePagination } from "@bodynarf/react.components";
 
 import { CompositeAppState } from "@app/redux";
-import { loadNotifications, getToggleNotificationsSortOrderAction } from "@app/redux/user/";
+import { loadNotifications, toggleNotificationsSortOrder } from "@app/redux/user/";
 
 import { UserNotification } from "@app/models/user";
 
@@ -26,16 +27,16 @@ interface NotificationsProps {
     toggleSort: () => void;
 }
 
-const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }: NotificationsProps): JSX.Element => {
+const Notifications: FC<NotificationsProps> = ({ notifications, loadNotifications, ascSort, toggleSort }) => {
     const onReloadClick = useCallback(() => loadNotifications(), [loadNotifications]);
 
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(notifications.length, 15);
     const pageItems: Array<UserNotification> = useMemo(
         () => paginate(
-            notifications.sort(({ createdAt }, y) =>
+            [...notifications].sort(({ createdAt }, y) =>
                 (createdAt.getTime() - y.createdAt.getTime()) * (ascSort ? -1 : 1)
             )
-        ),
+        ) as Array<UserNotification>,
         [ascSort, paginate, notifications]
     );
 
@@ -49,12 +50,12 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                         </div>
                         <div className="column is-2">
                             <Button
-                                type="success"
+                                style={ButtonStyle.Success}
                                 caption="Reload"
                                 size={ElementSize.Small}
-                                rounded={true}
-                                outlined={true}
-                                icon={{ name: "arrow-clockwise", position: "left", size: ElementSize.Medium, }}
+                                rounded
+                                outlined
+                                icon={{ name: "arrow-clockwise", position: ElementPosition.Left, size: ElementSize.Medium, }}
                                 onClick={onReloadClick}
                             />
                         </div>
@@ -62,11 +63,11 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                     <div className="block columns">
                         <div className="column is-3">
                             <Button
-                                type="ghost"
-                                caption="Order by CreatedOn"
+                                style={ButtonStyle.Ghost}
+                                caption="Order by creation date"
                                 size={ElementSize.Small}
                                 icon={{
-                                    position: "left",
+                                    position: ElementPosition.Left,
                                     name: ascSort ? "sort-down" : "sort-up",
                                     size: ElementSize.Medium,
                                 }}
@@ -86,20 +87,20 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                                                 {x.title}
                                             </h4>
                                         </div>
-                                        {isNullOrUndefined(x.hiddenAt)
+                                        {isNullish(x.hiddenAt)
                                             ?
                                             <>
                                                 <div className="column">
                                                     <span className="is-italic">
-                                                        Created on {x.createdAtMoment.format("DD.MM.YYYY")}
+                                                        Created on {formatDate(x.createdAt, "dd.MM.yyyy")}
                                                     </span>
                                                 </div>
                                             </>
                                             :
                                             <>
                                                 <div className="column">
-                                                    <span className="is-italic has-title" title={`Mark as read on ${x.hiddenAtMoment!.format("DD.MM.YYYY")}`}>
-                                                        Created on {x.createdAtMoment.format("DD.MM.YYYY")}
+                                                    <span className="is-italic has-title" title={`Mark as read on ${formatDate(x.hiddenAt!, "dd.MM.yyyy")}`}>
+                                                        Created on {formatDate(x.createdAt, "dd.MM.yyyy")}
                                                     </span>
                                                 </div>
                                             </>
@@ -112,8 +113,8 @@ const Notifications = ({ notifications, loadNotifications, ascSort, toggleSort }
                             </div>
                         )}
                         <Paginator
-                            position="right"
-                            showNextButtons={true}
+                            position={ElementPosition.Right}
+                            showNextButtons
                             nearPagesCount={2}
                             count={pagesCount}
                             currentPage={currentPage}
@@ -133,6 +134,6 @@ export default connect(
     }),
     {
         loadNotifications,
-        toggleSort: getToggleNotificationsSortOrderAction
+        toggleSort: toggleNotificationsSortOrder
     }
 )(Notifications);

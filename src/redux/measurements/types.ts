@@ -1,6 +1,7 @@
+import { Group } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 
-import { MeasurementType, Measurement, MeasurementFilter, MeasurementGroupedByType } from "@app/models/measurements";
+import { MeasurementType, Measurement, MeasurementFilter } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
 /** Measurement module state */
@@ -14,8 +15,8 @@ export interface MeasurementModuleState {
     /** Measurements thats satisfy last filter */
     filteredItems: Array<Measurement>;
 
-    /** All measurement types */
-    availableTypes: Array<MeasurementType>;
+    /** Measurement types indexed by id */
+    typesMap: Map<number, MeasurementType>;
 
     /** Measurement types filtered by caption */
     filteredTypes: Array<MeasurementType>;
@@ -42,5 +43,8 @@ export interface MeasurementModuleState {
     typeFilterCaption?: string;
 
     /** All measurements grouped by type */
-    groupedByType?: Array<MeasurementGroupedByType>;
+    groupedByType?: Array<Group<Measurement>>;
+
+    /** Last page number for flat list pagination */
+    lastPage?: number;
 }

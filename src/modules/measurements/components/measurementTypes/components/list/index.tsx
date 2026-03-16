@@ -1,9 +1,9 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { isNullOrEmpty } from "@bodynarf/utils";
-import { usePagination } from "@bodynarf/react.components";
+import { ButtonStyle, usePagination } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
 import Search from "@bodynarf/react.components/components/search";
@@ -12,10 +12,11 @@ import { MeasurementType } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetTypeSortColumnAction, deleteTypeRecord, getFilterMeasurementTypesAction } from "@app/redux/measurements";
+import { setTypeSortColumn, deleteTypeRecord, filterMeasurementTypes } from "@app/redux/measurements";
 import { useSortColumn } from "@app/hooks";
 
-import Table, { TableHeading } from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
+import { TableHeading } from "@bodynarf/react.components/components/table";
 
 import MeasurementTypeListItem from "../listItem";
 
@@ -43,16 +44,16 @@ interface MeasurementTypeListProps {
     filterTypes: (value?: string) => void;
 }
 
-const MeasurementTypeList = ({
+const MeasurementTypeList: FC<MeasurementTypeListProps> = ({
     filteredTypes, sortColumn, initialized,
     filterTypes, typeFilterCaption,
     setSortColumn, deleteMeasurementType,
-}: MeasurementTypeListProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/measurement/types/create", { replace: true }), [navigate]);
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredTypes.length, 20, 1, [filteredTypes]);
-    const pageItems: Array<MeasurementType> = useMemo(() => paginate(filteredTypes), [paginate, filteredTypes]);
+    const pageItems: Array<MeasurementType> = useMemo(() => paginate(filteredTypes) as Array<MeasurementType>, [paginate, filteredTypes]);
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     return (
@@ -60,7 +61,7 @@ const MeasurementTypeList = ({
             <nav className="field is-grouped">
                 <p className="control">
                     <Button
-                        type="primary"
+                        style={ButtonStyle.Primary}
                         caption="Create"
                         title="Create new measurement type"
                         onClick={onCreateClick}
@@ -82,12 +83,12 @@ const MeasurementTypeList = ({
                 <section>
                     <Table
                         headings={headings}
-                        hasBorder={true}
-                        narrow={true}
-                        hoverable={true}
-                        fullWidth={true}
-                        hasStickyHeader={true}
-                        headerWithBorder={true}
+                        hasBorder
+                        narrow
+                        hoverable
+                        fullWidth
+                        hasStickyHeader
+                        headerWithBorder
                         currentSortColumn={sortColumn}
                         onHeaderClick={onHeaderCellClick}
                     >
@@ -127,15 +128,15 @@ export default connect(
         typeFilterCaption: measurements.typeFilterCaption
     }),
     ({
-        setSortColumn: getSetTypeSortColumnAction,
+        setSortColumn: setTypeSortColumn,
         deleteMeasurementType: deleteTypeRecord,
-        filterTypes: getFilterMeasurementTypesAction,
+        filterTypes: filterMeasurementTypes,
     })
 )(MeasurementTypeList);
 
 
 /** Pre-defined measurement type table headings */
-const headings: Array<TableHeading<MeasurementType>> = [
+const headings: Array<TableHeading> = [
     { name: "color", caption: "Color", sortable: false, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
     { name: "caption", caption: "Name", sortable: true, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
     { name: "paymentTypeId", caption: "Payment type", sortable: true, className: "has-text-centered th-color--light-blue width--is-10rem is-vertical-align--center" },

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 
 import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
@@ -13,9 +13,9 @@ interface ChartContainerProps {
 }
 
 /** Chart component container */
-const ChartContainer = ({
+const ChartContainer: FC<ChartContainerProps> = ({
     title, series,
-}: ChartContainerProps): JSX.Element => {
+}) => {
     const options: ApexOptions = useMemo(() => ({
         chart: {
             type: "line",

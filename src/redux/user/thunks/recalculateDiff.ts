@@ -1,45 +1,28 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { isNullish } from "@bodynarf/utils";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { createAppAsyncThunk } from "@app/redux";
+import { openModal, ModalType } from "@app/redux/modal";
 
-import { post } from "@app/utils";
-
-import { CompositeAppState, ActionWithPayload } from "@app/redux";
-import { getOpenModalAction, ModalType } from "@app/redux/modal/";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getNotifications } from "@app/redux/notificator";
+import { recalculateMeasurementDiff } from "@app/core/measurement";
 
 /**
  * Recalculate measurements diff
- * @returns Action function that can be called with redux dispatcher
  */
-export const recalculateDiff = (): ThunkAction<Promise<boolean>, CompositeAppState, unknown, ActionWithPayload> => (
-    dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
-    getState: () => CompositeAppState,
-): Promise<boolean> => {
-    dispatch(getSetAppIsLoadingAction(true));
+export const recalculateDiff = createAppAsyncThunk(
+    async ({ dispatch, showSuccess }): Promise<boolean> => {
+        const result = await recalculateMeasurementDiff();
 
-    const [showSuccess, displayError] = getNotifications(dispatch, getState);
+        if (isNullish(result) || result.length === 0) {
+            showSuccess("Diff successfully recalculated", false);
+            return true;
+        }
 
-    return post<Array<string>>(`api/measurement/updateDiff`, {})
-        .then((result: Array<string> | undefined) => {
-            dispatch(getSetAppIsLoadingAction(false));
+        dispatch(openModal({
+            modalType: ModalType.Info,
+            title: "Recalculate error",
+            message: result.join("\n")
+        }));
 
-            if (isNullOrUndefined(result)) {
-                showSuccess("Diff successfully re-calculated");
-                return true;
-            }
-
-            dispatch(getOpenModalAction({
-                modalType: ModalType.Info,
-                title: "Recalculate error",
-                message: (result as Array<string>).join("\n")
-            }));
-
-            return false;
-        })
-        .catch((e) => {
-            displayError(e);
-            return false;
-        });
-};
+        return false;
+    }
+);

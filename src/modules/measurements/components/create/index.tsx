@@ -1,35 +1,37 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { generateGuid, isNullOrEmpty, isNullOrUndefined } from "@bodynarf/utils";
-import { ElementSize, SelectableItem } from "@bodynarf/react.components";
+import { generateGuid, isNullOrEmpty, isNullish } from "@bodynarf/utils";
+import { ButtonStyle, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Button from "@bodynarf/react.components/components/button";
 
 import "./style.scss";
 
+import { Group } from "@bodynarf/utils";
+
 import { LookupDate } from "@app/models";
-import { AddMeasurementRecordData, AddMeasurements, MeasurementGroupedByType, MeasurementType } from "@app/models/measurements";
+import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementType } from "@app/models/measurements";
 import { getNowDate, getNowDateLookup, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { validateMeasurementCreateData } from "@app/core/measurement";
 
 import { CompositeAppState } from "@app/redux";
 import { groupByType, saveCard } from "@app/redux/measurements";
 
-import Table from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
 import MeasurementCreateCardItem from "./item";
 
 /** Measurement card props types */
 interface MeasurementCreateCardProps {
-    /** All measurement types */
-    availableTypes: Array<MeasurementType>;
+    /** Measurement types indexed by id */
+    typesMap: Map<number, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
 
     /** All measurements grouped by type */
-    groupedByType?: Array<MeasurementGroupedByType>;
+    groupedByType?: Array<Group<Measurement>>;
 
     /** Save current card values */
     saveCard: (values: AddMeasurements, id?: string) => Promise<void>;
@@ -58,14 +60,14 @@ const validateItems = (
     ];
 };
 
-const MeasurementCreateCard = ({
-    initialized, groupedByType, availableTypes,
+const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
+    initialized, groupedByType, typesMap,
     saveCard, groupByType,
-}: MeasurementCreateCardProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (initialized && isNullOrUndefined(groupedByType)) {
+        if (initialized && isNullish(groupedByType)) {
             groupByType();
         }
 
@@ -110,11 +112,11 @@ const MeasurementCreateCard = ({
         changeItems(validatedItems);
 
         if (!isValid) {
-            setValidationError("Measurement items contains errors. See description below");
+            setValidationError("Measurement items contain errors. See description below");
             return;
         }
 
-        if (isNullOrUndefined(date) || isNullOrUndefined(date!.year) || isNullOrUndefined(date!.month)) {
+        if (isNullish(date) || isNullish(date!.year) || isNullish(date!.month)) {
             setValidationError("Date is not set");
             return;
         }
@@ -137,7 +139,7 @@ const MeasurementCreateCard = ({
             const previousValues = getPreviousValues();
 
             changeItems(
-                availableTypes.map(type => ({
+                [...typesMap.values()].map(type => ({
                     id: generateGuid(),
                     typeId: type.id,
                     previousValues: previousValues,
@@ -145,7 +147,7 @@ const MeasurementCreateCard = ({
                 }))
             );
         },
-        [availableTypes, changeItems, getPreviousValues]
+        [typesMap, changeItems, getPreviousValues]
     );
 
     const onDeleteItemClick = useCallback(
@@ -159,7 +161,7 @@ const MeasurementCreateCard = ({
 
             setModel(x => ({
                 ...x,
-                year: isNullOrUndefined(year) ? undefined : +year!.value,
+                year: isNullish(year) ? undefined : +year!.value,
             }));
         },
         []
@@ -170,7 +172,7 @@ const MeasurementCreateCard = ({
             setDate(date => ({ ...date, month }));
             setModel(x => ({
                 ...x,
-                month: isNullOrUndefined(month) ? undefined : +month!.value,
+                month: isNullish(month) ? undefined : +month!.value,
             }));
         },
         []
@@ -187,7 +189,7 @@ const MeasurementCreateCard = ({
                     <Dropdown
                         value={date?.year}
                         placeholder="Year"
-                        hideOnOuterClick={true}
+                        hideOnOuterClick
                         onSelect={onYearSelect}
                         items={yearsAsDropdownItems()}
                         label={{
@@ -201,7 +203,7 @@ const MeasurementCreateCard = ({
                     <Dropdown
                         value={date?.month}
                         placeholder="Month"
-                        hideOnOuterClick={true}
+                        hideOnOuterClick
                         onSelect={onMonthSelect}
                         items={monthsAsDropdownItems()}
                         label={{
@@ -224,10 +226,10 @@ const MeasurementCreateCard = ({
             <div className="field is-grouped">
                 <p className="control">
                     <Button
-                        type="primary"
-                        outlined={true}
+                        outlined
                         caption="Add"
                         size={ElementSize.Small}
+                        style={ButtonStyle.Primary}
                         onClick={onAddMeasurementClick}
                         title="Add new measurement record"
                     />
@@ -236,8 +238,8 @@ const MeasurementCreateCard = ({
                     &&
                     <p className="control">
                         <Button
-                            type="info"
-                            outlined={true}
+                            style={ButtonStyle.Info}
+                            outlined
                             size={ElementSize.Small}
                             caption="Add for all types"
                             onClick={onAddForAllTypesClick}
@@ -249,8 +251,8 @@ const MeasurementCreateCard = ({
                     &&
                     <p className="control">
                         <Button
-                            type="danger"
-                            outlined={true}
+                            style={ButtonStyle.Danger}
+                            outlined
                             size={ElementSize.Small}
                             caption="Remove all"
                             onClick={onRemoveAllClick}
@@ -263,10 +265,10 @@ const MeasurementCreateCard = ({
                 &&
                 <>
                     <Table
-                        zebra={true}
-                        fullWidth={true}
+                        zebra
+                        fullWidth
                         headings={tableHeadings}
-                        headerBorderless={true}
+                        headerBorderless
                     >
                         {items.map(x =>
                             <MeasurementCreateCardItem
@@ -282,7 +284,7 @@ const MeasurementCreateCard = ({
                     <div className="field is-grouped">
                         <p className="control">
                             <Button
-                                type="primary"
+                                style={ButtonStyle.Primary}
                                 caption="Create"
                                 onClick={onSubmit}
                                 title="Create measurements"
@@ -302,7 +304,7 @@ export default connect(
     ({ measurements: state }: CompositeAppState) => ({
         initialized: state.initialized,
         groupedByType: state.groupedByType,
-        availableTypes: state.availableTypes,
+        typesMap: state.typesMap,
     }),
     ({
         saveCard,

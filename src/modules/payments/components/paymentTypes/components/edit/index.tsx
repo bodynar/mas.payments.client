@@ -1,9 +1,10 @@
-import { useCallback, useId, useState } from "react";
+import { FC, useCallback, useId, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { hexToRgb, isNullOrUndefined } from "@bodynarf/utils";
+import { hexToRgb, isNullish, isNotNullish } from "@bodynarf/utils";
 
+import { ButtonStyle } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
 
@@ -14,8 +15,8 @@ import { saveTypeCard } from "@app/redux/payments";
 
 /** Payment card props types */
 interface PaymentTypeCardProps {
-    /** All payments */
-    availableTypes: Array<PaymentType>;
+    /** Payment types indexed by id */
+    typesMap: Map<number, PaymentType>;
 
     /** Is payment module state initialized */
     initialized: boolean;
@@ -24,19 +25,19 @@ interface PaymentTypeCardProps {
     saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
 }
 
-const PaymentTypeCard = ({
-    availableTypes, initialized,
+const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
+    typesMap, initialized,
     saveCard,
-}: PaymentTypeCardProps): JSX.Element => {
+}) => {
     const { id } = useParams();
 
     const name = useId();
     const navigate = useNavigate();
 
-    const item = availableTypes.find(x => x.id === +id!);
+    const item = typesMap.get(+id!);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
 
-    const defaultColor = !isNullOrUndefined(item) && !isNullOrUndefined(item!.color)
+    const defaultColor = isNotNullish(item) && isNotNullish(item!.color)
         ? hexToRgb(item!.color!)
         : undefined;
 
@@ -59,13 +60,14 @@ const PaymentTypeCard = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(item)
+                caption={isNullish(item)
                     ? "Create new payment type"
                     : "Edit payment type"
                 }
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
+                    style: ButtonStyle.Success,
                     caption: "Save",
                     disabled: isSubmitAvailable
                 }}
@@ -134,7 +136,10 @@ const PaymentTypeCard = ({
 
 /** Payment type card */
 export default connect(
-    ({ payments }: CompositeAppState) => ({ ...payments }),
+    ({ payments }: CompositeAppState) => ({
+        typesMap: payments.typesMap,
+        initialized: payments.initialized,
+    }),
     ({
         saveCard: saveTypeCard,
     })

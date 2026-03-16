@@ -1,35 +1,31 @@
-import { isNullOrEmpty } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
-
-import { Month } from "@app/models";
-import { months } from "@app/static";
 
 /**
  * Get month name by its number
  * @param monthNumber Number of month
  * @returns Name of month
- * @throws Month number isn"t in (0, 12) range
+ * @throws Month number isn"t in [1, 12] range
  */
 export const getMonthName = (monthNumber: number): string => {
-    if (monthNumber < 0 || monthNumber > 12) {
-        throw new Error("Month number must be in (0, 12) range.");
+    if (monthNumber < 1 || monthNumber > 12) {
+        throw new Error("Month number must be in [1, 12] range.");
     }
 
-    const month: Month = months.find(x => x.id === monthNumber)!;
-
-    return month?.name;
+    return new Intl.DateTimeFormat(undefined, { month: "long" }).format(new Date(2000, monthNumber - 1, 1));
 };
 
 /**
  * Get short month name by its number
  * @param monthNumber Number of month
- * @returns Short name of month in 3 characters length
- * @throws Month number isn"t in (0, 12) range
+ * @returns Localized short name of month
+ * @throws Month number isn"t in [1, 12] range
  */
 export const getShortMonthName = (monthNumber: number): string => {
-    const monthName: string = getMonthName(monthNumber);
+    if (monthNumber < 1 || monthNumber > 12) {
+        throw new Error("Month number must be in [1, 12] range.");
+    }
 
-    return isNullOrEmpty(monthName) ? monthName : monthName.substring(0, 3);
+    return new Intl.DateTimeFormat(undefined, { month: "short" }).format(new Date(2000, monthNumber - 1, 1));
 };
 
 /**
@@ -44,10 +40,10 @@ let _monthsAsDropdownItems: Array<SelectableItem> = [];
  */
 export const monthsAsDropdownItems = (): Array<SelectableItem> => {
     if (_monthsAsDropdownItems.length === 0) {
-        _monthsAsDropdownItems = months.map(x => ({
-            displayValue: x.name,
-            id: x.id.toString(),
-            value: x.id.toString(),
+        _monthsAsDropdownItems = Array.from({ length: 12 }, (_, i) => ({
+            displayValue: getMonthName(i + 1),
+            id: (i + 1).toString(),
+            value: (i + 1).toString(),
         }));
     }
 

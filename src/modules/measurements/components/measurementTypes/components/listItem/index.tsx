@@ -1,8 +1,8 @@
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getFontColorFromString, isNullOrUndefined } from "@bodynarf/utils";
-import { ElementSize } from "@bodynarf/react.components";
+import { getFontColorFromString, isNullish } from "@bodynarf/utils";
+import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Tag from "@bodynarf/react.components/components/tag";
 
@@ -19,10 +19,10 @@ interface MeasurementTypeListItemProps {
 }
 
 /** Measurement type list item */
-const MeasurementTypeListItem = ({
+const MeasurementTypeListItem: FC<MeasurementTypeListItemProps> = ({
     item,
     deleteMeasurementType,
-}: MeasurementTypeListItemProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
@@ -37,7 +37,7 @@ const MeasurementTypeListItem = ({
             <td className="has-text-centered is-vertical-align--center">
                 <Tag
                     content={item.paymentTypeCaption}
-                    customColor={isNullOrUndefined(item.paymentTypeColor) ? undefined : {
+                    customColor={isNullish(item.paymentTypeColor) ? undefined : {
                         color: getFontColorFromString(item.paymentTypeColor!),
                         backgroundColor: item.paymentTypeColor!
                     }}
@@ -48,7 +48,7 @@ const MeasurementTypeListItem = ({
                 <div className="field is-grouped is-justify-content-space-evenly">
                     <div className="control">
                         <Button
-                            type="warning"
+                            style={ButtonStyle.Warning}
                             icon={{ name: "pencil", size: ElementSize.Medium }}
                             onClick={onEditClick}
                             title="Edit record"
@@ -56,7 +56,7 @@ const MeasurementTypeListItem = ({
                     </div>
                     <div className="control">
                         <Button
-                            type="danger"
+                            style={ButtonStyle.Danger}
                             icon={{ name: "trash", size: ElementSize.Medium }}
                             onClick={onDeleteClick}
                             title="Delete record"

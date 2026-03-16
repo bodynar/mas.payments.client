@@ -9,7 +9,7 @@
 		],
 		"allowJs": false,
 		"skipLibCheck": false,
-		"esModuleInterop": false,
+		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"strict": true,
 		"noImplicitAny": true, /* Raise error on expressions and declarations with an implied 'any' type. */
@@ -19,7 +19,7 @@
 		"module": "ESNext",
 		"moduleResolution": "Node",
 		"resolveJsonModule": true,
-		// "isolatedModules": true,
+		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"downlevelIteration": true,
@@ -29,10 +29,10 @@
 		"baseUrl": "./", /* Base directory to resolve non-absolute module names. */
 		"paths": {
 			"@app/models/*": [
-				"src/shared/models/*"
+				"src/models/*"
 			],
 			"@app/models": [
-				"src/shared/models"
+				"src/models"
 			],
 			"@app/utils/*": [
 				"src/shared/utils/*"

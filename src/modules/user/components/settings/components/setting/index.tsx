@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 
 import Text from "@bodynarf/react.components/components/primitives/text";
 import CheckBox from "@bodynarf/react.components/components/primitives/checkbox";
@@ -17,7 +17,7 @@ interface SettingProps {
  * Single setting editor component.
  * Displays as different editor components based on setting type
 */
-const SettingComponent = ({ setting, onUpdate }: SettingProps): JSX.Element => {
+const SettingComponent: FC<SettingProps> = ({ setting, onUpdate }) => {
     const [value, setValue] = useState(setting.rawValue);
 
     const onValueChange = useCallback(
@@ -42,7 +42,7 @@ const SettingComponent = ({ setting, onUpdate }: SettingProps): JSX.Element => {
                 onValueChange={onValueChange}
                 defaultValue={value.toLocaleLowerCase() === "true"}
                 label={{ caption: setting.displayName, horizontal: true }}
-                isFormLabel={true}
+                isFormLabel
             />
         );
     }

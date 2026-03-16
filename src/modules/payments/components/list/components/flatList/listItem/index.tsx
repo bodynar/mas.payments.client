@@ -1,13 +1,13 @@
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getFontColorFromString, isNullOrUndefined } from "@bodynarf/utils";
+import { getFontColorFromString, isNullish } from "@bodynarf/utils";
 
-import { ElementSize } from "@bodynarf/react.components";
+import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Tag from "@bodynarf/react.components/components/tag";
 
-import { Payment } from "@app/models/payments";
+import { Payment, PaymentType } from "@app/models/payments";
 
 import { getMonthName } from "@app/utils";
 
@@ -15,6 +15,9 @@ import { getMonthName } from "@app/utils";
 interface PaymentListItemProps {
     /** Payment information */
     item: Payment;
+
+    /** Payment types map */
+    typesMap: Map<number, PaymentType>;
 
     /** Delete specified payment */
     deletePayment: (id: number) => void;
@@ -30,11 +33,15 @@ interface PaymentListItemProps {
 }
 
 /** Payment list item */
-const PaymentListItem = ({
-    item, useInGroupView,
+const PaymentListItem: FC<PaymentListItemProps> = ({
+    item, typesMap, useInGroupView,
     deletePayment, onPaymentTypeClick,
-}: PaymentListItemProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
+
+    const paymentType = typesMap.get(item.typeId);
+    const typeCaption = paymentType?.caption ?? "";
+    const typeColor = paymentType?.color;
 
     const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
     const onDeleteClick = useCallback(() => deletePayment(item.id), [deletePayment, item]);
@@ -51,20 +58,20 @@ const PaymentListItem = ({
             }
             <td className="has-text-centered is-vertical-align--center">
                 <Tag
-                    content={item.typeCaption}
-                    customColor={isNullOrUndefined(item.typeColor) ? undefined : {
-                        color: getFontColorFromString(item.typeColor!),
-                        backgroundColor: item.typeColor!
+                    content={typeCaption}
+                    customColor={isNullish(typeColor) ? undefined : {
+                        color: getFontColorFromString(typeColor!),
+                        backgroundColor: typeColor!
                     }}
                     onClick={
-                        isNullOrUndefined(onPaymentTypeClick)
+                        isNullish(onPaymentTypeClick)
                             ? undefined
                             : onTypeClick
                     }
                     title={
-                        isNullOrUndefined(onPaymentTypeClick)
+                        isNullish(onPaymentTypeClick)
                             ? undefined
-                            : `Filter by type "${item.typeCaption}" additionaly`
+                            : `Filter by type "${typeCaption}" additionally`
                     }
                 />
             </td>
@@ -74,7 +81,7 @@ const PaymentListItem = ({
                 <div className="field is-grouped is-justify-content-space-evenly">
                     <div className="control">
                         <Button
-                            type="warning"
+                            style={ButtonStyle.Warning}
                             icon={{ name: "pencil", size: ElementSize.Medium }}
                             onClick={onEditClick}
                             title="Edit record"
@@ -82,7 +89,7 @@ const PaymentListItem = ({
                     </div>
                     <div className="control">
                         <Button
-                            type="danger"
+                            style={ButtonStyle.Danger}
                             icon={{ name: "trash", size: ElementSize.Medium }}
                             onClick={onDeleteClick}
                             title="Delete record"

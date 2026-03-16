@@ -7,10 +7,11 @@ import { getClassName } from "@bodynarf/utils";
 import "./style.scss";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetTabIsFocusedAction } from "@app/redux/app";
+import { setTabIsFocused } from "@app/redux/app";
 import { loadNotifications } from "@app/redux/user";
 
 import { UserNotification } from "@app/models/user";
+import ErrorBoundary from "@app/sharedComponents/errorBoundary";
 import ModalBox from "@app/modules/modalBox";
 
 import Notificator from "../components/notificator";
@@ -18,7 +19,7 @@ import Navbar from "../components/navbar";
 import AppContent from "../components/content";
 
 interface AppProps {
-    /** 
+    /**
      * Is app currently loading something important.
      * If so - covers content with loading gif block
     */
@@ -38,11 +39,11 @@ interface AppProps {
 }
 
 /** Root app component */
-function App({
+const App = ({
     isLoading, isModalDisplaying,
     setTabIsFocused,
     notifications, loadNotifications,
-}: AppProps): JSX.Element {
+}: AppProps): JSX.Element => {
     const onFocus = useCallback(() => setTabIsFocused(true), [setTabIsFocused]);
     const onBlur = useCallback(() => setTabIsFocused(false), [setTabIsFocused]);
 
@@ -74,12 +75,14 @@ function App({
             <Navbar className="app__navbar" />
             <ModalBox />
             <Notificator />
-            <section className="app__content container my-4">
-                <AppContent isLoading={isLoading} />
-            </section>
+            <ErrorBoundary>
+                <section className="app__content container my-4">
+                    <AppContent isLoading={isLoading} />
+                </section>
+            </ErrorBoundary>
         </main>
     );
-}
+};
 
 export default connect(
     ({ app, modal, user }: CompositeAppState) => ({
@@ -89,6 +92,6 @@ export default connect(
     }),
     {
         loadNotifications,
-        setTabIsFocused: getSetTabIsFocusedAction,
+        setTabIsFocused,
     }
 )(App);

@@ -1,33 +1,14 @@
-import { ModalParams, ModalType } from "@app/redux/modal";
-
-import ModalForm from "@app/modules/modalBox/components/modalForm";
+import { FC } from "react";
+import { ModalParams } from "@app/redux/modal";
 
 /** Modal body prop types */
-interface ModalBodyProps extends ModalParams {
-    /** Change save modal button availability */
-    setSaveButtonDisabled: (isValid: boolean) => void;
-}
+type ModalBodyProps = Pick<ModalParams, "message">;
 
-/** 
+/**
  * Modal body component
  */
-const ModalBody = ({
-    modalType,
-    formData, message,
-    setSaveButtonDisabled,
-}: ModalBodyProps): JSX.Element => {
-    if (modalType === ModalType.Form) {
-        return (
-            <ModalForm
-                formConfig={formData!}
-                setSaveButtonDisabled={setSaveButtonDisabled}
-            />
-        );
-    }
-
-    return (
-        <p>{message}</p>
-    );
-};
+const ModalBody: FC<ModalBodyProps> = ({ message }) => (
+    <p>{message}</p>
+);
 
 export default ModalBody;

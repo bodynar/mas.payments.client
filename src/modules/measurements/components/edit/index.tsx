@@ -1,15 +1,15 @@
-import { useCallback, useId, useMemo, useState } from "react";
+import { FC, useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish, isNotNullish } from "@bodynarf/utils";
 
-import { SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
 
 import { getDropdownItem } from "@app/core";
-import { Measurement } from "@app/models/measurements";
+import { Measurement, MeasurementType } from "@app/models/measurements";
 import { getDateOrNowLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 
 import { CompositeAppState } from "@app/redux";
@@ -19,6 +19,9 @@ import { saveCard } from "@app/redux/measurements";
 interface MeasurementEditCardProps {
     /** All measurements */
     measurements: Array<Measurement>;
+
+    /** Measurement types map */
+    typesMap: Map<number, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
@@ -30,10 +33,10 @@ interface MeasurementEditCardProps {
     saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
 }
 
-const MeasurementEditCard = ({
-    measurements, initialized, availableTypesAsDropdownItems,
+const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
+    measurements, typesMap, initialized, availableTypesAsDropdownItems,
     saveCard,
-}: MeasurementEditCardProps): JSX.Element => {
+}) => {
     const { id } = useParams();
 
     const name = useId();
@@ -58,7 +61,7 @@ const MeasurementEditCard = ({
     if (!initialized) {
         return <></>;
     }
-    if (initialized && !isNullOrUndefined(id) && isNullOrUndefined(measurement)) {
+    if (initialized && isNotNullish(id) && isNullish(measurement)) {
         return <>ERROR: Measurement not found</>;
     }
 
@@ -66,13 +69,14 @@ const MeasurementEditCard = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(measurement)
+                caption={isNullish(measurement)
                     ? "Create new measurement record"
-                    : `Edit measurement for ${getMonthName(measurement!.month)} ${measurement!.year} [${measurement!.typeCaption}]`
+                    : `Edit measurement for ${getMonthName(measurement!.month)} ${measurement!.year} [${typesMap.get(measurement!.typeId)?.caption ?? ""}]`
                 }
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
+                    style: ButtonStyle.Success,
                     caption: "Save",
                     disabled: isSubmitAvailable
                 }}
@@ -162,6 +166,11 @@ const MeasurementEditCard = ({
 
 /** Measurement card */
 export default connect(
-    ({ measurements }: CompositeAppState) => ({ ...measurements }),
+    ({ measurements }: CompositeAppState) => ({
+        measurements: measurements.measurements,
+        typesMap: measurements.typesMap,
+        initialized: measurements.initialized,
+        availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
+    }),
     ({ saveCard })
 )(MeasurementEditCard);

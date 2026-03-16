@@ -1,4 +1,3 @@
-export * from "./actionCreators";
+export * from "./slice";
 export * from "./thunks";
-export * from "./actions";
 export * from "./types";

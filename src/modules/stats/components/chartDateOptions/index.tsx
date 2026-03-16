@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useState } from "react";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
-import { SelectableItem } from "@bodynarf/react.components";
+import { isNullish } from "@bodynarf/utils";
+import { ButtonStyle, SelectableItem, useUpdateEffect } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 
@@ -21,22 +21,16 @@ interface ChartDateOptionsProps {
 }
 
 /** Chart date range border select component */
-const ChartDateOptions = ({
+const ChartDateOptions: FC<ChartDateOptionsProps> = ({
     caption, onValueChange,
     defaultValue,
-}: ChartDateOptionsProps): JSX.Element => {
-    const isFirstRun = useRef(true);
+}) => {
     const [todayIsActive, setTodayIsActive] = useState(getDateIsToday(defaultValue));
 
     const [date, setDate] = useState<LookupDate>(defaultValue ?? {});
 
-    useEffect(
+    useUpdateEffect(
         () => {
-            if (isFirstRun.current) {
-                isFirstRun.current = false;
-                return;
-            }
-
             onValueChange(date);
 
             setTodayIsActive(
@@ -72,8 +66,8 @@ const ChartDateOptions = ({
                 <Dropdown
                     placeholder="Month"
                     value={date.month}
-                    deselectable={true}
-                    hideOnOuterClick={true}
+                    deselectable
+                    hideOnOuterClick
                     onSelect={onMonthSelect}
                     items={monthsAsDropdownItems()}
                     label={{
@@ -86,17 +80,17 @@ const ChartDateOptions = ({
                 <Dropdown
                     placeholder="Year"
                     value={date.year}
-                    deselectable={true}
+                    deselectable
                     onSelect={onYearSelect}
-                    hideOnOuterClick={true}
+                    hideOnOuterClick
                     items={yearsAsDropdownItems()}
                 />
             </div>
             <div className="column is-1">
                 <Button
-                    type="success"
+                    style={ButtonStyle.Success}
                     caption="Today"
-                    outlined={true}
+                    outlined
                     onClick={onTodayClick}
                     disabled={!todayIsActive}
                     title="Select current date"
@@ -104,12 +98,12 @@ const ChartDateOptions = ({
             </div>
             <div className="column">
                 <Button
-                    type="danger"
+                    style={ButtonStyle.Danger}
                     caption="Clear"
                     className="is-inverted"
                     onClick={onClearButtonClick}
-                    title="Delete selected date"
-                    disabled={isNullOrUndefined(date.month) && isNullOrUndefined(date.year)}
+                    title="Clear selected date"
+                    disabled={isNullish(date.month) && isNullish(date.year)}
                 />
             </div>
         </div>
@@ -126,7 +120,7 @@ export default ChartDateOptions;
 const getDateIsToday = (date?: LookupDate): boolean => {
     const { month, year } = getNowDate();
 
-    return isNullOrUndefined(date?.month) || isNullOrUndefined(date?.year)
+    return isNullish(date?.month) || isNullish(date?.year)
         ? true
         : +date!.month!.value! !== month
         || +date!.year!.value! !== year;

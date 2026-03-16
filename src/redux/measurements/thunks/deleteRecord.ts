@@ -1,49 +1,34 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
-
-import { ActionWithPayload, CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getOpenModalAction, ModalType } from "@app/redux/modal";
-import { getSetMeasurementsAction } from "@app/redux/measurements";
-import { getNotifications } from "@app/redux/notificator";
+import { AppThunkAction, AppThunkDispatch, createModalCallback } from "@app/redux/createAppAsyncThunk";
+import { CompositeAppState } from "@app/redux";
+import { openModal, ModalType } from "@app/redux/modal";
+import { setMeasurements } from "@app/redux/measurements";
 
 import { getMonthName } from "@app/utils";
 import { getMeasurements, deleteMeasurement } from "@app/core/measurement";
 
 /**
- * Delete specified measurement
- * @returns Action function that can be called with redux dispatcher
+ * Delete specified measurement via confirmation modal
  */
-export const deleteRecord = (id: number): ThunkAction<void, CompositeAppState, unknown, ActionWithPayload> => (
-    dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
+export const deleteRecord = (id: number): AppThunkAction => (
+    dispatch: AppThunkDispatch,
     getState: () => CompositeAppState
 ): void => {
     const { measurements } = getState();
-
     const item = measurements.measurements.find((x) => x.id === id)!;
+    const typeCaption = measurements.typesMap.get(item.typeId)?.caption ?? "";
 
     dispatch(
-        getOpenModalAction({
+        openModal({
             modalType: ModalType.Confirm,
             title: "Confirm deleting measurement",
             buttonCaption: { saveCaption: "Delete" },
-            message: `Are you sure want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${item.typeCaption}]?`,
-            callback: {
-                saveCallback: (): void => {
-                    dispatch(getSetAppIsLoadingAction(true));
-
-                    const [displaySuccess, displayError] = getNotifications(dispatch, getState);
-
-                    deleteMeasurement(id)
-                        .then(() => {
-                            displaySuccess("Measurement record successfully deleted", false);
-                        })
-                        .then(getMeasurements)
-                        .then(measurements => {
-                            dispatch(getSetMeasurementsAction(measurements));
-                            dispatch(getSetAppIsLoadingAction(false));
-                        })
-                        .catch(displayError);
-                },
-            }
-        }));
+            message: `Are you sure you want to delete measurement record for ${getMonthName(item.month)} ${item.year} [${typeCaption}]?`,
+            callback: createModalCallback(dispatch, getState, async ({ showSuccess }) => {
+                await deleteMeasurement(id);
+                showSuccess("Measurement record successfully deleted", false);
+                const items = await getMeasurements();
+                dispatch(setMeasurements(items));
+            }),
+        })
+    );
 };

@@ -1,20 +1,20 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { SelectableItem, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
 import { flatListTableHeadings } from "@app/static/payment";
-import { Payment, PaymentFilter } from "@app/models/payments";
+import { Payment, PaymentFilter, PaymentType } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
-import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@app/redux/payments";
+import { deleteRecord, setFilterValue, setSortColumn, setCurrentPage } from "@app/redux/payments";
 
 import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
-import Table from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
 
 import PaymentListItem from "./listItem";
 
@@ -25,6 +25,9 @@ interface PaymentFlatListProps {
 
     /** Items that was filtered by last filter */
     filteredItems: Array<Payment>;
+
+    /** Payment types map */
+    typesMap: Map<number, PaymentType>;
 
     /** Payment types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
@@ -46,22 +49,33 @@ interface PaymentFlatListProps {
 
     /** Save current payment type filter value */
     setType: (selectedType: SelectableItem) => void;
+
+    /** Last visited page number */
+    lastPage?: number;
+
+    /** Save current page to Redux */
+    setCurrentPage: (page: number) => void;
 }
 
-const PaymentFlatList = ({
-    filteredItems, sortColumn, initialized,
+const PaymentFlatList: FC<PaymentFlatListProps> = ({
+    filteredItems, sortColumn, initialized, typesMap,
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
-    setSortColumn, deletePayment,
-}: PaymentFlatListProps): JSX.Element => {
+    setSortColumn, deletePayment, lastPage, setCurrentPage,
+}) => {
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
-    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
-    const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
+    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, lastPage ?? 1, [filteredItems]);
+    const pageItems: Array<Payment> = useMemo(() => paginate(filteredItems) as Array<Payment>, [paginate, filteredItems]);
+
+    const handlePageChange = useCallback((page: number) => {
+        onPageChange(page);
+        setCurrentPage(page);
+    }, [onPageChange, setCurrentPage]);
 
     const onPaymentTypeClick = useCallback((paymentTypeId: number) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, paymentTypeId);
 
-        if (isNullOrUndefined(dropdownItem)) {
+        if (isNullish(dropdownItem)) {
             return;
         }
 
@@ -79,12 +93,12 @@ const PaymentFlatList = ({
                 <section>
                     <Table
                         headings={flatListTableHeadings}
-                        hasBorder={true}
-                        narrow={true}
-                        hoverable={true}
-                        fullWidth={true}
-                        hasStickyHeader={true}
-                        headerWithBorder={true}
+                        hasBorder
+                        narrow
+                        hoverable
+                        fullWidth
+                        hasStickyHeader
+                        headerWithBorder
                         currentSortColumn={sortColumn}
                         onHeaderClick={onHeaderCellClick}
                     >
@@ -92,6 +106,7 @@ const PaymentFlatList = ({
                             <PaymentListItem
                                 key={x.id}
                                 item={x}
+                                typesMap={typesMap}
                                 deletePayment={deletePayment}
                                 onPaymentTypeClick={onPaymentTypeClick}
                             />
@@ -100,14 +115,14 @@ const PaymentFlatList = ({
                     <Paginator
                         count={pagesCount}
                         currentPage={currentPage}
-                        onPageChange={onPageChange}
+                        onPageChange={handlePageChange}
                     />
                 </section>
             }
             {initialized && pageItems.length === 0
                 &&
                 <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
-                    {isNullOrUndefined(lastFilter)
+                    {isNullish(lastFilter)
                         ? `No payments were loaded\r\nTry refreshing page`
                         : "No payments were found by specified filter"
                     }
@@ -122,13 +137,16 @@ export default connect(
     ({ payments }: CompositeAppState) => ({
         initialized: payments.initialized,
         filteredItems: payments.filteredItems,
+        typesMap: payments.typesMap,
         availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
         lastFilter: payments.lastFilter,
         sortColumn: payments.paymentSortColumn,
+        lastPage: payments.lastPage,
     }),
     ({
-        setSortColumn: getSetSortColumnAction,
+        setSortColumn: setSortColumn,
         deletePayment: deleteRecord,
-        setFilterValue: getSetFilterValueAction,
+        setFilterValue: setFilterValue,
+        setCurrentPage: setCurrentPage,
     })
 )(PaymentFlatList);

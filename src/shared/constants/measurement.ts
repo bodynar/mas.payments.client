@@ -1,11 +1,9 @@
-import { Measurement } from "@app/models/measurements";
-
-import { TableHeading } from "@app/sharedComponents/table";
+import { TableHeading } from "@bodynarf/react.components/components/table";
 
 /**
  * Pre-defined group view list table headings
  */
-export const groupedViewTableHeadings: Array<TableHeading<Measurement>> = [
+export const groupedViewTableHeadings: Array<TableHeading> = [
     { name: "typeId", caption: "Type", sortable: true, className: "has-text-centered th-color--light-blue width--is-10rem is-vertical-align--center" },
     { name: "value", caption: "Value", sortable: true, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
     { name: "diff", caption: "Diff", sortable: true, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
@@ -16,7 +14,7 @@ export const groupedViewTableHeadings: Array<TableHeading<Measurement>> = [
 /**
  * Pre-defined flat list table headings
  */
-export const flatListTableHeadings: Array<TableHeading<Measurement>> = [
+export const flatListTableHeadings: Array<TableHeading> = [
     { name: "month", caption: "Month", sortable: true, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
     { name: "year", caption: "Year", sortable: true, className: "has-text-centered th-color--light-blue width--is-5rem is-vertical-align--center" },
     ...groupedViewTableHeadings,

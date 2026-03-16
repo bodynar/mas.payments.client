@@ -1,18 +1,17 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { FC, useCallback, useEffect, useMemo } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { ElementSize } from "@bodynarf/react.components";
+import { ButtonStyle, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 
-import BreadCrumbs from "@app/sharedComponents/breadcrumbs";
-import { BreadCrumb } from "@app/sharedComponents/breadcrumbs/types";
+import BreadCrumbs, { BreadCrumb } from "@bodynarf/react.components/components/breadcrumbs";
 
 import { CompositeAppState } from "@app/redux";
 import { initModuleState } from "@app/redux/payments";
 
 import { routes } from "../components";
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 
 interface PaymentModuleProps {
     /** Is module state initialized */
@@ -22,14 +21,14 @@ interface PaymentModuleProps {
     initModuleState: () => void;
 }
 
-const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JSX.Element => {
+const PaymentModule: FC<PaymentModuleProps> = ({ initialized, initModuleState }) => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
     const breadcrumbs: Array<BreadCrumb> = useMemo(
         () =>
             routes
-                .flatMap(x => isNullOrUndefined(x.children) ? [x] : x.children!)
+                .flatMap(x => isNullish(x.children) ? [x] : x.children!)
                 .filter(({ link }) => {
                     if (pathname.startsWith(link)) {
                         return true;
@@ -51,14 +50,13 @@ const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JS
 
                     return pathNameWithoutParams === withoutParams;
                 })
-                .map((x, i, a) => ({
-                    path: x.link,
-                    title: x.name,
-                    active: a.length - 1 === i,
+                .map((x) => ({
+                    href: x.link,
+                    caption: x.name,
                 })
                 ), [pathname]);
 
-    const onBackButtonClick = useCallback(() => navigate(breadcrumbs[breadcrumbs.length - 2].path), [breadcrumbs, navigate]);
+    const onBackButtonClick = useCallback(() => navigate(breadcrumbs[breadcrumbs.length - 2].href), [breadcrumbs, navigate]);
 
     useEffect(() => {
         if (!initialized) {
@@ -71,13 +69,14 @@ const PaymentModule = ({ initialized, initModuleState }: PaymentModuleProps): JS
             <BreadCrumbs
                 items={breadcrumbs}
                 className="mb-3"
+                elementGenerator={(bc) => <Link to={bc.href}>{bc.caption}</Link>}
             />
             {breadcrumbs.length > 1 &&
                 <>
                     <Button
                         caption="Back"
-                        type="info"
-                        outlined={true}
+                        style={ButtonStyle.Info}
+                        outlined
                         size={ElementSize.Small}
                         onClick={onBackButtonClick}
                     />

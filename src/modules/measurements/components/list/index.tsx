@@ -1,15 +1,15 @@
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { ElementSize, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, ElementPosition, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import CheckBox from "@bodynarf/react.components/components/primitives/checkbox";
 
 import { MeasurementFilter as MeasurementFilterModel } from "@app/models/measurements";
 
 import { CompositeAppState } from "@app/redux";
-import { getToggleGroupViewAction } from "@app/redux/measurements";
+import { toggleGroupView, loadMeasurements } from "@app/redux/measurements";
 
 import { getDropdownItem } from "@app/core";
 
@@ -30,17 +30,22 @@ interface MeasurementListProps {
 
     /** Toggle grouping view */
     toggleUseGrouping: () => void;
+
+    /** Reload measurements from server */
+    reloadMeasurements: () => void;
 }
 
-const MeasurementList = ({
+const MeasurementList: FC<MeasurementListProps> = ({
     lastFilter, useGroupedView,
     availableTypesAsDropdownItems,
     toggleUseGrouping,
-}: MeasurementListProps): JSX.Element => {
+    reloadMeasurements,
+}) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/measurement/create", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/measurement/types", { replace: true }), [navigate]);
+    const onReloadClick = useCallback(() => reloadMeasurements(), [reloadMeasurements]);
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId));
     const [ascSortGroups, setAscSortGroups] = useState(false);
 
@@ -51,7 +56,7 @@ const MeasurementList = ({
             <nav className="field is-grouped">
                 <p className="control">
                     <Button
-                        type="primary"
+                        style={ButtonStyle.Primary}
                         caption="Create"
                         onClick={onCreateClick}
                         title="Create new measurement record"
@@ -59,11 +64,20 @@ const MeasurementList = ({
                 </p>
                 <p className="control">
                     <Button
-                        type="info"
+                        style={ButtonStyle.Info}
                         caption="Manage types"
-                        outlined={true}
+                        outlined
                         onClick={onTypeManageClick}
                         title="Open measurement types list"
+                    />
+                </p>
+                <p className="control">
+                    <Button
+                        style={ButtonStyle.Success}
+                        outlined
+                        icon={{ name: "arrow-clockwise", position: ElementPosition.Left, size: ElementSize.Medium }}
+                        onClick={onReloadClick}
+                        title="Reload measurements"
                     />
                 </p>
             </nav>
@@ -86,11 +100,11 @@ const MeasurementList = ({
                     &&
                     <div className="column is-3">
                         <Button
-                            type="ghost"
+                            style={ButtonStyle.Ghost}
                             caption="Order by Date"
                             size={ElementSize.Small}
                             icon={{
-                                position: "left",
+                                position: ElementPosition.Left,
                                 name: ascSortGroups ? "sort-down" : "sort-up",
                                 size: ElementSize.Medium,
                             }}
@@ -114,5 +128,5 @@ const MeasurementList = ({
 /** Measurement list */
 export default connect(
     ({ measurements }: CompositeAppState) => ({ ...measurements, }),
-    ({ toggleUseGrouping: getToggleGroupViewAction })
+    ({ toggleUseGrouping: toggleGroupView, reloadMeasurements: loadMeasurements })
 )(MeasurementList);

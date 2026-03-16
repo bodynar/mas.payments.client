@@ -1,12 +1,7 @@
-import { ModalFormConfiguration, ModalFormItemData } from "@app/models/modal";
-
 /** Type of displaying modal */
 export enum ModalType {
     /** Display some textual information */
     Info = "info",
-
-    /** Display some form to fill */
-    Form = "form",
 
     /** Display modal with confirm message and 2 optional buttons */
     Confirm = "confirm",
@@ -29,45 +24,27 @@ export interface ModalParams {
     /** Modal type */
     modalType: ModalType;
 
-    /**
-     * Modal box form configuration.
-     * Applies only to form modal type
-    */
-    formData?: ModalFormConfiguration;
-
-    /**
-     * Modal message.
-     * Applies only to info and confirm modal types
-    */
+    /** Modal message */
     message?: string;
 
     /** Modal button caption configuration */
     buttonCaption?: {
         /**
          * Save button caption.
-         * Button visible only in form and confirm modal type
+         * Button visible only in confirm modal type
         */
         saveCaption?: string;
-
-        /** Cancel button caption */
-        cancelCaption?: string;
     };
 
     /**
      * Callback modal configuration.
-     * Will be invoked after modal close
+     * Will be invoked after modal close on clicking Save button
     */
     callback?: ModalCallback;
 }
 
 /** Modal callback after close configuration */
-export interface ModalCallback {
-    /** Callback for closing modal on clicking Save button */
-    saveCallback?: (modalData: ModalCloseData) => void;
-
-    /** Callback for closing modal on clicking Cancel button */
-    cancelCallback?: (modalData: ModalCloseData) => void;
-}
+export type ModalCallback = (modalData: ModalCloseData) => void;
 
 /** Modal close data params */
 export interface ModalCloseData {
@@ -77,9 +54,4 @@ export interface ModalCloseData {
      */
     closeCode: "save" | "cancel";
 
-    /** Form data state */
-    formData?: {
-        /** Form fields states */
-        fields: Array<ModalFormItemData>;
-    };
 }

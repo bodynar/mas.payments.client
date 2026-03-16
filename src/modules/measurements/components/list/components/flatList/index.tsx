@@ -1,20 +1,20 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { SelectableItem, usePagination } from "@bodynarf/react.components";
 import Paginator from "@bodynarf/react.components/components/paginator";
 
 import { flatListTableHeadings } from "@app/static/measurement";
-import { Measurement, MeasurementFilter } from "@app/models/measurements";
+import { Measurement, MeasurementFilter, MeasurementType } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux/types";
-import { deleteRecord, getSetFilterValueAction, getSetSortColumnAction } from "@app/redux/measurements";
+import { deleteRecord, setFilterValue, setSortColumn, setCurrentPage } from "@app/redux/measurements";
 
 import { getDropdownItem } from "@app/core";
 import { useSortColumn } from "@app/hooks";
-import Table from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
 
 import MeasurementListItem from "./listItem";
 
@@ -25,6 +25,9 @@ interface MeasurementFlatListProps {
 
     /** Items that was filtered by last filter */
     filteredItems: Array<Measurement>;
+
+    /** Measurement types map */
+    typesMap: Map<number, MeasurementType>;
 
     /** Measurement types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
@@ -46,22 +49,33 @@ interface MeasurementFlatListProps {
 
     /** Save current measurement type filter value */
     setType: (selectedType: SelectableItem) => void;
+
+    /** Last visited page number */
+    lastPage?: number;
+
+    /** Save current page to Redux */
+    setCurrentPage: (page: number) => void;
 }
 
-const MeasurementFlatList = ({
-    filteredItems, sortColumn, initialized,
+const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
+    filteredItems, sortColumn, initialized, typesMap,
     lastFilter, availableTypesAsDropdownItems, setType, setFilterValue,
-    setSortColumn, deleteMeasurement,
-}: MeasurementFlatListProps): JSX.Element => {
+    setSortColumn, deleteMeasurement, lastPage, setCurrentPage,
+}) => {
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
-    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, 1, [filteredItems]);
-    const pageItems: Array<Measurement> = useMemo(() => paginate(filteredItems), [paginate, filteredItems]);
+    const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredItems.length, 20, lastPage ?? 1, [filteredItems]);
+    const pageItems: Array<Measurement> = useMemo(() => paginate(filteredItems) as Array<Measurement>, [paginate, filteredItems]);
+
+    const handlePageChange = useCallback((page: number) => {
+        onPageChange(page);
+        setCurrentPage(page);
+    }, [onPageChange, setCurrentPage]);
 
     const onTypeClick = useCallback((typeId: number) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, typeId);
 
-        if (isNullOrUndefined(dropdownItem)) {
+        if (isNullish(dropdownItem)) {
             return;
         }
 
@@ -79,12 +93,12 @@ const MeasurementFlatList = ({
                 <section>
                     <Table
                         headings={flatListTableHeadings}
-                        hasBorder={true}
-                        narrow={true}
-                        hoverable={true}
-                        fullWidth={true}
-                        hasStickyHeader={true}
-                        headerWithBorder={true}
+                        hasBorder
+                        narrow
+                        hoverable
+                        fullWidth
+                        hasStickyHeader
+                        headerWithBorder
                         currentSortColumn={sortColumn}
                         onHeaderClick={onHeaderCellClick}
                     >
@@ -92,6 +106,7 @@ const MeasurementFlatList = ({
                             <MeasurementListItem
                                 key={x.id}
                                 item={x}
+                                typesMap={typesMap}
                                 deleteMeasurement={deleteMeasurement}
                                 onTypeClick={onTypeClick}
                             />
@@ -100,14 +115,14 @@ const MeasurementFlatList = ({
                     <Paginator
                         count={pagesCount}
                         currentPage={currentPage}
-                        onPageChange={onPageChange}
+                        onPageChange={handlePageChange}
                     />
                 </section>
             }
             {initialized && pageItems.length === 0
                 &&
                 <p className="subtitle has-text-centered is-italic mt-4 has-text-grey-dark has-wrap-text">
-                    {isNullOrUndefined(lastFilter)
+                    {isNullish(lastFilter)
                         ? `No measurements were loaded\r\nTry refreshing page`
                         : "No measurements were found by specified filter"
                     }
@@ -122,13 +137,16 @@ export default connect(
     ({ measurements }: CompositeAppState) => ({
         initialized: measurements.initialized,
         filteredItems: measurements.filteredItems,
+        typesMap: measurements.typesMap,
         availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
         lastFilter: measurements.lastFilter,
         sortColumn: measurements.measurementSortColumn,
+        lastPage: measurements.lastPage,
     }),
     ({
-        setSortColumn: getSetSortColumnAction,
+        setSortColumn: setSortColumn,
         deleteMeasurement: deleteRecord,
-        setFilterValue: getSetFilterValueAction,
+        setFilterValue: setFilterValue,
+        setCurrentPage: setCurrentPage,
     })
 )(MeasurementFlatList);

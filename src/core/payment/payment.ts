@@ -1,9 +1,10 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 
-import { get, post, getMonthName } from "@app/utils";
-import { AddPayment, Payment, PaymentGroup, UpdatePayment } from "@app/models/payments";
+import { get, post } from "@app/utils";
+import { getRequiredFieldValue, groupByYearMonth } from "@app/core";
+import { AddPayment, Payment, PaymentGroup, PaymentResponse, UpdatePayment } from "@app/models/payments";
 
 /**
  * Save payment card with data
@@ -13,14 +14,14 @@ import { AddPayment, Payment, PaymentGroup, UpdatePayment } from "@app/models/pa
  */
 export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> => {
     let paymentApiModel: AddPayment | UpdatePayment = {
-        amount: +values.find(({ key }) => key === "amount")!.value,
-        month: +(values.find(({ key }) => key === "month")!.value as SelectableItem).value,
-        year: +(values.find(({ key }) => key === "year")!.value as SelectableItem).value,
-        paymentTypeId: +(values.find(({ key }) => key === "type")!.value as SelectableItem).value,
+        amount: +getRequiredFieldValue(values, "amount").value,
+        month: +(getRequiredFieldValue(values, "month").value as SelectableItem).value,
+        year: +(getRequiredFieldValue(values, "year").value as SelectableItem).value,
+        paymentTypeId: +(getRequiredFieldValue(values, "type").value as SelectableItem).value,
         description: values.find(({ key }) => key === "description")?.value,
     };
 
-    const isNewRecord = isNullOrUndefined(id);
+    const isNewRecord = isNullish(id);
 
     if (!isNewRecord) {
         paymentApiModel = {
@@ -30,8 +31,8 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
     }
 
     const url = isNewRecord
-        ? "/api/payment/addPayment"
-        : "/api/payment/updatePayment";
+        ? "api/payment/addPayment"
+        : "api/payment/updatePayment";
 
     return post(url, paymentApiModel);
 };
@@ -42,7 +43,7 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
  * @returns Promise of sending request to API
  */
 export const deleteRecord = (id: number): Promise<void> => {
-    return post("/api/payment/deletePayment", { id });
+    return post("api/payment/deletePayment", { id });
 };
 
 /**
@@ -50,18 +51,16 @@ export const deleteRecord = (id: number): Promise<void> => {
  * @returns Promise with array of loaded payments
  */
 export const getPaymentRecords = async (): Promise<Array<Payment>> => {
-    const payments = await get<Array<any>>(`api/payment/getPayments`);
+    const payments = await get<Array<PaymentResponse>>(`api/payment/getPayments`);
 
     return payments.map(x => ({
-        id: x["id"],
-        month: x["dateMonth"],
-        year: x["dateYear"],
-        price: x["amount"],
-        typeId: x["paymentTypeId"],
-        typeCaption: x["paymentTypeName"],
-        typeColor: x["paymentTypeColor"],
-        description: x["description"],
-    }) as Payment);
+        id: x.id,
+        month: x.dateMonth,
+        year: x.dateYear,
+        price: x.amount,
+        typeId: x.paymentTypeId,
+        description: x.description,
+    }));
 };
 
 /**
@@ -73,31 +72,4 @@ export const getPaymentRecords = async (): Promise<Array<Payment>> => {
 export const groupPayments = (
     payments: Array<Payment>,
     isAscOrder: boolean,
-): Array<PaymentGroup> => {
-    let result: Array<PaymentGroup> = [];
-
-    payments.forEach(payment => {
-        const group = result.find(({ year, month }) => year === payment.year && month === payment.month);
-
-        if (isNullOrUndefined(group)) {
-            result.push({
-                caption: `${payment.year} ${getMonthName(payment.month)}`,
-                month: payment.month,
-                year: payment.year,
-                items: [payment],
-            });
-        } else {
-            group!.items = [...group!.items, payment].sort((left, right) => left.month - right.month);
-        }
-    });
-
-    result = result.sort((left, right) => {
-        if (left.year === right.year) {
-            return (left.month - right.month) * (isAscOrder ? -1 : 1);
-        }
-
-        return (left.year - right.year) * (isAscOrder ? -1 : 1);
-    });
-
-    return result;
-};
+): Array<PaymentGroup> => groupByYearMonth(payments, isAscOrder);

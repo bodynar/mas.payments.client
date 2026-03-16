@@ -1,9 +1,9 @@
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { isNullOrEmpty } from "@bodynarf/utils";
-import { usePagination } from "@bodynarf/react.components";
+import { ButtonStyle, usePagination } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Paginator from "@bodynarf/react.components/components/paginator";
 import Search from "@bodynarf/react.components/components/search";
@@ -12,10 +12,11 @@ import { PaymentType } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
 import { CompositeAppState } from "@app/redux";
-import { getSetTypeSortColumnAction, deleteTypeRecord, getFilterPaymentTypesAction } from "@app/redux/payments";
+import { setTypeSortColumn, deleteTypeRecord, filterPaymentTypes } from "@app/redux/payments";
 import { useSortColumn } from "@app/hooks";
 
-import Table, { TableHeading } from "@app/sharedComponents/table";
+import Table from "@bodynarf/react.components/components/table";
+import { TableHeading } from "@bodynarf/react.components/components/table";
 
 import PaymentTypeListItem from "../listItem";
 
@@ -43,16 +44,16 @@ interface PaymentTypeListProps {
     filterTypes: (value?: string) => void;
 }
 
-const PaymentTypeList = ({
+const PaymentTypeList: FC<PaymentTypeListProps> = ({
     filteredTypes, sortColumn, initialized,
     filterTypes, typeFilterCaption,
     setSortColumn, deletePaymentType,
-}: PaymentTypeListProps): JSX.Element => {
+}) => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/payment/types/create", { replace: true }), [navigate]);
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredTypes.length, 20, 1, [filteredTypes]);
-    const pageItems: Array<PaymentType> = useMemo(() => paginate(filteredTypes), [paginate, filteredTypes]);
+    const pageItems: Array<PaymentType> = useMemo(() => paginate(filteredTypes) as Array<PaymentType>, [paginate, filteredTypes]);
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);
 
     return (
@@ -60,7 +61,7 @@ const PaymentTypeList = ({
             <nav className="field is-grouped">
                 <p className="control">
                     <Button
-                        type="primary"
+                        style={ButtonStyle.Primary}
                         caption="Create"
                         title="Create new payment type"
                         onClick={onCreateClick}
@@ -82,12 +83,12 @@ const PaymentTypeList = ({
                 <section>
                     <Table
                         headings={headings}
-                        hasBorder={true}
-                        narrow={true}
-                        hoverable={true}
-                        fullWidth={true}
-                        hasStickyHeader={true}
-                        headerWithBorder={true}
+                        hasBorder
+                        narrow
+                        hoverable
+                        fullWidth
+                        hasStickyHeader
+                        headerWithBorder
                         currentSortColumn={sortColumn}
                         onHeaderClick={onHeaderCellClick}
                     >
@@ -127,15 +128,15 @@ export default connect(
         typeFilterCaption: payments.typeFilterCaption
     }),
     ({
-        setSortColumn: getSetTypeSortColumnAction,
+        setSortColumn: setTypeSortColumn,
         deletePaymentType: deleteTypeRecord,
-        filterTypes: getFilterPaymentTypesAction,
+        filterTypes: filterPaymentTypes,
     })
 )(PaymentTypeList);
 
 
 /** Pre-defined payment type table headings */
-const headings: Array<TableHeading<PaymentType>> = [
+const headings: Array<TableHeading> = [
     { name: "color", caption: "Color", sortable: false, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
     { name: "caption", caption: "Name", sortable: true, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
     { name: "company", caption: "Provider", sortable: true, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },

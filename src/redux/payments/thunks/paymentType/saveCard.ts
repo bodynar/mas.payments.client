@@ -1,34 +1,19 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { FieldValue } from "@bodynarf/react.components.form";
 
-import { ActionWithPayload, FieldValue } from "@bodynarf/react.components.form";
-
-import { CompositeAppState } from "@app/redux";
-import { getSetAppIsLoadingAction } from "@app/redux/app";
-import { getSetPaymentTypesAction } from "@app/redux/payments";
-import { getNotifications } from "@app/redux/notificator";
+import { createAppAsyncThunk } from "@app/redux";
+import { setPaymentTypes } from "@app/redux/payments";
 
 import { getPaymentTypes, saveTypeCard as saveCardAction } from "@app/core/payment";
 
 /**
- * Save current card values
- * @returns Action function that can be called with redux dispatcher
+ * Save current payment type card values
  */
-export const saveTypeCard = (values: Array<FieldValue>, id?: string): ThunkAction<Promise<void>, CompositeAppState, unknown, ActionWithPayload> => (
-    dispatch: ThunkDispatch<CompositeAppState, unknown, ActionWithPayload>,
-    getState: () => CompositeAppState
-): Promise<void> => {
-    dispatch(getSetAppIsLoadingAction(true));
+export const saveTypeCard = createAppAsyncThunk(
+    async ({ dispatch, showSuccess }, values: Array<FieldValue>, id?: string) => {
+        await saveCardAction(values, id);
+        showSuccess("Payment type successfully saved", false);
 
-    const [displaySuccess, displayError] = getNotifications(dispatch, getState);
-
-    return saveCardAction(values, id)
-        .then(() => {
-            displaySuccess("Payment type successfully saved", false);
-        })
-        .then(getPaymentTypes)
-        .then(items => {
-            dispatch(getSetPaymentTypesAction(items));
-            dispatch(getSetAppIsLoadingAction(false));
-        })
-        .catch(displayError);
-};
+        const types = await getPaymentTypes();
+        dispatch(setPaymentTypes(types));
+    }
+);

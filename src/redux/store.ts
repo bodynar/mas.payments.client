@@ -1,20 +1,39 @@
-import { createStore, applyMiddleware } from "redux";
-import thunkMiddleware from "redux-thunk";
+import { configureStore, Middleware } from "@reduxjs/toolkit";
+import { enableMapSet } from "immer";
 import { createLogger } from "redux-logger";
 
 import rootReducer from "./rootReducer";
 
-/**
- * Redux middleware to provide thunk execution.
- * During development mode also provides redux store changes logger
-*/
-const middleWare =
-    import.meta.env.PRODUCTION
-        ? applyMiddleware(thunkMiddleware)
-        : applyMiddleware(thunkMiddleware, createLogger());
+enableMapSet();
 
 /** Global application store */
-export default createStore(
-    rootReducer,
-    middleWare
-);
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => {
+        const middleware = getDefaultMiddleware({
+            serializableCheck: {
+                ignoredPaths: [
+                    "payments.typesMap",
+                    "measurements.typesMap",
+                    "stats.charts",
+                    "notificator.notifications",
+                    "notificator.history",
+                    "user.notificationHistory",
+                ],
+                ignoredActions: [
+                    "mas.payments/notification/addNotifications",
+                    "mas.payments/modal/openModal",
+                    "mas.payments/user/setNotifications",
+                ],
+            },
+        });
+
+        if (import.meta.env.DEV) {
+            middleware.push(createLogger() as Middleware);
+        }
+
+        return middleware;
+    },
+});
+
+export default store;

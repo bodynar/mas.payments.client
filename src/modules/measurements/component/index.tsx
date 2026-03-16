@@ -1,16 +1,15 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { FC, useCallback, useEffect, useMemo } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 import { ElementSize } from "@bodynarf/react.components";
-import Button from "@bodynarf/react.components/components/button";
+import Button, { ButtonStyle } from "@bodynarf/react.components/components/button";
 
 import { CompositeAppState } from "@app/redux";
 import { initModuleState } from "@app/redux/measurements";
 
-import BreadCrumbs from "@app/sharedComponents/breadcrumbs";
-import { BreadCrumb } from "@app/sharedComponents/breadcrumbs/types";
+import BreadCrumbs, { BreadCrumb } from "@bodynarf/react.components/components/breadcrumbs";
 
 import { routes } from "../components";
 
@@ -23,17 +22,17 @@ interface MeasurementModuleProps {
     initModuleState: () => void;
 }
 
-const MeasurementModule = ({
+const MeasurementModule: FC<MeasurementModuleProps> = ({
     initialized,
     initModuleState,
-}: MeasurementModuleProps): JSX.Element => {
+}) => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
     const breadcrumbs: Array<BreadCrumb> = useMemo(
         () =>
             routes
-                .flatMap(x => isNullOrUndefined(x.children) ? [x] : x.children!)
+                .flatMap(x => isNullish(x.children) ? [x] : x.children!)
                 .filter(({ link }) => {
                     if (pathname.startsWith(link)) {
                         return true;
@@ -55,14 +54,13 @@ const MeasurementModule = ({
 
                     return pathNameWithoutParams === withoutParams;
                 })
-                .map((x, i, a) => ({
-                    path: x.link,
-                    title: x.name,
-                    active: a.length - 1 === i,
+                .map((x) => ({
+                    href: x.link,
+                    caption: x.name,
                 })
                 ), [pathname]);
 
-    const onBackButtonClick = useCallback(() => navigate(breadcrumbs[breadcrumbs.length - 2].path), [breadcrumbs, navigate]);
+    const onBackButtonClick = useCallback(() => navigate(breadcrumbs[breadcrumbs.length - 2].href), [breadcrumbs, navigate]);
 
     useEffect(() => {
         if (!initialized) {
@@ -75,13 +73,14 @@ const MeasurementModule = ({
             <BreadCrumbs
                 items={breadcrumbs}
                 className="mb-3"
+                elementGenerator={(bc) => <Link to={bc.href}>{bc.caption}</Link>}
             />
             {breadcrumbs.length > 1 &&
                 <>
                     <Button
+                        outlined
                         caption="Back"
-                        type="info"
-                        outlined={true}
+                        style={ButtonStyle.Info}
                         size={ElementSize.Small}
                         onClick={onBackButtonClick}
                     />

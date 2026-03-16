@@ -1,6 +1,4 @@
-import { isNullOrEmpty, isNullOrUndefined, isStringEmpty } from "@bodynarf/utils";
-
-import { ModalFormItem } from "@app/models/modal";
+import { isNullOrEmpty, isNullish, isNotNullish, isStringEmpty } from "@bodynarf/utils";
 
 import { ModalParams, ModalType } from "@app/redux/modal";
 
@@ -9,7 +7,7 @@ import { ModalParams, ModalType } from "@app/redux/modal";
  * @param modalParams Params of modal box
  * @returns Object with modal box button captions
  */
-export const getButtonCaptions = (modalParams: ModalParams): {
+export const getButtonCaptions = (modalParams?: ModalParams): {
     saveBtnCaption: string,
     cancelBtnCaption: string;
 } => {
@@ -18,16 +16,11 @@ export const getButtonCaptions = (modalParams: ModalParams): {
         cancelBtnCaption: string;
     } = {
         saveBtnCaption: "Save",
-        cancelBtnCaption: modalParams.modalType === ModalType.Confirm ? "Cancel" : "Close"
+        cancelBtnCaption: modalParams?.modalType === ModalType.Confirm ? "Cancel" : "Close"
     };
 
-    if (!isNullOrUndefined(modalParams.buttonCaption)) {
-        if (!isNullOrEmpty(modalParams.buttonCaption!.saveCaption)) {
-            result.saveBtnCaption = modalParams.buttonCaption!.saveCaption!;
-        }
-        if (!isNullOrEmpty(modalParams.buttonCaption!.cancelCaption)) {
-            result.cancelBtnCaption = modalParams.buttonCaption!.cancelCaption!;
-        }
+    if (isNotNullish(modalParams?.buttonCaption) && !isNullOrEmpty(modalParams!.buttonCaption!.saveCaption)) {
+        result.saveBtnCaption = modalParams!.buttonCaption!.saveCaption!;
     }
 
     return result;
@@ -43,63 +36,14 @@ export const validateModalParams = (modalParams: ModalParams): string | undefine
         return "Title is empty.";
     }
 
-    const isValidatorDeclared = modalTypeToValidateParamFuncMap.has(modalParams.modalType);
-
-    if (isValidatorDeclared) {
-        const errorFromValidator = modalTypeToValidateParamFuncMap.get(modalParams.modalType)!(modalParams);
-
-        return errorFromValidator;
+    switch (modalParams.modalType) {
+        case ModalType.Confirm:
+            return validateConfirmModalType(modalParams);
+        case ModalType.Info:
+            return validateInfoModalType(modalParams);
+        default:
+            return undefined;
     }
-
-    return undefined;
-};
-
-/**
- * Get initial value for save button disabled flag
- * @param params Modal window configuration params
- * @returns Initial disabled flag value for save button
- */
-export const getInitIsSaveButtonDisabled = (params: ModalParams): boolean => {
-    if (params.modalType === ModalType.Form
-        && !isNullOrUndefined(params.formData)
-    ) {
-        return params.formData!
-            .fields
-            .some(field => field.isRequired === true && isNullOrEmpty(field.value));
-    }
-
-    return false;
-};
-
-/**
- * Validate modal configuration for `ModalType.Form` type
- * @param modalConfig Modal open configuration
- * @returns Error message if config isn't correct; otherwise - `undefined`
- */
-const validateFormModalType = (modalConfig: ModalParams): string | undefined => {
-    if (isNullOrUndefined(modalConfig.formData)) {
-        return "Form data is not defined.";
-    }
-    if (modalConfig.formData!.fields.length === 0) {
-        return "Form data fields array is empty.";
-    }
-
-    const invalidItems: Array<ModalFormItem> =
-        modalConfig.formData!.fields
-            .map((x, index) => ({ ...x, position: index }))
-            .filter(item => isStringEmpty(item.name) || isStringEmpty(item.caption));
-
-    if (invalidItems.length !== 0) {
-        return `Form configuration contains invalid fields: [${invalidItems.map(({ name }) => name).join(", ")}].`;
-    }
-
-    if (isNullOrUndefined(modalConfig.callback)
-        || isNullOrUndefined(modalConfig.callback!.saveCallback)
-    ) {
-        return "Callback is not defined.";
-    }
-
-    return undefined;
 };
 
 /**
@@ -112,10 +56,8 @@ const validateConfirmModalType = (modalConfig: ModalParams): string | undefined 
         return "Message is not defined or empty.";
     }
 
-    if (isNullOrUndefined(modalConfig.callback)
-        || (isNullOrUndefined(modalConfig.callback!.saveCallback) && isNullOrUndefined(modalConfig.callback!.cancelCallback))
-    ) {
-        return "Callbacks are not defined.";
+    if (isNullish(modalConfig.callback)) {
+        return "Callback is not defined.";
     }
 
     return undefined;
@@ -133,13 +75,3 @@ const validateInfoModalType = (modalConfig: ModalParams): string | undefined => 
 
     return undefined;
 };
-
-/**
- * Map for modal type to validator params.
- * Contains custom validators of modal params for specific modal types
- */
-const modalTypeToValidateParamFuncMap = new Map<ModalType, (modalParams: ModalParams) => string | undefined>([
-    [ModalType.Form, validateFormModalType],
-    [ModalType.Confirm, validateConfirmModalType],
-    [ModalType.Info, validateInfoModalType],
-]);

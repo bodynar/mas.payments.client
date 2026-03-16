@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { emptyFn, isNullOrUndefined } from "@bodynarf/utils";
+import { emptyFn, isNullish } from "@bodynarf/utils";
 
 import Text from "@bodynarf/react.components/components/primitives/text";
 
@@ -18,10 +18,10 @@ interface ApplicationInfoProps {
     getAppInfo: () => void;
 }
 
-const ApplicationInfo = ({ appInfo, getAppInfo }: ApplicationInfoProps): JSX.Element => {
+const ApplicationInfo: FC<ApplicationInfoProps> = ({ appInfo, getAppInfo }) => {
 
     useEffect(() => {
-        if (isNullOrUndefined(appInfo)) {
+        if (isNullish(appInfo)) {
             getAppInfo();
         }
     }, [appInfo, getAppInfo]);
@@ -31,19 +31,19 @@ const ApplicationInfo = ({ appInfo, getAppInfo }: ApplicationInfoProps): JSX.Ele
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.dataBaseName || ""}
-                disabled={true}
+                disabled
                 label={{ caption: "Database name", horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.serverAppVersion || ""}
-                disabled={true}
+                disabled
                 label={{ caption: "Server app version", horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
                 defaultValue={appInfo?.clientAppVersion || ""}
-                disabled={true}
+                disabled
                 label={{ caption: "Client app version", horizontal: true }}
             />
         </div>

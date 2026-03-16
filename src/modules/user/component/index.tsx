@@ -1,13 +1,13 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNotNullish } from "@bodynarf/utils";
 
 import { routes } from "../components";
 
 /** User module main component */
-const UserModule = (): JSX.Element => {
+const UserModule: FC = () => {
     const { pathname } = useLocation();
 
     const menu = useMemo(() => routes.filter(({ display }) => display != false), []);
@@ -27,7 +27,7 @@ const UserModule = (): JSX.Element => {
                                         key={menuItem.name}
                                         to={menuItem.link}
                                         className={
-                                            !isNullOrUndefined(activeMenuItem) && activeMenuItem?.name === menuItem.name
+                                            isNotNullish(activeMenuItem) && activeMenuItem?.name === menuItem.name
                                                 ? "is-active"
                                                 : ""
                                         }

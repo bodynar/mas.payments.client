@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { ElementSize } from "@bodynarf/react.components";
@@ -9,7 +10,7 @@ import "./style.scss";
  * User icon component
  * Displayed as icon in navbar that allows to open user setting page
 */
-const UserIcon = (): JSX.Element => {
+const UserIcon: FC = () => {
     const { pathname } = useLocation();
 
     const isUserModule = pathname.startsWith("/user");
@@ -19,7 +20,7 @@ const UserIcon = (): JSX.Element => {
         return (
             <div
                 className="app-user-icon is-flex is-align-items-center"
-                data-is-active={true}
+                data-is-active
             >
                 <Link to="/user/appInfo">
                     <span className="icon">

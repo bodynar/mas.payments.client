@@ -1,15 +1,15 @@
-import { useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined, isObjectEmpty } from "@bodynarf/utils";
+import { isNullish, isNotNullish, isObjectEmpty } from "@bodynarf/utils";
 
-import { ElementColor, SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, ElementColor, SelectableItem } from "@bodynarf/react.components";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Button from "@bodynarf/react.components/components/button";
 import Accordion from "@bodynarf/react.components/components/accordion";
 
 import { CompositeAppState } from "@app/redux";
-import { getFilterMeasurementsAction, getSetFilterValueAction } from "@app/redux/measurements";
+import { filterMeasurements, setFilterValue } from "@app/redux/measurements";
 
 import { monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { getDropdownItem } from "@app/core";
@@ -37,12 +37,12 @@ interface MeasurementFiltersProps {
 }
 
 /** Measurement list filter */
-const MeasurementFilters = ({
+const MeasurementFilters: FC<MeasurementFiltersProps> = ({
     filterValue,
     setFilterValue, filter,
     currentType, onTypeChange,
     availableTypesAsDropdownItems,
-}: MeasurementFiltersProps): JSX.Element => {
+}) => {
     const [selectedMonth, setMonth] = useState<SelectableItem | undefined>(getDropdownItem(monthsAsDropdownItems(), filterValue?.month));
     const [selectedYear, setYear] = useState<SelectableItem | undefined>(getDropdownItem(yearsAsDropdownItems(), filterValue?.year));
 
@@ -55,7 +55,7 @@ const MeasurementFilters = ({
 
             const newValue = {
                 ...filterValue,
-                [propertyName]: isNullOrUndefined(item) ? undefined : +item!.value,
+                [propertyName]: isNullish(item) ? undefined : +item!.value,
             };
 
             setFilterValue(isObjectEmpty(newValue) ? undefined : newValue);
@@ -70,7 +70,7 @@ const MeasurementFilters = ({
     const accordionCaption = useMemo(() => {
         const appliedFiltersCount =
             [selectedMonth, selectedYear, currentType]
-                .filter(x => !isNullOrUndefined(x))
+                .filter(x => isNotNullish(x))
                 .length;
 
         return appliedFiltersCount > 0 ? `Filters (${appliedFiltersCount})` : "Filters";
@@ -91,8 +91,8 @@ const MeasurementFilters = ({
                     <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Year"
-                            hideOnOuterClick={true}
-                            deselectable={true}
+                            hideOnOuterClick
+                            deselectable
                             items={yearsAsDropdownItems()}
                             value={selectedYear}
                             onSelect={onYearSelect}
@@ -110,8 +110,8 @@ const MeasurementFilters = ({
                     <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Month"
-                            hideOnOuterClick={true}
-                            deselectable={true}
+                            hideOnOuterClick
+                            deselectable
                             items={monthsAsDropdownItems()}
                             value={selectedMonth}
                             onSelect={onMonthSelect}
@@ -129,8 +129,8 @@ const MeasurementFilters = ({
                     <div className="control min-width--is-20">
                         <Dropdown
                             placeholder="Type"
-                            hideOnOuterClick={true}
-                            deselectable={true}
+                            hideOnOuterClick
+                            deselectable
                             items={availableTypesAsDropdownItems}
                             value={currentType}
                             onSelect={onTypeSelect}
@@ -142,18 +142,18 @@ const MeasurementFilters = ({
             <div className="field is-grouped mt-4">
                 <p className="control">
                     <Button
-                        type="success"
+                        style={ButtonStyle.Success}
                         caption="Filter"
                         onClick={filter}
                     />
                 </p>
                 <p className="control">
                     <Button
-                        type="info"
+                        style={ButtonStyle.Info}
                         caption="Clear"
-                        outlined={true}
+                        outlined
                         onClick={onClearClick}
-                        disabled={isNullOrUndefined(filterValue)}
+                        disabled={isNullish(filterValue)}
                     />
                 </p>
             </div>
@@ -168,7 +168,7 @@ export default connect(
         availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
     }),
     ({
-        setFilterValue: getSetFilterValueAction,
-        filter: getFilterMeasurementsAction
+        setFilterValue: setFilterValue,
+        filter: filterMeasurements
     })
 )(MeasurementFilters);

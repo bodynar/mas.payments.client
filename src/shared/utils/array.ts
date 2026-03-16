@@ -1,14 +1,14 @@
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish } from "@bodynarf/utils";
 
 import { SortColumn } from "@app/models";
 
 /** Filter value */
-export interface FilterValue<TModel> {
+export interface FilterValue<TModel, TKey extends keyof TModel = keyof TModel> {
     /** Name of column */
-    key: keyof TModel;
+    key: TKey;
 
     /** Comparison value */
-    value: any;
+    value: TModel[TKey];
 }
 
 /**
@@ -20,7 +20,7 @@ export interface FilterValue<TModel> {
 export const filter = <TModel>(items: Array<TModel>, filters: Array<FilterValue<TModel>>): Array<TModel> => {
     let result = [...items];
 
-    if (isNullOrUndefined(filters)) {
+    if (isNullish(filters)) {
         return result;
     }
 
@@ -36,7 +36,7 @@ export const filter = <TModel>(items: Array<TModel>, filters: Array<FilterValue<
  * @returns Sorted array of items
  */
 export const sort = <TModel>(items: Array<TModel>, sortColumn: SortColumn<TModel>): Array<TModel> => {
-    if (isNullOrUndefined(sortColumn)) {
+    if (isNullish(sortColumn)) {
         return items;
     }
 
@@ -60,26 +60,29 @@ export const sort = <TModel>(items: Array<TModel>, sortColumn: SortColumn<TModel
  * @param right Next value
  * @returns `1` if previous value is greater than next, `-1` otherwise, `0` if values are equal
  */
-const compare = (left: any, right: any): number => {
-    if (isNullOrUndefined(left) && isNullOrUndefined(right)) {
+const compare = (left: unknown, right: unknown): number => {
+    if (isNullish(left) && isNullish(right)) {
         return 0;
     }
 
-    if (isNullOrUndefined(left)) {
+    if (isNullish(left)) {
         return 1;
     }
 
-    if (isNullOrUndefined(right)) {
+    if (isNullish(right)) {
         return -1;
     }
 
-    if (right < left) {
-        return -1;
+    if (typeof left === "number" && typeof right === "number") {
+        return left < right ? -1 : left > right ? 1 : 0;
     }
 
-    if (right > left) {
-        return 1;
+    if (typeof left === "string" && typeof right === "string") {
+        return left.localeCompare(right);
     }
 
-    return 0;
+    const leftStr = String(left);
+    const rightStr = String(right);
+
+    return leftStr.localeCompare(rightStr);
 };

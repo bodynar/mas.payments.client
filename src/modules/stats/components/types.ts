@@ -23,5 +23,5 @@ export interface ChartComponentProps {
     loadChartData: (config: ChartConfig) => Promise<void>;
 
     /** Save config panel visibility state */
-    saveChartConfigPanelVisibility: (chart: Chart, collapsed: boolean) => void;
+    saveChartConfigPanelVisibility: (payload: { chartKey: Chart; collapsed: boolean }) => void;
 }

@@ -1,10 +1,10 @@
-import { useCallback, useId, useMemo, useState } from "react";
+import { FC, useCallback, useId, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { isNullOrUndefined } from "@bodynarf/utils";
+import { isNullish, isNotNullish } from "@bodynarf/utils";
 
-import { SelectableItem } from "@bodynarf/react.components";
+import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { FieldValue } from "@bodynarf/react.components.form";
 import Form from "@bodynarf/react.components.form/component";
 
@@ -30,10 +30,10 @@ interface PaymentCardProps {
     saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
 }
 
-const PaymentCard = ({
+const PaymentCard: FC<PaymentCardProps> = ({
     payments, initialized, availableTypesAsDropdownItems,
     saveCard,
-}: PaymentCardProps): JSX.Element => {
+}) => {
     const { id } = useParams();
 
     const name = useId();
@@ -58,7 +58,7 @@ const PaymentCard = ({
     if (!initialized) {
         return <></>;
     }
-    if (initialized && !isNullOrUndefined(id) && isNullOrUndefined(payment)) {
+    if (initialized && isNotNullish(id) && isNullish(payment)) {
         return <>ERROR: Payment not found</>;
     }
 
@@ -66,13 +66,14 @@ const PaymentCard = ({
         <section>
             <Form
                 name={name}
-                caption={isNullOrUndefined(payment)
+                caption={isNullish(payment)
                     ? "Create new payment record"
                     : `Edit payment for ${getMonthName(payment!.month)} ${payment!.year}`
                 }
                 onSubmit={onSubmit}
                 submitButtonConfiguration={{
                     type: "success",
+                    style: ButtonStyle.Success,
                     caption: "Save",
                     disabled: isSubmitAvailable
                 }}
@@ -162,6 +163,11 @@ const PaymentCard = ({
 
 /** Payment card */
 export default connect(
-    ({ payments }: CompositeAppState) => ({ ...payments }),
+    ({ payments }: CompositeAppState) => ({
+        payments: payments.payments,
+        initialized: payments.initialized,
+        availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
+    }),
     ({ saveCard })
 )(PaymentCard);
+
