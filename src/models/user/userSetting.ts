@@ -1,7 +1,7 @@
 /** User setting */
 export interface UserSetting {
-    /** Unique position number */
-    id: number;
+    /** Unique identifier */
+    id: string;
 
     /** Display name */
     displayName: string;

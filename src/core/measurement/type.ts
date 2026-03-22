@@ -16,7 +16,7 @@ import { AddMeasurementType, MeasurementType, MeasurementTypeResponse, UpdateMea
 export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<void> => {
     let apiRequestModel: AddMeasurementType | UpdateMeasurementType = {
         name: getRequiredFieldValue(values, "caption").value,
-        paymentTypeId: +(getRequiredFieldValue(values, "paymentType").value as SelectableItem).value,
+        paymentTypeId: (getRequiredFieldValue(values, "paymentType").value as SelectableItem).value,
         description: values.find(({ key }) => key === "description")?.value,
     };
 
@@ -31,7 +31,7 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
     if (!isNewRecord) {
         apiRequestModel = {
             ...apiRequestModel,
-            id: +id!
+            id: id!
         };
     }
 
@@ -47,7 +47,7 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
  * @param id Measurement type identifier
  * @returns Promise of sending request to API
  */
-export const deleteTypeRecord = (id: number): Promise<void> => {
+export const deleteTypeRecord = (id: string): Promise<void> => {
     return post("api/measurement/deleteMeasurementType", { id });
 };
 
@@ -60,7 +60,7 @@ export const getMeasurementTypes = async (): Promise<Array<MeasurementType>> => 
 
     return items.map(x => ({
         id: x.id,
-        name: x.systemName,
+        name: x.systemName ?? "",
         caption: x.name,
         hasRelatedMeasurements: x.hasRelatedMeasurements,
         paymentTypeId: x.paymentTypeId,

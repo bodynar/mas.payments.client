@@ -30,7 +30,7 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
     if (!isNewRecord) {
         apiRequestModel = {
             ...apiRequestModel,
-            id: +id!
+            id: id!
         };
     }
 
@@ -46,7 +46,7 @@ export const saveTypeCard = (values: Array<FieldValue>, id?: string): Promise<vo
  * @param id Payment type identifier
  * @returns Promise of sending request to API
  */
-export const deleteTypeRecord = (id: number): Promise<void> => {
+export const deleteTypeRecord = (id: string): Promise<void> => {
     return post("api/payment/deletePaymentType", { id });
 };
 
@@ -59,13 +59,13 @@ export const getPaymentTypes = async (): Promise<Array<PaymentType>> => {
 
     return types.map(x => ({
         id: x.id,
-        name: x.systemName,
+        name: x.systemName ?? "",
         caption: x.name,
         hasRelatedMeasurementTypes: x.hasRelatedMeasurementTypes,
         hasRelatedPayments: x.hasRelatedPayments,
 
         color: x.color,
-        company: x.company,
+        company: x.company ?? undefined,
         description: x.description,
     }));
 };

@@ -1,7 +1,7 @@
 /** Measurement model */
 export interface Measurement {
-    /** Unique number */
-    id: number;
+    /** Unique identifier */
+    id: string;
 
     /** Month of measurement */
     month: number;
@@ -13,11 +13,14 @@ export interface Measurement {
     value: number;
 
     /** Diff with previous item */
-    diff: number;
+    diff: number | null;
 
-    /** Number of measurement type */
-    typeId: number;
+    /** Identifier of measurement type */
+    typeId: string;
 
     /** Description */
     description?: string;
+
+    /** Whether measurement was sent */
+    isSent: boolean;
 }

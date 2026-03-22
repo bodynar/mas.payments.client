@@ -1,16 +1,16 @@
 /** User notification story model */
 export interface UserNotification {
     /** Date of creation */
-    createdAt: Date;
+    createdAt: Date | null;
 
     /** Date when notification was hidden */
     hiddenAt?: Date;
 
-    /** Unique number */
-    id: number;
+    /** Unique identifier */
+    id: string | null;
 
     /** Was notification hidden */
-    isHidden: boolean;
+    isHidden: boolean | null;
 
     /** Key. Can be used in grouping */
     key: string;
@@ -22,5 +22,5 @@ export interface UserNotification {
     title: string;
 
     /** Type */
-    type: "Info" | "Warning";
+    type: string;
 }

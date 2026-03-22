@@ -1,11 +1,11 @@
 /** Payment type API response */
 export interface PaymentTypeResponse {
-    id: number;
-    systemName: string;
+    id: string;
+    systemName: string | null;
     name: string;
     hasRelatedMeasurementTypes: boolean;
     hasRelatedPayments: boolean;
-    color?: string;
-    company?: string;
-    description?: string;
+    color: string;
+    company: string | null;
+    description: string;
 }

@@ -70,7 +70,7 @@ export const filterEntities = <T extends DateBasedEntity>(
         filters.push({ key: "year" as keyof T, value: year as T[keyof T] });
     }
 
-    if (isNotNullish(typeId) && !isNaN(typeId!)) {
+    if (isNotNullish(typeId)) {
         filters.push({ key: "typeId" as keyof T, value: typeId as T[keyof T] });
     }
 

@@ -12,7 +12,7 @@ export const getUserNotifications = async (): Promise<Array<UserNotification>> =
 
     return notifications.map(x => ({
         ...x,
-        createdAt: new Date(x.createdAt),
+        createdAt: x.createdAt != null ? new Date(x.createdAt) : null,
         hiddenAt: isNullish(x.hiddenAt) ? undefined : new Date(x.hiddenAt!),
     }));
 };
@@ -22,6 +22,6 @@ export const getUserNotifications = async (): Promise<Array<UserNotification>> =
  * @param entityIds Array of notification entity identifiers
  * @returns Promise with array of entity ids that were NOT hidden
  */
-export const hideUserNotifications = async (entityIds: Array<number>): Promise<Array<number>> => {
-    return post<Array<number>>("api/user/hideNotifications", entityIds);
+export const hideUserNotifications = async (entityIds: Array<string>): Promise<Array<string>> => {
+    return post<Array<string>>("api/user/hideNotifications", entityIds);
 };

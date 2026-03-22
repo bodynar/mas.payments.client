@@ -1,7 +1,7 @@
 /** Updated user setting */
 export interface UpdatedUserSetting {
     /** Setting id */
-    id: number;
+    id: string;
 
     /** Textual value */
     rawValue: string;
