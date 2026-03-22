@@ -67,7 +67,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
             <Form
                 name={name}
                 caption={isNullish(payment)
-                    ? "Create new payment record"
+                    ? `Payment for ${getMonthName(+month!.value)} ${year!.value}`
                     : `Edit payment for ${getMonthName(payment!.month)} ${payment!.year}`
                 }
                 onSubmit={onSubmit}

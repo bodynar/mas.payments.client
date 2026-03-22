@@ -4,7 +4,7 @@ import { FieldValue } from "@bodynarf/react.components.form";
 
 import { get, post } from "@app/utils";
 import { getRequiredFieldValue, groupByYearMonth } from "@app/core";
-import { AddPayment, Payment, PaymentGroup, PaymentResponse, UpdatePayment } from "@app/models/payments";
+import { AddPayment, AddPaymentGroup, Payment, PaymentGroup, PaymentResponse, UpdatePayment } from "@app/models/payments";
 
 /**
  * Save payment card with data
@@ -75,3 +75,42 @@ export const groupPayments = (
     payments: Array<Payment>,
     isAscOrder: boolean,
 ): Array<PaymentGroup> => groupByYearMonth(payments, isAscOrder);
+
+/**
+ * Create a payment group
+ * @param groupData Payment group data
+ * @returns Promise of sending request to API
+ */
+export const createPaymentGroup = (groupData: AddPaymentGroup): Promise<void> => {
+    return post("api/payment/AddGroup", {
+        paymentDate: groupData.paymentDate,
+        month: groupData.month,
+        year: groupData.year,
+        comment: groupData.comment,
+        payments: groupData.payments.map(({ amount, description, paymentTypeId }) => ({
+            amount,
+            description,
+            paymentTypeId,
+        })),
+    });
+};
+
+/**
+ * Validate single payment group item
+ * @param item Payment group item to validate
+ * @returns Validation error or undefined
+ */
+export const validatePaymentGroupItem = (
+    { paymentTypeId, amount }: { paymentTypeId?: string; amount?: number },
+): string | undefined => {
+    if (isNullish(paymentTypeId)) {
+        return "Type is not selected";
+    }
+    if (isNullish(amount)) {
+        return "Amount is not valid";
+    }
+    if (amount! <= 0) {
+        return "Amount cannot be less or equal to 0";
+    }
+    return undefined;
+};

@@ -2,6 +2,7 @@ import { RouteItem } from "@app/models";
 
 import PaymentList from "./list";
 import PaymentCard from "./edit";
+import PaymentGroupCard from "./createGroup";
 
 import { routes as typeRoutes } from "./paymentTypes/routes";
 import PaymentTypeSubModule from "./paymentTypes/component";
@@ -17,6 +18,11 @@ export const routes: Array<RouteItem> = [
         link: "/payment/create",
         name: "Create new payment",
         component: <PaymentCard/>,
+    },
+    {
+        link: "/payment/createGroup",
+        name: "Create payment group",
+        component: <PaymentGroupCard/>,
     },
     {
         link: "/payment/edit/:id",

@@ -37,6 +37,35 @@ export const getNowDate = (): DateModel => {
 };
 
 /**
+ * Get date object for previous month relative to current date.
+ * January wraps to December of previous year
+ * @returns Date object for previous month
+ */
+export const getPreviousMonthDate = (): DateModel => {
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+
+    if (currentMonth === 1) {
+        return { day: 1, month: 12, year: now.getFullYear() - 1 };
+    }
+
+    return { day: 1, month: currentMonth - 1, year: now.getFullYear() };
+};
+
+/**
+ * Get previous month date as lookup values
+ * @returns Previous month date as lookup values
+ */
+export const getPreviousMonthDateLookup = (): LookupDate => {
+    const { month, year } = getPreviousMonthDate();
+
+    return {
+        month: getDropdownItem(monthsAsDropdownItems(), month),
+        year: getDropdownItem(yearsAsDropdownItems(), year),
+    };
+};
+
+/**
  * Get current date as lookup values
  * @returns Current date as lookup values
  */
@@ -56,7 +85,7 @@ export const getNowDateLookup = (): LookupDate => {
  */
 export const getDateOrNowLookup = (model?: ModelWithDate): LookupDate => {
     if (isNullish(model)) {
-        return getNowDateLookup();
+        return getPreviousMonthDateLookup();
     }
 
     const { month, year } = model!;

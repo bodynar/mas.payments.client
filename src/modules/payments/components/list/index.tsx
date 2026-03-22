@@ -44,12 +44,17 @@ const PaymentList: FC<PaymentListProps> = ({
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
+    const onCreateGroupClick = useCallback(() => navigate("/payment/createGroup", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
+
     const onReloadClick = useCallback(() => reloadPayments(), [reloadPayments]);
-    const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId));
+    const toggleGroupSort = useCallback(() => setAscSortGroups(oldValue => !oldValue), []);
+
+    const [selectedType, setType] = useState<SelectableItem | undefined>(
+        () => getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId)
+    );
     const [ascSortGroups, setAscSortGroups] = useState(false);
 
-    const toggleGroupSort = useCallback(() => setAscSortGroups(oldValue => !oldValue), []);
 
     return (
         <section>
@@ -60,6 +65,15 @@ const PaymentList: FC<PaymentListProps> = ({
                         caption="Create"
                         onClick={onCreateClick}
                         title="Create new payment record"
+                    />
+                </p>
+                <p className="control">
+                    <Button
+                        style={ButtonStyle.Primary}
+                        caption="Create group"
+                        outlined
+                        onClick={onCreateGroupClick}
+                        title="Create payment group"
                     />
                 </p>
                 <p className="control">
@@ -119,7 +133,7 @@ const PaymentList: FC<PaymentListProps> = ({
             }
             {useGroupedView
                 &&
-                <PaymentGroupedView isAscOrder={ascSortGroups}/>
+                <PaymentGroupedView isAscOrder={ascSortGroups} />
             }
         </section>
     );
