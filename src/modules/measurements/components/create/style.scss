@@ -5,5 +5,9 @@
         &--has-error {
             box-shadow: inset 5px 0px 0px 0px hsl(348deg, 86%, 61%);
         }
+
+        .bbr-field.field {
+            margin-bottom: 0;
+        }
     }
 }
