@@ -20,10 +20,10 @@ interface PaymentGroupItemProps {
     item: PaymentGroup;
 
     /** Payment types map */
-    typesMap: Map<number, PaymentType>;
+    typesMap: Map<string, PaymentType>;
 
     /** Delete specified payment */
-    deletePayment: (id: number) => void;
+    deletePayment: (id: string) => void;
 }
 
 /** Payment group item */

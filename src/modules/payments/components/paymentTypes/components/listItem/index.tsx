@@ -13,7 +13,7 @@ interface PaymentTypeListItemProps {
     item: PaymentType;
 
     /** Delete specified payment type */
-    deletePaymentType: (id: number) => void;
+    deletePaymentType: (id: string) => void;
 }
 
 /** Payment type list item */

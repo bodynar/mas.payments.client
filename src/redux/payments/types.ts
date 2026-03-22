@@ -15,7 +15,7 @@ export interface PaymentModuleState {
     filteredItems: Array<Payment>;
 
     /** Payment types indexed by id */
-    typesMap: Map<number, PaymentType>;
+    typesMap: Map<string, PaymentType>;
 
     /** Payment types filtered by caption */
     filteredTypes: Array<PaymentType>;

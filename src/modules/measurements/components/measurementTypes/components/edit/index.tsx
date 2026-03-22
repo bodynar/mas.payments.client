@@ -17,7 +17,7 @@ import { getDropdownItem } from "@app/core";
 /** Measurement card props types */
 interface MeasurementTypeCardProps {
     /** Measurement types indexed by id */
-    typesMap: Map<number, MeasurementType>;
+    typesMap: Map<string, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
@@ -38,7 +38,7 @@ const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
     const name = useId();
     const navigate = useNavigate();
 
-    const item = typesMap.get(+id!);
+    const item = typesMap.get(id!);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
     const selectedType = useMemo(() => getDropdownItem(paymentTypesAsDropdownItems, item?.paymentTypeId), [paymentTypesAsDropdownItems, item?.paymentTypeId]);
 

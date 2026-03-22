@@ -27,13 +27,14 @@ export const getRequiredFieldValue = (values: Array<FieldValue>, key: string): F
  */
 export const getDropdownItem = (
     dropdownItems: Array<SelectableItem>,
-    item?: number
+    item?: string | number
 ): SelectableItem | undefined => {
     if (isNullish(item)) {
         return undefined;
     }
 
-    const foundItem = dropdownItems.find(({ value }) => item === +value);
+    const itemStr = String(item);
+    const foundItem = dropdownItems.find(({ value }) => itemStr === value);
 
     return foundItem;
 };

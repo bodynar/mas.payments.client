@@ -16,10 +16,10 @@ export const loadNotifications = createAppAsyncThunk(
 
         notifications
             .filter(({ isHidden, id }) =>
-                !isHidden && !notificator.notifications.some(x => x.entityId === id)
+                !isHidden && !notificator.notifications.some(x => x.entityId === (id ?? undefined))
             )
             .forEach(({ text, id }) =>
-                dispatch(getWarningNotificationAction(text, false, true, id))
+                dispatch(getWarningNotificationAction(text, false, true, id ?? undefined))
             );
     }
 );

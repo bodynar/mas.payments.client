@@ -39,7 +39,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
     const name = useId();
     const navigate = useNavigate();
 
-    const payment = payments.find(x => x.id === +id!);
+    const payment = payments.find(x => x.id === id);
     const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, payment?.typeId), [payment?.typeId, availableTypesAsDropdownItems]);
 
     const { year, month } = useMemo(() => getDateOrNowLookup(payment), [payment]);

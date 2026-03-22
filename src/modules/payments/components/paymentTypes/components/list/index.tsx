@@ -38,7 +38,7 @@ interface PaymentTypeListProps {
     setSortColumn: (sortColumn: SortColumn<PaymentType>) => void;
 
     /** Delete specified payment type */
-    deletePaymentType: (id: number) => void;
+    deletePaymentType: (id: string) => void;
 
     /** Filter types list by specified caption value */
     filterTypes: (value?: string) => void;

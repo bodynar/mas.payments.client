@@ -9,7 +9,7 @@ import { getMeasurements, deleteMeasurement } from "@app/core/measurement";
 /**
  * Delete specified measurement via confirmation modal
  */
-export const deleteRecord = (id: number): AppThunkAction => (
+export const deleteRecord = (id: string): AppThunkAction => (
     dispatch: AppThunkDispatch,
     getState: () => CompositeAppState
 ): void => {

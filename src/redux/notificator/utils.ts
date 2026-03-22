@@ -16,7 +16,7 @@ export const getSuccessNotificationAction = (
     message: string,
     shouldDisplay: boolean,
     important: boolean = false,
-    entityId?: number,
+    entityId?: string,
 ): UnknownAction =>
     addNotifications({
         notifications: [{ type: NotificationType.success, message, id: generateGuid(), createdAt: new Date(), important, entityId, }],
@@ -35,7 +35,7 @@ export const getWarningNotificationAction = (
     message: string,
     shouldDisplay: boolean,
     important: boolean = false,
-    entityId?: number,
+    entityId?: string,
 ): UnknownAction =>
     addNotifications({
         notifications: [{ type: NotificationType.warn, message, id: generateGuid(), createdAt: new Date(), important, entityId, }],
@@ -54,7 +54,7 @@ export const getErrorNotificationAction = (
     message: string,
     shouldDisplay: boolean,
     important: boolean = false,
-    entityId?: number,
+    entityId?: string,
 ): UnknownAction =>
     addNotifications({
         notifications: [{ type: NotificationType.error, message, id: generateGuid(), createdAt: new Date(), important, entityId, }],
