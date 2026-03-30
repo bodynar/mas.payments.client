@@ -92,7 +92,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
                                             <>
                                                 <div className="column">
                                                     <span className="is-italic">
-                                                        Created on {formatDate(x.createdAt!, "dd.MM.yyyy")}
+                                                        {isNullish(x.createdAt) ? "Creation date unknown" : `Created on ${formatDate(x.createdAt, "dd.MM.yyyy")}`}
                                                     </span>
                                                 </div>
                                             </>
@@ -100,7 +100,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
                                             <>
                                                 <div className="column">
                                                     <span className="is-italic has-title" title={`Mark as read on ${formatDate(x.hiddenAt!, "dd.MM.yyyy")}`}>
-                                                        Created on {formatDate(x.createdAt!, "dd.MM.yyyy")}
+                                                        {isNullish(x.createdAt) ? "Creation date unknown" : `Created on ${formatDate(x.createdAt, "dd.MM.yyyy")}`}
                                                     </span>
                                                 </div>
                                             </>
