@@ -16,7 +16,7 @@ export interface AddMeasurementRecordData {
     id: string;
 
     /** Type identifier */
-    typeId?: number;
+    typeId?: string;
 
     /** Value */
     value?: number;
@@ -25,7 +25,7 @@ export interface AddMeasurementRecordData {
     comment?: string;
 
     previousValues: Array<{
-        typeId: number;
+        typeId: string;
 
         value: number;
     }>;

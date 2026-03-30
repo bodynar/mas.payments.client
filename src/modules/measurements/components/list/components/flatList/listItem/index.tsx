@@ -17,13 +17,13 @@ interface MeasurementListItemProps {
     item: Measurement;
 
     /** Measurement types map */
-    typesMap: Map<number, MeasurementType>;
+    typesMap: Map<string, MeasurementType>;
 
     /** Delete specified item */
-    deleteMeasurement: (id: number) => void;
+    deleteMeasurement: (id: string) => void;
 
     /** On type click handler */
-    onTypeClick?: (typeId: number) => void;
+    onTypeClick?: (typeId: string) => void;
 
     /**
      * Is component used in group view.

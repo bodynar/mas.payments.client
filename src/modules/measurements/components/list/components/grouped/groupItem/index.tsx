@@ -20,10 +20,10 @@ interface MeasurementGroupItemProps {
     item: MeasurementGroup;
 
     /** Measurement types map */
-    typesMap: Map<number, MeasurementType>;
+    typesMap: Map<string, MeasurementType>;
 
     /** Delete specified item */
-    deleteItem: (id: number) => void;
+    deleteItem: (id: string) => void;
 }
 
 /** Payment group item */

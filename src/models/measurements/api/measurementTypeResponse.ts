@@ -1,12 +1,12 @@
 /** Measurement type API response */
 export interface MeasurementTypeResponse {
-    id: number;
-    systemName: string;
+    id: string;
+    systemName: string | null;
     name: string;
     hasRelatedMeasurements: boolean;
-    paymentTypeId: number;
+    paymentTypeId: string;
     paymentTypeName: string;
-    paymentTypeColor?: string;
-    color?: string;
-    description?: string;
+    paymentTypeColor: string;
+    color: string;
+    description: string;
 }

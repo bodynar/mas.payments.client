@@ -13,11 +13,11 @@ export interface AddPayment {
     description?: string;
 
     /** Identifier of payment type */
-    paymentTypeId: number;
+    paymentTypeId: string;
 }
 
 /** Model for update existed payment */
 export interface UpdatePayment extends AddPayment {
-    /** Unique number of payment */
-    id: number;
+    /** Unique identifier of payment */
+    id: string;
 }

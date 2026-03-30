@@ -15,7 +15,7 @@ interface MeasurementTypeListItemProps {
     item: MeasurementType;
 
     /** Delete specified measurement type */
-    deleteMeasurementType: (id: number) => void;
+    deleteMeasurementType: (id: string) => void;
 }
 
 /** Measurement type list item */

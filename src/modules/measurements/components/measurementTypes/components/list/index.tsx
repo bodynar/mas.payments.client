@@ -38,7 +38,7 @@ interface MeasurementTypeListProps {
     setSortColumn: (sortColumn: SortColumn<MeasurementType>) => void;
 
     /** Delete specified measurement type */
-    deleteMeasurementType: (id: number) => void;
+    deleteMeasurementType: (id: string) => void;
 
     /** Filter types list by specified caption value */
     filterTypes: (value?: string) => void;

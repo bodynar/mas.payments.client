@@ -21,7 +21,7 @@ interface MeasurementEditCardProps {
     measurements: Array<Measurement>;
 
     /** Measurement types map */
-    typesMap: Map<number, MeasurementType>;
+    typesMap: Map<string, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
@@ -42,7 +42,7 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
     const name = useId();
     const navigate = useNavigate();
 
-    const measurement = measurements.find(x => x.id === +id!);
+    const measurement = measurements.find(x => x.id === id);
 
     const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, measurement?.typeId), [measurement?.typeId, availableTypesAsDropdownItems]);
     const { year, month } = useMemo(() => getDateOrNowLookup(measurement), [measurement]);

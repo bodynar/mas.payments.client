@@ -28,10 +28,10 @@ interface PaymentGroupedViewProps {
     lastFilter?: PaymentFilter;
 
     /** Payment types map */
-    typesMap: Map<number, PaymentType>;
+    typesMap: Map<string, PaymentType>;
 
     /** Delete specified payment */
-    deletePayment: (id: number) => void;
+    deletePayment: (id: string) => void;
 }
 
 const PaymentGroupedView: FC<PaymentGroupedViewProps> = ({

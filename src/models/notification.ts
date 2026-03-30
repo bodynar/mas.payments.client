@@ -28,7 +28,7 @@ export interface NotificationItem extends NotificationHistoryItem {
     important: boolean;
 
     /** Unique entity identifier */
-    entityId?: number;
+    entityId?: string;
 }
 
 export interface NotificationHistoryItem {

@@ -28,10 +28,10 @@ interface MeasurementGroupedViewProps {
     lastFilter?: MeasurementFilter;
 
     /** Measurement types map */
-    typesMap: Map<number, MeasurementType>;
+    typesMap: Map<string, MeasurementType>;
 
     /** Delete specified measurement */
-    deleteMeasurement: (id: number) => void;
+    deleteMeasurement: (id: string) => void;
 }
 
 const MeasurementGroupedView: FC<MeasurementGroupedViewProps> = ({

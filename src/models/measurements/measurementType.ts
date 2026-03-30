@@ -6,11 +6,11 @@ export interface MeasurementType extends Lookup {
     hasRelatedMeasurements: boolean;
 
     /** Parent payment type identifier */
-    paymentTypeId: number;
+    paymentTypeId: string;
 
     /** Parent payment type caption */
     paymentTypeCaption: string;
 
     /** Parent payment type color */
-    paymentTypeColor?: string;
+    paymentTypeColor: string;
 }

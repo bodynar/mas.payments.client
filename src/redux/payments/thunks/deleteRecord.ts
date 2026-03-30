@@ -9,7 +9,7 @@ import { setPayments } from "@app/redux/payments";
 /**
  * Delete specified payment via confirmation modal
  */
-export const deleteRecord = (id: number): AppThunkAction => (
+export const deleteRecord = (id: string): AppThunkAction => (
     dispatch: AppThunkDispatch,
     getState: () => CompositeAppState
 ): void => {

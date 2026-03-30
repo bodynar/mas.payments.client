@@ -15,6 +15,6 @@ export interface AddPaymentType {
 
 /** Model for update existed payment type */
 export interface UpdatePaymentType extends AddPaymentType {
-    /** Unique number of payment type */
-    id: number;
+    /** Unique identifier of payment type */
+    id: string;
 }

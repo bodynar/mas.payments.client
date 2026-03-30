@@ -16,7 +16,7 @@ export interface MeasurementModuleState {
     filteredItems: Array<Measurement>;
 
     /** Measurement types indexed by id */
-    typesMap: Map<number, MeasurementType>;
+    typesMap: Map<string, MeasurementType>;
 
     /** Measurement types filtered by caption */
     filteredTypes: Array<MeasurementType>;

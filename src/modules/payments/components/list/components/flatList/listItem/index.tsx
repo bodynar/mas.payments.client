@@ -17,13 +17,13 @@ interface PaymentListItemProps {
     item: Payment;
 
     /** Payment types map */
-    typesMap: Map<number, PaymentType>;
+    typesMap: Map<string, PaymentType>;
 
     /** Delete specified payment */
-    deletePayment: (id: number) => void;
+    deletePayment: (id: string) => void;
 
     /** On payment type click handler */
-    onPaymentTypeClick?: (paymentTypeId: number) => void;
+    onPaymentTypeClick?: (paymentTypeId: string) => void;
 
     /**
      * Is component used in group view.

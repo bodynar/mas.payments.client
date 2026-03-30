@@ -8,7 +8,7 @@ import { deleteTypeRecord as deleteRecordAction, getPaymentTypes } from "@app/co
 /**
  * Delete specified payment type via confirmation modal
  */
-export const deleteTypeRecord = (id: number): AppThunkAction => (
+export const deleteTypeRecord = (id: string): AppThunkAction => (
     dispatch: AppThunkDispatch,
     getState: () => CompositeAppState,
 ): void => {

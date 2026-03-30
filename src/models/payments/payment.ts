@@ -1,7 +1,16 @@
+/** Payment file info */
+export interface PaymentFile {
+    /** Unique identifier */
+    id: string;
+
+    /** File name */
+    fileName: string;
+}
+
 /** Payment model */
 export interface Payment {
-    /** Unique number */
-    id: number;
+    /** Unique identifier */
+    id: string;
 
     /** Month of payment */
     month: number;
@@ -12,9 +21,15 @@ export interface Payment {
     /** Amount of paid money */
     price: number;
 
-    /** Number of payment type */
-    typeId: number;
+    /** Identifier of payment type */
+    typeId: string;
 
     /** Description */
     description?: string;
+
+    /** Identifier of payment group */
+    paymentGroupId?: string;
+
+    /** Attached payment file */
+    paymentFile?: PaymentFile;
 }

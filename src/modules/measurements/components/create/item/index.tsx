@@ -60,9 +60,9 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
         (type?: SelectableItem) => {
             updateItem(item.id, {
                 ...item,
-                typeId: isNullish(type) ? undefined : +type!.value,
+                typeId: isNullish(type) ? undefined : type!.value,
                 value: isNotNullish(type)
-                    ? item.previousValues.find(({ typeId }) => typeId === +type!.value)?.value ?? undefined
+                    ? item.previousValues.find(({ typeId }) => typeId === type!.value)?.value ?? undefined
                     : undefined,
             });
             setType(type);
@@ -71,7 +71,7 @@ const MeasurementCreateCardItem: FC<MeasurementCreateCardItemProps> = ({
                 setLastMeasurement(undefined);
             } else {
                 const lastItem = item.previousValues
-                    .filter(({ typeId }) => typeId === +type!.value)
+                    .filter(({ typeId }) => typeId === type!.value)
                     .pop();
 
                 setLastMeasurement(lastItem?.value);

@@ -17,7 +17,7 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
         amount: +getRequiredFieldValue(values, "amount").value,
         month: +(getRequiredFieldValue(values, "month").value as SelectableItem).value,
         year: +(getRequiredFieldValue(values, "year").value as SelectableItem).value,
-        paymentTypeId: +(getRequiredFieldValue(values, "type").value as SelectableItem).value,
+        paymentTypeId: (getRequiredFieldValue(values, "type").value as SelectableItem).value,
         description: values.find(({ key }) => key === "description")?.value,
     };
 
@@ -26,7 +26,7 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
     if (!isNewRecord) {
         paymentApiModel = {
             ...paymentApiModel,
-            id: +id!
+            id: id!
         };
     }
 
@@ -42,7 +42,7 @@ export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> 
  * @param id Payment identifier
  * @returns Promise of sending request to API
  */
-export const deleteRecord = (id: number): Promise<void> => {
+export const deleteRecord = (id: string): Promise<void> => {
     return post("api/payment/deletePayment", { id });
 };
 
@@ -60,6 +60,8 @@ export const getPaymentRecords = async (): Promise<Array<Payment>> => {
         price: x.amount,
         typeId: x.paymentTypeId,
         description: x.description,
+        paymentGroupId: x.paymentGroupId ?? undefined,
+        paymentFile: x.paymentFile ?? undefined,
     }));
 };
 

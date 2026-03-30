@@ -1,7 +1,7 @@
 /** Update single measurement item */
 export interface UpdateMeasurement {
     /** Unique measurement identifier */
-    id: number;
+    id: string;
 
     /** Year of measurement */
     year: number;
@@ -10,7 +10,7 @@ export interface UpdateMeasurement {
     month: number;
 
     /** Type identifier */
-    typeId: number;
+    typeId: string;
 
     /** Value */
     value: number;

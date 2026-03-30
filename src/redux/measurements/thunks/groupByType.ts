@@ -24,7 +24,7 @@ export const groupByType = (): AppThunkAction => (
 
     dispatch(
         setGroupedByType(
-            groupedByType.map(({ items, key }) => ({ key: +key!, items }))
+            groupedByType.map(({ items, key }) => ({ key: key!, items }))
         )
     );
 };

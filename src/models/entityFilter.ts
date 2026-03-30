@@ -7,5 +7,5 @@ export interface EntityFilter {
     year?: number;
 
     /** Type identifier */
-    typeId?: number;
+    typeId?: string;
 }

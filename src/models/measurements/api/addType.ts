@@ -3,8 +3,8 @@ export interface AddMeasurementType {
     /** Visual caption */
     name: string;
 
-    /** Unique number of parent payment type */
-    paymentTypeId: number;
+    /** Identifier of parent payment type */
+    paymentTypeId: string;
 
     /** Background color of badge */
     color?: string;
@@ -15,6 +15,6 @@ export interface AddMeasurementType {
 
 /** Model for update existed measurement type */
 export interface UpdateMeasurementType extends AddMeasurementType {
-    /** Unique number of measurement type */
-    id: number;
+    /** Unique identifier of measurement type */
+    id: string;
 }

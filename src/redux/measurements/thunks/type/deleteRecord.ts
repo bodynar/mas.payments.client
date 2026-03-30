@@ -8,7 +8,7 @@ import { deleteTypeRecord as deleteRecordAction, getMeasurementTypes } from "@ap
 /**
  * Delete specified measurement type via confirmation modal
  */
-export const deleteTypeRecord = (id: number): AppThunkAction => (
+export const deleteTypeRecord = (id: string): AppThunkAction => (
     dispatch: AppThunkDispatch,
     getState: () => CompositeAppState
 ): void => {

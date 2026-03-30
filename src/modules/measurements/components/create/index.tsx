@@ -25,7 +25,7 @@ import MeasurementCreateCardItem from "./item";
 /** Measurement card props types */
 interface MeasurementCreateCardProps {
     /** Measurement types indexed by id */
-    typesMap: Map<number, MeasurementType>;
+    typesMap: Map<string, MeasurementType>;
 
     /** Is measurement module state initialized */
     initialized: boolean;
@@ -84,7 +84,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
 
     const getPreviousValues = useCallback(
         () => (groupedByType ?? []).map(group => ({
-            typeId: group.key as number,
+            typeId: String(group.key),
             value: group.items[group.items.length - 1]!.value
         })),
         [groupedByType]

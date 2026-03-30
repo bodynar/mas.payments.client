@@ -27,7 +27,7 @@ interface MeasurementFlatListProps {
     filteredItems: Array<Measurement>;
 
     /** Measurement types map */
-    typesMap: Map<number, MeasurementType>;
+    typesMap: Map<string, MeasurementType>;
 
     /** Measurement types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
@@ -42,7 +42,7 @@ interface MeasurementFlatListProps {
     setSortColumn: (sortColumn: SortColumn<Measurement>) => void;
 
     /** Delete specified measurement */
-    deleteMeasurement: (id: number) => void;
+    deleteMeasurement: (id: string) => void;
 
     /** Update current filter value */
     setFilterValue: (filterValue: MeasurementFilter, applyFilter: boolean) => void;
@@ -72,7 +72,7 @@ const MeasurementFlatList: FC<MeasurementFlatListProps> = ({
         setCurrentPage(page);
     }, [onPageChange, setCurrentPage]);
 
-    const onTypeClick = useCallback((typeId: number) => {
+    const onTypeClick = useCallback((typeId: string) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, typeId);
 
         if (isNullish(dropdownItem)) {

@@ -1,7 +1,7 @@
 /** Simple lookup value as key-value pair */
 export interface SimpleLookup {
-    /** Unique number */
-    id: number;
+    /** Unique identifier */
+    id: string;
 
     /** System name */
     name: string;

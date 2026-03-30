@@ -21,6 +21,7 @@ export const getMeasurements = async (): Promise<Array<Measurement>> => {
         diff: x.diff,
         typeId: x.meterMeasurementTypeId,
         description: x.comment,
+        isSent: x.isSent,
     }));
 };
 
@@ -31,7 +32,7 @@ export const getMeasurements = async (): Promise<Array<Measurement>> => {
  * @param id Measurement type identifier
  * @returns Promise of sending request to API
  */
-export const deleteMeasurement = (id: number): Promise<void> => {
+export const deleteMeasurement = (id: string): Promise<void> => {
     return post("api/measurement/deleteMeasurement", { id });
 };
 
@@ -63,11 +64,11 @@ export const createMeasurements = (measurementsData: AddMeasurements): Promise<v
  */
 export const updateMeasurement = (values: Array<FieldValue>, id: string): Promise<void> => {
     const apiModel: UpdateMeasurement = {
-        id: +id,
+        id: id,
         value: +getRequiredFieldValue(values, "value").value,
         month: +(getRequiredFieldValue(values, "month").value as SelectableItem).value,
         year: +(getRequiredFieldValue(values, "year").value as SelectableItem).value,
-        typeId: +(getRequiredFieldValue(values, "type").value as SelectableItem).value,
+        typeId: (getRequiredFieldValue(values, "type").value as SelectableItem).value,
         comment: values.find(({ key }) => key === "comment")?.value,
     };
 

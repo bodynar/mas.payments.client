@@ -27,7 +27,7 @@ interface PaymentFlatListProps {
     filteredItems: Array<Payment>;
 
     /** Payment types map */
-    typesMap: Map<number, PaymentType>;
+    typesMap: Map<string, PaymentType>;
 
     /** Payment types mapped to dropdown items to cache values */
     availableTypesAsDropdownItems: Array<SelectableItem>;
@@ -42,7 +42,7 @@ interface PaymentFlatListProps {
     setSortColumn: (sortColumn: SortColumn<Payment>) => void;
 
     /** Delete specified payment */
-    deletePayment: (id: number) => void;
+    deletePayment: (id: string) => void;
 
     /** Update current filter value */
     setFilterValue: (filterValue: PaymentFilter, applyFilter: boolean) => void;
@@ -72,7 +72,7 @@ const PaymentFlatList: FC<PaymentFlatListProps> = ({
         setCurrentPage(page);
     }, [onPageChange, setCurrentPage]);
 
-    const onPaymentTypeClick = useCallback((paymentTypeId: number) => {
+    const onPaymentTypeClick = useCallback((paymentTypeId: string) => {
         const dropdownItem = getDropdownItem(availableTypesAsDropdownItems, paymentTypeId);
 
         if (isNullish(dropdownItem)) {
