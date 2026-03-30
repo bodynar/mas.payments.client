@@ -110,7 +110,7 @@ export const validatePaymentGroupItem = (
         return "Amount is not valid";
     }
     if (amount! <= 0) {
-        return "Amount cannot be less or equal to 0";
+        return "Amount cannot be less than or equal to 0";
     }
     return undefined;
 };
