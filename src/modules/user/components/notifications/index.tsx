@@ -34,7 +34,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
     const pageItems: Array<UserNotification> = useMemo(
         () => paginate(
             [...notifications].sort(({ createdAt }, y) =>
-                (createdAt.getTime() - y.createdAt.getTime()) * (ascSort ? -1 : 1)
+                ((createdAt?.getTime() ?? 0) - (y.createdAt?.getTime() ?? 0)) * (ascSort ? -1 : 1)
             )
         ) as Array<UserNotification>,
         [ascSort, paginate, notifications]
@@ -92,7 +92,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
                                             <>
                                                 <div className="column">
                                                     <span className="is-italic">
-                                                        Created on {formatDate(x.createdAt, "dd.MM.yyyy")}
+                                                        {isNullish(x.createdAt) ? "Creation date unknown" : `Created on ${formatDate(x.createdAt, "dd.MM.yyyy")}`}
                                                     </span>
                                                 </div>
                                             </>
@@ -100,7 +100,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, loadNotification
                                             <>
                                                 <div className="column">
                                                     <span className="is-italic has-title" title={`Mark as read on ${formatDate(x.hiddenAt!, "dd.MM.yyyy")}`}>
-                                                        Created on {formatDate(x.createdAt, "dd.MM.yyyy")}
+                                                        {isNullish(x.createdAt) ? "Creation date unknown" : `Created on ${formatDate(x.createdAt, "dd.MM.yyyy")}`}
                                                     </span>
                                                 </div>
                                             </>

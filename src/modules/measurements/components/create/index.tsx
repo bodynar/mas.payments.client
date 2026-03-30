@@ -13,7 +13,7 @@ import { Group } from "@bodynarf/utils";
 
 import { LookupDate } from "@app/models";
 import { AddMeasurementRecordData, AddMeasurements, Measurement, MeasurementType } from "@app/models/measurements";
-import { getNowDate, getNowDateLookup, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
+import { getPreviousMonthDate, getPreviousMonthDateLookup, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { validateMeasurementCreateData } from "@app/core/measurement";
 
 import { CompositeAppState } from "@app/redux";
@@ -73,9 +73,9 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
 
     }, [groupedByType, initialized, groupByType]);
 
-    const [model, setModel] = useState<AddMeasurements>({ measurements: [], ...getNowDate() });
+    const [model, setModel] = useState<AddMeasurements>({ measurements: [], ...getPreviousMonthDate() });
     const [items, setItems] = useState<Array<AddMeasurementRecordDataExtended>>([]);
-    const [date, setDate] = useState<LookupDate>(getNowDateLookup());
+    const [date, setDate] = useState<LookupDate>(getPreviousMonthDateLookup());
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
     const [validationError, setValidationError] = useState("");
 

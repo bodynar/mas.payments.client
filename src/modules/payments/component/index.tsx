@@ -30,7 +30,7 @@ const PaymentModule: FC<PaymentModuleProps> = ({ initialized, initModuleState })
             routes
                 .flatMap(x => isNullish(x.children) ? [x] : x.children!)
                 .filter(({ link }) => {
-                    if (pathname.startsWith(link)) {
+                    if (pathname === link || (pathname.startsWith(link) && (link.endsWith("/") || pathname[link.length] === "/" || pathname.length === link.length))) {
                         return true;
                     }
 
