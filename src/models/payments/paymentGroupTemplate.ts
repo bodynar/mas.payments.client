@@ -7,10 +7,10 @@ export interface PaymentGroupTemplatePaymentType {
     paymentTypeName: string;
 
     /** Payment type color */
-    paymentTypeColor: string;
+    paymentTypeColor?: string | null;
 
     /** Payment type company */
-    paymentTypeCompany: string;
+    paymentTypeCompany?: string | null;
 }
 
 /** Payment group template */
