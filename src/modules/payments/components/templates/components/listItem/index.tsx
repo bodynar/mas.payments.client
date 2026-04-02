@@ -27,7 +27,7 @@ const TemplateListItem: FC<TemplateListItemProps> = ({
     const onDeleteClick = useCallback(() => deleteTemplate(item.id), [deleteTemplate, item]);
 
     return (
-        <tr key={item.id}>
+        <tr>
             <td className="has-text-centered is-vertical-align--center">{item.name}</td>
             <td>{item.description}</td>
             <td className="has-text-centered is-vertical-align--center">{item.paymentTypesCount}</td>

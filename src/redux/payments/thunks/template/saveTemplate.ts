@@ -21,5 +21,7 @@ export const saveTemplate = createAppAsyncThunk(
 
         const templates = await getTemplates();
         dispatch(setTemplates(templates));
+
+        return true;
     }
 );

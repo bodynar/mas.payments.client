@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { isNullish, isNullOrEmpty, isNotNullish, getFontColorFromString } from "@bodynarf/utils";
-import { ButtonStyle } from "@bodynarf/react.components";
+import { ButtonStyle, ElementPosition, ElementSize } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
 import Text from "@bodynarf/react.components/components/primitives/text";
 import Multiline from "@bodynarf/react.components/components/primitives/multiline";
@@ -26,7 +26,7 @@ interface TemplateCardProps {
     typesMap: Map<string, PaymentType>;
 
     /** Save template */
-    saveTemplate: (model: AddPaymentGroupTemplate | UpdatePaymentGroupTemplate) => Promise<void>;
+    saveTemplate: (model: AddPaymentGroupTemplate | UpdatePaymentGroupTemplate) => Promise<boolean | undefined>;
 
     /** Load templates from server */
     loadTemplates: () => void;
@@ -106,16 +106,43 @@ const TemplateCard: FC<TemplateCardProps> = ({
                 paymentTypeIds: [...selectedTypeIds],
             };
 
-        saveTemplate(model)
-            .then(() => navigate("/payment/templates", { replace: true }))
-            .catch(() => setIsSubmitAvailable(true));
+        saveTemplate(model).then((result) => {
+            if (result) {
+                navigate("/payment/templates", { replace: true });
+            } else {
+                setIsSubmitAvailable(true);
+            }
+        });
     }, [name, description, selectedTypeIds, id, saveTemplate, navigate]);
 
     if (!initialized) {
         return <></>;
     }
-    if (initialized && isNotNullish(id) && isNullish(template) && templatesMap.size > 0) {
-        return <>ERROR: Template not found</>;
+    if (isNotNullish(id) && templatesMap.size === 0) {
+        return (
+            <p className="subtitle has-text-centered is-italic mt-4 has-text-grey">
+                Loading...
+            </p>
+        );
+    }
+    if (isNotNullish(id) && isNullish(template)) {
+        return (
+            <article className="message is-danger">
+                <div className="message-header">
+                    <p>Template not found</p>
+                </div>
+                <div className="message-body">
+                    <p className="mb-4">The requested template does not exist or has been deleted.</p>
+                    <Button
+                        style={ButtonStyle.Danger}
+                        outlined
+                        caption="Back to list"
+                        onClick={() => navigate("/payment/templates", { replace: true })}
+                        icon={{ name: "arrow-left", size: ElementSize.Medium, position: ElementPosition.Left }}
+                    />
+                </div>
+            </article>
+        );
     }
 
     return (
@@ -127,6 +154,7 @@ const TemplateCard: FC<TemplateCardProps> = ({
             <div className="columns m-0">
                 <div className="bbr-form__field column is-12">
                     <Text
+                        key={`name-${template?.id ?? "new"}`}
                         placeholder="Template name"
                         onValueChange={setName}
                         defaultValue={name}
@@ -141,6 +169,7 @@ const TemplateCard: FC<TemplateCardProps> = ({
             <div className="columns m-0">
                 <div className="bbr-form__field column is-12">
                     <Multiline
+                        key={`description-${template?.id ?? "new"}`}
                         placeholder="Description"
                         onValueChange={setDescription}
                         defaultValue={description}
@@ -164,7 +193,7 @@ const TemplateCard: FC<TemplateCardProps> = ({
             <hr />
             <h5 className="title is-5">Payment types ({selectedTypeIds.size} selected)</h5>
 
-            <div className="columns is-multiline m-0">
+            <div key={`types-${template?.id ?? "new"}`} className="columns is-multiline m-0">
                 {allTypes.map(type => (
                     <div key={type.id} className="column is-4">
                         <div className="is-flex is-align-items-center gap-2">

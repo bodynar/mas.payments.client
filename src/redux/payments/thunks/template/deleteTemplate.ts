@@ -20,7 +20,7 @@ export const deleteTemplate = (id: string): AppThunkAction => (
             modalType: ModalType.Confirm,
             title: "Confirm deleting template",
             buttonCaption: { saveCaption: "Delete" },
-            message: `Are you sure you want to delete template "${template?.name ?? ""}"?`,
+            message: `Are you sure you want to delete template "${template?.name ?? "this template"}"?`,
             callback: createModalCallback(dispatch, getState, async ({ showSuccess }) => {
                 await deleteTemplateAction(id);
                 showSuccess("Template successfully deleted", false);

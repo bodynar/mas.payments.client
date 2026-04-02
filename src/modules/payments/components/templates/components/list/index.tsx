@@ -29,6 +29,14 @@ interface TemplateListProps {
     deleteTemplate: (id: string) => void;
 }
 
+const headings: Array<TableHeading> = [
+    { caption: "Name", sortable: false, className: "has-text-centered th-color--light-blue width--is-15rem is-vertical-align--center" },
+    { caption: "Description", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center" },
+    { caption: "Types count", sortable: false, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
+    { caption: "Payment types", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center" },
+    { caption: "Actions", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center width--is-15rem" },
+];
+
 const TemplateList: FC<TemplateListProps> = ({
     initialized, templatesMap,
     loadTemplates, deleteTemplate,
@@ -109,10 +117,3 @@ export default connect(
     })
 )(TemplateList);
 
-const headings: Array<TableHeading> = [
-    { caption: "Name", sortable: false, className: "has-text-centered th-color--light-blue width--is-15rem is-vertical-align--center" },
-    { caption: "Description", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center" },
-    { caption: "Types count", sortable: false, className: "has-text-centered th-color--light-blue width--is-725rem is-vertical-align--center" },
-    { caption: "Payment types", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center" },
-    { caption: "Actions", sortable: false, className: "has-text-centered th-color--light-blue is-vertical-align--center width--is-15rem" },
-];
