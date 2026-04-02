@@ -14,6 +14,8 @@ const store = configureStore({
             serializableCheck: {
                 ignoredPaths: [
                     "payments.typesMap",
+                    "payments.templatesMap",
+                    "payments.templatesAsDropdownItems",
                     "measurements.typesMap",
                     "stats.charts",
                     "notificator.notifications",

@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -12,12 +12,12 @@ import Table from "@bodynarf/react.components/components/table";
 import "./style.scss";
 
 import { LookupDate } from "@app/models";
-import { AddPaymentGroup, AddPaymentGroupItem } from "@app/models/payments";
+import { AddPaymentGroup, AddPaymentGroupItem, PaymentGroupTemplate } from "@app/models/payments";
 import { getPreviousMonthDate, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 import { validatePaymentGroupItem } from "@app/core/payment";
 
 import { CompositeAppState } from "@app/redux";
-import { saveGroupCard } from "@app/redux/payments";
+import { saveGroupCard, loadTemplates } from "@app/redux/payments";
 
 import PaymentGroupCardItem from "./item";
 
@@ -28,8 +28,17 @@ interface PaymentGroupCardProps {
     /** Available payment types as dropdown items */
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
+    /** Payment group templates as dropdown items, keyed by id */
+    templatesAsDropdownItems: Map<string, SelectableItem>;
+
+    /** Payment group templates indexed by id */
+    templatesMap: Map<string, PaymentGroupTemplate>;
+
     /** Save payment group */
     saveGroupCard: (values: AddPaymentGroup) => Promise<void>;
+
+    /** Load templates from server */
+    loadTemplates: () => void;
 }
 
 interface AddPaymentGroupItemExtended extends AddPaymentGroupItem {
@@ -51,13 +60,24 @@ const validateItems = (
 };
 
 const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
-    initialized, availableTypesAsDropdownItems,
-    saveGroupCard,
+    initialized, availableTypesAsDropdownItems, templatesAsDropdownItems, templatesMap,
+    saveGroupCard, loadTemplates,
 }) => {
     const navigate = useNavigate();
     const months = monthsAsDropdownItems();
     const years = yearsAsDropdownItems();
     const prevDate = getPreviousMonthDate();
+
+    useEffect(() => {
+        if (initialized && templatesAsDropdownItems.size === 0) {
+            loadTemplates();
+        }
+    }, [initialized, templatesAsDropdownItems.size, loadTemplates]);
+
+    const templateDropdownItems: Array<SelectableItem> = useMemo(
+        () => [...templatesAsDropdownItems.values()],
+        [templatesAsDropdownItems],
+    );
 
     const [model, setModel] = useState<AddPaymentGroup>({
         payments: [],
@@ -73,6 +93,7 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
     const [comment, setComment] = useState<string | undefined>();
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
     const [validationError, setValidationError] = useState("");
+    const [selectedTemplate, setSelectedTemplate] = useState<SelectableItem | undefined>();
 
     const changeItems = useCallback(
         (newArray: Array<AddPaymentGroupItemExtended>) => setItems(newArray),
@@ -80,6 +101,29 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
     );
 
     const onRemoveAllClick = useCallback(() => changeItems([]), [changeItems]);
+
+    const onTemplateSelect = useCallback(
+        (selected?: SelectableItem) => {
+            setSelectedTemplate(selected);
+
+            if (isNullish(selected)) {
+                return;
+            }
+
+            const template = templatesMap.get(selected!.value);
+            if (isNullish(template)) {
+                return;
+            }
+
+            changeItems(
+                template!.paymentTypes.map(pt => ({
+                    id: generateGuid(),
+                    paymentTypeId: pt.paymentTypeId,
+                })),
+            );
+        },
+        [templatesMap, changeItems],
+    );
 
     const onAddPaymentClick = useCallback(
         () => changeItems([...items, { id: generateGuid() }]),
@@ -242,6 +286,25 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
                 </article>
             }
             <hr />
+            {templateDropdownItems.length > 0
+                &&
+                <div className="columns m-0 mb-4">
+                    <div className="bbr-form__field column is-6">
+                        <Dropdown
+                            placeholder="Select template to pre-fill types"
+                            hideOnOuterClick
+                            deselectable
+                            value={selectedTemplate}
+                            onSelect={onTemplateSelect}
+                            items={templateDropdownItems}
+                            label={{
+                                caption: "Template",
+                                horizontal: true,
+                            }}
+                        />
+                    </div>
+                </div>
+            }
             <div className="field is-grouped">
                 <p className="control">
                     <Button
@@ -321,9 +384,12 @@ export default connect(
     ({ payments: state }: CompositeAppState) => ({
         initialized: state.initialized,
         availableTypesAsDropdownItems: state.availableTypesAsDropdownItems,
+        templatesAsDropdownItems: state.templatesAsDropdownItems,
+        templatesMap: state.templatesMap,
     }),
     ({
         saveGroupCard,
+        loadTemplates,
     }),
 )(PaymentGroupCard);
 

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ButtonStyle, ElementPosition, ElementSize, SelectableItem } from "@bodynarf/react.components";
 import Button from "@bodynarf/react.components/components/button";
+import SplitButton from "@bodynarf/react.components/components/splitButton";
 import CheckBox from "@bodynarf/react.components/components/primitives/checkbox";
 
 import { PaymentFilter as PaymentFilterModel } from "@app/models/payments";
@@ -46,6 +47,7 @@ const PaymentList: FC<PaymentListProps> = ({
     const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
     const onCreateGroupClick = useCallback(() => navigate("/payment/createGroup", { replace: true }), [navigate]);
     const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
+    const onTemplateManageClick = useCallback(() => navigate("/payment/templates", { replace: true }), [navigate]);
 
     const onReloadClick = useCallback(() => reloadPayments(), [reloadPayments]);
     const toggleGroupSort = useCallback(() => setAscSortGroups(oldValue => !oldValue), []);
@@ -60,29 +62,34 @@ const PaymentList: FC<PaymentListProps> = ({
         <section>
             <nav className="field is-grouped">
                 <p className="control">
-                    <Button
+                    <SplitButton
                         style={ButtonStyle.Primary}
-                        caption="Create"
-                        onClick={onCreateClick}
-                        title="Create new payment record"
-                    />
-                </p>
-                <p className="control">
-                    <Button
-                        style={ButtonStyle.Primary}
-                        caption="Create group"
-                        outlined
+                        caption="Create by template"
                         onClick={onCreateGroupClick}
-                        title="Create payment group"
+                        actions={[
+                            {
+                                id: "create-single",
+                                caption: "Create",
+                                title: "Create new payment record",
+                                onClick: onCreateClick,
+                            },
+                        ]}
                     />
                 </p>
                 <p className="control">
-                    <Button
+                    <SplitButton
                         style={ButtonStyle.Info}
                         caption="Manage types"
                         outlined
                         onClick={onTypeManageClick}
-                        title="Open payment types list"
+                        actions={[
+                            {
+                                id: "manage-templates",
+                                caption: "Manage templates",
+                                title: "Open group templates list",
+                                onClick: onTemplateManageClick,
+                            },
+                        ]}
                     />
                 </p>
                 <p className="control">
