@@ -21,6 +21,7 @@ const initialState: PaymentModuleState = {
     filteredTypes: [],
     templatesMap: new Map(),
     templatesAsDropdownItems: new Map(),
+    templatesLoaded: false,
 };
 
 const paymentsSlice = createSlice({
@@ -114,6 +115,7 @@ const paymentsSlice = createSlice({
                 displayValue: t.name,
                 value: t.id,
             } as SelectableItem]));
+            state.templatesLoaded = true;
         },
     },
 });

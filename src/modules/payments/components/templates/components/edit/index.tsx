@@ -19,6 +19,9 @@ interface TemplateCardProps {
     /** Is payment module state initialized */
     initialized: boolean;
 
+    /** Whether templates have been loaded from the server */
+    templatesLoaded: boolean;
+
     /** All templates indexed by id */
     templatesMap: Map<string, PaymentGroupTemplate>;
 
@@ -32,22 +35,24 @@ interface TemplateCardProps {
     loadTemplates: () => void;
 }
 
-const TemplateCard: FC<TemplateCardProps> = ({
-    initialized, templatesMap, typesMap,
-    saveTemplate, loadTemplates,
-}) => {
-    const { id } = useParams();
-    const navigate = useNavigate();
+interface TemplateFormProps {
+    /** Template id when editing; undefined when creating */
+    id: string | undefined;
 
-    const template = useMemo(() => isNotNullish(id) ? templatesMap.get(id!) : undefined, [templatesMap, id]);
-    const allTypes = useMemo(() => [...typesMap.values()], [typesMap]);
+    /** Template being edited; undefined when creating */
+    template: PaymentGroupTemplate | undefined;
 
-    useEffect(() => {
-        if (initialized && isNotNullish(id) && templatesMap.size === 0) {
-            loadTemplates();
-        }
-    }, [initialized, id, templatesMap.size, loadTemplates]);
+    /** All payment types */
+    allTypes: PaymentType[];
 
+    /** Save template */
+    saveTemplate: (model: AddPaymentGroupTemplate | UpdatePaymentGroupTemplate) => Promise<boolean | undefined>;
+
+    /** Navigate callback */
+    navigate: (path: string, options?: { replace?: boolean }) => void;
+}
+
+const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTemplate, navigate }) => {
     const [name, setName] = useState<string | undefined>(template?.name);
     const [description, setDescription] = useState<string | undefined>(template?.description);
     const [selectedTypeIds, setSelectedTypeIds] = useState<Set<string>>(
@@ -55,14 +60,6 @@ const TemplateCard: FC<TemplateCardProps> = ({
     );
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
     const [validationError, setValidationError] = useState("");
-
-    useEffect(() => {
-        if (isNotNullish(template)) {
-            setName(template!.name);
-            setDescription(template!.description);
-            setSelectedTypeIds(new Set(template!.paymentTypes.map(pt => pt.paymentTypeId)));
-        }
-    }, [template]);
 
     const onTypeToggle = useCallback(
         (typeId: string) => {
@@ -115,36 +112,6 @@ const TemplateCard: FC<TemplateCardProps> = ({
         });
     }, [name, description, selectedTypeIds, id, saveTemplate, navigate]);
 
-    if (!initialized) {
-        return <></>;
-    }
-    if (isNotNullish(id) && templatesMap.size === 0) {
-        return (
-            <p className="subtitle has-text-centered is-italic mt-4 has-text-grey">
-                Loading...
-            </p>
-        );
-    }
-    if (isNotNullish(id) && isNullish(template)) {
-        return (
-            <article className="message is-danger">
-                <div className="message-header">
-                    <p>Template not found</p>
-                </div>
-                <div className="message-body">
-                    <p className="mb-4">The requested template does not exist or has been deleted.</p>
-                    <Button
-                        style={ButtonStyle.Danger}
-                        outlined
-                        caption="Back to list"
-                        onClick={() => navigate("/payment/templates", { replace: true })}
-                        icon={{ name: "arrow-left", size: ElementSize.Medium, position: ElementPosition.Left }}
-                    />
-                </div>
-            </article>
-        );
-    }
-
     return (
         <section>
             <h4 className="title is-4">
@@ -154,7 +121,6 @@ const TemplateCard: FC<TemplateCardProps> = ({
             <div className="columns m-0">
                 <div className="bbr-form__field column is-12">
                     <Text
-                        key={`name-${template?.id ?? "new"}`}
                         placeholder="Template name"
                         onValueChange={setName}
                         defaultValue={name}
@@ -169,7 +135,6 @@ const TemplateCard: FC<TemplateCardProps> = ({
             <div className="columns m-0">
                 <div className="bbr-form__field column is-12">
                     <Multiline
-                        key={`description-${template?.id ?? "new"}`}
                         placeholder="Description"
                         onValueChange={setDescription}
                         defaultValue={description}
@@ -193,7 +158,7 @@ const TemplateCard: FC<TemplateCardProps> = ({
             <hr />
             <h5 className="title is-5">Payment types ({selectedTypeIds.size} selected)</h5>
 
-            <div key={`types-${template?.id ?? "new"}`} className="columns is-multiline m-0">
+            <div className="columns is-multiline m-0">
                 {allTypes.map(type => (
                     <div key={type.id} className="column is-4">
                         <div className="is-flex is-align-items-center gap-2">
@@ -235,10 +200,68 @@ const TemplateCard: FC<TemplateCardProps> = ({
     );
 };
 
+const TemplateCard: FC<TemplateCardProps> = ({
+    initialized, templatesLoaded, templatesMap, typesMap,
+    saveTemplate, loadTemplates,
+}) => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const template = useMemo(() => isNotNullish(id) ? templatesMap.get(id!) : undefined, [templatesMap, id]);
+    const allTypes = useMemo(() => [...typesMap.values()], [typesMap]);
+
+    useEffect(() => {
+        if (initialized && isNotNullish(id) && !templatesLoaded) {
+            loadTemplates();
+        }
+    }, [initialized, id, templatesLoaded, loadTemplates]);
+
+    if (!initialized) {
+        return <></>;
+    }
+    if (isNotNullish(id) && !templatesLoaded) {
+        return (
+            <p className="subtitle has-text-centered is-italic mt-4 has-text-grey">
+                Loading...
+            </p>
+        );
+    }
+    if (isNotNullish(id) && isNullish(template)) {
+        return (
+            <article className="message is-danger">
+                <div className="message-header">
+                    <p>Template not found</p>
+                </div>
+                <div className="message-body">
+                    <p className="mb-4">The requested template does not exist or has been deleted.</p>
+                    <Button
+                        style={ButtonStyle.Danger}
+                        outlined
+                        caption="Back to list"
+                        onClick={() => navigate("/payment/templates", { replace: true })}
+                        icon={{ name: "arrow-left", size: ElementSize.Medium, position: ElementPosition.Left }}
+                    />
+                </div>
+            </article>
+        );
+    }
+
+    return (
+        <TemplateForm
+            id={id}
+            template={template}
+            allTypes={allTypes}
+            saveTemplate={saveTemplate}
+            navigate={navigate}
+        />
+    );
+};
+
 /** Template card */
 export default connect(
     ({ payments }: CompositeAppState) => ({
         initialized: payments.initialized,
+        templatesLoaded: payments.templatesLoaded,
         templatesMap: payments.templatesMap,
         typesMap: payments.typesMap,
     }),
