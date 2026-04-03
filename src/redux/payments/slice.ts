@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isNullOrEmpty, isUndefined, isNullish } from "@bodynarf/utils";
 import { SelectableItem } from "@bodynarf/react.components";
 
-import { PaymentType, Payment, PaymentFilter } from "@app/models/payments";
+import { PaymentType, Payment, PaymentFilter, PaymentGroupTemplate } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
 import { sort } from "@app/utils";
@@ -19,6 +19,9 @@ const initialState: PaymentModuleState = {
     typesMap: new Map(),
     availableTypesAsDropdownItems: [],
     filteredTypes: [],
+    templatesMap: new Map(),
+    templatesAsDropdownItems: new Map(),
+    templatesLoaded: false,
 };
 
 const paymentsSlice = createSlice({
@@ -105,6 +108,15 @@ const paymentsSlice = createSlice({
         setCurrentPage(state, action: PayloadAction<number>) {
             state.lastPage = action.payload;
         },
+        setTemplates(state, action: PayloadAction<PaymentGroupTemplate[]>) {
+            state.templatesMap = new Map(action.payload.map(t => [t.id, t]));
+            state.templatesAsDropdownItems = new Map(action.payload.map(t => [t.id, {
+                id: t.id,
+                displayValue: t.name,
+                value: t.id,
+            } as SelectableItem]));
+            state.templatesLoaded = true;
+        },
     },
 });
 
@@ -119,6 +131,7 @@ export const {
     filterPaymentTypes,
     toggleGroupView,
     setCurrentPage,
+    setTemplates,
 } = paymentsSlice.actions;
 
 export default paymentsSlice.reducer;

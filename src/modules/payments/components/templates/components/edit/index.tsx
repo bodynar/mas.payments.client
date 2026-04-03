@@ -1,0 +1,272 @@
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { isNullish, isNullOrEmpty, isNotNullish, getFontColorFromString } from "@bodynarf/utils";
+import { ButtonStyle, ElementPosition, ElementSize } from "@bodynarf/react.components";
+import Button from "@bodynarf/react.components/components/button";
+import Text from "@bodynarf/react.components/components/primitives/text";
+import Multiline from "@bodynarf/react.components/components/primitives/multiline";
+import CheckBox from "@bodynarf/react.components/components/primitives/checkbox";
+import Tag from "@bodynarf/react.components/components/tag";
+
+import { PaymentGroupTemplate, PaymentType, AddPaymentGroupTemplate, UpdatePaymentGroupTemplate } from "@app/models/payments";
+
+import { CompositeAppState } from "@app/redux";
+import { loadTemplates, saveTemplate } from "@app/redux/payments";
+
+interface TemplateCardProps {
+    /** Is payment module state initialized */
+    initialized: boolean;
+
+    /** Whether templates have been loaded from the server */
+    templatesLoaded: boolean;
+
+    /** All templates indexed by id */
+    templatesMap: Map<string, PaymentGroupTemplate>;
+
+    /** Payment types indexed by id */
+    typesMap: Map<string, PaymentType>;
+
+    /** Save template */
+    saveTemplate: (model: AddPaymentGroupTemplate | UpdatePaymentGroupTemplate) => Promise<boolean | undefined>;
+
+    /** Load templates from server */
+    loadTemplates: () => void;
+}
+
+interface TemplateFormProps {
+    /** Template id when editing; undefined when creating */
+    id: string | undefined;
+
+    /** Template being edited; undefined when creating */
+    template: PaymentGroupTemplate | undefined;
+
+    /** All payment types */
+    allTypes: PaymentType[];
+
+    /** Save template */
+    saveTemplate: (model: AddPaymentGroupTemplate | UpdatePaymentGroupTemplate) => Promise<boolean | undefined>;
+
+    /** Navigate callback */
+    navigate: (path: string, options?: { replace?: boolean }) => void;
+}
+
+const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTemplate, navigate }) => {
+    const [name, setName] = useState<string | undefined>(template?.name);
+    const [description, setDescription] = useState<string | undefined>(template?.description);
+    const [selectedTypeIds, setSelectedTypeIds] = useState<Set<string>>(
+        () => new Set(template?.paymentTypes.map(pt => pt.paymentTypeId) ?? [])
+    );
+    const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
+    const [validationError, setValidationError] = useState("");
+
+    const onTypeToggle = useCallback(
+        (typeId: string) => {
+            setSelectedTypeIds(prev => {
+                const next = new Set(prev);
+                if (next.has(typeId)) {
+                    next.delete(typeId);
+                } else {
+                    next.add(typeId);
+                }
+                return next;
+            });
+        },
+        [],
+    );
+
+    const onSubmit = useCallback(() => {
+        if (isNullOrEmpty(name)) {
+            setValidationError("Name is required");
+            return;
+        }
+
+        if (selectedTypeIds.size === 0) {
+            setValidationError("At least one payment type must be selected");
+            return;
+        }
+
+        setValidationError("");
+        setIsSubmitAvailable(false);
+
+        const model: AddPaymentGroupTemplate | UpdatePaymentGroupTemplate = isNullish(id)
+            ? {
+                name: name!,
+                description: description ?? "",
+                paymentTypeIds: [...selectedTypeIds],
+            }
+            : {
+                id: id!,
+                name: name!,
+                description: description ?? "",
+                paymentTypeIds: [...selectedTypeIds],
+            };
+
+        saveTemplate(model).then((result) => {
+            if (result) {
+                navigate("/payment/templates", { replace: true });
+            } else {
+                setIsSubmitAvailable(true);
+            }
+        });
+    }, [name, description, selectedTypeIds, id, saveTemplate, navigate]);
+
+    return (
+        <section>
+            <h4 className="title is-4">
+                {isNullish(id) ? "Create new template" : "Edit template"}
+            </h4>
+
+            <div className="columns m-0">
+                <div className="bbr-form__field column is-12">
+                    <Text
+                        placeholder="Template name"
+                        onValueChange={setName}
+                        defaultValue={name}
+                        label={{
+                            caption: "Name",
+                            horizontal: true,
+                            className: "is-required",
+                        }}
+                    />
+                </div>
+            </div>
+            <div className="columns m-0">
+                <div className="bbr-form__field column is-12">
+                    <Multiline
+                        placeholder="Description"
+                        onValueChange={setDescription}
+                        defaultValue={description}
+                        label={{
+                            caption: "Description",
+                            horizontal: true,
+                        }}
+                    />
+                </div>
+            </div>
+
+            {!isNullOrEmpty(validationError)
+                &&
+                <article className="message is-danger">
+                    <div className="message-body">
+                        {validationError}
+                    </div>
+                </article>
+            }
+
+            <hr />
+            <h5 className="title is-5">Payment types ({selectedTypeIds.size} selected)</h5>
+
+            <div className="columns is-multiline m-0">
+                {allTypes.map(type => (
+                    <div key={type.id} className="column is-4">
+                        <div className="is-flex is-align-items-center gap-2">
+                            <CheckBox
+                                defaultValue={selectedTypeIds.has(type.id)}
+                                onValueChange={() => onTypeToggle(type.id)}
+                                label={{
+                                    horizontal: true,
+                                    caption: "",
+                                }}
+                            />
+                            <Tag
+                                content={type.caption}
+                                customColor={isNullish(type.color) ? undefined : {
+                                    color: getFontColorFromString(type.color!),
+                                    backgroundColor: type.color!,
+                                }}
+                            />
+                            {isNotNullish(type.company) &&
+                                <span className="has-text-grey is-size-7">({type.company})</span>
+                            }
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <hr />
+            <div className="field is-grouped">
+                <p className="control">
+                    <Button
+                        style={ButtonStyle.Success}
+                        caption="Save"
+                        onClick={onSubmit}
+                        disabled={!isSubmitAvailable}
+                    />
+                </p>
+            </div>
+        </section>
+    );
+};
+
+const TemplateCard: FC<TemplateCardProps> = ({
+    initialized, templatesLoaded, templatesMap, typesMap,
+    saveTemplate, loadTemplates,
+}) => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const template = useMemo(() => isNotNullish(id) ? templatesMap.get(id!) : undefined, [templatesMap, id]);
+    const allTypes = useMemo(() => [...typesMap.values()], [typesMap]);
+
+    useEffect(() => {
+        if (initialized && isNotNullish(id) && !templatesLoaded) {
+            loadTemplates();
+        }
+    }, [initialized, id, templatesLoaded, loadTemplates]);
+
+    if (!initialized) {
+        return <></>;
+    }
+    if (isNotNullish(id) && !templatesLoaded) {
+        return (
+            <p className="subtitle has-text-centered is-italic mt-4 has-text-grey">
+                Loading...
+            </p>
+        );
+    }
+    if (isNotNullish(id) && isNullish(template)) {
+        return (
+            <article className="message is-danger">
+                <div className="message-header">
+                    <p>Template not found</p>
+                </div>
+                <div className="message-body">
+                    <p className="mb-4">The requested template does not exist or has been deleted.</p>
+                    <Button
+                        style={ButtonStyle.Danger}
+                        outlined
+                        caption="Back to list"
+                        onClick={() => navigate("/payment/templates", { replace: true })}
+                        icon={{ name: "arrow-left", size: ElementSize.Medium, position: ElementPosition.Left }}
+                    />
+                </div>
+            </article>
+        );
+    }
+
+    return (
+        <TemplateForm
+            id={id}
+            template={template}
+            allTypes={allTypes}
+            saveTemplate={saveTemplate}
+            navigate={navigate}
+        />
+    );
+};
+
+/** Template card */
+export default connect(
+    ({ payments }: CompositeAppState) => ({
+        initialized: payments.initialized,
+        templatesLoaded: payments.templatesLoaded,
+        templatesMap: payments.templatesMap,
+        typesMap: payments.typesMap,
+    }),
+    ({
+        saveTemplate,
+        loadTemplates,
+    })
+)(TemplateCard);

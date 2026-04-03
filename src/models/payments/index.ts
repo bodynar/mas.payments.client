@@ -5,3 +5,4 @@ export * from "./payment";
 export * from "./paymentFilter";
 export * from "./paymentType";
 export * from "./paymentGroup";
+export * from "./paymentGroupTemplate";

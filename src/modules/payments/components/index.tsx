@@ -7,6 +7,9 @@ import PaymentGroupCard from "./createGroup";
 import { routes as typeRoutes } from "./paymentTypes/routes";
 import PaymentTypeSubModule from "./paymentTypes/component";
 
+import { routes as templateRoutes } from "./templates/routes";
+import TemplateSubModule from "./templates/component";
+
 /** Payments module sub-routes */
 export const routes: Array<RouteItem> = [
     {
@@ -34,5 +37,11 @@ export const routes: Array<RouteItem> = [
         name: "Payment types",
         component: <PaymentTypeSubModule/>,
         children: typeRoutes
+    },
+    {
+        link: "/payment/templates",
+        name: "Group templates",
+        component: <TemplateSubModule/>,
+        children: templateRoutes
     },
 ];

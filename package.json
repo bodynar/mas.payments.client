@@ -17,7 +17,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bodynarf/react.components": "^1.14.3",
+    "@bodynarf/react.components": "^1.14.6",
     "@bodynarf/react.components.form": "^1.2.0",
     "@bodynarf/utils": "^1.7.3",
     "@reduxjs/toolkit": "^2.11.2",
