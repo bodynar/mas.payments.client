@@ -29,7 +29,7 @@ export const groupByYearMonth = <T extends DateBasedEntity>(
                 items: [item],
             });
         } else {
-            group.items = [...group.items, item].sort((left, right) => left.month - right.month);
+            group.items.push(item);
         }
     });
 

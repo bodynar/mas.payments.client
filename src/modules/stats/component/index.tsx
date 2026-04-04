@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 
 import { TabItem } from "@bodynarf/react.components";
 import Tabs from "@bodynarf/react.components/components/tabs";
@@ -6,7 +6,7 @@ import Tabs from "@bodynarf/react.components/components/tabs";
 /** Stats module container props type */
 interface StatsModuleProps {
     /** Available charts */
-    configuration: Map<TabItem, JSX.Element>;
+    configuration: Map<TabItem, ReactElement>;
 
     /** Chart that should be presented first */
     firstItem?: TabItem;

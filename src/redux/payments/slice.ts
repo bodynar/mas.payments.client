@@ -10,6 +10,7 @@ import { sort } from "@app/utils";
 import { filterEntities } from "@app/core";
 
 import { PaymentModuleState } from "./types";
+import { setModuleInitializedStateReducer, toggleGroupViewReducer, setCurrentPageReducer } from "../sliceUtils";
 
 const initialState: PaymentModuleState = {
     initialized: false,
@@ -65,11 +66,7 @@ const paymentsSlice = createSlice({
             state.availableTypesAsDropdownItems = mappedToDropdownItems;
             state.filteredTypes = types;
         },
-        setModuleInitializedState(state, action: PayloadAction<boolean>) {
-            if (!isUndefined(action.payload)) {
-                state.initialized = action.payload;
-            }
-        },
+        setModuleInitializedState: setModuleInitializedStateReducer,
         filterPayments(state) {
             state.filteredItems = filterEntities(state.payments, state.lastFilter);
         },
@@ -102,12 +99,8 @@ const paymentsSlice = createSlice({
             );
             state.typeFilterCaption = filterValue!;
         },
-        toggleGroupView(state) {
-            state.useGroupedView = !state.useGroupedView;
-        },
-        setCurrentPage(state, action: PayloadAction<number>) {
-            state.lastPage = action.payload;
-        },
+        toggleGroupView: toggleGroupViewReducer,
+        setCurrentPage: setCurrentPageReducer,
         setTemplates(state, action: PayloadAction<PaymentGroupTemplate[]>) {
             state.templatesMap = new Map(action.payload.map(t => [t.id, t]));
             state.templatesAsDropdownItems = new Map(action.payload.map(t => [t.id, {

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { connect } from "react-redux";
 
 import { ElementSize, useComponentOutsideClick } from "@bodynarf/react.components";
@@ -25,9 +25,9 @@ interface BellProps {
 }
 
 /** Bell with notifications component */
-const Bell = ({
+const Bell: FC<BellProps> = ({
     notificationBadge, notifications, onListOpened
-}: BellProps): JSX.Element => {
+}) => {
     const [isListVisible, setListVisibility] = useState<boolean>(false);
 
     const onBellClick = useCallback(

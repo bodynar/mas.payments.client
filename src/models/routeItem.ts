@@ -1,3 +1,5 @@
+import type { ReactElement } from "react";
+
 /** Route config item */
 export interface RouteItem {
     /** Unique name */
@@ -7,7 +9,7 @@ export interface RouteItem {
     link: string;
 
     /** Which component should be rendered as module */
-    component: JSX.Element;
+    component: ReactElement;
 
     /** Child routes */
     children?: Array<RouteItem>;

@@ -30,10 +30,12 @@ export const createChartDataProvider = (providerConfig: ChartProviderConfig) =>
         const queryParams = new URLSearchParams();
 
         if (isNotNullish(fromDate)) {
-            queryParams.set("from", new Date(fromDate!.year, fromDate!.month - 1).toDateString());
+            const fromMonth = String(fromDate!.month).padStart(2, "0");
+            queryParams.set("from", `${fromDate!.year}-${fromMonth}-01`);
         }
         if (isNotNullish(toDate)) {
-            queryParams.set("to", new Date(toDate!.year, toDate!.month - 1).toDateString());
+            const toMonth = String(toDate!.month).padStart(2, "0");
+            queryParams.set("to", `${toDate!.year}-${toMonth}-01`);
         }
         if (isNotNullish(type)) {
             queryParams.set(providerConfig.typeIdParam, type!.value);

@@ -14,9 +14,9 @@ export interface UserModuleState {
     /** Custom settings */
     settings: Array<UserSetting>;
 
-    /** Incorrect data */
+    /** Auxiliary application data */
     options?: {
-        /** Amount of measurements without diff */
+        /** Amount of measurements without calculated diff */
         measurementsWithoutDiff: number;
     };
 }

@@ -19,7 +19,9 @@ export const displayError = (
 
         const errorMessage = (error as Error)?.message ?? (error as string);
 
-        console.error(errorMessage);
+        if (import.meta.env.DEV) {
+            console.error(errorMessage);
+        }
 
         dispatch(getErrorNotificationAction(errorMessage, app.isCurrentTabFocused, important));
 

@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 import "./style.scss";
 
 import { NotificationHistoryItem, NotificationType } from "@app/models/notification";
@@ -16,9 +18,7 @@ const typeColorMap: Map<NotificationType, string> = new Map([
 ]);
 
 /** Notification item in history list component */
-export default function NotificationStoryRecord({
-    item,
-}: NotificationStoryRecordProps): JSX.Element {
+const NotificationStoryRecord: FC<NotificationStoryRecordProps> = ({ item }) => {
     const createdAt: string = new Intl.DateTimeFormat(undefined, {
         day: "2-digit", month: "long", hour: "2-digit", minute: "2-digit",
     }).format(item.createdAt);
@@ -38,4 +38,6 @@ export default function NotificationStoryRecord({
             </div>
         </li>
     );
-}
+};
+
+export default NotificationStoryRecord;

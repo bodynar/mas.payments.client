@@ -127,6 +127,10 @@ const MeasurementList: FC<MeasurementListProps> = ({
 
 /** Measurement list */
 export default connect(
-    ({ measurements }: CompositeAppState) => ({ ...measurements, }),
+    ({ measurements }: CompositeAppState) => ({
+        useGroupedView: measurements.useGroupedView,
+        availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
+        lastFilter: measurements.lastFilter,
+    }),
     ({ toggleUseGrouping: toggleGroupView, reloadMeasurements: loadMeasurements })
 )(MeasurementList);

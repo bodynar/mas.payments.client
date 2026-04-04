@@ -55,7 +55,7 @@ export const deleteTypeRecord = (id: string): Promise<void> => {
  * @returns Promise with array of loaded payment types
  */
 export const getPaymentTypes = async (): Promise<Array<PaymentType>> => {
-    const types = await get<Array<PaymentTypeResponse>>(`api/payment/getPaymentTypes`);
+    const types = await get<Array<PaymentTypeResponse>>("api/payment/getPaymentTypes");
 
     return types.map(x => ({
         id: x.id,

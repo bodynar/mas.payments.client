@@ -33,6 +33,7 @@ export default tseslint.config([
 				React: "readonly",
 				JSX: "readonly",
 				NodeJS: "readonly",
+				__APP_VERSION__: "readonly",
 			},
 			parserOptions: {
 				ecmaFeatures: {

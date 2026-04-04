@@ -8,7 +8,7 @@ import { UserNotification } from "@app/models/user";
  * @returns Promise with all loaded user notifications
  */
 export const getUserNotifications = async (): Promise<Array<UserNotification>> => {
-    const notifications = await get<Array<UserNotification>>(`api/user/getUserNotifications`);
+    const notifications = await get<Array<UserNotification>>("api/user/getUserNotifications");
 
     return notifications.map(x => ({
         ...x,

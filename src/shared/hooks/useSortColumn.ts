@@ -30,7 +30,7 @@ export const useSortColumn = <TModel>(
                 columnName: column.name! as keyof TModel
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- extra dependencies forwarded from caller to support contextual re-memoization
         , [currentSortColumn, saveSortColumn, ...(dependencies ?? [])]
     );
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 
 import { emptyFn } from "@bodynarf/utils";
 
@@ -25,7 +25,7 @@ interface NotificationProps {
 }
 
 /** Single notification component */
-export default function Notification({ item, onHideClick }: NotificationProps): JSX.Element {
+const Notification: FC<NotificationProps> = ({ item, onHideClick }) => {
     const hide = useCallback(() => onHideClick(item.id), [item.id, onHideClick]);
 
     useEffect(() => {
@@ -47,4 +47,6 @@ export default function Notification({ item, onHideClick }: NotificationProps): 
             {item.message}
         </div>
     );
-}
+};
+
+export default Notification;

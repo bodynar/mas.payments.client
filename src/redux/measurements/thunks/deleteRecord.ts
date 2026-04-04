@@ -1,5 +1,6 @@
 import { AppThunkAction, AppThunkDispatch, createModalCallback } from "@app/redux/createAppAsyncThunk";
 import { CompositeAppState } from "@app/redux";
+import { getNotifications } from "@app/redux/notificator";
 import { openModal, ModalType } from "@app/redux/modal";
 import { setMeasurements } from "@app/redux/measurements";
 
@@ -14,7 +15,14 @@ export const deleteRecord = (id: string): AppThunkAction => (
     getState: () => CompositeAppState
 ): void => {
     const { measurements } = getState();
-    const item = measurements.measurements.find((x) => x.id === id)!;
+    const item = measurements.measurements.find((x) => x.id === id);
+
+    if (!item) {
+        const [, showError] = getNotifications(dispatch, getState);
+        showError(new Error(`Measurement with id "${id}" not found in local state`), false);
+        return;
+    }
+
     const typeCaption = measurements.typesMap.get(item.typeId)?.caption ?? "";
 
     dispatch(

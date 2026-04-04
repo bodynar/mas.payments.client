@@ -116,7 +116,19 @@ export const validateMeasurementCreateData = (
  * @returns Measurements grouped by type
  */
 export const groupMeasurementsByType = (items: Array<Measurement>): Array<Group<Measurement>> => {
-    return items.groupBy('typeId');
+    const map = new Map<string, Array<Measurement>>();
+
+    for (const item of items) {
+        const group = map.get(item.typeId);
+
+        if (group) {
+            group.push(item);
+        } else {
+            map.set(item.typeId, [item]);
+        }
+    }
+
+    return Array.from(map, ([key, groupItems]) => ({ key, items: groupItems }));
 };
 
 /**

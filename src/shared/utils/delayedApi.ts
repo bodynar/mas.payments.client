@@ -1,4 +1,4 @@
-import { isNotNullish, delayResolve, delayReject } from "@bodynarf/utils";
+import { delayResolve, delayReject } from "@bodynarf/utils";
 import { plainFetchAsync, HttpError } from "@bodynarf/utils/api";
 
 import { LoadingStateHideDelay, RequestTimeout } from "@app/static";
@@ -25,20 +25,15 @@ export const post = async <TResult>(uri: string, requestData: object): Promise<T
 /**
  * Gather data from specified api
  * @param uri Api endpoint address
- * @param requestData Request data
  * @returns {Promise<TResult>} Promise with api get result
  */
-export const get = async <TResult>(uri: string, requestData?: object): Promise<TResult> => {
+export const get = async <TResult>(uri: string): Promise<TResult> => {
     const requestParams: RequestInit = {
         method: "GET",
         headers: {
             "content-type": "application/json",
         }
     };
-
-    if (isNotNullish(requestData)) {
-        requestParams.body = JSON.stringify(requestData);
-    }
 
     return fetchWithApiErrorHandling(uri, requestParams);
 };
@@ -79,7 +74,7 @@ const fetchWithDelay = async<TResult>(uri: string, requestParams: RequestInit): 
             const duration = (Date.now() - start) / 1000;
 
             return duration > LoadingStateHideDelay
-                ? new Promise<TResult>(resolve => resolve(result))
+                ? Promise.resolve(result)
                 : delayResolve<TResult>(Math.abs(LoadingStateHideDelay - duration), result);
         })
         .catch(error => {

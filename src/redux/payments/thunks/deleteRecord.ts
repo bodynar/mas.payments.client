@@ -3,6 +3,7 @@ import { getMonthName } from "@app/utils";
 
 import { AppThunkAction, AppThunkDispatch, createModalCallback } from "@app/redux/createAppAsyncThunk";
 import { CompositeAppState } from "@app/redux";
+import { getNotifications } from "@app/redux/notificator";
 import { openModal, ModalType } from "@app/redux/modal";
 import { setPayments } from "@app/redux/payments";
 
@@ -14,7 +15,13 @@ export const deleteRecord = (id: string): AppThunkAction => (
     getState: () => CompositeAppState
 ): void => {
     const { payments } = getState();
-    const payment = payments.payments.find((x) => x.id === id)!;
+    const payment = payments.payments.find((x) => x.id === id);
+
+    if (!payment) {
+        const [, showError] = getNotifications(dispatch, getState);
+        showError(new Error(`Payment with id "${id}" not found in local state`), false);
+        return;
+    }
 
     dispatch(
         openModal({

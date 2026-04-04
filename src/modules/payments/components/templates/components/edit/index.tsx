@@ -248,6 +248,7 @@ const TemplateCard: FC<TemplateCardProps> = ({
 
     return (
         <TemplateForm
+            key={id ?? "new"}
             id={id}
             template={template}
             allTypes={allTypes}

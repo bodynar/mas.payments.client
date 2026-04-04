@@ -1,5 +1,3 @@
-import { version } from "package.json";
-
 import { createAppAsyncThunk } from "@app/redux";
 import { setAppInfo } from "@app/redux/user";
 
@@ -14,7 +12,7 @@ export const getAppInfo = createAppAsyncThunk(
 
         dispatch(setAppInfo({
             ...appInfo,
-            clientAppVersion: version
+            clientAppVersion: __APP_VERSION__
         }));
     }
 );

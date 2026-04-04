@@ -16,7 +16,11 @@ export const getRequiredFieldValue = (values: Array<FieldValue>, key: string): F
         throw new Error(`Required form field "${key}" was not found.`);
     }
 
-    return field!;
+    if (isNullish(field.value)) {
+        throw new Error(`Required form field "${key}" has no value.`);
+    }
+
+    return field;
 };
 
 /**

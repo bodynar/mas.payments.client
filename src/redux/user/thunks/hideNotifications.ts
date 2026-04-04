@@ -14,14 +14,14 @@ export const hideNotifications = createAppAsyncThunk(
     async ({ dispatch, getState, showError }, ids: Array<string>) => {
         const { notificator } = getState();
 
-        ids = ids.length > 0 ? ids : notificator.notifications.map(({ id }) => id);
+        const resolvedIds = ids.length > 0 ? ids : notificator.notifications.map(({ id }) => id);
 
-        const notifications = notificator.notifications.filter(({ important, id }) => important && ids.includes(id));
+        const notifications = notificator.notifications.filter(({ important, id }) => important && resolvedIds.includes(id));
 
         const withEntityIds = notifications.filter(n => isNotNullish(n.entityId));
 
         if (withEntityIds.length === 0) {
-            dispatch(hideNotificationsAction(ids));
+            dispatch(hideNotificationsAction(resolvedIds));
             return;
         }
 
@@ -31,13 +31,15 @@ export const hideNotifications = createAppAsyncThunk(
 
         const loadedNotifications = await getUserNotifications();
 
+        let idsToHide = resolvedIds;
+
         if (notHiddenIds.length > 0) {
             const notHiddenNotifications =
                 notifications
                     .filter(({ entityId }) => notHiddenIds.includes(entityId!))
                     .map(({ id }) => id);
 
-            ids = ids.filter(x => !notHiddenNotifications.includes(x));
+            idsToHide = resolvedIds.filter(x => !notHiddenNotifications.includes(x));
 
             showError(
                 "Not all notifications were hidden. Please, contact system administrator", true
@@ -45,6 +47,6 @@ export const hideNotifications = createAppAsyncThunk(
         }
 
         dispatch(setNotifications(loadedNotifications));
-        dispatch(hideNotificationsAction(ids));
+        dispatch(hideNotificationsAction(idsToHide));
     }
 );

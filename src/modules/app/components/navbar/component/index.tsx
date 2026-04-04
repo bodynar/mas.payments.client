@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 import { isNotNullish, isStringEmpty } from "@bodynarf/utils";
@@ -17,7 +17,7 @@ interface NavbarProps {
  * App navigation bar component
  * @throws Classname prop parameter is empty
  */
-export default function Navbar({ className }: NavbarProps): JSX.Element {
+const Navbar: FC<NavbarProps> = ({ className }) => {
     if (isStringEmpty(className)) {
         throw new Error("className is empty");
     }
@@ -50,4 +50,6 @@ export default function Navbar({ className }: NavbarProps): JSX.Element {
             </div>
         </nav>
     );
-}
+};
+
+export default Navbar;

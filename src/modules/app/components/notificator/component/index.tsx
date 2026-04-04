@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { connect } from "react-redux";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -23,7 +23,7 @@ interface NotificatorProps {
 }
 
 /** Container component for notifications */
-const Notificator = ({ notifications, hideNotifications }: NotificatorProps): JSX.Element => {
+const Notificator: FC<NotificatorProps> = ({ notifications, hideNotifications }) => {
     const hideNotification = useCallback(
         (notificationId: string): void => {
             if (!isStringEmpty(notificationId)) {

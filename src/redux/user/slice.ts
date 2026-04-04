@@ -19,16 +19,16 @@ const userSlice = createSlice({
             state.appInfo = action.payload;
         },
         setNotifications(state, action: PayloadAction<UserNotification[]>) {
-            state.notificationHistory = action.payload ?? [];
+            state.notificationHistory = action.payload;
         },
         setSettings(state, action: PayloadAction<UserSetting[]>) {
-            state.settings = action.payload ?? [];
+            state.settings = action.payload;
         },
         toggleNotificationsSortOrder(state) {
             state.isNotificationSortOrderAsc = !state.isNotificationSortOrderAsc;
         },
         setMeasurementsWithoutDiff(state, action: PayloadAction<number>) {
-            state.options = { ...state.options, measurementsWithoutDiff: action.payload ?? 0 };
+            state.options = { ...state.options, measurementsWithoutDiff: action.payload };
         },
     },
 });

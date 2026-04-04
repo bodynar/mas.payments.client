@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useRef } from "react";
 
 import { connect } from "react-redux";
 
@@ -39,15 +39,15 @@ interface AppProps {
 }
 
 /** Root app component */
-const App = ({
+const App: FC<AppProps> = ({
     isLoading, isModalDisplaying,
     setTabIsFocused,
     notifications, loadNotifications,
-}: AppProps): JSX.Element => {
+}) => {
     const onFocus = useCallback(() => setTabIsFocused(true), [setTabIsFocused]);
     const onBlur = useCallback(() => setTabIsFocused(false), [setTabIsFocused]);
 
-    const [loaded, setIsLoaded] = useState(false);
+    const loadingRef = useRef(false);
 
     useEffect(() => {
         window.addEventListener("focus", onFocus);
@@ -60,10 +60,12 @@ const App = ({
     }, [onBlur, onFocus]);
 
     useEffect(() => {
-        if (!loaded && notifications.length === 0) {
-            loadNotifications().then(() => setIsLoaded(true));
+        if (!loadingRef.current && notifications.length === 0) {
+            loadingRef.current = true;
+            loadNotifications();
         }
-    }, [notifications, loadNotifications, loaded]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional one-time mount effect
+    }, []);
 
     const className = getClassName([
         "app",

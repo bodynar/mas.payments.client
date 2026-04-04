@@ -10,6 +10,7 @@ import { sort } from "@app/utils";
 import { filterEntities } from "@app/core";
 
 import { MeasurementModuleState } from "./types";
+import { setModuleInitializedStateReducer, toggleGroupViewReducer, setCurrentPageReducer } from "../sliceUtils";
 
 const initialState: MeasurementModuleState = {
     initialized: false,
@@ -62,11 +63,7 @@ const measurementsSlice = createSlice({
             state.availableTypesAsDropdownItems = mappedToDropdownItems;
             state.filteredTypes = types;
         },
-        setModuleInitializedState(state, action: PayloadAction<boolean>) {
-            if (!isUndefined(action.payload)) {
-                state.initialized = action.payload;
-            }
-        },
+        setModuleInitializedState: setModuleInitializedStateReducer,
         filterMeasurements(state) {
             state.filteredItems = filterEntities(state.measurements, state.lastFilter);
         },
@@ -99,15 +96,11 @@ const measurementsSlice = createSlice({
             );
             state.typeFilterCaption = filterValue!;
         },
-        toggleGroupView(state) {
-            state.useGroupedView = !state.useGroupedView;
-        },
+        toggleGroupView: toggleGroupViewReducer,
         setGroupedByType(state, action: PayloadAction<Array<Group<Measurement>> | undefined>) {
             state.groupedByType = action.payload;
         },
-        setCurrentPage(state, action: PayloadAction<number>) {
-            state.lastPage = action.payload;
-        },
+        setCurrentPage: setCurrentPageReducer,
     },
 });
 

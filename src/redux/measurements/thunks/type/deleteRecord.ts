@@ -1,5 +1,6 @@
 import { AppThunkAction, AppThunkDispatch, createModalCallback } from "@app/redux/createAppAsyncThunk";
 import { CompositeAppState } from "@app/redux";
+import { getNotifications } from "@app/redux/notificator";
 import { openModal, ModalType } from "@app/redux/modal";
 import { setMeasurementTypes } from "@app/redux/measurements";
 
@@ -13,7 +14,13 @@ export const deleteTypeRecord = (id: string): AppThunkAction => (
     getState: () => CompositeAppState
 ): void => {
     const { measurements } = getState();
-    const measurementType = measurements.typesMap.get(id)!;
+    const measurementType = measurements.typesMap.get(id);
+
+    if (!measurementType) {
+        const [, showError] = getNotifications(dispatch, getState);
+        showError(new Error(`Measurement type with id "${id}" not found in local state`), false);
+        return;
+    }
 
     dispatch(
         openModal({

@@ -51,7 +51,7 @@ export const deleteRecord = (id: string): Promise<void> => {
  * @returns Promise with array of loaded payments
  */
 export const getPaymentRecords = async (): Promise<Array<Payment>> => {
-    const payments = await get<Array<PaymentResponse>>(`api/payment/getPayments`);
+    const payments = await get<Array<PaymentResponse>>("api/payment/getPayments");
 
     return payments.map(x => ({
         id: x.id,

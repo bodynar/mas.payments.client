@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Link } from "react-router-dom";
 
 import { getClassName } from "@bodynarf/utils";
@@ -15,9 +16,7 @@ interface NavbarMenuItemProps {
 }
 
 /** Navar menu item component */
-export default function NavbarMenuItem({
-    item, isActive,
-}: NavbarMenuItemProps): JSX.Element {
+const NavbarMenuItem: FC<NavbarMenuItemProps> = ({ item, isActive }) => {
     const className = getClassName([
         "app-navbar__item",
         item.disabled === true ? "app-navbar__item--disabled" : "",
@@ -42,4 +41,6 @@ export default function NavbarMenuItem({
             </Link>
         );
     }
-}
+};
+
+export default NavbarMenuItem;

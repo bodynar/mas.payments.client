@@ -34,7 +34,7 @@ interface MeasurementCreateCardProps {
     groupedByType?: Array<Group<Measurement>>;
 
     /** Save current card values */
-    saveCard: (values: AddMeasurements, id?: string) => Promise<void>;
+    saveCard: (values: AddMeasurements, id?: string) => Promise<boolean | undefined>;
 
     /** Group measurements by type */
     groupByType: () => void;
@@ -128,10 +128,13 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
             ...model,
             measurements: validatedItems,
         })
-            .then(() => {
-                navigate("/measurement", { replace: true });
-            })
-            .catch(() => setIsSubmitAvailable(true));
+            .then((result) => {
+                if (result) {
+                    navigate("/measurement", { replace: true });
+                } else {
+                    setIsSubmitAvailable(true);
+                }
+            });
     }, [items, date, saveCard, model, changeItems, navigate]);
 
     const onAddForAllTypesClick = useCallback(

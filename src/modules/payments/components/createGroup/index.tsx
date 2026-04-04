@@ -35,7 +35,7 @@ interface PaymentGroupCardProps {
     templatesMap: Map<string, PaymentGroupTemplate>;
 
     /** Save payment group */
-    saveGroupCard: (values: AddPaymentGroup) => Promise<void>;
+    saveGroupCard: (values: AddPaymentGroup) => Promise<boolean | undefined>;
 
     /** Load templates from server */
     loadTemplates: () => void;
@@ -214,13 +214,16 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
         saveGroupCard({
             ...model,
             comment,
-            paymentDate: new Date(model.year!, model.month! - 1, 1).toISOString(),
+            paymentDate: new Date(Date.UTC(model.year!, model.month! - 1, 1)).toISOString(),
             payments: validatedItems,
         })
-            .then(() => {
-                navigate("/payment", { replace: true });
-            })
-            .catch(() => setIsSubmitAvailable(true));
+            .then((result) => {
+                if (result) {
+                    navigate("/payment", { replace: true });
+                } else {
+                    setIsSubmitAvailable(true);
+                }
+            });
     }, [items, date, saveGroupCard, model, comment, changeItems, navigate]);
 
     if (!initialized) {

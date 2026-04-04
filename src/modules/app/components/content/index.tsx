@@ -1,3 +1,4 @@
+import { FC, ReactElement } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import "./style.scss";
@@ -18,7 +19,7 @@ interface AppContentProps {
 /**
  * Block of application main content
  */
-const AppContent = ({ isLoading }: AppContentProps): JSX.Element => {
+const AppContent: FC<AppContentProps> = ({ isLoading }) => {
     return (
         <div className="app-loading-cover">
             {isLoading &&
@@ -42,7 +43,7 @@ const AppContent = ({ isLoading }: AppContentProps): JSX.Element => {
  * Get module routing table as tree of react-router components.
  * Presented as function (not component) to satisfy react-router Routes rule (child type)
 */
-const getRouteItem = ({ name, link, component, children }: RouteItem): JSX.Element => {
+const getRouteItem = ({ name, link, component, children }: RouteItem): ReactElement => {
     return (
         <Route
             key={name}

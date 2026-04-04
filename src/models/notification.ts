@@ -1,16 +1,16 @@
 /** Notification types */
 export enum NotificationType {
     /** Blue color */
-    "info",
+    info = "info",
 
     /** Green color */
-    "success",
+    success = "success",
 
     /** Orange color */
-    "warn",
+    warn = "warn",
 
     /** Red color */
-    "error",
+    error = "error",
 }
 
 /** Notification model */

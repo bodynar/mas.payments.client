@@ -30,7 +30,7 @@ interface MeasurementEditCardProps {
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
     /** Save current card values */
-    saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
+    saveCard: (values: Array<FieldValue>, id?: string) => Promise<boolean | undefined>;
 }
 
 const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
@@ -52,10 +52,13 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
         setIsSubmitAvailable(true);
 
         saveCard(values, id)
-            .then(() => {
-                navigate("/measurement", { replace: true });
-            })
-            .catch(() => setIsSubmitAvailable(false));
+            .then((result) => {
+                if (result) {
+                    navigate("/measurement", { replace: true });
+                } else {
+                    setIsSubmitAvailable(false);
+                }
+            });
     }, [id, saveCard, navigate]);
 
     if (!initialized) {

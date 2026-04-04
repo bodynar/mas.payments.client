@@ -14,10 +14,13 @@ export default defineConfig(({ mode }) => {
 			tsconfigPaths(),
 			eslintPlugin(),
 		],
+		define: {
+			__APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+		},
 		build: {
 			sourcemap: mode !== "production",
 			minify: "esbuild",
-			target: "esnext"
+			target: "esnext",
 		},
 		resolve: {
 			alias: {
@@ -27,7 +30,7 @@ export default defineConfig(({ mode }) => {
 		server: {
 			proxy: {
 				"/api": {
-					target: "http://192.168.0.108:5050/api/",
+					target: process.env.VITE_API_PROXY_TARGET ?? "http://localhost:4041",
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/api/, "")
 				},

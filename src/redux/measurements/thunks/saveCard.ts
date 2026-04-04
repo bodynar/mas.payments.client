@@ -11,7 +11,7 @@ import { AddMeasurements } from "@app/models/measurements";
  * Save current card values
  */
 export const saveCard = createAppAsyncThunk(
-    async ({ dispatch, showSuccess }, values: Array<FieldValue> | AddMeasurements, id?: string) => {
+    async ({ dispatch, showSuccess }, values: Array<FieldValue> | AddMeasurements, id?: string): Promise<boolean> => {
         if (isNullish(id)) {
             await createMeasurements(values as AddMeasurements);
         } else {
@@ -22,5 +22,6 @@ export const saveCard = createAppAsyncThunk(
 
         const items = await getMeasurements();
         dispatch(setMeasurements(items));
+        return true;
     }
 );

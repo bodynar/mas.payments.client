@@ -1,5 +1,7 @@
+import { FC } from "react";
+
 /** Navbar app brand */
-export default function NavbarBrand(): JSX.Element {
+const NavbarBrand: FC = () => {
     return (
         <div className="navbar-brand px-1 py-2">
             <span className="navbar-item is-unselectable is-size-5">
@@ -7,4 +9,6 @@ export default function NavbarBrand(): JSX.Element {
             </span>
         </div>
     );
-}
+};
+
+export default NavbarBrand;

@@ -15,7 +15,7 @@ const appSlice = createSlice({
             state.isCurrentTabFocused = action.payload;
         },
         setAppIsLoading(state, action: PayloadAction<boolean>) {
-            state.loading = action.payload ?? false;
+            state.loading = action.payload;
         },
     },
 });
