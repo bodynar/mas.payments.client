@@ -26,23 +26,27 @@ const ApplicationInfo: FC<ApplicationInfoProps> = ({ appInfo, getAppInfo }) => {
         }
     }, [appInfo, getAppInfo]);
 
+    if (isNullish(appInfo)) {
+        return <div className="box" />;
+    }
+
     return (
         <div className="box">
             <Text
                 onValueChange={emptyFn}
-                defaultValue={appInfo?.dataBaseName || ""}
+                defaultValue={appInfo.dataBaseName || ""}
                 disabled
                 label={{ caption: "Database name", horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
-                defaultValue={appInfo?.serverAppVersion || ""}
+                defaultValue={appInfo.serverAppVersion || ""}
                 disabled
                 label={{ caption: "Server app version", horizontal: true }}
             />
             <Text
                 onValueChange={emptyFn}
-                defaultValue={appInfo?.clientAppVersion || ""}
+                defaultValue={appInfo.clientAppVersion || ""}
                 disabled
                 label={{ caption: "Client app version", horizontal: true }}
             />

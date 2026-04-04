@@ -15,7 +15,7 @@ export const groupByType = (): AppThunkAction => (
     const { measurements: state } = getState();
 
     const groupedByType = groupMeasurementsByType(
-        [...state.measurements]
+        [...state.records]
             .sort((l, r) =>
                 new Date(l.year, l.month - 1, 1).getTime()
                 - new Date(r.year, r.month - 1, 1).getTime()

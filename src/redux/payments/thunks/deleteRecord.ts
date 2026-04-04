@@ -15,7 +15,7 @@ export const deleteRecord = (id: string): AppThunkAction => (
     getState: () => CompositeAppState
 ): void => {
     const { payments } = getState();
-    const payment = payments.payments.find((x) => x.id === id);
+    const payment = payments.records.find((x) => x.id === id);
 
     if (!payment) {
         const [, showError] = getNotifications(dispatch, getState);

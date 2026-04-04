@@ -1,21 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { isNullOrEmpty, isUndefined, isNullish } from "@bodynarf/utils";
-import { SelectableItem } from "@bodynarf/react.components";
+import { isNullish } from "@bodynarf/utils";
 
 import { PaymentType, Payment, PaymentFilter, PaymentGroupTemplate } from "@app/models/payments";
 import { SortColumn } from "@app/models";
 
-import { sort } from "@app/utils";
 import { filterEntities } from "@app/core";
 
 import { PaymentModuleState } from "./types";
-import { setModuleInitializedStateReducer, toggleGroupViewReducer, setCurrentPageReducer } from "../sliceUtils";
+import {
+    setModuleInitializedStateReducer, toggleGroupViewReducer, setCurrentPageReducer,
+    createSetFilterValueReducer, setTypesReducer, filterItemsReducer,
+    setSortColumnReducer, setTypeSortColumnReducer, filterTypesReducer,
+} from "../sliceUtils";
 
 const initialState: PaymentModuleState = {
     initialized: false,
     useGroupedView: false,
-    payments: [],
+    records: [],
     filteredItems: [],
     typesMap: new Map(),
     availableTypesAsDropdownItems: [],
@@ -31,73 +33,27 @@ const paymentsSlice = createSlice({
     reducers: {
         setPayments(state, action: PayloadAction<Payment[]>) {
             const payments = action.payload;
-            state.payments = payments;
+            state.records = payments;
             state.filteredItems = isNullish(state.lastFilter)
                 ? payments
                 : filterEntities(payments, state.lastFilter);
         },
-        setFilterValue: {
-            reducer(state, action: PayloadAction<{ filter?: PaymentFilter; applyFilter: boolean }>) {
-                const { filter, applyFilter } = action.payload;
-
-                if (isUndefined(filter)) {
-                    state.lastFilter = filter;
-                    state.filteredItems = state.payments;
-                } else {
-                    state.lastFilter = filter;
-                    if (applyFilter) {
-                        state.filteredItems = filterEntities(state.payments, filter);
-                    }
-                }
-            },
-            prepare(filter?: PaymentFilter, applyFilter: boolean = false) {
-                return { payload: { filter, applyFilter } };
-            },
-        },
+        setFilterValue: createSetFilterValueReducer<Payment, PaymentFilter>(),
         setPaymentTypes(state, action: PayloadAction<PaymentType[]>) {
-            const types = action.payload;
-            const mappedToDropdownItems = types.map(({ id, caption }) => ({
-                id: id.toString(),
-                displayValue: caption,
-                value: id.toString(),
-            }) as SelectableItem);
-
-            state.typesMap = new Map(types.map(t => [t.id, t]));
-            state.availableTypesAsDropdownItems = mappedToDropdownItems;
-            state.filteredTypes = types;
+            setTypesReducer(state, action);
         },
         setModuleInitializedState: setModuleInitializedStateReducer,
         filterPayments(state) {
-            state.filteredItems = filterEntities(state.payments, state.lastFilter);
+            filterItemsReducer(state);
         },
         setSortColumn(state, action: PayloadAction<SortColumn<Payment>>) {
-            state.paymentSortColumn = action.payload;
-            state.filteredItems = sort(state.filteredItems, action.payload);
+            setSortColumnReducer(state, action);
         },
         setTypeSortColumn(state, action: PayloadAction<SortColumn<PaymentType>>) {
-            const sortColumn = action.payload;
-            state.paymentTypeSortColumn = sortColumn;
-            const allTypes = sort([...state.typesMap.values()], sortColumn);
-            state.filteredTypes = allTypes.filter(
-                ({ caption }) => caption.toLocaleLowerCase().includes(state.typeFilterCaption?.toLocaleLowerCase() ?? "")
-            );
+            setTypeSortColumnReducer(state, action);
         },
         filterPaymentTypes(state, action: PayloadAction<string | undefined>) {
-            const filterValue = action.payload;
-            const allTypes = state.paymentTypeSortColumn
-                ? sort([...state.typesMap.values()], state.paymentTypeSortColumn)
-                : [...state.typesMap.values()];
-
-            if (isNullOrEmpty(filterValue)) {
-                state.filteredTypes = allTypes;
-                return;
-            }
-
-            const lowered = filterValue!.toLocaleLowerCase();
-            state.filteredTypes = allTypes.filter(
-                ({ caption }) => caption.toLocaleLowerCase().includes(lowered)
-            );
-            state.typeFilterCaption = filterValue!;
+            filterTypesReducer(state, action);
         },
         toggleGroupView: toggleGroupViewReducer,
         setCurrentPage: setCurrentPageReducer,
@@ -107,7 +63,7 @@ const paymentsSlice = createSlice({
                 id: t.id,
                 displayValue: t.name,
                 value: t.id,
-            } as SelectableItem]));
+            }]));
             state.templatesLoaded = true;
         },
     },
@@ -128,3 +84,4 @@ export const {
 } = paymentsSlice.actions;
 
 export default paymentsSlice.reducer;
+

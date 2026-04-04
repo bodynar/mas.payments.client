@@ -61,6 +61,16 @@ const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
         return <></>;
     }
 
+    if (id !== undefined && isNullish(item)) {
+        return (
+            <div className="message is-danger">
+                <div className="message-body">
+                    Measurement type not found.
+                </div>
+            </div>
+        );
+    }
+
     return (
         <section>
             <Form

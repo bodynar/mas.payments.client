@@ -15,7 +15,7 @@ export const deleteRecord = (id: string): AppThunkAction => (
     getState: () => CompositeAppState
 ): void => {
     const { measurements } = getState();
-    const item = measurements.measurements.find((x) => x.id === id);
+    const item = measurements.records.find((x) => x.id === id);
 
     if (!item) {
         const [, showError] = getNotifications(dispatch, getState);

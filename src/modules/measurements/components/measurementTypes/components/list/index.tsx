@@ -124,7 +124,7 @@ const MeasurementTypeList: FC<MeasurementTypeListProps> = ({
 export default connect(
     ({ measurements }: CompositeAppState) => ({
         ...measurements,
-        sortColumn: measurements.measurementTypeSortColumn,
+        sortColumn: measurements.typeSortColumn,
         typeFilterCaption: measurements.typeFilterCaption
     }),
     ({

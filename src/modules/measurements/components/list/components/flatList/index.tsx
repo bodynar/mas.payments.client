@@ -140,7 +140,7 @@ export default connect(
         typesMap: measurements.typesMap,
         availableTypesAsDropdownItems: measurements.availableTypesAsDropdownItems,
         lastFilter: measurements.lastFilter,
-        sortColumn: measurements.measurementSortColumn,
+        sortColumn: measurements.sortColumn,
         lastPage: measurements.lastPage,
     }),
     ({

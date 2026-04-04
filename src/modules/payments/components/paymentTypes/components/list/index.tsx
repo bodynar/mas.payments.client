@@ -124,7 +124,7 @@ const PaymentTypeList: FC<PaymentTypeListProps> = ({
 export default connect(
     ({ payments }: CompositeAppState) => ({
         ...payments,
-        sortColumn: payments.paymentTypeSortColumn,
+        sortColumn: payments.typeSortColumn,
         typeFilterCaption: payments.typeFilterCaption
     }),
     ({

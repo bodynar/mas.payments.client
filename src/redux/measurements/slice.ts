@@ -1,21 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { isNullOrEmpty, isUndefined, isNullish, Group } from "@bodynarf/utils";
-import { SelectableItem } from "@bodynarf/react.components";
+import { isNullish, Group } from "@bodynarf/utils";
 
 import { MeasurementType, Measurement, MeasurementFilter } from "@app/models/measurements";
 import { SortColumn } from "@app/models";
 
-import { sort } from "@app/utils";
 import { filterEntities } from "@app/core";
 
 import { MeasurementModuleState } from "./types";
-import { setModuleInitializedStateReducer, toggleGroupViewReducer, setCurrentPageReducer } from "../sliceUtils";
+import {
+    setModuleInitializedStateReducer, toggleGroupViewReducer, setCurrentPageReducer,
+    createSetFilterValueReducer, setTypesReducer, filterItemsReducer,
+    setSortColumnReducer, setTypeSortColumnReducer, filterTypesReducer,
+} from "../sliceUtils";
 
 const initialState: MeasurementModuleState = {
     initialized: false,
     useGroupedView: false,
-    measurements: [],
+    records: [],
     filteredItems: [],
     typesMap: new Map(),
     availableTypesAsDropdownItems: [],
@@ -28,73 +30,27 @@ const measurementsSlice = createSlice({
     reducers: {
         setMeasurements(state, action: PayloadAction<Measurement[]>) {
             const items = action.payload;
-            state.measurements = items;
+            state.records = items;
             state.filteredItems = isNullish(state.lastFilter)
                 ? items
                 : filterEntities(items, state.lastFilter);
         },
-        setFilterValue: {
-            reducer(state, action: PayloadAction<{ filter?: MeasurementFilter; applyFilter: boolean }>) {
-                const { filter, applyFilter } = action.payload;
-
-                if (isUndefined(filter)) {
-                    state.lastFilter = filter;
-                    state.filteredItems = state.measurements;
-                } else {
-                    state.lastFilter = filter;
-                    if (applyFilter) {
-                        state.filteredItems = filterEntities(state.measurements, filter);
-                    }
-                }
-            },
-            prepare(filter?: MeasurementFilter, applyFilter: boolean = false) {
-                return { payload: { filter, applyFilter } };
-            },
-        },
+        setFilterValue: createSetFilterValueReducer<Measurement, MeasurementFilter>(),
         setMeasurementTypes(state, action: PayloadAction<MeasurementType[]>) {
-            const types = action.payload;
-            const mappedToDropdownItems = types.map(({ id, caption }) => ({
-                id: id.toString(),
-                displayValue: caption,
-                value: id.toString(),
-            }) as SelectableItem);
-
-            state.typesMap = new Map(types.map(t => [t.id, t]));
-            state.availableTypesAsDropdownItems = mappedToDropdownItems;
-            state.filteredTypes = types;
+            setTypesReducer(state, action);
         },
         setModuleInitializedState: setModuleInitializedStateReducer,
         filterMeasurements(state) {
-            state.filteredItems = filterEntities(state.measurements, state.lastFilter);
+            filterItemsReducer(state);
         },
         setSortColumn(state, action: PayloadAction<SortColumn<Measurement>>) {
-            state.measurementSortColumn = action.payload;
-            state.filteredItems = sort(state.filteredItems, action.payload);
+            setSortColumnReducer(state, action);
         },
         setTypeSortColumn(state, action: PayloadAction<SortColumn<MeasurementType>>) {
-            const sortColumn = action.payload;
-            state.measurementTypeSortColumn = sortColumn;
-            const allTypes = sort([...state.typesMap.values()], sortColumn);
-            state.filteredTypes = allTypes.filter(
-                ({ caption }) => caption.toLocaleLowerCase().includes(state.typeFilterCaption?.toLocaleLowerCase() ?? "")
-            );
+            setTypeSortColumnReducer(state, action);
         },
         filterMeasurementTypes(state, action: PayloadAction<string | undefined>) {
-            const filterValue = action.payload;
-            const allTypes = state.measurementTypeSortColumn
-                ? sort([...state.typesMap.values()], state.measurementTypeSortColumn)
-                : [...state.typesMap.values()];
-
-            if (isNullOrEmpty(filterValue)) {
-                state.filteredTypes = allTypes;
-                return;
-            }
-
-            const lowered = filterValue!.toLocaleLowerCase();
-            state.filteredTypes = allTypes.filter(
-                ({ caption }) => caption.toLocaleLowerCase().includes(lowered)
-            );
-            state.typeFilterCaption = filterValue!;
+            filterTypesReducer(state, action);
         },
         toggleGroupView: toggleGroupViewReducer,
         setGroupedByType(state, action: PayloadAction<Array<Group<Measurement>> | undefined>) {
@@ -119,3 +75,4 @@ export const {
 } = measurementsSlice.actions;
 
 export default measurementsSlice.reducer;
+

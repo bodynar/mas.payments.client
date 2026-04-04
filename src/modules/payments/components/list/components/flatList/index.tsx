@@ -140,7 +140,7 @@ export default connect(
         typesMap: payments.typesMap,
         availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
         lastFilter: payments.lastFilter,
-        sortColumn: payments.paymentSortColumn,
+        sortColumn: payments.sortColumn,
         lastPage: payments.lastPage,
     }),
     ({

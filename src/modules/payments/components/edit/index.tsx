@@ -164,7 +164,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
 /** Payment card */
 export default connect(
     ({ payments }: CompositeAppState) => ({
-        payments: payments.payments,
+        payments: payments.records,
         initialized: payments.initialized,
         availableTypesAsDropdownItems: payments.availableTypesAsDropdownItems,
     }),
