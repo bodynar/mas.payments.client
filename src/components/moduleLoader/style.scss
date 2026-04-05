@@ -1,0 +1,63 @@
+.app-module-loader {
+    padding: 1.5rem 1rem;
+
+    &__bone {
+        background: linear-gradient(
+            90deg,
+            #ebebeb 25%,
+            #d6d6d6 50%,
+            #ebebeb 75%
+        );
+        background-size: 400% 100%;
+        animation: app-bone-shimmer 1.6s ease-in-out infinite;
+        border-radius: 4px;
+    }
+
+    &__title {
+        height: 2rem;
+        width: 38%;
+        margin-bottom: 1.75rem;
+    }
+
+    &__row {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 0.875rem;
+    }
+
+    &__label {
+        height: 1rem;
+        width: 9rem;
+        flex-shrink: 0;
+    }
+
+    &__field {
+        height: 2.375rem;
+        flex: 1;
+    }
+
+    &__divider {
+        margin: 1.25rem 0;
+        opacity: 0;
+    }
+
+    &__actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    &__button {
+        height: 2.375rem;
+        width: 6rem;
+    }
+}
+
+@keyframes app-bone-shimmer {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
