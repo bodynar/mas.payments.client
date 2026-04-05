@@ -1,4 +1,4 @@
-import cfg from "public/app.settings.json";
+import cfg from "../../../public/app.settings.json";
 
 /** Delay before notification will be hidden */
 export const NotificationHideDelay: number = cfg.Notification.HideDelay * 1000;

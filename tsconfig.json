@@ -17,61 +17,59 @@
 		"alwaysStrict": true, /* Parse in strict mode and emit "use strict" for each source file. */
 		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
-		"downlevelIteration": true,
 		"noUnusedLocals": true, /* Report errors on unused locals. */
 		"noUnusedParameters": true, /* Report errors on unused parameters. */
 		"noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
-		"baseUrl": "./", /* Base directory to resolve non-absolute module names. */
 		"paths": {
 			"@app/models/*": [
-				"src/models/*"
+				"./src/models/*"
 			],
 			"@app/models": [
-				"src/models"
+				"./src/models"
 			],
 			"@app/utils/*": [
-				"src/shared/utils/*"
+				"./src/shared/utils/*"
 			],
 			"@app/utils": [
-				"src/shared/utils"
+				"./src/shared/utils"
 			],
 			"@app/redux/*": [
-				"src/redux/*"
+				"./src/redux/*"
 			],
 			"@app/redux": [
-				"src/redux"
+				"./src/redux"
 			],
 			"@app/modules/*": [
-				"src/modules/*"
+				"./src/modules/*"
 			],
 			"@app/sharedComponents/*": [
-				"src/components/*",
+				"./src/components/*",
 			],
 			"@app/static": [
-				"src/shared/constants/",
+				"./src/shared/constants/",
 			],
 			"@app/static/*": [
-				"src/shared/constants/*"
+				"./src/shared/constants/*"
 			],
 			"@app/hooks": [
-				"src/shared/hooks"
+				"./src/shared/hooks"
 			],
 			"@app/hooks/*": [
-				"src/shared/hooks/*"
+				"./src/shared/hooks/*"
 			],
 			"@app/assets/*": [
-				"src/shared/assets/*"
+				"./src/shared/assets/*"
 			],
 			"@app/core": [
-				"src/core"
+				"./src/core"
 			],
 			"@app/core/*": [
-				"src/core/*"
+				"./src/core/*"
 			],
 		},
 	},

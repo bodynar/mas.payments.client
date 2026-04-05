@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
 			splitVendorChunkPlugin(),
 			react(),
 			tsconfigPaths(),
-			eslintPlugin(),
+			mode !== "production" && eslintPlugin(),
 		],
 		define: {
 			__APP_VERSION__: JSON.stringify(process.env.npm_package_version),
