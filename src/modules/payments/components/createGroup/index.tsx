@@ -102,7 +102,10 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
         [],
     );
 
-    const onRemoveAllClick = useCallback(() => changeItems([]), [changeItems]);
+    const onRemoveAllClick = useCallback(() => {
+        setSelectedTemplate(undefined);
+        changeItems([]);
+    }, [changeItems]);
 
     const onTemplateSelect = useCallback(
         (selected?: SelectableItem) => {
@@ -128,12 +131,16 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
     );
 
     const onAddPaymentClick = useCallback(
-        () => changeItems([...items, { id: generateGuid() }]),
+        () => {
+            setSelectedTemplate(undefined);
+            changeItems([...items, { id: generateGuid() }]);
+        },
         [changeItems, items],
     );
 
     const onAddForAllTypesClick = useCallback(
         () => {
+            setSelectedTemplate(undefined);
             changeItems(
                 availableTypesAsDropdownItems.map(type => ({
                     id: generateGuid(),
@@ -156,7 +163,10 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
     );
 
     const onDeleteItemClick = useCallback(
-        (itemId: string) => changeItems([...items.filter(({ id }) => id !== itemId)]),
+        (itemId: string) => {
+            setSelectedTemplate(undefined);
+            changeItems([...items.filter(({ id }) => id !== itemId)]);
+        },
         [items, changeItems],
     );
 

@@ -178,9 +178,10 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
             <div className="columns m-0">
                 <div className="bbr-form__field column is-12">
                     <Multiselect
-                        items={multiselectItems}
-                        onChange={onTypeChange}
+                        hideOnOuterClick
                         onClear={onTypesClear}
+                        onChange={onTypeChange}
+                        items={multiselectItems}
                         placeholder="Select payment types"
                         searchable
                         label={{
@@ -194,19 +195,18 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
             {selectedTypes.length > 0 &&
                 <div className="columns m-0">
                     <div className="column is-12">
-                        <ul>
+                        <div className="is-flex is-flex-wrap-wrap" style={{ gap: "0.5rem", pointerEvents: "none" }}>
                             {selectedTypes.map(type => (
-                                <li key={type.id} className="is-flex is-align-items-center gap-2 mb-1">
-                                    <Tag
-                                        content={type.caption}
-                                        customColor={isNullish(type.color) ? undefined : {
-                                            color: getFontColorFromString(type.color!),
-                                            backgroundColor: type.color!,
-                                        }}
-                                    />
-                                </li>
+                                <Tag
+                                    key={type.id}
+                                    content={type.caption}
+                                    customColor={isNullish(type.color) ? undefined : {
+                                        color: getFontColorFromString(type.color!),
+                                        backgroundColor: type.color!,
+                                    }}
+                                />
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
             }
@@ -215,9 +215,9 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
             <div className="field is-grouped">
                 <p className="control">
                     <Button
-                        style={ButtonStyle.Success}
                         caption="Save"
                         onClick={onSubmit}
+                        style={ButtonStyle.Success}
                         disabled={!isSubmitAvailable}
                     />
                 </p>
@@ -253,6 +253,7 @@ const TemplateCard: FC<TemplateCardProps> = ({
             </p>
         );
     }
+
     if (isNotNullish(id) && isNullish(template)) {
         return (
             <article className="message is-danger">
