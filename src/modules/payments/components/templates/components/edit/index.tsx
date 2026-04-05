@@ -15,6 +15,8 @@ import { PaymentGroupTemplate, PaymentType, AddPaymentGroupTemplate, UpdatePayme
 import { CompositeAppState } from "@app/redux";
 import { loadTemplates, saveTemplate } from "@app/redux/payments";
 
+import ModuleLoader from "@app/sharedComponents/moduleLoader";
+
 interface TemplateCardProps {
     /** Is payment module state initialized */
     initialized: boolean;
@@ -241,8 +243,9 @@ const TemplateCard: FC<TemplateCardProps> = ({
     }, [initialized, id, templatesLoaded, loadTemplates]);
 
     if (!initialized) {
-        return <></>;
+        return <ModuleLoader />;
     }
+
     if (isNotNullish(id) && !templatesLoaded) {
         return (
             <p className="subtitle has-text-centered is-italic mt-4 has-text-grey">

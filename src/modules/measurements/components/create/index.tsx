@@ -19,6 +19,8 @@ import { validateMeasurementCreateData } from "@app/core/measurement";
 import { CompositeAppState } from "@app/redux";
 import { groupByType, saveCard } from "@app/redux/measurements";
 
+import ModuleLoader from "@app/sharedComponents/moduleLoader";
+
 import Table from "@bodynarf/react.components/components/table";
 import MeasurementCreateCardItem from "./item";
 
@@ -182,7 +184,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
     );
 
     if (!initialized) {
-        return <></>;
+        return <ModuleLoader />;
     }
 
     return (

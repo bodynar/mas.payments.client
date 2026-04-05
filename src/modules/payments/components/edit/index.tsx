@@ -15,6 +15,8 @@ import { getDateOrNowLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdow
 import { CompositeAppState } from "@app/redux";
 import { saveCard } from "@app/redux/payments";
 
+import ModuleLoader from "@app/sharedComponents/moduleLoader";
+
 /** Payment card props types */
 interface PaymentCardProps {
     /** All payments */
@@ -56,7 +58,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
     }, [id, saveCard, navigate]);
 
     if (!initialized) {
-        return <></>;
+        return <ModuleLoader />;
     }
     if (initialized && isNotNullish(id) && isNullish(payment)) {
         return <>ERROR: Payment not found</>;

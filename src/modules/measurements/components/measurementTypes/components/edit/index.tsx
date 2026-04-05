@@ -14,6 +14,8 @@ import { saveTypeCard } from "@app/redux/measurements";
 import { ButtonStyle, SelectableItem } from "@bodynarf/react.components";
 import { getDropdownItem } from "@app/core";
 
+import ModuleLoader from "@app/sharedComponents/moduleLoader";
+
 /** Measurement card props types */
 interface MeasurementTypeCardProps {
     /** Measurement types indexed by id */
@@ -58,7 +60,7 @@ const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
 
 
     if (!initialized) {
-        return <></>;
+        return <ModuleLoader />;
     }
 
     if (id !== undefined && isNullish(item)) {

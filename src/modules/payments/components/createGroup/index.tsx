@@ -19,6 +19,8 @@ import { validatePaymentGroupItem } from "@app/core/payment";
 import { CompositeAppState } from "@app/redux";
 import { saveGroupCard, loadTemplates } from "@app/redux/payments";
 
+import ModuleLoader from "@app/sharedComponents/moduleLoader";
+
 import PaymentGroupCardItem from "./item";
 
 interface PaymentGroupCardProps {
@@ -227,7 +229,7 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
     }, [items, date, saveGroupCard, model, comment, changeItems, navigate]);
 
     if (!initialized) {
-        return <></>;
+        return <ModuleLoader />;
     }
 
     return (

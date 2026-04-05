@@ -13,6 +13,8 @@ import { PaymentType } from "@app/models/payments";
 import { CompositeAppState } from "@app/redux";
 import { saveTypeCard } from "@app/redux/payments";
 
+import ModuleLoader from "@app/sharedComponents/moduleLoader";
+
 /** Payment card props types */
 interface PaymentTypeCardProps {
     /** Payment types indexed by id */
@@ -53,7 +55,7 @@ const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
 
 
     if (!initialized) {
-        return <></>;
+        return <ModuleLoader />;
     }
 
     if (id !== undefined && isNullish(item)) {

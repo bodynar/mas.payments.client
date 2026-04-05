@@ -15,6 +15,8 @@ import { getDateOrNowLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdow
 import { CompositeAppState } from "@app/redux";
 import { saveCard } from "@app/redux/measurements";
 
+import ModuleLoader from "@app/sharedComponents/moduleLoader";
+
 /** Measurement card props types */
 interface MeasurementEditCardProps {
     /** All measurements */
@@ -62,7 +64,7 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
     }, [id, saveCard, navigate]);
 
     if (!initialized) {
-        return <></>;
+        return <ModuleLoader />;
     }
     if (initialized && isNotNullish(id) && isNullish(measurement)) {
         return <>ERROR: Measurement not found</>;
