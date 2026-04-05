@@ -1,5 +1,6 @@
 import { AppThunkAction, AppThunkDispatch, createModalCallback } from "@app/redux/createAppAsyncThunk";
 import { CompositeAppState } from "@app/redux";
+import { getNotifications } from "@app/redux/notificator";
 import { openModal, ModalType } from "@app/redux/modal";
 import { setPaymentTypes } from "@app/redux/payments";
 
@@ -13,7 +14,13 @@ export const deleteTypeRecord = (id: string): AppThunkAction => (
     getState: () => CompositeAppState,
 ): void => {
     const { payments } = getState();
-    const paymentType = payments.typesMap.get(id)!;
+    const paymentType = payments.typesMap.get(id);
+
+    if (!paymentType) {
+        const [, showError] = getNotifications(dispatch, getState);
+        showError(new Error(`Payment type with id "${id}" not found in local state`), false);
+        return;
+    }
 
     dispatch(
         openModal({

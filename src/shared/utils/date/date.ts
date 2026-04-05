@@ -79,11 +79,11 @@ export const getNowDateLookup = (): LookupDate => {
 };
 
 /**
- * Get lookup date model if dates defined in specified model; Otherwise - get current date
+ * Get lookup date model if dates defined in specified model; Otherwise - get previous month date
  * @param model Model with date values
  * @returns Lookup values for date controls
  */
-export const getDateOrNowLookup = (model?: ModelWithDate): LookupDate => {
+export const getDateOrPreviousMonthLookup = (model?: ModelWithDate): LookupDate => {
     if (isNullish(model)) {
         return getPreviousMonthDateLookup();
     }

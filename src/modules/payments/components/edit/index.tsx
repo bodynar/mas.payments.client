@@ -10,7 +10,7 @@ import Form from "@bodynarf/react.components.form/component";
 
 import { getDropdownItem } from "@app/core";
 import { Payment } from "@app/models/payments";
-import { getDateOrNowLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
+import { getDateOrPreviousMonthLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 
 import { CompositeAppState } from "@app/redux";
 import { saveCard } from "@app/redux/payments";
@@ -29,7 +29,7 @@ interface PaymentCardProps {
     availableTypesAsDropdownItems: Array<SelectableItem>;
 
     /** Save current card values */
-    saveCard: (values: Array<FieldValue>, id?: string) => Promise<void>;
+    saveCard: (values: Array<FieldValue>, id?: string) => Promise<boolean | undefined>;
 }
 
 const PaymentCard: FC<PaymentCardProps> = ({
@@ -44,17 +44,20 @@ const PaymentCard: FC<PaymentCardProps> = ({
     const payment = payments.find(x => x.id === id);
     const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, payment?.typeId), [payment?.typeId, availableTypesAsDropdownItems]);
 
-    const { year, month } = useMemo(() => getDateOrNowLookup(payment), [payment]);
+    const { year, month } = useMemo(() => getDateOrPreviousMonthLookup(payment), [payment]);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
 
     const onSubmit = useCallback((values: Array<FieldValue>) => {
         setIsSubmitAvailable(true);
 
         saveCard(values, id)
-            .then(() => {
-                navigate("/payment");
-            })
-            .catch(() => setIsSubmitAvailable(false));
+            .then((result) => {
+                if (result) {
+                    navigate("/payment");
+                } else {
+                    setIsSubmitAvailable(false);
+                }
+            });
     }, [id, saveCard, navigate]);
 
     if (!initialized) {

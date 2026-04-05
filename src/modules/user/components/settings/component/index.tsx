@@ -27,7 +27,7 @@ interface SettingsProps {
     /** Load measurements without diff count */
     getMeasurementsWithoutDiff: () => void;
 
-    /** Incorrect data */
+    /** Measurement diff statistics */
     options?: {
         /** Amount of measurements without diff */
         measurementsWithoutDiff: number;

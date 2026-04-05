@@ -10,7 +10,7 @@ import Form from "@bodynarf/react.components.form/component";
 
 import { getDropdownItem } from "@app/core";
 import { Measurement, MeasurementType } from "@app/models/measurements";
-import { getDateOrNowLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
+import { getDateOrPreviousMonthLookup, getMonthName, monthsAsDropdownItems, yearsAsDropdownItems } from "@app/utils";
 
 import { CompositeAppState } from "@app/redux";
 import { saveCard } from "@app/redux/measurements";
@@ -47,7 +47,7 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
     const measurement = measurements.find(x => x.id === id);
 
     const selectedType = useMemo(() => getDropdownItem(availableTypesAsDropdownItems, measurement?.typeId), [measurement?.typeId, availableTypesAsDropdownItems]);
-    const { year, month } = useMemo(() => getDateOrNowLookup(measurement), [measurement]);
+    const { year, month } = useMemo(() => getDateOrPreviousMonthLookup(measurement), [measurement]);
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(false);
 
     const onSubmit = useCallback((values: Array<FieldValue>) => {

@@ -9,11 +9,12 @@ import { getPaymentRecords, saveCard as saveCardAction } from "@app/core/payment
  * Save current card values
  */
 export const saveCard = createAppAsyncThunk(
-    async ({ dispatch, showSuccess }, values: Array<FieldValue>, id?: string) => {
+    async ({ dispatch, showSuccess }, values: Array<FieldValue>, id?: string): Promise<boolean> => {
         await saveCardAction(values, id);
         showSuccess("Payment record successfully saved", false);
 
         const payments = await getPaymentRecords();
         dispatch(setPayments(payments));
+        return true;
     }
 );
