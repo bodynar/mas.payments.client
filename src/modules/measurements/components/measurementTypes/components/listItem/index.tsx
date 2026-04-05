@@ -25,7 +25,7 @@ const MeasurementTypeListItem: FC<MeasurementTypeListItemProps> = ({
 }) => {
     const navigate = useNavigate();
 
-    const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
+    const onEditClick = useCallback(() => navigate(`edit/${item.id}`), [item.id, navigate]);
     const onDeleteClick = useCallback(() => deleteMeasurementType(item.id), [deleteMeasurementType, item]);
 
     return (

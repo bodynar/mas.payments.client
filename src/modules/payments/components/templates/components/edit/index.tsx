@@ -7,8 +7,8 @@ import { ButtonStyle, ElementPosition, ElementSize } from "@bodynarf/react.compo
 import Button from "@bodynarf/react.components/components/button";
 import Text from "@bodynarf/react.components/components/primitives/text";
 import Multiline from "@bodynarf/react.components/components/primitives/multiline";
-import CheckBox from "@bodynarf/react.components/components/primitives/checkbox";
 import Tag from "@bodynarf/react.components/components/tag";
+import Multiselect, { MultiselectItem } from "@bodynarf/react.components/components/multiselect";
 
 import { PaymentGroupTemplate, PaymentType, AddPaymentGroupTemplate, UpdatePaymentGroupTemplate } from "@app/models/payments";
 
@@ -49,7 +49,7 @@ interface TemplateFormProps {
     saveTemplate: (model: AddPaymentGroupTemplate | UpdatePaymentGroupTemplate) => Promise<boolean | undefined>;
 
     /** Navigate callback */
-    navigate: (path: string, options?: { replace?: boolean }) => void;
+    navigate: (path: string) => void;
 }
 
 const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTemplate, navigate }) => {
@@ -61,19 +61,36 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
     const [validationError, setValidationError] = useState("");
 
-    const onTypeToggle = useCallback(
-        (typeId: string) => {
+    const onTypeChange = useCallback(
+        (item: MultiselectItem, selected: boolean) => {
             setSelectedTypeIds(prev => {
                 const next = new Set(prev);
-                if (next.has(typeId)) {
-                    next.delete(typeId);
+                if (selected) {
+                    next.add(item.id);
                 } else {
-                    next.add(typeId);
+                    next.delete(item.id);
                 }
                 return next;
             });
         },
         [],
+    );
+
+    const onTypesClear = useCallback(() => setSelectedTypeIds(new Set()), []);
+
+    const multiselectItems = useMemo<Array<MultiselectItem>>(
+        () => allTypes.map(type => ({
+            id: type.id,
+            value: type.caption,
+            displayValue: type.caption,
+            selected: selectedTypeIds.has(type.id),
+        })),
+        [allTypes, selectedTypeIds],
+    );
+
+    const selectedTypes = useMemo(
+        () => allTypes.filter(t => selectedTypeIds.has(t.id)),
+        [allTypes, selectedTypeIds],
     );
 
     const onSubmit = useCallback(() => {
@@ -105,7 +122,7 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
 
         saveTemplate(model).then((result) => {
             if (result) {
-                navigate("/payment/templates", { replace: true });
+                navigate("/payment/templates");
             } else {
                 setIsSubmitAvailable(true);
             }
@@ -156,34 +173,41 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
             }
 
             <hr />
-            <h5 className="title is-5">Payment types ({selectedTypeIds.size} selected)</h5>
-
-            <div className="columns is-multiline m-0">
-                {allTypes.map(type => (
-                    <div key={type.id} className="column is-4">
-                        <div className="is-flex is-align-items-center gap-2">
-                            <CheckBox
-                                defaultValue={selectedTypeIds.has(type.id)}
-                                onValueChange={() => onTypeToggle(type.id)}
-                                label={{
-                                    horizontal: true,
-                                    caption: "",
-                                }}
-                            />
-                            <Tag
-                                content={type.caption}
-                                customColor={isNullish(type.color) ? undefined : {
-                                    color: getFontColorFromString(type.color!),
-                                    backgroundColor: type.color!,
-                                }}
-                            />
-                            {isNotNullish(type.company) &&
-                                <span className="has-text-grey is-size-7">({type.company})</span>
-                            }
-                        </div>
-                    </div>
-                ))}
+            <div className="columns m-0">
+                <div className="bbr-form__field column is-12">
+                    <Multiselect
+                        items={multiselectItems}
+                        onChange={onTypeChange}
+                        onClear={onTypesClear}
+                        placeholder="Select payment types"
+                        searchable
+                        label={{
+                            caption: "Payment types",
+                            horizontal: true,
+                        }}
+                    />
+                </div>
             </div>
+
+            {selectedTypes.length > 0 &&
+                <div className="columns m-0">
+                    <div className="column is-12">
+                        <ul>
+                            {selectedTypes.map(type => (
+                                <li key={type.id} className="is-flex is-align-items-center gap-2 mb-1">
+                                    <Tag
+                                        content={type.caption}
+                                        customColor={isNullish(type.color) ? undefined : {
+                                            color: getFontColorFromString(type.color!),
+                                            backgroundColor: type.color!,
+                                        }}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            }
 
             <hr />
             <div className="field is-grouped">
@@ -238,7 +262,7 @@ const TemplateCard: FC<TemplateCardProps> = ({
                         style={ButtonStyle.Danger}
                         outlined
                         caption="Back to list"
-                        onClick={() => navigate("/payment/templates", { replace: true })}
+                        onClick={() => navigate("/payment/templates")}
                         icon={{ name: "arrow-left", size: ElementSize.Medium, position: ElementPosition.Left }}
                     />
                 </div>

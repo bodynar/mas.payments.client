@@ -51,7 +51,7 @@ const MeasurementTypeCard: FC<MeasurementTypeCardProps> = ({
 
         saveCard(values, id)
             .then(() => {
-                navigate("/measurement/types", { replace: true });
+                navigate("/measurement/types");
             })
             .catch(() => setIsSubmitAvailable(false));
     }, [id, saveCard, navigate]);

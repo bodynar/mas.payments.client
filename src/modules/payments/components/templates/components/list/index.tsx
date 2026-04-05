@@ -49,7 +49,7 @@ const TemplateList: FC<TemplateListProps> = ({
         }
     }, [initialized, templatesMap.size, loadTemplates]);
 
-    const onCreateClick = useCallback(() => navigate("/payment/templates/create", { replace: true }), [navigate]);
+    const onCreateClick = useCallback(() => navigate("/payment/templates/create"), [navigate]);
 
     const templates = useMemo(() => [...templatesMap.values()], [templatesMap]);
 

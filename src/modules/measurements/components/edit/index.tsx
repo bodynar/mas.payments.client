@@ -54,7 +54,7 @@ const MeasurementEditCard: FC<MeasurementEditCardProps> = ({
         saveCard(values, id)
             .then((result) => {
                 if (result) {
-                    navigate("/measurement", { replace: true });
+                    navigate("/measurement");
                 } else {
                     setIsSubmitAvailable(false);
                 }

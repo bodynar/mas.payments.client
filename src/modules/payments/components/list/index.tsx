@@ -44,10 +44,10 @@ const PaymentList: FC<PaymentListProps> = ({
 }) => {
     const navigate = useNavigate();
 
-    const onCreateClick = useCallback(() => navigate("/payment/create", { replace: true }), [navigate]);
-    const onCreateGroupClick = useCallback(() => navigate("/payment/createGroup", { replace: true }), [navigate]);
-    const onTypeManageClick = useCallback(() => navigate("/payment/types", { replace: true }), [navigate]);
-    const onTemplateManageClick = useCallback(() => navigate("/payment/templates", { replace: true }), [navigate]);
+    const onCreateClick = useCallback(() => navigate("/payment/create"), [navigate]);
+    const onCreateGroupClick = useCallback(() => navigate("/payment/createGroup"), [navigate]);
+    const onTypeManageClick = useCallback(() => navigate("/payment/types"), [navigate]);
+    const onTemplateManageClick = useCallback(() => navigate("/payment/templates"), [navigate]);
 
     const onReloadClick = useCallback(() => reloadPayments(), [reloadPayments]);
     const toggleGroupSort = useCallback(() => setAscSortGroups(oldValue => !oldValue), []);

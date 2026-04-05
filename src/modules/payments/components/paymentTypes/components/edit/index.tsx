@@ -46,7 +46,7 @@ const PaymentTypeCard: FC<PaymentTypeCardProps> = ({
 
         saveCard(values, id)
             .then(() => {
-                navigate("/payment/types", { replace: true });
+                navigate("/payment/types");
             })
             .catch(() => setIsSubmitAvailable(false));
     }, [id, saveCard, navigate]);

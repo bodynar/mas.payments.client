@@ -219,7 +219,7 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
         })
             .then((result) => {
                 if (result) {
-                    navigate("/payment", { replace: true });
+                    navigate("/payment");
                 } else {
                     setIsSubmitAvailable(true);
                 }

@@ -43,8 +43,8 @@ const MeasurementList: FC<MeasurementListProps> = ({
 }) => {
     const navigate = useNavigate();
 
-    const onCreateClick = useCallback(() => navigate("/measurement/create", { replace: true }), [navigate]);
-    const onTypeManageClick = useCallback(() => navigate("/measurement/types", { replace: true }), [navigate]);
+    const onCreateClick = useCallback(() => navigate("/measurement/create"), [navigate]);
+    const onTypeManageClick = useCallback(() => navigate("/measurement/types"), [navigate]);
     const onReloadClick = useCallback(() => reloadMeasurements(), [reloadMeasurements]);
     const [selectedType, setType] = useState<SelectableItem | undefined>(getDropdownItem(availableTypesAsDropdownItems, lastFilter?.typeId));
     const [ascSortGroups, setAscSortGroups] = useState(false);

@@ -43,7 +43,7 @@ const MeasurementListItem: FC<MeasurementListItemProps> = ({
     const typeCaption = measurementType?.caption ?? "";
     const typeColor = measurementType?.color;
 
-    const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
+    const onEditClick = useCallback(() => navigate(`edit/${item.id}`), [item.id, navigate]);
     const onDeleteClick = useCallback(() => deleteMeasurement(item.id), [deleteMeasurement, item]);
     const onTypeBadgeClick = useCallback(() => onTypeClick!(item.typeId), [item.typeId, onTypeClick]);
 

@@ -51,7 +51,7 @@ const PaymentTypeList: FC<PaymentTypeListProps> = ({
 }) => {
     const navigate = useNavigate();
 
-    const onCreateClick = useCallback(() => navigate("/payment/types/create", { replace: true }), [navigate]);
+    const onCreateClick = useCallback(() => navigate("/payment/types/create"), [navigate]);
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredTypes.length, 20, 1, [filteredTypes]);
     const pageItems: Array<PaymentType> = useMemo(() => paginate(filteredTypes) as Array<PaymentType>, [paginate, filteredTypes]);
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);

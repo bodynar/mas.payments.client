@@ -50,7 +50,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
 
         saveCard(values, id)
             .then(() => {
-                navigate("/payment", { replace: true });
+                navigate("/payment");
             })
             .catch(() => setIsSubmitAvailable(false));
     }, [id, saveCard, navigate]);

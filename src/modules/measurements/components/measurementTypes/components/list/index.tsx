@@ -51,7 +51,7 @@ const MeasurementTypeList: FC<MeasurementTypeListProps> = ({
 }) => {
     const navigate = useNavigate();
 
-    const onCreateClick = useCallback(() => navigate("/measurement/types/create", { replace: true }), [navigate]);
+    const onCreateClick = useCallback(() => navigate("/measurement/types/create"), [navigate]);
     const [{ currentPage, pagesCount, onPageChange }, paginate] = usePagination(filteredTypes.length, 20, 1, [filteredTypes]);
     const pageItems: Array<MeasurementType> = useMemo(() => paginate(filteredTypes) as Array<MeasurementType>, [paginate, filteredTypes]);
     const onHeaderCellClick = useSortColumn(setSortColumn, sortColumn);

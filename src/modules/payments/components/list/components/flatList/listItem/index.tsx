@@ -43,7 +43,7 @@ const PaymentListItem: FC<PaymentListItemProps> = ({
     const typeCaption = paymentType?.caption ?? "";
     const typeColor = paymentType?.color;
 
-    const onEditClick = useCallback(() => navigate(`edit/${item.id}`, { replace: true }), [item.id, navigate]);
+    const onEditClick = useCallback(() => navigate(`edit/${item.id}`), [item.id, navigate]);
     const onDeleteClick = useCallback(() => deletePayment(item.id), [deletePayment, item]);
     const onTypeClick = useCallback(() => onPaymentTypeClick!(item.typeId), [item.typeId, onPaymentTypeClick]);
 

@@ -130,7 +130,7 @@ const MeasurementCreateCard: FC<MeasurementCreateCardProps> = ({
         })
             .then((result) => {
                 if (result) {
-                    navigate("/measurement", { replace: true });
+                    navigate("/measurement");
                 } else {
                     setIsSubmitAvailable(true);
                 }
