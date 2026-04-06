@@ -2,8 +2,9 @@ import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { generateGuid, isNullOrEmpty, isNullish } from "@bodynarf/utils";
+import { generateGuid, isNullOrEmpty, isNullish, isNotNullish } from "@bodynarf/utils";
 import { ButtonStyle, ElementSize, SelectableItem } from "@bodynarf/react.components";
+import FileUpload from "@bodynarf/react.components/components/file";
 import Dropdown from "@bodynarf/react.components/components/dropdown";
 import Button from "@bodynarf/react.components/components/button";
 import Text from "@bodynarf/react.components/components/primitives/text";
@@ -19,6 +20,7 @@ import { validatePaymentGroupItem } from "@app/core/payment";
 import { CompositeAppState } from "@app/redux";
 import { saveGroupCard, loadTemplates } from "@app/redux/payments";
 
+import { useValidation } from "@app/hooks";
 import ModuleLoader from "@app/sharedComponents/moduleLoader";
 
 import PaymentGroupCardItem from "./item";
@@ -37,7 +39,7 @@ interface PaymentGroupCardProps {
     templatesMap: Map<string, PaymentGroupTemplate>;
 
     /** Save payment group */
-    saveGroupCard: (values: AddPaymentGroup) => Promise<boolean | undefined>;
+    saveGroupCard: (values: AddPaymentGroup, file?: File) => Promise<boolean | undefined>;
 
     /** Load templates from server */
     loadTemplates: () => void;
@@ -94,8 +96,10 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
     }));
     const [comment, setComment] = useState<string | undefined>();
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
-    const [validationError, setValidationError] = useState("");
     const [selectedTemplate, setSelectedTemplate] = useState<SelectableItem | undefined>();
+    const [selectedFile, setSelectedFile] = useState<File | undefined>();
+
+    const { validation, setValidation, invalid, clearField } = useValidation<"year" | "month" | "items">();
 
     const changeItems = useCallback(
         (newArray: Array<AddPaymentGroupItemExtended>) => setItems(newArray),
@@ -172,24 +176,26 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
 
     const onYearSelect = useCallback(
         (year?: SelectableItem) => {
+            clearField("year");
             setDate(date => ({ ...date, year }));
             setModel(x => ({
                 ...x,
-                year: isNullish(year) ? undefined : +year!.value,
+                year: isNullish(year) ? undefined : +year.value,
             }));
         },
-        [],
+        [clearField],
     );
 
     const onMonthSelect = useCallback(
         (month?: SelectableItem) => {
+            clearField("month");
             setDate(date => ({ ...date, month }));
             setModel(x => ({
                 ...x,
-                month: isNullish(month) ? undefined : +month!.value,
+                month: isNullish(month) ? undefined : +month.value,
             }));
         },
-        [],
+        [clearField],
     );
 
     const onCommentChange = useCallback(
@@ -206,21 +212,23 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
         changeItems(validatedItems);
 
         if (!isValid) {
-            setValidationError("Payment items contain errors. See description below");
+            setValidation({ items: invalid("Payment items contain errors. See description below") });
             return;
         }
 
         if (isNullish(date) || isNullish(date!.year) || isNullish(date!.month)) {
-            setValidationError("Date is not set");
+            setValidation({
+                year: isNullish(date?.year) ? invalid("Year is required") : undefined,
+                month: isNullish(date?.month) ? invalid("Month is required") : undefined,
+            });
             return;
         }
 
         if (validatedItems.length === 0) {
-            setValidationError("At least one payment is required");
+            setValidation({ items: invalid("At least one payment is required") });
             return;
         }
 
-        setValidationError("");
         setIsSubmitAvailable(false);
 
         saveGroupCard({
@@ -228,7 +236,7 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
             comment,
             paymentDate: new Date(Date.UTC(model.year!, model.month! - 1, 1)).toISOString(),
             payments: validatedItems,
-        })
+        }, selectedFile)
             .then((result) => {
                 if (result) {
                     navigate("/payment");
@@ -236,7 +244,8 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
                     setIsSubmitAvailable(true);
                 }
             });
-    }, [items, date, saveGroupCard, model, comment, changeItems, navigate]);
+    }, [items, date, saveGroupCard, model, comment, changeItems, navigate, selectedFile, setValidation, invalid]);
+
 
     if (!initialized) {
         return <ModuleLoader />;
@@ -252,11 +261,12 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
             <div className="columns m-0">
                 <div className="bbr-form__field column is-6">
                     <Dropdown
-                        value={date?.year}
-                        placeholder="Year"
-                        hideOnOuterClick
-                        onSelect={onYearSelect}
                         items={years}
+                        hideOnOuterClick
+                        placeholder="Year"
+                        value={date?.year}
+                        onSelect={onYearSelect}
+                        validationState={validation.year}
                         label={{
                             caption: "Year",
                             horizontal: true,
@@ -266,11 +276,12 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
                 </div>
                 <div className="bbr-form__field column is-6">
                     <Dropdown
+                        items={months}
+                        hideOnOuterClick
                         value={date?.month}
                         placeholder="Month"
-                        hideOnOuterClick
                         onSelect={onMonthSelect}
-                        items={months}
+                        validationState={validation.month}
                         label={{
                             caption: "Month",
                             horizontal: true,
@@ -283,8 +294,8 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
                 <div className="bbr-form__field column is-12">
                     <Text
                         placeholder="Comment"
-                        onValueChange={onCommentChange}
                         defaultValue={comment}
+                        onValueChange={onCommentChange}
                         label={{
                             caption: "Comment",
                             horizontal: true,
@@ -292,26 +303,42 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
                     />
                 </div>
             </div>
-            {!isNullOrEmpty(validationError)
+            {isNotNullish(validation.items)
                 &&
                 <article className="message is-danger">
                     <div className="message-body">
-                        {validationError}
+                        {validation.items!.messages![0]}
                     </div>
                 </article>
             }
+            <div className="columns m-0 mt-2">
+                <div className="column is-12">
+                    <div className="field">
+                        <label className="label">File <span className="has-text-grey is-size-7">(PDF, optional)</span></label>
+                        <FileUpload
+                            name="groupFile"
+                            displayFileName
+                            placeholder="Attach file…"
+                            accept=".pdf,application/pdf"
+                            disabled={!isSubmitAvailable}
+                            onValueChange={setSelectedFile}
+                            clearSelectionTitle="Clear selection"
+                        />
+                    </div>
+                </div>
+            </div>
             <hr />
             {templateDropdownItems.length > 0
                 &&
                 <div className="columns m-0 mb-4">
                     <div className="bbr-form__field column is-6">
                         <Dropdown
-                            placeholder="Select template to pre-fill types"
-                            hideOnOuterClick
                             deselectable
+                            hideOnOuterClick
                             value={selectedTemplate}
                             onSelect={onTemplateSelect}
                             items={templateDropdownItems}
+                            placeholder="Select template to pre-fill types"
                             label={{
                                 caption: "Template",
                                 horizontal: true,
@@ -348,12 +375,12 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
                     &&
                     <p className="control">
                         <Button
-                            style={ButtonStyle.Danger}
                             outlined
-                            size={ElementSize.Small}
                             caption="Remove all"
-                            onClick={onRemoveAllClick}
                             title="Remove all lines"
+                            size={ElementSize.Small}
+                            onClick={onRemoveAllClick}
+                            style={ButtonStyle.Danger}
                         />
                     </p>
                 }
@@ -381,9 +408,9 @@ const PaymentGroupCard: FC<PaymentGroupCardProps> = ({
                     <div className="field is-grouped">
                         <p className="control">
                             <Button
-                                style={ButtonStyle.Primary}
                                 caption="Create"
                                 onClick={onSubmit}
+                                style={ButtonStyle.Primary}
                                 title="Create payment group"
                                 disabled={!isSubmitAvailable}
                             />

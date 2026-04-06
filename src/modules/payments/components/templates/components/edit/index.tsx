@@ -15,6 +15,7 @@ import { PaymentGroupTemplate, PaymentType, AddPaymentGroupTemplate, UpdatePayme
 import { CompositeAppState } from "@app/redux";
 import { loadTemplates, saveTemplate } from "@app/redux/payments";
 
+import { useValidation } from "@app/hooks";
 import ModuleLoader from "@app/sharedComponents/moduleLoader";
 
 interface TemplateCardProps {
@@ -61,10 +62,17 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
         () => new Set(template?.paymentTypes.map(pt => pt.paymentTypeId) ?? [])
     );
     const [isSubmitAvailable, setIsSubmitAvailable] = useState(true);
-    const [validationError, setValidationError] = useState("");
 
-    const onTypeChange = useCallback(
+    const { validation, setValidation, invalid, clearField } = useValidation<"name" | "types">();
+
+    const onNameChange = useCallback((value: string) => {
+        setName(value);
+        clearField("name");
+    }, [clearField]);
+
+    const onTypesChange = useCallback(
         (item: MultiselectItem, selected: boolean) => {
+            clearField("types");
             setSelectedTypeIds(prev => {
                 const next = new Set(prev);
                 if (selected) {
@@ -75,10 +83,13 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
                 return next;
             });
         },
-        [],
+        [clearField],
     );
 
-    const onTypesClear = useCallback(() => setSelectedTypeIds(new Set()), []);
+    const onTypesClear = useCallback(() => {
+        setSelectedTypeIds(new Set());
+        clearField("types");
+    }, [clearField]);
 
     const multiselectItems = useMemo<Array<MultiselectItem>>(
         () => allTypes.map(type => ({
@@ -96,17 +107,20 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
     );
 
     const onSubmit = useCallback(() => {
+        const nextValidation: typeof validation = {};
+
         if (isNullOrEmpty(name)) {
-            setValidationError("Name is required");
-            return;
+            nextValidation.name = invalid("Name is required");
         }
-
         if (selectedTypeIds.size === 0) {
-            setValidationError("At least one payment type must be selected");
+            nextValidation.types = invalid("At least one payment type must be selected");
+        }
+
+        if (Object.keys(nextValidation).length > 0) {
+            setValidation(nextValidation);
             return;
         }
 
-        setValidationError("");
         setIsSubmitAvailable(false);
 
         const model: AddPaymentGroupTemplate | UpdatePaymentGroupTemplate = isNullish(id)
@@ -129,7 +143,7 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
                 setIsSubmitAvailable(true);
             }
         });
-    }, [name, description, selectedTypeIds, id, saveTemplate, navigate]);
+    }, [name, description, selectedTypeIds, id, saveTemplate, navigate, invalid, setValidation]);
 
     return (
         <section>
@@ -141,8 +155,9 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
                 <div className="bbr-form__field column is-12">
                     <Text
                         placeholder="Template name"
-                        onValueChange={setName}
+                        onValueChange={onNameChange}
                         defaultValue={name}
+                        validationState={validation.name}
                         label={{
                             caption: "Name",
                             horizontal: true,
@@ -155,8 +170,8 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
                 <div className="bbr-form__field column is-12">
                     <Multiline
                         placeholder="Description"
-                        onValueChange={setDescription}
                         defaultValue={description}
+                        onValueChange={setDescription}
                         label={{
                             caption: "Description",
                             horizontal: true,
@@ -165,25 +180,17 @@ const TemplateForm: FC<TemplateFormProps> = ({ id, template, allTypes, saveTempl
                 </div>
             </div>
 
-            {!isNullOrEmpty(validationError)
-                &&
-                <article className="message is-danger">
-                    <div className="message-body">
-                        {validationError}
-                    </div>
-                </article>
-            }
-
             <hr />
             <div className="columns m-0">
                 <div className="bbr-form__field column is-12">
                     <Multiselect
                         hideOnOuterClick
                         onClear={onTypesClear}
-                        onChange={onTypeChange}
+                        onChange={onTypesChange}
                         items={multiselectItems}
                         placeholder="Select payment types"
                         searchable
+                        validationState={validation.types}
                         label={{
                             caption: "Payment types",
                             horizontal: true,
@@ -263,9 +270,9 @@ const TemplateCard: FC<TemplateCardProps> = ({
                 <div className="message-body">
                     <p className="mb-4">The requested template does not exist or has been deleted.</p>
                     <Button
-                        style={ButtonStyle.Danger}
                         outlined
                         caption="Back to list"
+                        style={ButtonStyle.Danger}
                         onClick={() => navigate("/payment/templates")}
                         icon={{ name: "arrow-left", size: ElementSize.Medium, position: ElementPosition.Left }}
                     />
@@ -277,11 +284,12 @@ const TemplateCard: FC<TemplateCardProps> = ({
     return (
         <TemplateForm
             key={id ?? "new"}
+
             id={id}
             template={template}
             allTypes={allTypes}
-            saveTemplate={saveTemplate}
             navigate={navigate}
+            saveTemplate={saveTemplate}
         />
     );
 };

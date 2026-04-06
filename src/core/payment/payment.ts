@@ -1,40 +1,26 @@
 import { isNullish } from "@bodynarf/utils";
-import { SelectableItem } from "@bodynarf/react.components";
-import { FieldValue } from "@bodynarf/react.components.form";
 
 import { get, post } from "@app/utils";
-import { getRequiredFieldValue, groupByYearMonth } from "@app/core";
-import { AddPayment, AddPaymentGroup, Payment, PaymentGroup, PaymentResponse, UpdatePayment } from "@app/models/payments";
+import { groupByYearMonth } from "@app/core";
+import { AddPayment, AddPaymentGroup, Payment, PaymentGroup, PaymentResponse, SavePaymentData, UpdatePayment } from "@app/models/payments";
 
 /**
  * Save payment card with data
- * @param values Form values
- * @param id Possible payment identifier
+ * @param data Typed form data
+ * @param id Payment identifier for update; omit for create
  * @returns Promise of sending request to API
  */
-export const saveCard = (values: Array<FieldValue>, id?: string): Promise<void> => {
-    let paymentApiModel: AddPayment | UpdatePayment = {
-        amount: +getRequiredFieldValue(values, "amount").value,
-        month: +(getRequiredFieldValue(values, "month").value as SelectableItem).value,
-        year: +(getRequiredFieldValue(values, "year").value as SelectableItem).value,
-        paymentTypeId: (getRequiredFieldValue(values, "type").value as SelectableItem).value,
-        description: values.find(({ key }) => key === "description")?.value,
-    };
-
+export const saveCard = (data: SavePaymentData, id?: string): Promise<void> => {
     const isNewRecord = isNullish(id);
 
-    if (!isNewRecord) {
-        paymentApiModel = {
-            ...paymentApiModel,
-            id: id!
-        };
-    }
+    const paymentApiModel: AddPayment | UpdatePayment = isNewRecord
+        ? data
+        : { ...data, id: id! };
 
-    const url = isNewRecord
-        ? "api/payment/addPayment"
-        : "api/payment/updatePayment";
-
-    return post(url, paymentApiModel);
+    return post(
+        isNewRecord ? "api/payment/addPayment" : "api/payment/updatePayment",
+        paymentApiModel,
+    );
 };
 
 /**

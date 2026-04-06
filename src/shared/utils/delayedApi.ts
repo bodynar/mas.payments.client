@@ -4,6 +4,22 @@ import { plainFetchAsync, HttpError } from "@bodynarf/utils/api";
 import { LoadingStateHideDelay, RequestTimeout } from "@app/static";
 
 /**
+ * Upload a file to the API using multipart/form-data
+ * @param uri Api endpoint address
+ * @param formData FormData containing the file and optional metadata fields
+ * @returns Promise of sending request to API
+ */
+export const postFile = async <TResult>(uri: string, formData: FormData): Promise<TResult> => {
+    // Do NOT set Content-Type manually — browser must add the boundary automatically
+    const requestParams: RequestInit = {
+        method: "POST",
+        body: formData,
+    };
+
+    return fetchWithApiErrorHandling(uri, requestParams);
+};
+
+/**
  * Send data to api to process
  * @param uri Api endpoint address
  * @param requestData Request data

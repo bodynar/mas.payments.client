@@ -5,3 +5,4 @@ export * from "./loadPayments";
 export * from "./saveCard";
 export * from "./saveGroupCard";
 export * from "./deleteRecord";
+export * from "./deletePaymentFile";
