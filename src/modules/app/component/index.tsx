@@ -8,7 +8,7 @@ import "./style.scss";
 
 import { CompositeAppState } from "@app/redux";
 import { setTabIsFocused } from "@app/redux/app";
-import { loadNotifications } from "@app/redux/user";
+import { loadNotifications, loadSettings } from "@app/redux/user";
 
 import { UserNotification } from "@app/models/user";
 import ErrorBoundary from "@app/sharedComponents/errorBoundary";
@@ -34,6 +34,9 @@ interface AppProps {
     /** Load all user notification history */
     loadNotifications: () => Promise<void>;
 
+    /** Load user settings */
+    loadSettings: () => Promise<void>;
+
     /** Store state of app tab focus */
     setTabIsFocused: (isFocused: boolean) => void;
 }
@@ -43,6 +46,7 @@ const App: FC<AppProps> = ({
     isLoading, isModalDisplaying,
     setTabIsFocused,
     notifications, loadNotifications,
+    loadSettings,
 }) => {
     const onFocus = useCallback(() => setTabIsFocused(true), [setTabIsFocused]);
     const onBlur = useCallback(() => setTabIsFocused(false), [setTabIsFocused]);
@@ -63,6 +67,7 @@ const App: FC<AppProps> = ({
         if (!loadingRef.current && notifications.length === 0) {
             loadingRef.current = true;
             loadNotifications();
+            loadSettings();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional one-time mount effect
     }, []);
@@ -94,6 +99,7 @@ export default connect(
     }),
     {
         loadNotifications,
+        loadSettings,
         setTabIsFocused,
     }
 )(App);

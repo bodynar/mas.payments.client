@@ -47,6 +47,27 @@ const SettingComponent: FC<SettingProps> = ({ setting, onUpdate }) => {
         );
     }
 
+    if (setting.type === "color") {
+        return (
+            <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                    <label className="label">{setting.displayName}</label>
+                </div>
+                <div className="field-body">
+                    <div className="field">
+                        <div className="control">
+                            <input
+                                type="color"
+                                value={value}
+                                onChange={({ target }) => onValueChange(target.value)}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <h4> COMPONENT FOR TYPE &quot;{setting.type}&quot; NOT IMPLEMENTED </h4>
     );

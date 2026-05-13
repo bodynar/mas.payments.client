@@ -1,5 +1,5 @@
 /** Supported setting value types */
-export type SettingType = "string" | "boolean";
+export type SettingType = "string" | "boolean" | "color";
 
 /** User setting */
 export interface UserSetting {

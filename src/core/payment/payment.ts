@@ -8,19 +8,21 @@ import { AddPayment, AddPaymentGroup, Payment, PaymentGroup, PaymentResponse, Sa
  * Save payment card with data
  * @param data Typed form data
  * @param id Payment identifier for update; omit for create
- * @returns Promise of sending request to API
+ * @returns Promise resolving to the new payment id when creating, undefined when updating
  */
-export const saveCard = (data: SavePaymentData, id?: string): Promise<void> => {
+export const saveCard = async (data: SavePaymentData, id?: string): Promise<string | undefined> => {
     const isNewRecord = isNullish(id);
 
     const paymentApiModel: AddPayment | UpdatePayment = isNewRecord
         ? data
         : { ...data, id: id! };
 
-    return post(
-        isNewRecord ? "api/payment/addPayment" : "api/payment/updatePayment",
-        paymentApiModel,
-    );
+    if (isNewRecord) {
+        return post<string>("api/payment/addPayment", paymentApiModel);
+    }
+
+    await post<void>("api/payment/updatePayment", paymentApiModel);
+    return undefined;
 };
 
 /**

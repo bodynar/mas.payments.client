@@ -8,15 +8,18 @@ import { SavePaymentData } from "@app/models/payments";
 
 /**
  * Save current card values.
- * If `file` is provided and the payment already has an `id` (edit mode),
- * the file is uploaded and attached to the payment after the record is saved.
+ * If `file` is provided the file is uploaded and attached to the payment after the record is saved.
+ * When creating (id is undefined) the new id returned by the API is used for the upload.
  */
 export const saveCard = createAppAsyncThunk(
     async ({ dispatch, showSuccess }, data: SavePaymentData, id?: string, file?: File): Promise<boolean> => {
-        await saveCardAction(data, id);
+        const newId = await saveCardAction(data, id);
 
-        if (isNotNullish(file) && isNotNullish(id)) {
-            await uploadPaymentFile(file, id);
+        if (isNotNullish(file)) {
+            const paymentId = id ?? newId;
+            if (isNotNullish(paymentId)) {
+                await uploadPaymentFile(file, paymentId);
+            }
         }
 
         showSuccess("Payment record successfully saved", false);

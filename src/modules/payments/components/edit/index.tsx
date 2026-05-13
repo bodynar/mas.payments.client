@@ -228,49 +228,47 @@ const PaymentCard: FC<PaymentCardProps> = ({
                     />
                 </div>
             </div>
-            {isNotNullish(id) &&
-                <div className="box mt-4">
-                    <p className="subtitle is-6 mb-3">Attached file</p>
-                    {isNotNullish(payment?.paymentFile) &&
-                        <div className="field is-grouped is-align-items-center mb-3">
-                            <span className="icon-text mr-3">
-                                <span className="icon"><i className="bi bi-file-earmark-pdf" /></span>
-                                <span>{payment!.paymentFile!.fileName}</span>
-                            </span>
-                            <a
-                                rel="noreferrer"
-                                target="_blank"
-                                className="button is-small is-info is-light mr-2"
-                                href={`/api/paymentFile/ViewFile?id=${payment!.paymentFile!.id}`}
-                            >
-                                View
-                            </a>
-                            <a
-                                className="button is-small is-light mr-2"
-                                href={`/api/paymentFile/GetFile?id=${payment!.paymentFile!.id}`}
-                            >
-                                Download
-                            </a>
-                            <button
-                                className="button is-small is-danger is-light"
-                                disabled={isSubmitting}
-                                onClick={() => deletePaymentFile(payment!.paymentFile!.id, payment!.paymentFile!.fileName)}
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    }
-                    <FileUpload
-                        displayFileName
-                        name="paymentFile"
-                        disabled={isSubmitting}
-                        accept=".pdf,application/pdf"
-                        onValueChange={setSelectedFile}
-                        clearSelectionTitle="Clear selection"
-                        placeholder={isNotNullish(payment?.paymentFile) ? "Replace file…" : "Attach file…"}
-                    />
-                </div>
-            }
+            <div className="box mt-4">
+                <p className="subtitle is-6 mb-3">Attached file</p>
+                {isNotNullish(payment?.paymentFile) &&
+                    <div className="field is-grouped is-align-items-center mb-3">
+                        <span className="icon-text mr-3">
+                            <span className="icon"><i className="bi bi-file-earmark-pdf" /></span>
+                            <span>{payment!.paymentFile!.fileName}</span>
+                        </span>
+                        <a
+                            rel="noreferrer"
+                            target="_blank"
+                            className="button is-small is-info is-light mr-2"
+                            href={`/api/paymentFile/ViewFile?id=${payment!.paymentFile!.id}`}
+                        >
+                            View
+                        </a>
+                        <a
+                            className="button is-small is-light mr-2"
+                            href={`/api/paymentFile/GetFile?id=${payment!.paymentFile!.id}`}
+                        >
+                            Download
+                        </a>
+                        <button
+                            className="button is-small is-danger is-light"
+                            disabled={isSubmitting}
+                            onClick={() => deletePaymentFile(payment!.paymentFile!.id, payment!.paymentFile!.fileName)}
+                        >
+                            Delete
+                        </button>
+                    </div>
+                }
+                <FileUpload
+                    displayFileName
+                    name="paymentFile"
+                    disabled={isSubmitting}
+                    accept=".pdf,application/pdf"
+                    onValueChange={setSelectedFile}
+                    clearSelectionTitle="Clear selection"
+                    placeholder={isNotNullish(payment?.paymentFile) ? "Replace file…" : "Attach file…"}
+                />
+            </div>
 
             <div className="field is-grouped mt-4">
                 <p className="control">
